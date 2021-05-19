@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using SnakeMaze.Structures;
-using SnakeMaze.Structures.Utils;
+using SnakeMaze.Utils;
 using UnityEngine;
 
 namespace SnakeMaze.BSP
 {
     public class BSPGenerator : MonoBehaviour
     {
-        [Header("Parameter configuration")]
+        [Header("Parameter Configuration")]
         [Range(0.25f, 1.0f)]
         [SerializeField] private float roomSizePerturbation;
         [SerializeField] private int corridorWidth; //Width of the corridors
@@ -17,7 +17,7 @@ namespace SnakeMaze.BSP
         [SerializeField] private Vector2 mapSize;
         [SerializeField] private Vector2 minimalRoomSize;
 
-        [Header("Flags for visualization")]
+        [Header("Flags for Visualization")]
         [SerializeField] private bool drawCorridors;
         [SerializeField] private bool drawPartitions;
         [SerializeField] private bool drawRooms;

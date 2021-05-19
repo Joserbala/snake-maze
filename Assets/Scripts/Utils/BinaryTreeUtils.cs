@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using SnakeMaze.BSP;
+using SnakeMaze.Structures;
 
-namespace SnakeMaze.Structures.Utils
+namespace SnakeMaze.Utils
 {
     public static class BinaryTreeUtils<T>
     {
