@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
@@ -24,7 +25,8 @@ namespace SnakeMaze.Maze
         private void Start()
         {
             CreateTheGrid();
-            RunPrimm();
+            // RunPrimm();
+            StartCoroutine(Primm());
         }
 
         private void CreateTheGrid()
@@ -43,6 +45,38 @@ namespace SnakeMaze.Maze
             }
         }
 
+        IEnumerator Primm()
+        {
+            _frontier = new List<Vector2>();
+            SetCellInMaze(Random.Range(0, _grid.Rows), Random.Range(0, _grid.Columns));
+            GameObject wall;
+            var neighbors = new List<Vector2>();
+            var cellPos = new Vector2();
+            var neighborSelected = new Vector2();
+            var removePosition = 0;
+            var direction = Directions.Right;
+            while (_frontier.Count != 0)
+            {
+                removePosition = Random.Range(0, _frontier.Count);
+                cellPos = _frontier[removePosition];
+                _frontier.RemoveAt(removePosition);
+
+                neighbors = GetNeighbors((int) cellPos.x, (int) cellPos.y);
+                neighborSelected = neighbors[Random.Range(0, neighbors.Count)];
+
+                direction = GetDirection((int) cellPos.x, (int) cellPos.y, (int) neighborSelected.x,
+                    (int) neighborSelected.y);
+                wall=_grid.Grid[(int) cellPos.x, (int) cellPos.y].GetWall(direction);
+                wall.SetActive(false);
+                
+                direction = (Directions)((int)direction * -1);
+                wall = _grid.Grid[(int) neighborSelected.x,
+                    (int) neighborSelected.y].GetWall(direction);
+                wall.SetActive(false);
+                SetCellInMaze((int) cellPos.x, (int) cellPos.y);
+                yield return new WaitForSeconds(0.1f);
+            }
+        }
         private void RunPrimm()
         {
             _frontier = new List<Vector2>();
@@ -64,7 +98,7 @@ namespace SnakeMaze.Maze
                 direction = GetDirection((int) cellPos.x, (int) cellPos.y, (int) neighborSelected.x,
                     (int) neighborSelected.y);
                 _grid.Grid[(int) cellPos.x, (int) cellPos.y].GetWall(direction).SetActive(false);
-                // direction =(Directions) direction * -1;
+                direction = (Directions)((int)direction * -1);
                 _grid.Grid[(int) neighborSelected.x,
                     (int) neighborSelected.y].GetWall(direction).SetActive(false);
                 SetCellInMaze((int) cellPos.x, (int) cellPos.y);
@@ -116,15 +150,15 @@ namespace SnakeMaze.Maze
 
         private Directions GetDirection(int i, int j, int x, int y)
         {
-            var dir = Directions.Right;
+            Directions dir = new Directions();
             if (i > x)
-                dir = Directions.Right;
-            if (i < x)
                 dir = Directions.Left;
+            if (i < x)
+                dir = Directions.Right;
             if (j > y)
-                dir = Directions.Up;
-            if (j < y)
                 dir = Directions.Down;
+            if (j < y)
+                dir = Directions.Up;
             return dir;
         }
     }
