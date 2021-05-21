@@ -9,7 +9,7 @@ namespace SnakeMaze.BSP
         private Vector2 _endPoint;
         private Vector2 _startPoint;
 
-        public GameObject CorridorPrefab { get; set; }
+        public GameObject CorridorGO { get; set; }
 
         public Corridor(Vector2 start, Vector2 end, float width)
         {
@@ -60,9 +60,7 @@ namespace SnakeMaze.BSP
 
         public override string ToString()
         {
-            string datastring;
-            datastring = "<" + _startPoint + ">,<" + _endPoint + ">";
-            return string.Format("{0}", datastring);
+            return $"<{_startPoint}>,<{_endPoint}>";
         }
     }
 }

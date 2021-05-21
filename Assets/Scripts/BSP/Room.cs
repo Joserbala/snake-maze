@@ -4,7 +4,7 @@ namespace SnakeMaze.BSP
 {
     public class Room
     {
-        public GameObject RoomPrefab { get; set; }
+        public GameObject RoomGO { get; set; }
         public Vector2 Center { get; set; }
         public Vector2 Size { get; set; }
 
@@ -12,17 +12,19 @@ namespace SnakeMaze.BSP
         {
             this.Center = center;
             this.Size = size;
-            RoomPrefab = roomPrefab;
+            RoomGO = roomPrefab;
         }
 
         public override string ToString()
         {
-            string datastring = "";
+            var dataString = "";
+
             if (this != null)
             {
-                datastring += string.Format("pos<{0},{1}>:size<{2},{3}>", Center.x, Center.y, Size.x, Size.y);
+                dataString += $"pos<{Center.x},{Center.y}>:size<{Size.x},{Size.y}>";
             }
-            return string.Format("{0}", datastring);
+
+            return dataString;
         }
     }
 }
