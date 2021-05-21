@@ -4,16 +4,16 @@ namespace SnakeMaze.BSP
 {
     public class Corridor
     {
-        public Vector2 startPoint, endPoint;
-
-        private float _internalwitdh;
+        private float _internalWitdh;
         private Vector2 _center;
+        private Vector2 _endPoint;
+        private Vector2 _startPoint;
 
         public Vector2 Center
         {
             get
             {
-                return (startPoint + endPoint) / 2;
+                return (_startPoint + _endPoint) / 2;
                 /*                if (startPoint.x == endPoint.x){
                                     _center.x = startPoint.x;
                                     _center.y = (startPoint.y<endPoint.y)?(endPoint.y-startPoint.y)/2:(startPoint.y+endPoint.y)/2;
@@ -27,40 +27,39 @@ namespace SnakeMaze.BSP
             }
         }
 
-        public float Width
-        {
-            get
-            {
-                if (startPoint.y == endPoint.y)
-                    return Vector2.Distance(startPoint, endPoint);
-                else
-                    return _internalwitdh;
-            }
-        }
-
         public float Height
         {
             get
             {
-                if (startPoint.y == endPoint.y)
-                    return _internalwitdh;
+                if (_startPoint.y == _endPoint.y)
+                    return _internalWitdh;
                 else
-                    return Vector2.Distance(startPoint, endPoint);
+                    return Vector2.Distance(_startPoint, _endPoint);
             }
         }
 
-
-        public Corridor(Vector2 star, Vector2 end, float width)
+        public float Width
         {
-            startPoint = star;
-            endPoint = end;
-            _internalwitdh = width;
+            get
+            {
+                if (_startPoint.y == _endPoint.y)
+                    return Vector2.Distance(_startPoint, _endPoint);
+                else
+                    return _internalWitdh;
+            }
+        }
+
+        public Corridor(Vector2 start, Vector2 end, float width)
+        {
+            _startPoint = start;
+            _endPoint = end;
+            _internalWitdh = width;
         }
 
         public override string ToString()
         {
             string datastring;
-            datastring = "<" + startPoint + ">,<" + endPoint + ">";
+            datastring = "<" + _startPoint + ">,<" + _endPoint + ">";
             return string.Format("{0}", datastring);
         }
     }

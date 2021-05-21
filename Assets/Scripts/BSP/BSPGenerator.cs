@@ -10,10 +10,12 @@ namespace SnakeMaze.BSP
         [Header("Parameter Configuration")]
         [Range(0.25f, 1.0f)]
         [SerializeField] private float roomSizePerturbation;
-        [SerializeField] private int corridorWidth; //Width of the corridors
+        [Tooltip("Width of the corridors.")]
+        [SerializeField] private int corridorWidth;
         [Tooltip("The number of Rooms to be created = 2^numberIterations")]
         [SerializeField] private int numberIterations;
-        [SerializeField] private int offset = 1; //Space for the rooms wrt the walls/partitions
+        [Tooltip("Space for the rooms with reference to the walls / partitions.")]
+        [SerializeField] private int offset = 1;
         [SerializeField] private Vector2 mapSize;
         [SerializeField] private Vector2 minimalRoomSize;
 
@@ -26,8 +28,8 @@ namespace SnakeMaze.BSP
         [SerializeField] private bool printTreeInConsole;
 
 
-        private BSPdata _rootdata;
-        private BinaryTree<BSPdata> _tree; //The structure that will stored that whole information of the partitions
+        private BSPData _rootdata;
+        private BinaryTree<BSPData> _tree; //The structure that will stored that whole information of the partitions
 
         //generation of data thorugh the information stored in te Binary Tree
         private List<Corridor> _corridorList; //List with corridor data
@@ -37,8 +39,8 @@ namespace SnakeMaze.BSP
         // Start is called before the first frame update
         void Start()
         {
-            _rootdata = new BSPdata(Vector2.zero, mapSize);
-            _tree = BSP(new BinaryTree<BSPdata>(_rootdata, null, null), 0);  //We put the info related to the whole map in the tree root.
+            _rootdata = new BSPData(Vector2.zero, mapSize);
+            _tree = BSP(new BinaryTree<BSPData>(_rootdata, null, null), 0);  //We put the info related to the whole map in the tree root.
 
             //Data generation
             //All the generate procedures might be joined to avoid distinct traversals of the same Binary tree (performance optimization)
@@ -47,7 +49,7 @@ namespace SnakeMaze.BSP
             _roomList = GenerateRooms(_tree, roomSizePerturbation);
 
             if (printTreeInConsole)
-                Debug.Log(BinaryTreeUtils<BSPdata>.InOrdenHorizontal(_tree, 0));
+                Debug.Log(BinaryTreeUtils<BSPData>.InOrderHorizontal(_tree, 0));
 
             if (printCorridorsInConsole)
                 foreach (Corridor c in _corridorList)
@@ -60,17 +62,17 @@ namespace SnakeMaze.BSP
 
         }
 
-        public BinaryTree<BSPdata> BSP(BinaryTree<BSPdata> tree, int iterations)
+        public BinaryTree<BSPData> BSP(BinaryTree<BSPData> tree, int iterations)
         {
-            BinaryTree<BSPdata> leftChild = null, righChild = null;
+            BinaryTree<BSPData> leftChild, righChild;
             float cutx, cuty;
 
             if ((tree == null) || (NoSpaceforOneRoom(tree)))
                 return null;
             else
             {
-                Vector2 pos = tree.Root.position;
-                Vector2 size = tree.Root.size;
+                Vector2 pos = tree.Root.Position;
+                Vector2 size = tree.Root.Size;
 
                 if (ContinueDividing(tree, iterations))
                 {
@@ -79,14 +81,14 @@ namespace SnakeMaze.BSP
                         if (Random.value < 0.5) // Divide Horizontally
                         {
                             cuty = SplitHorizontally(tree.Root);
-                            leftChild = new BinaryTree<BSPdata>(
-                                            new BSPdata(
+                            leftChild = new BinaryTree<BSPData>(
+                                            new BSPData(
                                                 new Vector2(pos.x, (float)(pos.y + cuty)),  //Position
                                                 new Vector2(size.x, (float)(size.y - cuty))                 //size  
                                             ), null, null
                                         );
-                            righChild = new BinaryTree<BSPdata>(
-                                            new BSPdata(
+                            righChild = new BinaryTree<BSPData>(
+                                            new BSPData(
                                                 pos,  //Position
                                                 new Vector2(size.x, (float)cuty)  //size  
                                             ), null, null
@@ -95,14 +97,14 @@ namespace SnakeMaze.BSP
                         else //Divide Vertically
                         {
                             cutx = SplitVertically(tree.Root);
-                            leftChild = new BinaryTree<BSPdata>(
-                                            new BSPdata(
+                            leftChild = new BinaryTree<BSPData>(
+                                            new BSPData(
                                                 pos,  //Position
                                                 new Vector2((float)cutx, size.y) //size  
                                             )
                                         );
-                            righChild = new BinaryTree<BSPdata>(
-                                            new BSPdata(
+                            righChild = new BinaryTree<BSPData>(
+                                            new BSPData(
                                                 new Vector2((float)(pos.x + cutx), pos.y),  //Position
                                                 new Vector2((float)(size.x - cutx), size.y)  //size  
                                             )
@@ -111,17 +113,17 @@ namespace SnakeMaze.BSP
                     }
                     else
                     {
-                        if (tree.Root.size.x > tree.Root.size.y)
+                        if (tree.Root.Size.x > tree.Root.Size.y)
                         {   //Divide Vertically
                             cutx = SplitVertically(tree.Root);
-                            leftChild = new BinaryTree<BSPdata>(
-                                            new BSPdata(
+                            leftChild = new BinaryTree<BSPData>(
+                                            new BSPData(
                                                 pos,  //Position
                                                 new Vector2(cutx, size.y) //size  
                                             )
                                         );
-                            righChild = new BinaryTree<BSPdata>(
-                                            new BSPdata(
+                            righChild = new BinaryTree<BSPData>(
+                                            new BSPData(
                                                 new Vector2(pos.x + cutx, pos.y),  //Position
                                                 new Vector2(size.x - cutx, size.y)  //size  
                                             )
@@ -130,21 +132,21 @@ namespace SnakeMaze.BSP
                         else
                         {   // Divide Horizontally
                             cuty = SplitHorizontally(tree.Root);
-                            leftChild = new BinaryTree<BSPdata>(
-                                            new BSPdata(
+                            leftChild = new BinaryTree<BSPData>(
+                                            new BSPData(
                                                 new Vector2(pos.x, pos.y + cuty),  //Position
                                                 new Vector2(size.x, size.y - cuty)                 //size  
                                             ), null, null
                                         );
-                            righChild = new BinaryTree<BSPdata>(
-                                            new BSPdata(
+                            righChild = new BinaryTree<BSPData>(
+                                            new BSPData(
                                                 pos,  //Position
                                                 new Vector2(size.x, cuty)  //size  
                                             ), null, null
                                         );
                         }
                     }
-                    return new BinaryTree<BSPdata>(tree.Root,
+                    return new BinaryTree<BSPData>(tree.Root,
                                             //(BinaryTree<BSPdata>)
                                             BSP(leftChild, iterations + 1),
                                             //(BinaryTree<BSPdata>)
@@ -164,10 +166,10 @@ namespace SnakeMaze.BSP
         /// </summary>
         /// <param name="tree"></param>
         /// <returns></returns>
-        private bool NoSpaceforOneRoom(BinaryTree<BSPdata> tree)
+        private bool NoSpaceforOneRoom(BinaryTree<BSPData> tree)
         {
-            BSPdata root = tree.Root;
-            return (root.size.x < minimalRoomSize.x) || (root.size.y < minimalRoomSize.y);
+            BSPData root = tree.Root;
+            return (root.Size.x < minimalRoomSize.x) || (root.Size.y < minimalRoomSize.y);
         }
 
         /// <summary>
@@ -176,16 +178,16 @@ namespace SnakeMaze.BSP
         /// <param name="tree"></param>
         /// <param name="iterations"></param>
         /// <returns></returns>
-        private bool ContinueDividing(BinaryTree<BSPdata> tree, int iterations)
+        private bool ContinueDividing(BinaryTree<BSPData> tree, int iterations)
         {
-            BSPdata root = tree.Root;
+            BSPData root = tree.Root;
 
-            bool canTwoRoomsFitHorizontally = (root.size.x >= 2 * (minimalRoomSize.x + offset))
-                && (root.size.y >= (minimalRoomSize.y + offset));
+            bool canTwoRoomsFitHorizontally = (root.Size.x >= 2 * (minimalRoomSize.x + offset))
+                && (root.Size.y >= (minimalRoomSize.y + offset));
 
-            bool isHSizeBiggerThanARoom = root.size.x >= (minimalRoomSize.x + offset);
+            bool isHSizeBiggerThanARoom = root.Size.x >= (minimalRoomSize.x + offset);
 
-            bool isVSizeBiggerThanTwoRooms = root.size.y >= 2 * (minimalRoomSize.y + offset);
+            bool isVSizeBiggerThanTwoRooms = root.Size.y >= 2 * (minimalRoomSize.y + offset);
 
             bool doMoreIterations = iterations < numberIterations;
 
@@ -198,9 +200,9 @@ namespace SnakeMaze.BSP
         /// </summary>
         /// <param name="root"></param>
         /// <returns></returns>
-        private float SplitHorizontally(BSPdata root)
+        private float SplitHorizontally(BSPData root)
         {
-            return Random.Range(minimalRoomSize.y + offset, root.size.y - minimalRoomSize.y - offset);
+            return Random.Range(minimalRoomSize.y + offset, root.Size.y - minimalRoomSize.y - offset);
         }
 
         /// <summary>
@@ -209,30 +211,30 @@ namespace SnakeMaze.BSP
         /// </summary>
         /// <param name="root"></param>
         /// <returns></returns>
-        private float SplitVertically(BSPdata root)
+        private float SplitVertically(BSPData root)
         {
-            return Random.Range(minimalRoomSize.x + offset, root.size.x - minimalRoomSize.x - offset);
+            return Random.Range(minimalRoomSize.x + offset, root.Size.x - minimalRoomSize.x - offset);
         }
 
         private void OnDrawGizmos()
         {
             if (_tree != null)
                 if (drawPartitions)
-                    BinaryTreeUtils<BSPdata>.DrawGizmosPartitions(_tree);
+                    BinaryTreeUtils<BSPData>.DrawGizmosPartitions(_tree);
 
             if (_corridorList != null && _corridorList.Count > 0 && drawCorridors)
-                BinaryTreeUtils<BSPdata>.DrawGizmosCorridorList(_corridorList);
+                BinaryTreeUtils<BSPData>.DrawGizmosCorridorList(_corridorList);
 
             if (_roomList != null && _roomList.Count > 0 && drawRooms)
-                BinaryTreeUtils<BSPdata>.DrawGizmosRoomList(_roomList);
+                BinaryTreeUtils<BSPData>.DrawGizmosRoomList(_roomList);
         }
 
-        private List<Corridor> GenerateCorridors(BinaryTree<BSPdata> tree)
+        private List<Corridor> GenerateCorridors(BinaryTree<BSPData> tree)
         {
             List<Corridor> list = new List<Corridor>();
             if (tree != null)
             {
-                if (tree.hasTwoChilds())
+                if (tree.HasTwoChilds())
                 {
                     list.Add(new Corridor(tree.Left.Root.Center, tree.Right.Root.Center, corridorWidth));
                 }
@@ -258,12 +260,12 @@ namespace SnakeMaze.BSP
             return lista1;
         }
 
-        private List<Room> GenerateRooms(BinaryTree<BSPdata> tree, float roomSizePerturbation)
+        private List<Room> GenerateRooms(BinaryTree<BSPData> tree, float roomSizePerturbation)
         {
             List<Room> list = new List<Room>();
             if (tree != null)
             {
-                if (tree.isAleaf()) // The node has no childs i.e., it is a final room.
+                if (tree.IsALeaf()) // The node has no childs i.e., it is a final room.
                 {
                     float roomSizeXPerturbation = Random.Range(roomSizePerturbation, 1.0f);
                     float roomSizeYPerturbation = Random.Range(roomSizePerturbation, 1.0f);

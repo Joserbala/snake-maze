@@ -2,33 +2,32 @@
 
 namespace SnakeMaze.BSP
 {
-    public class BSPdata
+    public class BSPData
     {
-        public Vector2 position;
-        public Vector2 size;
+        public Vector2 Position { get; set; }
+        public Vector2 Size { get; set; }
         public Vector2 Center
         {
             get
             {
-                return position + size / 2f;
+                return Position + Size / 2f;
             }
         }
 
-        public BSPdata(Vector2 position, Vector2 size)
+        public BSPData(Vector2 position, Vector2 size)
         {
-            this.position = position;
-            this.size = size;
+            this.Position = position;
+            this.Size = size;
         }
 
         public override string ToString()
         {
-            string datastring = "";
+            string dataString = "";
             if (this != null)
             {
-                datastring += string.Format("pos<{0},{1}>:size<{2},{3}>", position.x, position.y, size.x, size.y);
+                dataString += string.Format("pos<{0},{1}>:size<{2},{3}>", Position.x, Position.y, Size.x, Size.y);
             }
-            return string.Format("{0}", datastring);
+            return string.Format("{0}", dataString);
         }
-
     }
 }

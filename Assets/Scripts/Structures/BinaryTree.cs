@@ -2,14 +2,11 @@
 {
     public class BinaryTree<T>
     {
-        private Node<T> _root;
         private BinaryTree<T> _left;
         private BinaryTree<T> _right;
+        private Node<T> _root;
 
-        public BinaryTree()
-        {
-
-        }
+        public BinaryTree() { }
 
         public BinaryTree(T data)
         {
@@ -61,14 +58,14 @@
             }
         }
 
-        public bool isAleaf()
+        public bool IsALeaf()
         {
-            return ((this.Left == null) && (this.Right == null));
+            return (this.Left == null) && (this.Right == null);
         }
 
-        public bool hasTwoChilds()
+        public bool HasTwoChilds()
         {
-            return ((this.Left != null) && (this.Right != null));
+            return (this.Left != null) && (this.Right != null);
         }
 
         public override string ToString()
@@ -87,6 +84,5 @@
 
             return string.Format("{0}", datastring);
         }
-
     }
 }

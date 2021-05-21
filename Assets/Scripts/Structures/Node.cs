@@ -2,33 +2,15 @@
 {
     public class Node<T>
     {
-        private T _data;
+        public Node() { }
 
-        public Node()
-        {
+        public Node(T data) => this.Value = data;
 
-        }
-
-        public Node(T data)
-        {
-            this._data = data;
-        }
-
-        public T Value
-        {
-            get
-            {
-                return _data;
-            }
-            set
-            {
-                _data = value;
-            }
-        }
+        public T Value { get; set; }
 
         public override string ToString()
         {
-            string datastring = (_data == null) ? "null" : _data.ToString();
+            string datastring = (Value == null) ? "null" : Value.ToString();
             return string.Format("{0}", datastring);
         }
     }
