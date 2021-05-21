@@ -11,11 +11,12 @@ namespace SnakeMaze.BSP
 
         public GameObject CorridorGO { get; set; }
 
-        public Corridor(Vector2 start, Vector2 end, float width)
+        public Corridor(Vector2 start, Vector2 end, float width, GameObject corridorGO)
         {
             _startPoint = start;
             _endPoint = end;
             _internalWitdh = width;
+            CorridorGO = corridorGO;
         }
 
         public Vector2 Center

@@ -6,6 +6,7 @@ namespace SnakeMaze.BSP
     {
         public Vector2 Position { get; set; }
         public Vector2 Size { get; set; }
+
         public Vector2 Center
         {
             get
@@ -23,11 +24,13 @@ namespace SnakeMaze.BSP
         public override string ToString()
         {
             string dataString = "";
+
             if (this != null)
             {
-                dataString += string.Format("pos<{0},{1}>:size<{2},{3}>", Position.x, Position.y, Size.x, Size.y);
+                dataString += $"pos<{Position.x},{Position.y}>:size<{Size.x},{Size.y}>";
             }
-            return string.Format("{0}", dataString);
+
+            return dataString;
         }
     }
 }

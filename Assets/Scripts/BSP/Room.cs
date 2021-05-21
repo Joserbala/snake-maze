@@ -10,8 +10,8 @@ namespace SnakeMaze.BSP
 
         public Room(Vector2 center, Vector2 size, GameObject roomPrefab)
         {
-            this.Center = center;
-            this.Size = size;
+            Center = center;
+            Size = size;
             RoomGO = roomPrefab;
         }
 
