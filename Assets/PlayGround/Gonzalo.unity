@@ -153,7 +153,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cellPrefab: {fileID: 9241936628887297, guid: a185b94432b0e99409cb995c32beeeca, type: 3}
-  gridSize: {x: 10, y: 10}
+  gridSize: {x: 20, y: 10}
   cellSize: {x: 0.5, y: 0.5}
   bottomLeft: {x: 0, y: 0}
 --- !u!4 &616855501
