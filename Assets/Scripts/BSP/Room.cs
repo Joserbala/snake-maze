@@ -4,13 +4,15 @@ namespace SnakeMaze.BSP
 {
     public class Room
     {
+        public GameObject RoomPrefab { get; set; }
         public Vector2 Center { get; set; }
         public Vector2 Size { get; set; }
 
-        public Room(Vector2 center, Vector2 size)
+        public Room(Vector2 center, Vector2 size, GameObject roomPrefab)
         {
             this.Center = center;
             this.Size = size;
+            RoomPrefab = roomPrefab;
         }
 
         public override string ToString()

@@ -27,6 +27,11 @@ namespace SnakeMaze.BSP
         [SerializeField] private bool printRoomsInConsole;
         [SerializeField] private bool printTreeInConsole;
 
+        [Header("Prefabs")]
+        [SerializeField] private GameObject corridorPrefab;
+        [SerializeField] private GameObject roomPrefab;
+        [SerializeField] private Transform corridorParentT;
+        [SerializeField] private Transform roomParentT;
 
         private BSPData _rootdata;
         private BinaryTree<BSPData> _tree; //The structure that will stored that whole information of the partitions
@@ -231,54 +236,64 @@ namespace SnakeMaze.BSP
 
         private List<Corridor> GenerateCorridors(BinaryTree<BSPData> tree)
         {
-            List<Corridor> list = new List<Corridor>();
+            List<Corridor> corridorList = new List<Corridor>();
             if (tree != null)
             {
                 if (tree.HasTwoChilds())
                 {
-                    list.Add(new Corridor(tree.Left.Root.Center, tree.Right.Root.Center, corridorWidth));
+                    corridorList.Add(new Corridor(tree.Left.Root.Center, tree.Right.Root.Center, corridorWidth));
                 }
 
-                list = Concat<Corridor>(list, GenerateCorridors(tree.Left));
-                list = Concat<Corridor>(list, GenerateCorridors(tree.Right));
+                corridorList = Concat(corridorList, GenerateCorridors(tree.Left));
+                corridorList = Concat(corridorList, GenerateCorridors(tree.Right));
             }
-            return list;
+            return corridorList;
         }
 
         /// <summary>
         /// Concats two Lists with elements of data T.
         /// </summary>
-        /// <param name="lista1"></param>
-        /// <param name="lista2"></param>
+        /// <param name="firstList"></param>
+        /// <param name="secondList"></param>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        private List<T> Concat<T>(List<T> lista1, List<T> lista2)
+        private List<T> Concat<T>(List<T> firstList, List<T> secondList)
         {
-            foreach (T t in lista2)
-                lista1.Add(t);
+            foreach (T t in secondList)
+            {
+                firstList.Add(t);
+            }
 
-            return lista1;
+            return firstList;
         }
 
         private List<Room> GenerateRooms(BinaryTree<BSPData> tree, float roomSizePerturbation)
         {
-            List<Room> list = new List<Room>();
+            var roomList = new List<Room>();
             if (tree != null)
             {
                 if (tree.IsALeaf()) // The node has no childs i.e., it is a final room.
                 {
-                    float roomSizeXPerturbation = Random.Range(roomSizePerturbation, 1.0f);
-                    float roomSizeYPerturbation = Random.Range(roomSizePerturbation, 1.0f);
-                    list.Add(new Room(tree.Root.Center,
-                                      new Vector3(minimalRoomSize.x * roomSizeXPerturbation,
-                                                  minimalRoomSize.y * roomSizeYPerturbation,
-                                                  0f)));
+                    var roomSizeXPerturbation = Random.Range(roomSizePerturbation, 1.0f);
+                    var roomSizeYPerturbation = Random.Range(roomSizePerturbation, 1.0f);
+
+                    var actualRoomSizeX = Mathf.FloorToInt(minimalRoomSize.x * roomSizeXPerturbation);
+                    var actualRoomSizeY = Mathf.FloorToInt(minimalRoomSize.y * roomSizeYPerturbation);
+
+                    GameObject corridor = Instantiate(roomPrefab, tree.Root.Center, Quaternion.identity, roomParentT);
+                    corridor.transform.localScale = new Vector2(actualRoomSizeX, actualRoomSizeY);
+
+                    roomList.Add(new Room(tree.Root.Center,
+                                      new Vector2(actualRoomSizeX,
+                                                  actualRoomSizeY),
+                                      corridor));
                 }
 
-                list = Concat<Room>(list, GenerateRooms(tree.Left, roomSizePerturbation));
-                list = Concat<Room>(list, GenerateRooms(tree.Right, roomSizePerturbation));
+                roomList = Concat(roomList, GenerateRooms(tree.Left, roomSizePerturbation));
+                roomList = Concat(roomList, GenerateRooms(tree.Right, roomSizePerturbation));
             }
-            return list;
+
+            return roomList;
         }
     }
 }
