@@ -49,6 +49,28 @@ namespace SnakeMaze.Utils
             return string.Format("{0}", datastring);
         }
 
+        public static void GetAllChildren(BinaryTree<T> tree, ref List<T> nodeList)
+        {
+            if (tree != null)
+            {
+                if (tree.IsALeaf())
+                {
+                    nodeList.Add(tree.Root);
+                    return;
+                }
+
+                if (tree.Left != null)
+                {
+                    GetAllChildren(tree.Left, ref nodeList);
+                }
+
+                if (tree.Right != null)
+                {
+                    GetAllChildren(tree.Right, ref nodeList);
+                }
+            }
+        }
+
         public static void DrawGizmosPartitions(BinaryTree<BSPData> t)
         {
             BSPData root;

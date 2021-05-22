@@ -9,6 +9,9 @@ namespace SnakeMaze.BSP
         public Vector2 Size { get; set; }
 
         public Vector2 BottomLeftCorner => new Vector2(Center.x - Size.x / 2, Center.y - Size.y / 2);
+        public Vector2 TopLeftPosition => new Vector2(Center.x - Size.x / 2, Center.y + Size.y / 2);
+        public Vector2 BottomRightPosition => new Vector2(Center.x + Size.x / 2, Center.y - Size.y / 2);
+        public Vector2 TopRightPosition => new Vector2(Center.x + Size.x / 2, Center.y + Size.y / 2);
 
         public Room(Vector2 center, Vector2 size, GameObject roomPrefab)
         {

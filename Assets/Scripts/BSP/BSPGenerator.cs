@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using SnakeMaze.Maze;
 using SnakeMaze.Structures;
 using SnakeMaze.Utils;
 using UnityEngine;
@@ -56,9 +57,6 @@ namespace SnakeMaze.BSP
         {
             GenerateDungeon();
 
-            if (printTreeInConsole)
-                Debug.Log(BinaryTreeUtils<BSPData>.InOrderHorizontal(_tree, 0));
-
             if (printCorridorsInConsole)
                 foreach (Corridor c in _corridorList)
                     Debug.Log(c);
@@ -92,6 +90,9 @@ namespace SnakeMaze.BSP
         /// </remarks>
         public void GenerateDungeon()
         {
+            if (printTreeInConsole)
+                Debug.Log(BinaryTreeUtils<BSPData>.InOrderHorizontal(_tree, 0));
+
             // Putting the information related to the whole map in the tree root.
             _rootdata = new BSPData(Vector2.zero, mapSize);
             _tree = BSP(new BinaryTree<BSPData>(_rootdata, null, null), 0);
@@ -280,59 +281,109 @@ namespace SnakeMaze.BSP
             {
                 if (tree.HasTwoChilds())
                 {
-                    var corridorCenter = (tree.Left.Root.Center + tree.Right.Root.Center) / 2;
-                    var corridorGO = Instantiate(corridorPrefab, corridorCenter, Quaternion.identity, corridorParentT);
-
-                    if (tree.Left.Root.Center.x == tree.Right.Root.Center.x)
+                    // REVIEW: Con la siguiente línea solo se generan ciertos pasillos.
+                    if ((tree.Left.IsALeaf() && tree.Right.IsALeaf()) || (tree.Left.IsALeaf() && !tree.Right.IsALeaf()) || (!tree.Left.IsALeaf() && tree.Right.IsALeaf()))
                     {
-                        // if (tree.Left.Root.Center.y < tree.Right.Root.Center.y)
-                        // {
-                        //     corridorGO.transform.localScale = new Vector2(corridorWidth, Vector2.Distance(tree.Left.Root.TopCenterPosition, tree.Right.Root.BottomCenterPosition));
-                        // }
-                        // else
-                        // {
-                        //     corridorGO.transform.localScale = new Vector2(corridorWidth, Vector2.Distance(tree.Left.Root.BottomCenterPosition, tree.Right.Root.TopCenterPosition));
-                        // }
-                        corridorGO.transform.localScale = new Vector2(corridorWidth, Vector2.Distance(tree.Left.Root.Center, tree.Right.Root.Center));
-                    }
-                    else
-                    {
-                        // if (tree.Left.Root.Center.x < tree.Right.Root.Center.x)
-                        // {
-                        //     corridorGO.transform.localScale = new Vector2(Vector2.Distance(tree.Left.Root.RightCenterPosition, tree.Right.Root.LeftCenterPosition), corridorWidth);
-                        // }
-                        // else
-                        // {
-                        //     corridorGO.transform.localScale = new Vector2(Vector2.Distance(tree.Left.Root.LeftCenterPosition, tree.Right.Root.RightCenterPosition), corridorWidth);
-                        // }
-                        corridorGO.transform.localScale = new Vector2(Vector2.Distance(tree.Left.Root.Center, tree.Right.Root.Center), corridorWidth);
-                    }
+                        var corridorCenter = (tree.Left.Root.Center + tree.Right.Root.Center) / 2;
+                        var corridorGO = Instantiate(corridorPrefab, corridorCenter, Quaternion.identity, corridorParentT);
 
-                    corridorList.Add(new Corridor(tree.Left.Root.Center, tree.Right.Root.Center, corridorWidth, corridorGO));
+                        if (tree.Left.Root.Center.x == tree.Right.Root.Center.x)
+                        {
+                            // if (tree.Left.Root.Center.y < tree.Right.Root.Center.y)
+                            // {
+                            //     corridorGO.transform.localScale = new Vector2(corridorWidth, Vector2.Distance(tree.Left.Root.TopCenterPosition, tree.Right.Root.BottomCenterPosition));
+                            // }
+                            // else
+                            // {
+                            //     corridorGO.transform.localScale = new Vector2(corridorWidth, Vector2.Distance(tree.Left.Root.BottomCenterPosition, tree.Right.Root.TopCenterPosition));
+                            // }
+                            corridorGO.transform.localScale = new Vector2(corridorWidth, Vector2.Distance(tree.Left.Root.Center, tree.Right.Root.Center));
+                        }
+                        else
+                        {
+                            // if (tree.Left.Root.Center.x < tree.Right.Root.Center.x)
+                            // {
+                            //     corridorGO.transform.localScale = new Vector2(Vector2.Distance(tree.Left.Root.RightCenterPosition, tree.Right.Root.LeftCenterPosition), corridorWidth);
+                            // }
+                            // else
+                            // {
+                            //     corridorGO.transform.localScale = new Vector2(Vector2.Distance(tree.Left.Root.LeftCenterPosition, tree.Right.Root.RightCenterPosition), corridorWidth);
+                            // }
+                            corridorGO.transform.localScale = new Vector2(Vector2.Distance(tree.Left.Root.Center, tree.Right.Root.Center), corridorWidth);
+                        }
+
+                        corridorList.Add(new Corridor(tree.Left.Root.Center, tree.Right.Root.Center, corridorWidth, corridorGO));
+                    }
                 }
 
-                corridorList = Concat(corridorList, GenerateCorridors(tree.Left));
-                corridorList = Concat(corridorList, GenerateCorridors(tree.Right));
+                corridorList = ListUtils.Concat(corridorList, GenerateCorridors(tree.Left));
+                corridorList = ListUtils.Concat(corridorList, GenerateCorridors(tree.Right));
             }
 
             return corridorList;
         }
 
-        /// <summary>
-        /// Concats two Lists with elements of data T.
-        /// </summary>
-        /// <param name="firstList"></param>
-        /// <param name="secondList"></param>
-        /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
-        private List<T> Concat<T>(List<T> firstList, List<T> secondList)
+        private bool GenerateCorridor(Room roomOne, Room roomTwo)
         {
-            foreach (T t in secondList)
+            var roomOnePosition = roomOne.Center;
+            var roomTwoPosition = roomTwo.Center;
+            var minDistanceX = roomOne.Size.x / 2 + roomTwo.Size.x / 2;
+            var minDistanceY = roomOne.Size.y / 2 + roomTwo.Size.y / 2;
+            var relativeDistanceX = roomTwoPosition.x - roomOnePosition.x;
+            var relativeDistanceY = roomTwoPosition.y - roomOnePosition.y;
+            float meQuieroMatar;
+
+            Directions currentDirection;
+
+            if (minDistanceX < Mathf.Abs(relativeDistanceX) && minDistanceY < Mathf.Abs(relativeDistanceY))
             {
-                firstList.Add(t);
+                return false;
+            }
+            else if (minDistanceX > Mathf.Abs(relativeDistanceX))
+            {
+                currentDirection = relativeDistanceX > 0 ? Directions.Right : Directions.Left;
+                meQuieroMatar = relativeDistanceX - minDistanceX;
+            }
+            else // Solo se solapa en la Y.
+            {
+                currentDirection = relativeDistanceY > 0 ? Directions.Up : Directions.Down;
+                meQuieroMatar = relativeDistanceY - minDistanceY;
             }
 
-            return firstList;
+
+
+            return true;
+
+            // Vector2 CoordinateOfCorridorStart()
+            // {
+            //     bool roomTwoLower;
+            //     bool roomTwoHigher;
+
+            //     switch (currentDirection)
+            //     {
+            //         case Directions.Left:
+            //             roomTwoLower = roomTwo.BottomRightPosition.y < roomOne.BottomLeftCorner.y;
+            //             roomTwoHigher = roomTwo.TopLeftPosition.y > roomOne.TopRightPosition.y;
+
+            //             float coordinateX, coordinateY;
+
+            //             if (roomTwoLower)
+            //             {
+            //                 if (roomTwoHigher)
+            //                 {
+            //                     coordinateX = roomOne.BottomLeftCorner.x;
+            //                     coordinateY = Random.Range(roomOne.BottomLeftCorner.y, roomOne.TopLeftPosition.y);
+            //                 }
+            //                 else
+            //                 {
+            //                     coordinateX = roomOne.BottomLeftCorner.x;
+            //                     coordinateY = Random.Range(roomOne.BottomLeftCorner.y, roomTwo.TopLeftPosition.y);
+            //                 }
+            //             }
+            //             break;
+
+            //     }
+            // }
         }
 
         /// <summary>
@@ -366,8 +417,8 @@ namespace SnakeMaze.BSP
                                       roomGO));
                 }
 
-                roomList = Concat(roomList, GenerateRooms(tree.Left));
-                roomList = Concat(roomList, GenerateRooms(tree.Right));
+                roomList = ListUtils.Concat(roomList, GenerateRooms(tree.Left));
+                roomList = ListUtils.Concat(roomList, GenerateRooms(tree.Right));
             }
 
             return roomList;
