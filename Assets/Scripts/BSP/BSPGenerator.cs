@@ -45,16 +45,9 @@ namespace SnakeMaze.BSP
         /// </summary>
         private List<Room> _roomList;
 
-        void Start()
+        private void Start()
         {
-            // Putting the information related to the whole map in the tree root.
-            _rootdata = new BSPData(Vector2.zero, mapSize);
-            _tree = BSP(new BinaryTree<BSPData>(_rootdata, null, null), 0);
-
-            // Data generation.
-            // REVIEW: All the Generate methodsd might be joined to avoid different traversals of the same Binary tree (performance optimization).                                               
-            _corridorList = GenerateCorridors(_tree);
-            _roomList = GenerateRooms(_tree);
+            GenerateBSP();
 
             if (printTreeInConsole)
                 Debug.Log(BinaryTreeUtils<BSPData>.InOrderHorizontal(_tree, 0));
@@ -68,10 +61,35 @@ namespace SnakeMaze.BSP
                     Debug.Log(r);
         }
 
-        public BinaryTree<BSPData> BSP(BinaryTree<BSPData> tree, int iterations)
+        public void DeleteDungeon()
         {
-            BinaryTree<BSPData> leftChild, righChild;
-            float cutx, cutY;
+            foreach (Transform corridor in corridorParentT)
+            {
+                Destroy(corridor.gameObject);
+            }
+
+            foreach (Transform room in roomParentT)
+            {
+                Destroy(room.gameObject);
+            }
+        }
+
+        public void GenerateBSP()
+        {
+            // Putting the information related to the whole map in the tree root.
+            _rootdata = new BSPData(Vector2.zero, mapSize);
+            _tree = BSP(new BinaryTree<BSPData>(_rootdata, null, null), 0);
+
+            // Data generation.
+            // REVIEW: All the Generate methods might be joined to avoid different traversals of the same Binary tree (performance optimization).                                               
+            _corridorList = GenerateCorridors(_tree);
+            _roomList = GenerateRooms(_tree);
+        }
+
+        private BinaryTree<BSPData> BSP(BinaryTree<BSPData> tree, int iterations)
+        {
+            BinaryTree<BSPData> leftChild, rightChild;
+            float cutX, cutY;
 
             if ((tree == null) || NoSpaceForOneRoom(tree))
             {
@@ -95,7 +113,7 @@ namespace SnakeMaze.BSP
                                                 new Vector2(sizeVector.x, (float)(sizeVector.y - cutY)) // Size.  
                                             ), null, null
                                         );
-                            righChild = new BinaryTree<BSPData>(
+                            rightChild = new BinaryTree<BSPData>(
                                             new BSPData(
                                                 positionVector, // Position.
                                                 new Vector2(sizeVector.x, (float)cutY) // Size.  
@@ -104,17 +122,17 @@ namespace SnakeMaze.BSP
                         }
                         else // Divide vertically.
                         {
-                            cutx = SplitVertically(tree.Root);
+                            cutX = SplitVertically(tree.Root);
                             leftChild = new BinaryTree<BSPData>(
                                             new BSPData(
                                                 positionVector, // Position.
-                                                new Vector2((float)cutx, sizeVector.y) // Size.  
+                                                new Vector2((float)cutX, sizeVector.y) // Size.  
                                             )
                                         );
-                            righChild = new BinaryTree<BSPData>(
+                            rightChild = new BinaryTree<BSPData>(
                                             new BSPData(
-                                                new Vector2((float)(positionVector.x + cutx), positionVector.y), // Position.
-                                                new Vector2((float)(sizeVector.x - cutx), sizeVector.y) // Size.
+                                                new Vector2((float)(positionVector.x + cutX), positionVector.y), // Position.
+                                                new Vector2((float)(sizeVector.x - cutX), sizeVector.y) // Size.
                                             )
                                         );
                         }
@@ -123,17 +141,17 @@ namespace SnakeMaze.BSP
                     {
                         if (tree.Root.Size.x > tree.Root.Size.y) // Divide vertically.
                         {
-                            cutx = SplitVertically(tree.Root);
+                            cutX = SplitVertically(tree.Root);
                             leftChild = new BinaryTree<BSPData>(
                                             new BSPData(
                                                 positionVector, // Position.
-                                                new Vector2(cutx, sizeVector.y) // Size. 
+                                                new Vector2(cutX, sizeVector.y) // Size. 
                                             )
                                         );
-                            righChild = new BinaryTree<BSPData>(
+                            rightChild = new BinaryTree<BSPData>(
                                             new BSPData(
-                                                new Vector2(positionVector.x + cutx, positionVector.y), // Position.
-                                                new Vector2(sizeVector.x - cutx, sizeVector.y) // Size.
+                                                new Vector2(positionVector.x + cutX, positionVector.y), // Position.
+                                                new Vector2(sizeVector.x - cutX, sizeVector.y) // Size.
                                             )
                                         );
                         }
@@ -146,7 +164,7 @@ namespace SnakeMaze.BSP
                                                 new Vector2(sizeVector.x, sizeVector.y - cutY) // Size.
                                             ), null, null
                                         );
-                            righChild = new BinaryTree<BSPData>(
+                            rightChild = new BinaryTree<BSPData>(
                                             new BSPData(
                                                 positionVector, // Position.
                                                 new Vector2(sizeVector.x, cutY) // Size.  
@@ -158,7 +176,7 @@ namespace SnakeMaze.BSP
                                             // (BinaryTree<BSPdata>)
                                             BSP(leftChild, iterations + 1),
                                             // (BinaryTree<BSPdata>)
-                                            BSP(righChild, iterations + 1)
+                                            BSP(rightChild, iterations + 1)
                                           );
                 }
                 else  // No more dividing.
