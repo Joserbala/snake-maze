@@ -45,9 +45,11 @@ namespace SnakeMaze.BSP
         /// </summary>
         private List<Room> _roomList;
 
+        public List<Room> RoomList { get => _roomList; }
+
         private void Start()
         {
-            GenerateBSP();
+            GenerateDungeon();
 
             if (printTreeInConsole)
                 Debug.Log(BinaryTreeUtils<BSPData>.InOrderHorizontal(_tree, 0));
@@ -61,6 +63,9 @@ namespace SnakeMaze.BSP
                     Debug.Log(r);
         }
 
+        /// <summary>
+        /// Destroys all rooms and corridors contained in <see cref="roomParentT"/> and <see cref="corridorParentT"/>.
+        /// </summary>
         public void DeleteDungeon()
         {
             foreach (Transform corridor in corridorParentT)
@@ -74,7 +79,13 @@ namespace SnakeMaze.BSP
             }
         }
 
-        public void GenerateBSP()
+        /// <summary>
+        /// Generates a new dungeon.
+        /// </summary>
+        /// <remarks>
+        /// You may want to call <see cref="DeleteDungeon"/> before.
+        /// </remarks>
+        public void GenerateDungeon()
         {
             // Putting the information related to the whole map in the tree root.
             _rootdata = new BSPData(Vector2.zero, mapSize);

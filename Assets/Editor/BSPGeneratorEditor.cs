@@ -18,7 +18,7 @@ namespace SnakeMaze.Editors
                 if (GUILayout.Button("Delete & Generate Dungeon"))
                 {
                     targetBSPGenerator.DeleteDungeon();
-                    targetBSPGenerator.GenerateBSP();
+                    targetBSPGenerator.GenerateDungeon();
                 }
             }
         }

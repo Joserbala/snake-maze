@@ -198,7 +198,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   roomSizePerturbation: 0.517
   corridorWidth: 1
-  numberIterations: 2
+  numberIterations: 4
   offset: 1
   mapSize: {x: 100, y: 100}
   minimalRoomSize: {x: 20, y: 20}
