@@ -7,6 +7,11 @@ namespace SnakeMaze.BSP
         public Vector2 Position { get; set; }
         public Vector2 Size { get; set; }
 
+        public Vector2 LeftCenterPosition => new Vector2(Center.x - Size.x / 2, Center.y);
+        public Vector2 RightCenterPosition => new Vector2(Center.x + Size.x / 2, Center.y);
+        public Vector2 TopCenterPosition => new Vector2(Center.x, Center.y + Size.y / 2);
+        public Vector2 BottomCenterPosition => new Vector2(Center.x, Center.y - Size.y / 2);
+
         public Vector2 Center
         {
             get

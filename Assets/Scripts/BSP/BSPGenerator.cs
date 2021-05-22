@@ -9,15 +9,16 @@ namespace SnakeMaze.BSP
     {
         [Header("Parameter Configuration")]
         [Range(0.25f, 1.0f)]
+        [Tooltip("Variation of size for rooms. The smaller this value the smaller rooms will be generated.")]
         [SerializeField] private float roomSizePerturbation;
         [Tooltip("Width of the corridors.")]
         [SerializeField] private int corridorWidth;
-        [Tooltip("The number of Rooms to be created = 2^numberIterations")]
+        [Tooltip("The maximum number of Rooms to be created = 2^numberIterations.")]
         [SerializeField] private int numberIterations;
         [Tooltip("Space for the rooms with reference to the walls / partitions.")]
         [SerializeField] private int offset = 1;
         [SerializeField] private Vector2 mapSize;
-        [SerializeField] private Vector2 minimalRoomSize;
+        [SerializeField] private Vector2 maxRoomSize;
 
         [Header("Flags for Visualization")]
         [SerializeField] private bool drawCorridors;
@@ -34,11 +35,15 @@ namespace SnakeMaze.BSP
         [SerializeField] private Transform roomParentT;
 
         private BSPData _rootdata;
-        /// <summary>Structure that will store the whole information of the partitions.</summary>
+        /// <summary>
+        /// Structure that will store the whole information about the partitions.
+        /// </summary>
         private BinaryTree<BSPData> _tree;
 
         // Data generated with the information stored in the Binary Tree.
-        /// <summary>List with Corridor data.</summary>
+        /// <summary>
+        /// List with Corridor data.
+        /// </summary>
         private List<Corridor> _corridorList;
         /// <summary>
         /// A room is defined by a position (center) and a size of the room. There will be a room for each partition.
@@ -195,7 +200,6 @@ namespace SnakeMaze.BSP
                     return tree;
                 }
             }
-
         }
 
         /// <summary>
@@ -206,7 +210,7 @@ namespace SnakeMaze.BSP
         private bool NoSpaceForOneRoom(BinaryTree<BSPData> tree)
         {
             BSPData root = tree.Root;
-            return (root.Size.x < minimalRoomSize.x) || (root.Size.y < minimalRoomSize.y);
+            return (root.Size.x < maxRoomSize.x) || (root.Size.y < maxRoomSize.y);
         }
 
         /// <summary>
@@ -219,12 +223,12 @@ namespace SnakeMaze.BSP
         {
             BSPData root = tree.Root;
 
-            var canTwoRoomsFitHorizontally = (root.Size.x >= 2 * (minimalRoomSize.x + offset))
-                && (root.Size.y >= (minimalRoomSize.y + offset));
+            var canTwoRoomsFitHorizontally = (root.Size.x >= 2 * (maxRoomSize.x + offset))
+                && (root.Size.y >= (maxRoomSize.y + offset));
 
-            var isHSizeBiggerThanARoom = root.Size.x >= (minimalRoomSize.x + offset);
+            var isHSizeBiggerThanARoom = root.Size.x >= (maxRoomSize.x + offset);
 
-            var isVSizeBiggerThanTwoRooms = root.Size.y >= 2 * (minimalRoomSize.y + offset);
+            var isVSizeBiggerThanTwoRooms = root.Size.y >= 2 * (maxRoomSize.y + offset);
 
             var doMoreIterations = iterations < numberIterations;
 
@@ -239,7 +243,7 @@ namespace SnakeMaze.BSP
         /// <returns></returns>
         private float SplitHorizontally(BSPData root)
         {
-            return Random.Range(minimalRoomSize.y + offset, root.Size.y - minimalRoomSize.y - offset);
+            return Random.Range(maxRoomSize.y + offset, root.Size.y - maxRoomSize.y - offset);
         }
 
         /// <summary>
@@ -250,7 +254,7 @@ namespace SnakeMaze.BSP
         /// <returns></returns>
         private float SplitVertically(BSPData root)
         {
-            return Random.Range(minimalRoomSize.x + offset, root.Size.x - minimalRoomSize.x - offset);
+            return Random.Range(maxRoomSize.x + offset, root.Size.x - maxRoomSize.x - offset);
         }
 
         private void OnDrawGizmos()
@@ -281,10 +285,26 @@ namespace SnakeMaze.BSP
 
                     if (tree.Left.Root.Center.x == tree.Right.Root.Center.x)
                     {
+                        // if (tree.Left.Root.Center.y < tree.Right.Root.Center.y)
+                        // {
+                        //     corridorGO.transform.localScale = new Vector2(corridorWidth, Vector2.Distance(tree.Left.Root.TopCenterPosition, tree.Right.Root.BottomCenterPosition));
+                        // }
+                        // else
+                        // {
+                        //     corridorGO.transform.localScale = new Vector2(corridorWidth, Vector2.Distance(tree.Left.Root.BottomCenterPosition, tree.Right.Root.TopCenterPosition));
+                        // }
                         corridorGO.transform.localScale = new Vector2(corridorWidth, Vector2.Distance(tree.Left.Root.Center, tree.Right.Root.Center));
                     }
                     else
                     {
+                        // if (tree.Left.Root.Center.x < tree.Right.Root.Center.x)
+                        // {
+                        //     corridorGO.transform.localScale = new Vector2(Vector2.Distance(tree.Left.Root.RightCenterPosition, tree.Right.Root.LeftCenterPosition), corridorWidth);
+                        // }
+                        // else
+                        // {
+                        //     corridorGO.transform.localScale = new Vector2(Vector2.Distance(tree.Left.Root.LeftCenterPosition, tree.Right.Root.RightCenterPosition), corridorWidth);
+                        // }
                         corridorGO.transform.localScale = new Vector2(Vector2.Distance(tree.Left.Root.Center, tree.Right.Root.Center), corridorWidth);
                     }
 
@@ -334,8 +354,8 @@ namespace SnakeMaze.BSP
                     var roomSizeXPerturbation = Random.Range(roomSizePerturbation, 1.0f);
                     var roomSizeYPerturbation = Random.Range(roomSizePerturbation, 1.0f);
 
-                    var actualRoomSizeX = Mathf.FloorToInt(minimalRoomSize.x * roomSizeXPerturbation);
-                    var actualRoomSizeY = Mathf.FloorToInt(minimalRoomSize.y * roomSizeYPerturbation);
+                    var actualRoomSizeX = Mathf.FloorToInt(maxRoomSize.x * roomSizeXPerturbation);
+                    var actualRoomSizeY = Mathf.FloorToInt(maxRoomSize.y * roomSizeYPerturbation);
 
                     var roomGO = Instantiate(roomPrefab, tree.Root.Center, Quaternion.identity, roomParentT);
                     roomGO.transform.localScale = new Vector2(actualRoomSizeX, actualRoomSizeY);

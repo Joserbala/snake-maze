@@ -196,12 +196,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d21121831f791504a88f4a2439c181fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roomSizePerturbation: 0.517
+  roomSizePerturbation: 1
   corridorWidth: 1
-  numberIterations: 4
+  numberIterations: 2
   offset: 1
   mapSize: {x: 100, y: 100}
-  minimalRoomSize: {x: 20, y: 20}
+  maxRoomSize: {x: 20, y: 20}
   drawCorridors: 1
   drawPartitions: 1
   drawRooms: 1
