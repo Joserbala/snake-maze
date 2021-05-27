@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using SnakeMaze.Maze;
 using SnakeMaze.Structures;
 using SnakeMaze.Utils;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace SnakeMaze.BSP
 {
@@ -11,31 +13,37 @@ namespace SnakeMaze.BSP
         [Header("Parameter Configuration")]
         [Range(0.25f, 1.0f)]
         [Tooltip("Variation of size for rooms. The smaller this value the smaller rooms will be generated.")]
-        [SerializeField] private float roomSizePerturbation;
-        [Tooltip("Width of the corridors.")]
-        [SerializeField] private int corridorWidth;
-        [Tooltip("The maximum number of Rooms to be created = 2^numberIterations.")]
-        [SerializeField] private int numberIterations;
-        [Tooltip("Space for the rooms with reference to the walls / partitions.")]
-        [SerializeField] private int offset = 1;
+        [SerializeField]
+        private float roomSizePerturbation;
+
+        [Tooltip("Width of the corridors.")] [SerializeField]
+        private int corridorWidth;
+
+        [Tooltip("The maximum number of Rooms to be created = 2^numberIterations.")] [SerializeField]
+        private int numberIterations;
+
+        [Tooltip("Space for the rooms with reference to the walls / partitions.")] [SerializeField]
+        private int offset = 1;
+
         [SerializeField] private Vector2 mapSize;
         [SerializeField] private Vector2 maxRoomSize;
 
-        [Header("Flags for Visualization")]
-        [SerializeField] private bool drawCorridors;
+        [Header("Flags for Visualization")] [SerializeField]
+        private bool drawCorridors;
+
         [SerializeField] private bool drawPartitions;
         [SerializeField] private bool drawRooms;
         [SerializeField] private bool printCorridorsInConsole;
         [SerializeField] private bool printRoomsInConsole;
         [SerializeField] private bool printTreeInConsole;
 
-        [Header("Prefabs")]
-        [SerializeField] private GameObject corridorPrefab;
+        [Header("Prefabs")] [SerializeField] private GameObject corridorPrefab;
         [SerializeField] private GameObject roomPrefab;
         [SerializeField] private Transform corridorParentT;
         [SerializeField] private Transform roomParentT;
 
         private BSPData _rootdata;
+
         /// <summary>
         /// Structure that will store the whole information about the partitions.
         /// </summary>
@@ -46,12 +54,16 @@ namespace SnakeMaze.BSP
         /// List with Corridor data.
         /// </summary>
         private List<Corridor> _corridorList;
+
         /// <summary>
         /// A room is defined by a position (center) and a size of the room. There will be a room for each partition.
         /// </summary>
         private List<Room> _roomList;
 
-        public List<Room> RoomList { get => _roomList; }
+        public List<Room> RoomList
+        {
+            get => _roomList;
+        }
 
         private void Start()
         {
@@ -99,7 +111,8 @@ namespace SnakeMaze.BSP
 
             // Data generation.
             // REVIEW: All the Generate methods might be joined to avoid different traversals of the same Binary tree (performance optimization).                                               
-            _corridorList = GenerateCorridors(_tree);
+            // _corridorList = GenerateCorridors(_tree);
+            _corridorList = GenerateCorridorsGood(_tree);
             _roomList = GenerateRooms(_tree);
         }
 
@@ -125,33 +138,33 @@ namespace SnakeMaze.BSP
                         {
                             cutY = SplitHorizontally(tree.Root);
                             leftChild = new BinaryTree<BSPData>(
-                                            new BSPData(
-                                                new Vector2(positionVector.x, (float)(positionVector.y + cutY)), // Position.
-                                                new Vector2(sizeVector.x, (float)(sizeVector.y - cutY)) // Size.  
-                                            ), null, null
-                                        );
+                                new BSPData(
+                                    new Vector2(positionVector.x, (float) (positionVector.y + cutY)), // Position.
+                                    new Vector2(sizeVector.x, (float) (sizeVector.y - cutY)) // Size.  
+                                ), null, null
+                            );
                             rightChild = new BinaryTree<BSPData>(
-                                            new BSPData(
-                                                positionVector, // Position.
-                                                new Vector2(sizeVector.x, (float)cutY) // Size.  
-                                            ), null, null
-                                        );
+                                new BSPData(
+                                    positionVector, // Position.
+                                    new Vector2(sizeVector.x, (float) cutY) // Size.  
+                                ), null, null
+                            );
                         }
                         else // Divide vertically.
                         {
                             cutX = SplitVertically(tree.Root);
                             leftChild = new BinaryTree<BSPData>(
-                                            new BSPData(
-                                                positionVector, // Position.
-                                                new Vector2((float)cutX, sizeVector.y) // Size.  
-                                            )
-                                        );
+                                new BSPData(
+                                    positionVector, // Position.
+                                    new Vector2((float) cutX, sizeVector.y) // Size.  
+                                )
+                            );
                             rightChild = new BinaryTree<BSPData>(
-                                            new BSPData(
-                                                new Vector2((float)(positionVector.x + cutX), positionVector.y), // Position.
-                                                new Vector2((float)(sizeVector.x - cutX), sizeVector.y) // Size.
-                                            )
-                                        );
+                                new BSPData(
+                                    new Vector2((float) (positionVector.x + cutX), positionVector.y), // Position.
+                                    new Vector2((float) (sizeVector.x - cutX), sizeVector.y) // Size.
+                                )
+                            );
                         }
                     }
                     else
@@ -160,43 +173,44 @@ namespace SnakeMaze.BSP
                         {
                             cutX = SplitVertically(tree.Root);
                             leftChild = new BinaryTree<BSPData>(
-                                            new BSPData(
-                                                positionVector, // Position.
-                                                new Vector2(cutX, sizeVector.y) // Size. 
-                                            )
-                                        );
+                                new BSPData(
+                                    positionVector, // Position.
+                                    new Vector2(cutX, sizeVector.y) // Size. 
+                                )
+                            );
                             rightChild = new BinaryTree<BSPData>(
-                                            new BSPData(
-                                                new Vector2(positionVector.x + cutX, positionVector.y), // Position.
-                                                new Vector2(sizeVector.x - cutX, sizeVector.y) // Size.
-                                            )
-                                        );
+                                new BSPData(
+                                    new Vector2(positionVector.x + cutX, positionVector.y), // Position.
+                                    new Vector2(sizeVector.x - cutX, sizeVector.y) // Size.
+                                )
+                            );
                         }
                         else // Divide horizontally.
                         {
                             cutY = SplitHorizontally(tree.Root);
                             leftChild = new BinaryTree<BSPData>(
-                                            new BSPData(
-                                                new Vector2(positionVector.x, positionVector.y + cutY), // Position.
-                                                new Vector2(sizeVector.x, sizeVector.y - cutY) // Size.
-                                            ), null, null
-                                        );
+                                new BSPData(
+                                    new Vector2(positionVector.x, positionVector.y + cutY), // Position.
+                                    new Vector2(sizeVector.x, sizeVector.y - cutY) // Size.
+                                ), null, null
+                            );
                             rightChild = new BinaryTree<BSPData>(
-                                            new BSPData(
-                                                positionVector, // Position.
-                                                new Vector2(sizeVector.x, cutY) // Size.  
-                                            ), null, null
-                                        );
+                                new BSPData(
+                                    positionVector, // Position.
+                                    new Vector2(sizeVector.x, cutY) // Size.  
+                                ), null, null
+                            );
                         }
                     }
+
                     return new BinaryTree<BSPData>(tree.Root,
-                                            // (BinaryTree<BSPdata>)
-                                            BSP(leftChild, iterations + 1),
-                                            // (BinaryTree<BSPdata>)
-                                            BSP(rightChild, iterations + 1)
-                                          );
+                        // (BinaryTree<BSPdata>)
+                        BSP(leftChild, iterations + 1),
+                        // (BinaryTree<BSPdata>)
+                        BSP(rightChild, iterations + 1)
+                    );
                 }
-                else  // No more dividing.
+                else // No more dividing.
                 {
                     return tree;
                 }
@@ -225,7 +239,7 @@ namespace SnakeMaze.BSP
             BSPData root = tree.Root;
 
             var canTwoRoomsFitHorizontally = (root.Size.x >= 2 * (maxRoomSize.x + offset))
-                && (root.Size.y >= (maxRoomSize.y + offset));
+                                             && (root.Size.y >= (maxRoomSize.y + offset));
 
             var isHSizeBiggerThanARoom = root.Size.x >= (maxRoomSize.x + offset);
 
@@ -233,7 +247,8 @@ namespace SnakeMaze.BSP
 
             var doMoreIterations = iterations < numberIterations;
 
-            return (canTwoRoomsFitHorizontally || isHSizeBiggerThanARoom && isVSizeBiggerThanTwoRooms) && doMoreIterations;
+            return (canTwoRoomsFitHorizontally || isHSizeBiggerThanARoom && isVSizeBiggerThanTwoRooms) &&
+                   doMoreIterations;
         }
 
         /// <summary>
@@ -282,11 +297,13 @@ namespace SnakeMaze.BSP
                 if (tree.HasTwoChilds())
                 {
                     // REVIEW: Con la siguiente línea solo se generan ciertos pasillos.
-                    if ((tree.Left.IsALeaf() && tree.Right.IsALeaf()) || (tree.Left.IsALeaf() && !tree.Right.IsALeaf()) || (!tree.Left.IsALeaf() && tree.Right.IsALeaf()))
+                    if ((tree.Left.IsALeaf() && tree.Right.IsALeaf()) ||
+                        (tree.Left.IsALeaf() && !tree.Right.IsALeaf()) ||
+                        (!tree.Left.IsALeaf() && tree.Right.IsALeaf()))
                     {
                         var corridorCenter = (tree.Left.Root.Center + tree.Right.Root.Center) / 2;
-                        var corridorGO = Instantiate(corridorPrefab, corridorCenter, Quaternion.identity, corridorParentT);
-
+                        var corridorGO = Instantiate(corridorPrefab, corridorCenter, Quaternion.identity,
+                            corridorParentT);
                         if (tree.Left.Root.Center.x == tree.Right.Root.Center.x)
                         {
                             // if (tree.Left.Root.Center.y < tree.Right.Root.Center.y)
@@ -297,7 +314,8 @@ namespace SnakeMaze.BSP
                             // {
                             //     corridorGO.transform.localScale = new Vector2(corridorWidth, Vector2.Distance(tree.Left.Root.BottomCenterPosition, tree.Right.Root.TopCenterPosition));
                             // }
-                            corridorGO.transform.localScale = new Vector2(corridorWidth, Vector2.Distance(tree.Left.Root.Center, tree.Right.Root.Center));
+                            corridorGO.transform.localScale = new Vector2(corridorWidth,
+                                Vector2.Distance(tree.Left.Root.Center, tree.Right.Root.Center));
                         }
                         else
                         {
@@ -309,10 +327,12 @@ namespace SnakeMaze.BSP
                             // {
                             //     corridorGO.transform.localScale = new Vector2(Vector2.Distance(tree.Left.Root.LeftCenterPosition, tree.Right.Root.RightCenterPosition), corridorWidth);
                             // }
-                            corridorGO.transform.localScale = new Vector2(Vector2.Distance(tree.Left.Root.Center, tree.Right.Root.Center), corridorWidth);
+                            corridorGO.transform.localScale = new Vector2(
+                                Vector2.Distance(tree.Left.Root.Center, tree.Right.Root.Center), corridorWidth);
                         }
 
-                        corridorList.Add(new Corridor(tree.Left.Root.Center, tree.Right.Root.Center, corridorWidth, corridorGO));
+                        corridorList.Add(new Corridor(tree.Left.Root.Center, tree.Right.Root.Center, corridorWidth,
+                            corridorGO));
                     }
                 }
 
@@ -323,7 +343,66 @@ namespace SnakeMaze.BSP
             return corridorList;
         }
 
-        private bool GenerateCorridor(Room roomOne, Room roomTwo)
+        private List<Corridor> GenerateCorridorsGood(BinaryTree<BSPData> tree)
+        {
+            var corridorList = new List<Corridor>();
+            var rightNodeList = new List<BSPData>();
+            var leftNodeList = new List<BSPData>();
+            var rightNode = new BSPData();
+            var leftNode = new BSPData();
+
+            if (tree != null)
+            {
+                if (tree.HasTwoChilds())
+                {
+                    BinaryTreeUtils<BSPData>.GetAllChildren(tree.Left, ref leftNodeList);
+                    BinaryTreeUtils<BSPData>.GetAllChildren(tree.Right, ref rightNodeList);
+                    GetNearestNodes(leftNodeList, rightNodeList, out leftNode, out rightNode);
+                    GenerateCorridor(leftNode, rightNode, ref corridorList);
+
+                    GenerateCorridorsGood(tree.Left);
+                    GenerateCorridorsGood(tree.Right);
+                }
+
+                if (tree.Left == null)
+                {
+                    GenerateCorridorsGood(tree.Right);
+                }
+
+                if (tree.Right == null)
+                {
+                    GenerateCorridorsGood(tree.Left);
+                }
+            }
+
+            return corridorList;
+        }
+
+        private void GetNearestNodes(List<BSPData> leftList, List<BSPData> rightList, out BSPData finalLeftNode,
+            out BSPData finalRightNode)
+        {
+            var minDistance = Mathf.Infinity;
+            var currentRightNode = new BSPData();
+            var currentLeftNode = new BSPData();
+            foreach (var leftNode in leftList)
+            {
+                foreach (var rightNode in rightList)
+                {
+                    var distance = Vector2.Distance(leftNode.Center, rightNode.Center);
+                    if (distance < minDistance)
+                    {
+                        minDistance = distance;
+                        currentLeftNode = leftNode;
+                        currentRightNode = rightNode;
+                    }
+                }
+            }
+
+            finalLeftNode = currentLeftNode;
+            finalRightNode = currentRightNode;
+        }
+
+        private bool GenerateCorridor(BSPData roomOne, BSPData roomTwo, ref List<Corridor> corridorList)
         {
             var roomOnePosition = roomOne.Center;
             var roomTwoPosition = roomTwo.Center;
@@ -331,59 +410,118 @@ namespace SnakeMaze.BSP
             var minDistanceY = roomOne.Size.y / 2 + roomTwo.Size.y / 2;
             var relativeDistanceX = roomTwoPosition.x - roomOnePosition.x;
             var relativeDistanceY = roomTwoPosition.y - roomOnePosition.y;
-            float meQuieroMatar;
+
 
             Directions currentDirection;
 
             if (minDistanceX < Mathf.Abs(relativeDistanceX) && minDistanceY < Mathf.Abs(relativeDistanceY))
             {
+                // Rooms don't overlap.
                 return false;
             }
-            else if (minDistanceX > Mathf.Abs(relativeDistanceX))
+
+            if (minDistanceX > Mathf.Abs(relativeDistanceX))
             {
-                currentDirection = relativeDistanceX > 0 ? Directions.Right : Directions.Left;
-                meQuieroMatar = relativeDistanceX - minDistanceX;
-            }
-            else // Solo se solapa en la Y.
-            {
+                // Rooms overlap in X axis.
                 currentDirection = relativeDistanceY > 0 ? Directions.Up : Directions.Down;
-                meQuieroMatar = relativeDistanceY - minDistanceY;
+            }
+            else
+            {
+                // Rooms overlap in Y axis.
+                currentDirection = relativeDistanceX > 0 ? Directions.Right : Directions.Left;
             }
 
+            var corridorCenter = CoordinateOfCorridorCenter();
+            var corridorGO = Instantiate(corridorPrefab, corridorCenter, Quaternion.identity,
+                corridorParentT);
+            switch (currentDirection)
+            {
+                case Directions.Up:
+                    corridorGO.transform.localScale = new Vector3(corridorWidth,
+                        Mathf.Abs(roomTwo.BottomCenterPosition.y- roomOne.TopCenterPosition.y),1);
+                    break;
+                case Directions.Down:
 
+                    corridorGO.transform.localScale = new Vector3(corridorWidth,
+                        Mathf.Abs(roomTwo.TopCenterPosition.y- roomOne.BottomCenterPosition.y),1);
+                    break;
+                case Directions.Right:
+                    corridorGO.transform.localScale =
+                        new Vector3(Mathf.Abs(roomTwo.LeftCenterPosition.x- roomOne.RightCenterPosition.x), corridorWidth,1);
+                    break;
+                case Directions.Left:
+                    corridorGO.transform.localScale =
+                        new Vector3(Mathf.Abs(roomTwo.RightCenterPosition.x- roomOne.LeftCenterPosition.x), corridorWidth,1);
+                    break;
+            }
 
+            corridorList.Add(new Corridor(roomOne.Center, roomTwo.Center, corridorWidth,
+                corridorGO));
             return true;
 
-            // Vector2 CoordinateOfCorridorStart()
-            // {
-            //     bool roomTwoLower;
-            //     bool roomTwoHigher;
+            Vector2 CoordinateOfCorridorStart()
+            {
+                float lower;
+                float higher;
+                float coordinateX = 0, coordinateY = 0;
 
-            //     switch (currentDirection)
-            //     {
-            //         case Directions.Left:
-            //             roomTwoLower = roomTwo.BottomRightPosition.y < roomOne.BottomLeftCorner.y;
-            //             roomTwoHigher = roomTwo.TopLeftPosition.y > roomOne.TopRightPosition.y;
+                switch (currentDirection)
+                {
+                    case Directions.Left:
+                    case Directions.Right:
+                        lower = Mathf.Max(roomOne.BottomLeftCorner.y, roomTwo.BottomLeftCorner.y);
+                        higher = Mathf.Max(roomOne.TopLeftCorner.y, roomTwo.TopLeftCorner.y);
 
-            //             float coordinateX, coordinateY;
 
-            //             if (roomTwoLower)
-            //             {
-            //                 if (roomTwoHigher)
-            //                 {
-            //                     coordinateX = roomOne.BottomLeftCorner.x;
-            //                     coordinateY = Random.Range(roomOne.BottomLeftCorner.y, roomOne.TopLeftPosition.y);
-            //                 }
-            //                 else
-            //                 {
-            //                     coordinateX = roomOne.BottomLeftCorner.x;
-            //                     coordinateY = Random.Range(roomOne.BottomLeftCorner.y, roomTwo.TopLeftPosition.y);
-            //                 }
-            //             }
-            //             break;
+                        coordinateX = roomOne.Center.x + Mathf.Sign((int) currentDirection) * roomOne.Size.x;
+                        coordinateY = Random.Range(lower, higher);
+                        break;
+                    case Directions.Up:
+                    case Directions.Down:
+                        lower = Mathf.Max(roomOne.BottomLeftCorner.x, roomTwo.BottomLeftCorner.x);
+                        higher = Mathf.Max(roomOne.BottomRightCorner.x, roomTwo.BottomRightCorner.x);
 
-            //     }
-            // }
+
+                        coordinateX = Random.Range(lower, higher);
+                        coordinateY = roomOne.Center.y + Mathf.Sign((int) currentDirection) * roomOne.Size.y;
+                        break;
+                }
+
+                return new Vector2(coordinateX, coordinateY);
+            }
+
+            Vector2 CoordinateOfCorridorCenter()
+            {
+                float lower;
+                float higher;
+                float coordinateX = 0, coordinateY = 0;
+
+                switch (currentDirection)
+                {
+                    case Directions.Left:
+                    case Directions.Right:
+                        lower = Mathf.Max(roomOne.BottomCenterPosition.y, roomTwo.BottomCenterPosition.y);
+                        higher = Mathf.Max(roomOne.TopCenterPosition.y, roomTwo.TopCenterPosition.y);
+
+
+                        coordinateX = (roomOne.Center.x + Mathf.Sign((int) currentDirection) * roomOne.Size.x +
+                            roomTwo.Center.x - Mathf.Sign((int) currentDirection) * roomTwo.Size.x) / 2f;
+                        coordinateY = Random.Range(lower, higher);
+                        break;
+                    case Directions.Up:
+                    case Directions.Down:
+                        lower = Mathf.Max(roomOne.LeftCenterPosition.x, roomTwo.LeftCenterPosition.x);
+                        higher = Mathf.Max(roomOne.RightCenterPosition.x, roomTwo.RightCenterPosition.x);
+
+
+                        coordinateX = Random.Range(lower, higher);
+                        coordinateY = (roomOne.Center.y + Mathf.Sign((int) currentDirection) * roomOne.Size.y +
+                            roomOne.Center.y - Mathf.Sign((int) currentDirection) * roomOne.Size.y) / 2f;
+                        break;
+                }
+
+                return new Vector2(coordinateX, coordinateY);
+            }
         }
 
         /// <summary>
@@ -412,9 +550,9 @@ namespace SnakeMaze.BSP
                     roomGO.transform.localScale = new Vector2(actualRoomSizeX, actualRoomSizeY);
 
                     roomList.Add(new Room(tree.Root.Center,
-                                      new Vector2(actualRoomSizeX,
-                                                  actualRoomSizeY),
-                                      roomGO));
+                        new Vector2(actualRoomSizeX,
+                            actualRoomSizeY),
+                        roomGO));
                 }
 
                 roomList = ListUtils.Concat(roomList, GenerateRooms(tree.Left));
