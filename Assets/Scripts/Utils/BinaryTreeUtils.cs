@@ -78,7 +78,7 @@ namespace SnakeMaze.Utils
             {
                 root = t.Root;
                 Gizmos.color = Color.green;
-                Gizmos.DrawWireCube(root.Center, new Vector3(root.Size.x, root.Size.y, 0f));
+                Gizmos.DrawWireCube(root.Center, new Vector3(root.PartitionBounds.size.x, root.PartitionBounds.size.y, 0f));
 
                 if (t.Left != null)
                     DrawGizmosPartitions(t.Left);

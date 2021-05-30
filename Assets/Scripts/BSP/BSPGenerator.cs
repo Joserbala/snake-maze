@@ -100,7 +100,7 @@ namespace SnakeMaze.BSP
                 Debug.Log(BinaryTreeUtils<BSPData>.InOrderHorizontal(_tree, 0));
 
             // Putting the information related to the whole map in the tree root.
-            _rootdata = new BSPData(Vector2.zero, mapSize);
+            _rootdata = new BSPData(new Bounds(Vector2.zero, new Vector3(mapSize.x, mapSize.y, 0)));
             _tree = BSP(new BinaryTree<BSPData>(_rootdata, null, null), 0);
 
             // Data generation.
@@ -121,8 +121,8 @@ namespace SnakeMaze.BSP
             }
             else
             {
-                var positionVector = tree.Root.Position;
-                var sizeVector = tree.Root.Size;
+                var positionVector = tree.Root.PartitionBounds.center;
+                var sizeVector = tree.Root.PartitionBounds.size;
 
                 if (ContinueDividing(tree, iterations))
                 {
@@ -131,69 +131,45 @@ namespace SnakeMaze.BSP
                         if (Random.value < 0.5) // Divide horizontally.
                         {
                             cutY = SplitHorizontally(tree.Root);
-                            leftChild = new BinaryTree<BSPData>(
-                                new BSPData(
-                                    new Vector2(positionVector.x, (float)(positionVector.y + cutY)), // Position.
-                                    new Vector2(sizeVector.x, (float)(sizeVector.y - cutY)) // Size.  
-                                ), null, null
-                            );
-                            rightChild = new BinaryTree<BSPData>(
-                                new BSPData(
-                                    positionVector, // Position.
-                                    new Vector2(sizeVector.x, (float)cutY) // Size.  
-                                ), null, null
-                            );
+                            leftChild = new BinaryTree<BSPData>(new BSPData(new Bounds(new Vector2(positionVector.x, (float)(positionVector.y + cutY)),
+                                                                                       new Vector2(sizeVector.x, (float)(sizeVector.y - cutY)))),
+                                                                null,
+                                                                null);
+                            rightChild = new BinaryTree<BSPData>(new BSPData(new Bounds(positionVector,
+                                                                                        new Vector2(sizeVector.x, (float)cutY))),
+                                                                 null,
+                                                                 null);
                         }
                         else // Divide vertically.
                         {
                             cutX = SplitVertically(tree.Root);
-                            leftChild = new BinaryTree<BSPData>(
-                                new BSPData(
-                                    positionVector, // Position.
-                                    new Vector2((float)cutX, sizeVector.y) // Size.  
-                                )
-                            );
-                            rightChild = new BinaryTree<BSPData>(
-                                new BSPData(
-                                    new Vector2((float)(positionVector.x + cutX), positionVector.y), // Position.
-                                    new Vector2((float)(sizeVector.x - cutX), sizeVector.y) // Size.
-                                )
-                            );
+                            leftChild = new BinaryTree<BSPData>(new BSPData(new Bounds(positionVector,
+                                                                                       new Vector2((float)cutX, sizeVector.y))));
+                            rightChild = new BinaryTree<BSPData>(new BSPData(new Bounds(new Vector2((float)(positionVector.x + cutX), positionVector.y),
+                                                                                        new Vector2((float)(sizeVector.x - cutX), sizeVector.y))));
                         }
                     }
                     else
                     {
-                        if (tree.Root.Size.x > tree.Root.Size.y) // Divide vertically.
+                        if (tree.Root.PartitionBounds.size.x > tree.Root.PartitionBounds.size.y) // Divide vertically.
                         {
                             cutX = SplitVertically(tree.Root);
-                            leftChild = new BinaryTree<BSPData>(
-                                new BSPData(
-                                    positionVector, // Position.
-                                    new Vector2(cutX, sizeVector.y) // Size. 
-                                )
-                            );
-                            rightChild = new BinaryTree<BSPData>(
-                                new BSPData(
-                                    new Vector2(positionVector.x + cutX, positionVector.y), // Position.
-                                    new Vector2(sizeVector.x - cutX, sizeVector.y) // Size.
-                                )
-                            );
+                            leftChild = new BinaryTree<BSPData>(new BSPData(new Bounds(positionVector,
+                                                                                       new Vector2(cutX, sizeVector.y))));
+                            rightChild = new BinaryTree<BSPData>(new BSPData(new Bounds(new Vector2(positionVector.x + cutX, positionVector.y),
+                                                                                        new Vector2(sizeVector.x - cutX, sizeVector.y))));
                         }
                         else // Divide horizontally.
                         {
                             cutY = SplitHorizontally(tree.Root);
-                            leftChild = new BinaryTree<BSPData>(
-                                new BSPData(
-                                    new Vector2(positionVector.x, positionVector.y + cutY), // Position.
-                                    new Vector2(sizeVector.x, sizeVector.y - cutY) // Size.
-                                ), null, null
-                            );
-                            rightChild = new BinaryTree<BSPData>(
-                                new BSPData(
-                                    positionVector, // Position.
-                                    new Vector2(sizeVector.x, cutY) // Size.  
-                                ), null, null
-                            );
+                            leftChild = new BinaryTree<BSPData>(new BSPData(new Bounds(new Vector2(positionVector.x, positionVector.y + cutY),
+                                                                                       new Vector2(sizeVector.x, sizeVector.y - cutY))),
+                                                                null,
+                                                                null);
+                            rightChild = new BinaryTree<BSPData>(new BSPData(new Bounds(positionVector,
+                                                                                        new Vector2(sizeVector.x, cutY))),
+                                                                 null,
+                                                                 null);
                         }
                     }
 
@@ -219,7 +195,7 @@ namespace SnakeMaze.BSP
         private bool NoSpaceForOneRoom(BinaryTree<BSPData> tree)
         {
             BSPData root = tree.Root;
-            return (root.Size.x < maxRoomSize.x) || (root.Size.y < maxRoomSize.y);
+            return (root.PartitionBounds.size.x < maxRoomSize.x) || (root.PartitionBounds.size.y < maxRoomSize.y);
         }
 
         /// <summary>
@@ -232,12 +208,12 @@ namespace SnakeMaze.BSP
         {
             BSPData root = tree.Root;
 
-            var canTwoRoomsFitHorizontally = (root.Size.x >= 2 * (maxRoomSize.x + offset))
-                                             && (root.Size.y >= (maxRoomSize.y + offset));
+            var canTwoRoomsFitHorizontally = (root.PartitionBounds.size.x >= 2 * (maxRoomSize.x + offset))
+                                             && (root.PartitionBounds.size.y >= (maxRoomSize.y + offset));
 
-            var isHSizeBiggerThanARoom = root.Size.x >= (maxRoomSize.x + offset);
+            var isHSizeBiggerThanARoom = root.PartitionBounds.size.x >= (maxRoomSize.x + offset);
 
-            var isVSizeBiggerThanTwoRooms = root.Size.y >= 2 * (maxRoomSize.y + offset);
+            var isVSizeBiggerThanTwoRooms = root.PartitionBounds.size.y >= 2 * (maxRoomSize.y + offset);
 
             var doMoreIterations = iterations < numberIterations;
 
@@ -253,7 +229,7 @@ namespace SnakeMaze.BSP
         /// <returns></returns>
         private float SplitHorizontally(BSPData root)
         {
-            return Random.Range(maxRoomSize.y + offset, root.Size.y - maxRoomSize.y - offset);
+            return Random.Range(maxRoomSize.y + offset, root.PartitionBounds.size.y - maxRoomSize.y - offset);
         }
 
         /// <summary>
@@ -264,7 +240,7 @@ namespace SnakeMaze.BSP
         /// <returns></returns>
         private float SplitVertically(BSPData root)
         {
-            return Random.Range(maxRoomSize.x + offset, root.Size.x - maxRoomSize.x - offset);
+            return Random.Range(maxRoomSize.x + offset, root.PartitionBounds.size.x - maxRoomSize.x - offset);
         }
 
         private void OnDrawGizmos()
@@ -400,8 +376,8 @@ namespace SnakeMaze.BSP
         {
             var roomOnePosition = roomOne.Center;
             var roomTwoPosition = roomTwo.Center;
-            var minDistanceX = roomOne.Size.x / 2 + roomTwo.Size.x / 2;
-            var minDistanceY = roomOne.Size.y / 2 + roomTwo.Size.y / 2;
+            var minDistanceX = roomOne.PartitionBounds.size.x / 2 + roomTwo.PartitionBounds.size.x / 2;
+            var minDistanceY = roomOne.PartitionBounds.size.y / 2 + roomTwo.PartitionBounds.size.y / 2;
             var relativeDistanceX = roomTwoPosition.x - roomOnePosition.x;
             var relativeDistanceY = roomTwoPosition.y - roomOnePosition.y;
 
@@ -428,6 +404,7 @@ namespace SnakeMaze.BSP
             var corridorCenter = CoordinateOfCorridorCenter();
             var corridorGO = Instantiate(corridorPrefab, corridorCenter, Quaternion.identity,
                 corridorParentT);
+
             switch (currentDirection)
             {
                 case Directions.Up:
@@ -451,6 +428,7 @@ namespace SnakeMaze.BSP
 
             corridorList.Add(new Corridor(roomOne.Center, roomTwo.Center, corridorWidth,
                 corridorGO));
+
             return true;
 
             Vector2 CoordinateOfCorridorStart()
@@ -467,7 +445,7 @@ namespace SnakeMaze.BSP
                         higher = Mathf.Max(roomOne.TopLeftCorner.y, roomTwo.TopLeftCorner.y);
 
 
-                        coordinateX = roomOne.Center.x + Mathf.Sign((int)currentDirection) * roomOne.Size.x;
+                        coordinateX = roomOne.Center.x + Mathf.Sign((int)currentDirection) * roomOne.PartitionBounds.size.x;
                         coordinateY = Random.Range(lower, higher);
                         break;
                     case Directions.Up:
@@ -477,7 +455,7 @@ namespace SnakeMaze.BSP
 
 
                         coordinateX = Random.Range(lower, higher);
-                        coordinateY = roomOne.Center.y + Mathf.Sign((int)currentDirection) * roomOne.Size.y;
+                        coordinateY = roomOne.Center.y + Mathf.Sign((int)currentDirection) * roomOne.PartitionBounds.size.y;
                         break;
                 }
 
@@ -498,8 +476,8 @@ namespace SnakeMaze.BSP
                         higher = Mathf.Max(roomOne.TopCenterPosition.y, roomTwo.TopCenterPosition.y);
 
 
-                        coordinateX = (roomOne.Center.x + Mathf.Sign((int)currentDirection) * roomOne.Size.x +
-                            roomTwo.Center.x - Mathf.Sign((int)currentDirection) * roomTwo.Size.x) / 2f;
+                        coordinateX = (roomOne.Center.x + Mathf.Sign((int)currentDirection) * roomOne.PartitionBounds.size.x +
+                            roomTwo.Center.x - Mathf.Sign((int)currentDirection) * roomTwo.PartitionBounds.size.x) / 2f;
                         coordinateY = Random.Range(lower, higher);
                         break;
                     case Directions.Up:
@@ -509,8 +487,8 @@ namespace SnakeMaze.BSP
 
 
                         coordinateX = Random.Range(lower, higher);
-                        coordinateY = (roomOne.Center.y + Mathf.Sign((int)currentDirection) * roomOne.Size.y +
-                            roomOne.Center.y - Mathf.Sign((int)currentDirection) * roomOne.Size.y) / 2f;
+                        coordinateY = (roomOne.Center.y + Mathf.Sign((int)currentDirection) * roomOne.PartitionBounds.size.y +
+                            roomOne.Center.y - Mathf.Sign((int)currentDirection) * roomOne.PartitionBounds.size.y) / 2f;
                         break;
                 }
 
