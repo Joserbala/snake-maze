@@ -4,9 +4,9 @@ namespace SnakeMaze.BSP
 {
     public class BSPData
     {
+        public Room StoredRoom { get; set; }
         public Vector2 Position { get; set; }
         public Vector2 Size { get; set; }
-
         public Vector2 LeftCenterPosition => new Vector2(Center.x - Size.x / 2f, Center.y);
         public Vector2 RightCenterPosition => new Vector2(Center.x + Size.x / 2f, Center.y);
         public Vector2 TopCenterPosition => new Vector2(Center.x, Center.y + Size.y / 2f);
