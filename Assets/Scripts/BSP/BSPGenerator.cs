@@ -105,9 +105,9 @@ namespace SnakeMaze.BSP
 
             // Data generation.
             // REVIEW: All the Generate methods might be joined to avoid different traversals of the same Binary tree (performance optimization).                                               
-            _corridorList = GenerateCorridors(_tree);
             // _corridorList = GenerateCorridorsGood(_tree);
             _roomList = GenerateRooms(_tree);
+            _corridorList = GenerateCorridorsGood(_tree);
         }
 
         private BinaryTree<BSPData> BSP(BinaryTree<BSPData> tree, int iterations)
@@ -328,7 +328,7 @@ namespace SnakeMaze.BSP
                     BinaryTreeUtils<BSPData>.GetAllChildren(tree.Left, ref leftNodeList);
                     BinaryTreeUtils<BSPData>.GetAllChildren(tree.Right, ref rightNodeList);
                     GetNearestNodes(leftNodeList, rightNodeList, out leftNode, out rightNode);
-                    GenerateCorridor(leftNode, rightNode, ref corridorList);
+                    GenerateCorridor(leftNode.StoredRoom, rightNode.StoredRoom, ref corridorList);
 
                     GenerateCorridorsGood(tree.Left);
                     GenerateCorridorsGood(tree.Right);
@@ -372,12 +372,12 @@ namespace SnakeMaze.BSP
             finalRightNode = currentRightNode;
         }
 
-        private bool GenerateCorridor(BSPData roomOne, BSPData roomTwo, ref List<Corridor> corridorList)
+        private bool GenerateCorridor(Room roomOne, Room roomTwo, ref List<Corridor> corridorList)
         {
             var roomOnePosition = roomOne.Center;
             var roomTwoPosition = roomTwo.Center;
-            var minDistanceX = roomOne.PartitionBounds.size.x / 2 + roomTwo.PartitionBounds.size.x / 2;
-            var minDistanceY = roomOne.PartitionBounds.size.y / 2 + roomTwo.PartitionBounds.size.y / 2;
+            var minDistanceX = roomOne.Size.x / 2 + roomTwo.Size.x / 2;
+            var minDistanceY = roomOne.Size.y / 2 + roomTwo.Size.y / 2;
             var relativeDistanceX = roomTwoPosition.x - roomOnePosition.x;
             var relativeDistanceY = roomTwoPosition.y - roomOnePosition.y;
 
@@ -442,20 +442,20 @@ namespace SnakeMaze.BSP
                     case Directions.Left:
                     case Directions.Right:
                         lower = Mathf.Max(roomOne.BottomLeftCorner.y, roomTwo.BottomLeftCorner.y);
-                        higher = Mathf.Max(roomOne.TopLeftCorner.y, roomTwo.TopLeftCorner.y);
+                        higher = Mathf.Min(roomOne.TopLeftCorner.y, roomTwo.TopLeftCorner.y);
 
 
-                        coordinateX = roomOne.Center.x + Mathf.Sign((int)currentDirection) * roomOne.PartitionBounds.size.x;
-                        coordinateY = Random.Range(lower, higher);
+                        coordinateX = roomOne.Center.x + Mathf.Sign((int)currentDirection) * roomOne.Size.x;
+                        coordinateY = Random.Range(lower+offset, higher-offset);
                         break;
                     case Directions.Up:
                     case Directions.Down:
                         lower = Mathf.Max(roomOne.BottomLeftCorner.x, roomTwo.BottomLeftCorner.x);
-                        higher = Mathf.Max(roomOne.BottomRightCorner.x, roomTwo.BottomRightCorner.x);
+                        higher = Mathf.Min(roomOne.BottomRightCorner.x, roomTwo.BottomRightCorner.x);
 
 
-                        coordinateX = Random.Range(lower, higher);
-                        coordinateY = roomOne.Center.y + Mathf.Sign((int)currentDirection) * roomOne.PartitionBounds.size.y;
+                        coordinateX = Random.Range(lower+offset, higher-offset);
+                        coordinateY = roomOne.Center.y + Mathf.Sign((int)currentDirection) * roomOne.Size.y;
                         break;
                 }
 
@@ -467,28 +467,30 @@ namespace SnakeMaze.BSP
                 float lower;
                 float higher;
                 float coordinateX = 0, coordinateY = 0;
+                float offset = corridorWidth + 0.5f;
+                
 
                 switch (currentDirection)
                 {
                     case Directions.Left:
                     case Directions.Right:
                         lower = Mathf.Max(roomOne.BottomCenterPosition.y, roomTwo.BottomCenterPosition.y);
-                        higher = Mathf.Max(roomOne.TopCenterPosition.y, roomTwo.TopCenterPosition.y);
+                        higher = Mathf.Min(roomOne.TopCenterPosition.y, roomTwo.TopCenterPosition.y);
 
 
-                        coordinateX = (roomOne.Center.x + Mathf.Sign((int)currentDirection) * roomOne.PartitionBounds.size.x +
-                            roomTwo.Center.x - Mathf.Sign((int)currentDirection) * roomTwo.PartitionBounds.size.x) / 2f;
-                        coordinateY = Random.Range(lower, higher);
+                        coordinateX = (roomOne.Center.x + Mathf.Sign((int)currentDirection) * roomOne.Size.x +
+                            roomTwo.Center.x - Mathf.Sign((int)currentDirection) * roomTwo.Size.x) / 2f;
+                        coordinateY = Random.Range(lower+offset, higher-offset);
                         break;
                     case Directions.Up:
                     case Directions.Down:
                         lower = Mathf.Max(roomOne.LeftCenterPosition.x, roomTwo.LeftCenterPosition.x);
-                        higher = Mathf.Max(roomOne.RightCenterPosition.x, roomTwo.RightCenterPosition.x);
+                        higher = Mathf.Min(roomOne.RightCenterPosition.x, roomTwo.RightCenterPosition.x);
 
 
-                        coordinateX = Random.Range(lower, higher);
-                        coordinateY = (roomOne.Center.y + Mathf.Sign((int)currentDirection) * roomOne.PartitionBounds.size.y +
-                            roomOne.Center.y - Mathf.Sign((int)currentDirection) * roomOne.PartitionBounds.size.y) / 2f;
+                        coordinateX = Random.Range(lower+offset, higher-offset);
+                        coordinateY = (roomOne.Center.y + Mathf.Sign((int)currentDirection) * roomOne.Size.y +
+                            roomTwo.Center.y - Mathf.Sign((int)currentDirection) * roomTwo.Size.y) / 2f;
                         break;
                 }
 

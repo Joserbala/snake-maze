@@ -40,16 +40,15 @@ namespace SnakeMaze
 
 #if UNITY_EDITOR
 #else
+
         public void ConnectMobile()
         {
-            if (_playerInput.currentControlScheme == "Mobile")
+            if (!Gyroscope.current.enabled)
                 InputSystem.EnableDevice(Gyroscope.current);
         }
-
         public void DisconnectMobile()
         {
-            if (_playerInput.currentControlScheme == "Mouse and Keyboard")
-                InputSystem.DisableDevice(Gyroscope.current);
+            InputSystem.DisableDevice(Gyroscope.current);
         }
 #endif
         public void GetHorizontalValue(InputAction.CallbackContext ctx)
