@@ -500,7 +500,7 @@ namespace SnakeMaze.BSP
         /// Generates and instantiates the different rooms of the dungeon.
         /// </summary>
         /// <remarks>
-        /// The size of the room generated will be an integer since we are working with tiles. 
+        /// The size of the rooms generated will be an integer since we are working with tiles. 
         /// </remarks>
         /// <param name="tree"></param>
         /// <returns></returns>
@@ -518,10 +518,32 @@ namespace SnakeMaze.BSP
                     var actualRoomSizeX = Mathf.FloorToInt(maxRoomSize.x * roomSizeXPerturbation);
                     var actualRoomSizeY = Mathf.FloorToInt(maxRoomSize.y * roomSizeYPerturbation);
 
-                    var roomGO = Instantiate(roomPrefab, tree.Root.Center, Quaternion.identity, roomParentT);
+                    Vector2 actualCenter;
+
+                    if (actualRoomSizeX % 2 == 0)
+                    {
+                        actualCenter.x = Mathf.FloorToInt(tree.Root.Center.x);
+                    }
+                    else
+                    {
+                        // TODO: actualCenter.x debe terminar en .5
+                        actualCenter.x = tree.Root.Center.x;
+                    }
+
+                    if (actualRoomSizeY % 2 == 0)
+                    {
+                        actualCenter.y = Mathf.FloorToInt(tree.Root.Center.y);
+                    }
+                    else
+                    {
+                        // TODO: actualCenter.y debe terminar en .5
+                        actualCenter.y = tree.Root.Center.y;
+                    }
+
+                    var roomGO = Instantiate(roomPrefab, actualCenter, Quaternion.identity, roomParentT);
                     roomGO.transform.localScale = new Vector2(actualRoomSizeX, actualRoomSizeY);
 
-                    var room = new Room(tree.Root.Center, new Vector2(actualRoomSizeX, actualRoomSizeY), roomGO);
+                    var room = new Room(actualCenter, new Vector2(actualRoomSizeX, actualRoomSizeY), roomGO);
 
                     tree.Root.StoredRoom = room;
 
