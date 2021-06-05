@@ -522,22 +522,22 @@ namespace SnakeMaze.BSP
 
                     if (actualRoomSizeX % 2 == 0)
                     {
-                        actualCenter.x = Mathf.FloorToInt(tree.Root.Center.x);
+                        actualCenter.x = Mathf.RoundToInt(tree.Root.Center.x);
                     }
                     else
                     {
-                        // TODO: actualCenter.x debe terminar en .5
-                        actualCenter.x = tree.Root.Center.x;
+                        // Since the size in x is odd, generate a center position which is unit and a half position to fit the tilemap perfectly.
+                        actualCenter.x = UnitAndHalfPosition(tree.Root.Center.x);
                     }
 
                     if (actualRoomSizeY % 2 == 0)
                     {
-                        actualCenter.y = Mathf.FloorToInt(tree.Root.Center.y);
+                        actualCenter.y = Mathf.RoundToInt(tree.Root.Center.y);
                     }
                     else
                     {
-                        // TODO: actualCenter.y debe terminar en .5
-                        actualCenter.y = tree.Root.Center.y;
+                        // Since the size in y is odd, generate a center position which is unit and a half position to fit the tilemap perfectly.
+                        actualCenter.y = UnitAndHalfPosition(tree.Root.Center.y);
                     }
 
                     var roomGO = Instantiate(roomPrefab, actualCenter, Quaternion.identity, roomParentT);
@@ -555,6 +555,12 @@ namespace SnakeMaze.BSP
             }
 
             return roomList;
+
+            static float UnitAndHalfPosition(float number)
+            {
+                var rounded = Mathf.RoundToInt(number);
+                return rounded + .5f;
+            }
         }
     }
 }
