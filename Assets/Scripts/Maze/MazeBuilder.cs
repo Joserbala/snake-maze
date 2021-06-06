@@ -17,6 +17,24 @@ namespace SnakeMaze.Maze
         private List<Vector2> _frontier;
         private int _rows, _columns;
 
+        public Vector2Int GridSize
+        {
+            get => gridSize;
+            set => gridSize = value;
+        }
+
+        public Vector2 CellSize
+        {
+            get => cellSize;
+            set => cellSize = value;
+        }
+
+        public Vector2 BottomLeft
+        {
+            get => bottomLeft;
+            set => bottomLeft = value;
+        }
+
         private void Awake()
         {
             cellPrefab.transform.localScale = new Vector3(cellSize.x, cellSize.y, 1);
