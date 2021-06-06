@@ -13,30 +13,36 @@ namespace SnakeMaze.BSP
         [Header("Parameter Configuration")]
         [Range(0.25f, 1.0f)]
         [Tooltip("Variation of size for rooms. The smaller this value the smaller rooms will be generated.")]
-        [SerializeField] private float roomSizePerturbation;
-        [Tooltip("Width of the corridors.")]
-        [SerializeField] private int corridorWidth;
-        [Tooltip("The maximum number of Rooms to be created = 2^numberIterations.")]
-        [SerializeField] private int numberIterations;
-        [Tooltip("Space for the rooms with reference to the walls / partitions.")]
-        [SerializeField] private int offset = 1;
+        [SerializeField]
+        private float roomSizePerturbation;
+
+        [Tooltip("Width of the corridors.")] [SerializeField]
+        private int corridorWidth;
+
+        [Tooltip("The maximum number of Rooms to be created = 2^numberIterations.")] [SerializeField]
+        private int numberIterations;
+
+        [Tooltip("Space for the rooms with reference to the walls / partitions.")] [SerializeField]
+        private int offset = 1;
+
         [SerializeField] private Vector2 mapSize;
         [SerializeField] private Vector2 maxRoomSize;
 
-        [Header("Flags for Visualization")]
-        [SerializeField] private bool drawCorridors;
+        [Header("Flags for Visualization")] [SerializeField]
+        private bool drawCorridors;
+
         [SerializeField] private bool drawPartitions;
         [SerializeField] private bool drawRooms;
         [SerializeField] private bool printCorridorsInConsole;
         [SerializeField] private bool printRoomsInConsole;
         [SerializeField] private bool printTreeInConsole;
 
-        [Header("Prefabs")]
-        [SerializeField] private GameObject corridorPrefab;
-        [SerializeField] private GameObject roomPrefab;
+        [Header("Prefabs")] [SerializeField] private GameObject corridorPrefab;
         [SerializeField] private Transform corridorParentT;
         [SerializeField] private Transform roomParentT;
 
+        [Header("Corridors")] [SerializeField] private SpritePainter horizontalCorridors;
+        [SerializeField] private SpritePainter verticalCorridors;
         private BSPData _rootdata;
         private MazeBuilder _mazeBuilder;
 
@@ -64,10 +70,6 @@ namespace SnakeMaze.BSP
         private void Awake()
         {
             _mazeBuilder = FindObjectOfType<MazeBuilder>();
-        }
-
-        private void Start()
-        {
             GenerateDungeon();
 
             if (printCorridorsInConsole)
@@ -77,6 +79,11 @@ namespace SnakeMaze.BSP
             if (printRoomsInConsole)
                 foreach (Room r in _roomList)
                     Debug.Log(r);
+        }
+
+        private void Start()
+        {
+            
         }
 
         /// <summary>
@@ -140,22 +147,24 @@ namespace SnakeMaze.BSP
                         if (Random.value < 0.5) // Divide horizontally.
                         {
                             cutY = SplitHorizontally(tree.Root);
-                            leftChild = new BinaryTree<BSPData>(new BSPData(new Bounds(new Vector2(positionVector.x, (float)(positionVector.y + cutY)),
-                                                                                       new Vector2(sizeVector.x, (float)(sizeVector.y - cutY)))),
-                                                                null,
-                                                                null);
+                            leftChild = new BinaryTree<BSPData>(new BSPData(new Bounds(
+                                    new Vector2(positionVector.x, (float) (positionVector.y + cutY)),
+                                    new Vector2(sizeVector.x, (float) (sizeVector.y - cutY)))),
+                                null,
+                                null);
                             rightChild = new BinaryTree<BSPData>(new BSPData(new Bounds(positionVector,
-                                                                                        new Vector2(sizeVector.x, (float)cutY))),
-                                                                 null,
-                                                                 null);
+                                    new Vector2(sizeVector.x, (float) cutY))),
+                                null,
+                                null);
                         }
                         else // Divide vertically.
                         {
                             cutX = SplitVertically(tree.Root);
                             leftChild = new BinaryTree<BSPData>(new BSPData(new Bounds(positionVector,
-                                                                                       new Vector2((float)cutX, sizeVector.y))));
-                            rightChild = new BinaryTree<BSPData>(new BSPData(new Bounds(new Vector2((float)(positionVector.x + cutX), positionVector.y),
-                                                                                        new Vector2((float)(sizeVector.x - cutX), sizeVector.y))));
+                                new Vector2((float) cutX, sizeVector.y))));
+                            rightChild = new BinaryTree<BSPData>(new BSPData(new Bounds(
+                                new Vector2((float) (positionVector.x + cutX), positionVector.y),
+                                new Vector2((float) (sizeVector.x - cutX), sizeVector.y))));
                         }
                     }
                     else
@@ -164,21 +173,23 @@ namespace SnakeMaze.BSP
                         {
                             cutX = SplitVertically(tree.Root);
                             leftChild = new BinaryTree<BSPData>(new BSPData(new Bounds(positionVector,
-                                                                                       new Vector2(cutX, sizeVector.y))));
-                            rightChild = new BinaryTree<BSPData>(new BSPData(new Bounds(new Vector2(positionVector.x + cutX, positionVector.y),
-                                                                                        new Vector2(sizeVector.x - cutX, sizeVector.y))));
+                                new Vector2(cutX, sizeVector.y))));
+                            rightChild = new BinaryTree<BSPData>(new BSPData(new Bounds(
+                                new Vector2(positionVector.x + cutX, positionVector.y),
+                                new Vector2(sizeVector.x - cutX, sizeVector.y))));
                         }
                         else // Divide horizontally.
                         {
                             cutY = SplitHorizontally(tree.Root);
-                            leftChild = new BinaryTree<BSPData>(new BSPData(new Bounds(new Vector2(positionVector.x, positionVector.y + cutY),
-                                                                                       new Vector2(sizeVector.x, sizeVector.y - cutY))),
-                                                                null,
-                                                                null);
+                            leftChild = new BinaryTree<BSPData>(new BSPData(new Bounds(
+                                    new Vector2(positionVector.x, positionVector.y + cutY),
+                                    new Vector2(sizeVector.x, sizeVector.y - cutY))),
+                                null,
+                                null);
                             rightChild = new BinaryTree<BSPData>(new BSPData(new Bounds(positionVector,
-                                                                                        new Vector2(sizeVector.x, cutY))),
-                                                                 null,
-                                                                 null);
+                                    new Vector2(sizeVector.x, cutY))),
+                                null,
+                                null);
                         }
                     }
 
@@ -360,41 +371,51 @@ namespace SnakeMaze.BSP
             var corridorCenter = CoordinateOfCorridorCenter();
             var corridorStart = CoordinateOfCorridorStart();
             var corridorEnd = Vector2.zero;
-            var corridorGO = Instantiate(corridorPrefab, corridorCenter, Quaternion.identity,
-                corridorParentT);
+            // var corridorGO = Instantiate(corridorPrefab, corridorCenter, Quaternion.identity,
+            //     corridorParentT);
+
 
             switch (currentDirection)
             {
                 case Directions.Up:
                     corridorSize = roomTwo.BottomCenterPosition.y - roomOne.TopCenterPosition.y;
-                    corridorGO.transform.localScale = new Vector3(corridorWidth,
-                        Mathf.Abs(corridorSize), 1);
-                    corridorEnd= corridorStart+Vector2.up*(Mathf.Abs(corridorSize)+1);
+                    // corridorGO.transform.localScale = new Vector3(corridorWidth,
+                    //     Mathf.Abs(corridorSize), 1);
+                    corridorEnd = corridorStart + Vector2.up * (Mathf.Abs(corridorSize) + 1);
+
+                    verticalCorridors.PaintObject(new Vector2(corridorStart.x, roomOne.TopCenterPosition.y+_mazeBuilder.CellSize.y/2f),
+                        Directions.Up, (int) Mathf.Abs(corridorSize),corridorParentT);
                     break;
                 case Directions.Down:
                     corridorSize = roomTwo.TopCenterPosition.y - roomOne.BottomCenterPosition.y;
-                    corridorGO.transform.localScale = new Vector3(corridorWidth,
-                        Mathf.Abs(corridorSize), 1);
-                    corridorEnd=corridorStart-Vector2.up*(Mathf.Abs(corridorSize)+1);
+                    // corridorGO.transform.localScale = new Vector3(corridorWidth,
+                    //     Mathf.Abs(corridorSize), 1);
+                    corridorEnd = corridorStart - Vector2.up * (Mathf.Abs(corridorSize) + 1);
+                    verticalCorridors.PaintObject(new Vector2(corridorStart.x, roomOne.BottomLeftCorner.y-_mazeBuilder.CellSize.y/2f),
+                        Directions.Down, (int) Mathf.Abs(corridorSize),corridorParentT);
                     break;
                 case Directions.Right:
                     corridorSize = roomTwo.LeftCenterPosition.x - roomOne.RightCenterPosition.x;
-                    corridorGO.transform.localScale =
-                        new Vector3(Mathf.Abs(corridorSize), corridorWidth, 1);
-                    corridorEnd=corridorStart+Vector2.right*(Mathf.Abs(corridorSize)+1);
+                    // corridorGO.transform.localScale =
+                    //     new Vector3(Mathf.Abs(corridorSize), corridorWidth, 1);
+                    corridorEnd = corridorStart + Vector2.right * (Mathf.Abs(corridorSize) + 1);
+                    horizontalCorridors.PaintObject(new Vector2( roomOne.BottomRightCorner.x+_mazeBuilder.CellSize.x/2f,corridorStart.y),
+                        Directions.Right, (int) Mathf.Abs(corridorSize),corridorParentT);
                     break;
                 case Directions.Left:
                     corridorSize = roomTwo.RightCenterPosition.x - roomOne.LeftCenterPosition.x;
-                    corridorGO.transform.localScale =
-                        new Vector3(Mathf.Abs(corridorSize), corridorWidth, 1);
-                    corridorEnd=corridorStart-Vector2.right*(Mathf.Abs(corridorSize)+1);
+                    // corridorGO.transform.localScale =
+                    //     new Vector3(Mathf.Abs(corridorSize), corridorWidth, 1);
+                    corridorEnd = corridorStart - Vector2.right * (Mathf.Abs(corridorSize) + 1);
+                    horizontalCorridors.PaintObject(new Vector2( roomOne.BottomLeftCorner.x-_mazeBuilder.CellSize.x/2f,corridorStart.y),
+                        Directions.Left, (int) Mathf.Abs(corridorSize),corridorParentT);
                     break;
             }
 
             Destroy(roomOne.Grid.GetWallAtPosition(roomOne.BottomLeftCorner, corridorStart, currentDirection));
-            Destroy(roomTwo.Grid.GetWallAtPosition(roomTwo.BottomLeftCorner, corridorEnd, (Directions)((int)currentDirection*-1)));
-            corridorList.Add(new Corridor(roomOne.Center, roomTwo.Center, corridorWidth,
-                corridorGO));
+            Destroy(roomTwo.Grid.GetWallAtPosition(roomTwo.BottomLeftCorner, corridorEnd,
+                (Directions) ((int) currentDirection * -1)));
+            corridorList.Add(new Corridor(roomOne.Center, roomTwo.Center, corridorWidth));
 
             return true;
 
@@ -413,8 +434,9 @@ namespace SnakeMaze.BSP
                         higher = Mathf.Min(roomOne.TopLeftCorner.y, roomTwo.TopLeftCorner.y);
 
 
-                        coordinateX = roomOne.Center.x + Mathf.Sign((int)currentDirection) * roomOne.Size.x/2f-Mathf.Sign((int)currentDirection) *0.5f;
-                        coordinateY = (int)Random.Range(lower+offset, higher-offset)+0.5f;
+                        coordinateX = roomOne.Center.x + Mathf.Sign((int) currentDirection) * roomOne.Size.x / 2f -
+                                      Mathf.Sign((int) currentDirection) * 0.5f;
+                        coordinateY = (int) Random.Range(lower + offset, higher - offset) + 0.5f;
                         break;
                     case Directions.Up:
                     case Directions.Down:
@@ -422,8 +444,9 @@ namespace SnakeMaze.BSP
                         higher = Mathf.Min(roomOne.BottomRightCorner.x, roomTwo.BottomRightCorner.x);
 
 
-                        coordinateX = (int)Random.Range(lower+offset, higher-offset)+0.5f;
-                        coordinateY = roomOne.Center.y + Mathf.Sign((int)currentDirection) * roomOne.Size.y/2f- Mathf.Sign((int)currentDirection) *0.5f;
+                        coordinateX = (int) Random.Range(lower + offset, higher - offset) + 0.5f;
+                        coordinateY = roomOne.Center.y + Mathf.Sign((int) currentDirection) * roomOne.Size.y / 2f -
+                                      Mathf.Sign((int) currentDirection) * 0.5f;
                         break;
                 }
 
@@ -436,7 +459,7 @@ namespace SnakeMaze.BSP
                 float higher;
                 float coordinateX = 0, coordinateY = 0;
                 float offset = corridorWidth + 1.5f;
-                
+
 
                 switch (currentDirection)
                 {
@@ -446,9 +469,9 @@ namespace SnakeMaze.BSP
                         higher = Mathf.Min(roomOne.TopCenterPosition.y, roomTwo.TopCenterPosition.y);
 
 
-                        coordinateX = (roomOne.Center.x + Mathf.Sign((int)currentDirection) * roomOne.Size.x/2f +
-                            roomTwo.Center.x - Mathf.Sign((int)currentDirection) * roomTwo.Size.x/2f) / 2f;
-                        coordinateY = (int)Random.Range(lower+offset, higher-offset)+0.5f;
+                        coordinateX = (roomOne.Center.x + Mathf.Sign((int) currentDirection) * roomOne.Size.x / 2f +
+                            roomTwo.Center.x - Mathf.Sign((int) currentDirection) * roomTwo.Size.x / 2f) / 2f;
+                        coordinateY = (int) Random.Range(lower + offset, higher - offset) + 0.5f;
                         break;
                     case Directions.Up:
                     case Directions.Down:
@@ -456,9 +479,9 @@ namespace SnakeMaze.BSP
                         higher = Mathf.Min(roomOne.RightCenterPosition.x, roomTwo.RightCenterPosition.x);
 
 
-                        coordinateX = (int)Random.Range(lower+offset, higher-offset)+0.5f;
-                        coordinateY = (roomOne.Center.y + Mathf.Sign((int)currentDirection) * roomOne.Size.y/2f +
-                            roomTwo.Center.y - Mathf.Sign((int)currentDirection) * roomTwo.Size.y/2f) / 2f;
+                        coordinateX = (int) Random.Range(lower + offset, higher - offset) + 0.5f;
+                        coordinateY = (roomOne.Center.y + Mathf.Sign((int) currentDirection) * roomOne.Size.y / 2f +
+                            roomTwo.Center.y - Mathf.Sign((int) currentDirection) * roomTwo.Size.y / 2f) / 2f;
                         break;
                 }
 
@@ -509,6 +532,7 @@ namespace SnakeMaze.BSP
                         // Since the size in y is odd, generate a center position which is unit and a half position to fit the tilemap perfectly.
                         actualCenter.y = UnitAndHalfPosition(tree.Root.Center.y);
                     }
+
                     var room = new Room(actualCenter, new Vector2Int(actualRoomSizeX, actualRoomSizeY));
 
                     tree.Root.StoredRoom = room;
@@ -528,6 +552,5 @@ namespace SnakeMaze.BSP
                 return rounded + .5f;
             }
         }
-        
     }
 }

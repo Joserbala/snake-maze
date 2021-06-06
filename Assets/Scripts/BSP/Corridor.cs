@@ -18,6 +18,12 @@ namespace SnakeMaze.BSP
             _internalWitdh = width;
             CorridorGO = corridorGO;
         }
+        public Corridor(Vector2 start, Vector2 end, float width)
+        {
+            _startPoint = start;
+            _endPoint = end;
+            _internalWitdh = width;
+        }
 
         public Vector2 Center
         {
