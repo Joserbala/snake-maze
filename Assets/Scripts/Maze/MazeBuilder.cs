@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using SnakeMaze.BSP;
 using Unity.Mathematics;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -9,18 +10,18 @@ namespace SnakeMaze.Maze
     public class MazeBuilder : MonoBehaviour
     {
         [SerializeField] private GameObject cellPrefab;
-        [SerializeField] private Vector2Int gridSize;
-        [SerializeField] private Vector2 cellSize = new Vector2(0.5f, 0.5f);
-        [SerializeField] private Vector2 bottomLeft = new Vector2(0, 0);
+        [SerializeField] private Vector2 cellSize = new Vector2(1f, 1f);
+        private Vector2Int _currentGidSize;
+        private Vector2 _currentBottomLeft = new Vector2(0, 0);
 
-        private MazeGrid _grid;
-        private List<Vector2> _frontier;
+        private MazeGrid _currentGrid;
+        private List<Vector2> _currentFrontier;
         private int _rows, _columns;
 
         public Vector2Int GridSize
         {
-            get => gridSize;
-            set => gridSize = value;
+            get => _currentGidSize;
+            set => _currentGidSize = value;
         }
 
         public Vector2 CellSize
@@ -31,8 +32,8 @@ namespace SnakeMaze.Maze
 
         public Vector2 BottomLeft
         {
-            get => bottomLeft;
-            set => bottomLeft = value;
+            get => _currentBottomLeft;
+            set => _currentBottomLeft = value;
         }
 
         private void Awake()
@@ -40,55 +41,72 @@ namespace SnakeMaze.Maze
             cellPrefab.transform.localScale = new Vector3(cellSize.x, cellSize.y, 1);
         }
 
-        private void Start()
+        public void GenerateMazes(List<Room> rooms)
+        {
+            foreach (var room in rooms)
+            {
+                InitMazeValues(room);
+                room.Grid=new MazeGrid(_currentGidSize, cellSize);
+                _currentGrid = room.Grid;
+                CreateMaze();
+            }
+        }
+
+        private void InitMazeValues(Room room)
+        {
+            _currentBottomLeft = room.BottomLeftCorner;
+            _currentGidSize = room.Size;
+            cellSize = Vector2.one;
+        }
+
+
+        private void CreateMaze()
         {
             CreateTheGrid();
-            // RunPrimm();
-            StartCoroutine(Primm());
+            RunPrimm();
+            // StartCoroutine(Primm());
         }
 
         private void CreateTheGrid()
         {
-            _grid = new MazeGrid(gridSize, cellSize);
-
-            for (int i = 0; i < _grid.Rows; i++)
-            for (int j = 0; j < _grid.Columns; j++)
+            for (int i = 0; i < _currentGrid.Rows; i++)
+            for (int j = 0; j < _currentGrid.Columns; j++)
             {
-                Vector3 cellPosition = bottomLeft
+                Vector3 cellPosition = _currentBottomLeft
                                        + Vector2.right * (i * cellSize.x + cellSize.x / 2)
                                        + Vector2.up * (j * cellSize.y + cellSize.y / 2);
                 var currentCell = Instantiate(cellPrefab, cellPosition, Quaternion.identity, transform);
                 currentCell.name = "Cell" + i + "," + j;
-                _grid.Grid[i, j] = new MazeCell(currentCell, cellPosition, i, j);
+                _currentGrid.Grid[i, j] = new MazeCell(currentCell, cellPosition, i, j);
             }
         }
 
         IEnumerator Primm()
         {
-            _frontier = new List<Vector2>();
-            SetCellInMaze(Random.Range(0, _grid.Rows), Random.Range(0, _grid.Columns));
+            _currentFrontier = new List<Vector2>();
+            SetCellInMaze(Random.Range(0, _currentGrid.Rows), Random.Range(0, _currentGrid.Columns));
             GameObject wall;
             var neighbors = new List<Vector2>();
             var cellPos = new Vector2();
             var neighborSelected = new Vector2();
             var removePosition = 0;
             var direction = Directions.Right;
-            while (_frontier.Count != 0)
+            while (_currentFrontier.Count != 0)
             {
-                removePosition = Random.Range(0, _frontier.Count);
-                cellPos = _frontier[removePosition];
-                _frontier.RemoveAt(removePosition);
+                removePosition = Random.Range(0, _currentFrontier.Count);
+                cellPos = _currentFrontier[removePosition];
+                _currentFrontier.RemoveAt(removePosition);
 
                 neighbors = GetNeighbors((int) cellPos.x, (int) cellPos.y);
                 neighborSelected = neighbors[Random.Range(0, neighbors.Count)];
 
                 direction = GetDirection((int) cellPos.x, (int) cellPos.y, (int) neighborSelected.x,
                     (int) neighborSelected.y);
-                wall=_grid.Grid[(int) cellPos.x, (int) cellPos.y].GetWall(direction);
+                wall=_currentGrid.Grid[(int) cellPos.x, (int) cellPos.y].GetWall(direction);
                 wall.SetActive(false);
                 
                 direction = (Directions)((int)direction * -1);
-                wall = _grid.Grid[(int) neighborSelected.x,
+                wall = _currentGrid.Grid[(int) neighborSelected.x,
                     (int) neighborSelected.y].GetWall(direction);
                 wall.SetActive(false);
                 SetCellInMaze((int) cellPos.x, (int) cellPos.y);
@@ -97,27 +115,27 @@ namespace SnakeMaze.Maze
         }
         private void RunPrimm()
         {
-            _frontier = new List<Vector2>();
-            SetCellInMaze(Random.Range(0, _grid.Rows), Random.Range(0, _grid.Columns));
+            _currentFrontier = new List<Vector2>();
+            SetCellInMaze(Random.Range(0, _currentGrid.Rows), Random.Range(0, _currentGrid.Columns));
             var neighbors = new List<Vector2>();
             var cellPos = new Vector2();
             var neighborSelected = new Vector2();
             var removePosition = 0;
             var direction = Directions.Right;
-            while (_frontier.Count != 0)
+            while (_currentFrontier.Count != 0)
             {
-                removePosition = Random.Range(0, _frontier.Count);
-                cellPos = _frontier[removePosition];
-                _frontier.RemoveAt(removePosition);
+                removePosition = Random.Range(0, _currentFrontier.Count);
+                cellPos = _currentFrontier[removePosition];
+                _currentFrontier.RemoveAt(removePosition);
 
                 neighbors = GetNeighbors((int) cellPos.x, (int) cellPos.y);
                 neighborSelected = neighbors[Random.Range(0, neighbors.Count)];
 
                 direction = GetDirection((int) cellPos.x, (int) cellPos.y, (int) neighborSelected.x,
                     (int) neighborSelected.y);
-                _grid.Grid[(int) cellPos.x, (int) cellPos.y].GetWall(direction).SetActive(false);
+                _currentGrid.Grid[(int) cellPos.x, (int) cellPos.y].GetWall(direction).SetActive(false);
                 direction = (Directions)((int)direction * -1);
-                _grid.Grid[(int) neighborSelected.x,
+                _currentGrid.Grid[(int) neighborSelected.x,
                     (int) neighborSelected.y].GetWall(direction).SetActive(false);
                 SetCellInMaze((int) cellPos.x, (int) cellPos.y);
             }
@@ -132,33 +150,33 @@ namespace SnakeMaze.Maze
                 neighbors.Add(new Vector2(x, y));
             }
 
-            if (i > 0 && _grid.Grid[i - 1, j].InMaze)
+            if (i > 0 && _currentGrid.Grid[i - 1, j].InMaze)
                 AddNeighbor(i - 1, j);
 
-            if (i + 1 < _grid.Rows && _grid.Grid[i + 1, j].InMaze)
+            if (i + 1 < _currentGrid.Rows && _currentGrid.Grid[i + 1, j].InMaze)
                 AddNeighbor(i + 1, j);
 
-            if (j > 0 && _grid.Grid[i, j - 1].InMaze)
+            if (j > 0 && _currentGrid.Grid[i, j - 1].InMaze)
                 AddNeighbor(i, j - 1);
 
-            if (j + 1 < _grid.Columns && _grid.Grid[i, j + 1].InMaze)
+            if (j + 1 < _currentGrid.Columns && _currentGrid.Grid[i, j + 1].InMaze)
                 AddNeighbor(i, j + 1);
             return neighbors;
         }
 
         private void AddFrontier(int i, int j)
         {
-            if (i < 0 || j < 0 || i >= _grid.Rows || j >= _grid.Columns) return;
-            if (_grid.Grid[i, j].IsFrontier || _grid.Grid[i, j].InMaze) return;
+            if (i < 0 || j < 0 || i >= _currentGrid.Rows || j >= _currentGrid.Columns) return;
+            if (_currentGrid.Grid[i, j].IsFrontier || _currentGrid.Grid[i, j].InMaze) return;
 
-            _frontier.Add(new Vector2(i, j));
-            _grid.Grid[i, j].IsFrontier = true;
+            _currentFrontier.Add(new Vector2(i, j));
+            _currentGrid.Grid[i, j].IsFrontier = true;
         }
 
         private void SetCellInMaze(int i, int j)
         {
-            _grid.Grid[i, j].InMaze = true;
-            _grid.Grid[i, j].IsFrontier = false;
+            _currentGrid.Grid[i, j].InMaze = true;
+            _currentGrid.Grid[i, j].IsFrontier = false;
 
             AddFrontier(i - 1, j);
             AddFrontier(i + 1, j);

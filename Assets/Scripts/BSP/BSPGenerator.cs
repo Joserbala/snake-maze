@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using SnakeMaze.Maze;
 using SnakeMaze.Structures;
 using SnakeMaze.Utils;
@@ -37,6 +38,7 @@ namespace SnakeMaze.BSP
         [SerializeField] private Transform roomParentT;
 
         private BSPData _rootdata;
+        private MazeBuilder _mazeBuilder;
 
         /// <summary>
         /// Structure that will store the whole information about the partitions.
@@ -57,6 +59,11 @@ namespace SnakeMaze.BSP
         public List<Room> RoomList
         {
             get => _roomList;
+        }
+
+        private void Awake()
+        {
+            _mazeBuilder = FindObjectOfType<MazeBuilder>();
         }
 
         private void Start()
@@ -108,6 +115,7 @@ namespace SnakeMaze.BSP
             // REVIEW: All the Generate methods might be joined to avoid different traversals of the same Binary tree (performance optimization).                                               
             // _corridorList = GenerateCorridorsGood(_tree);
             _roomList = GenerateRooms(_tree);
+            _mazeBuilder.GenerateMazes(_roomList);
             GenerateCorridorsGood(_tree, ref _corridorList);
         }
 
@@ -327,6 +335,7 @@ namespace SnakeMaze.BSP
             var minDistanceY = roomOne.Size.y / 2 + roomTwo.Size.y / 2;
             var relativeDistanceX = roomTwoPosition.x - roomOnePosition.x;
             var relativeDistanceY = roomTwoPosition.y - roomOnePosition.y;
+            var corridorSize = 0f;
 
 
             Directions currentDirection;
@@ -349,30 +358,41 @@ namespace SnakeMaze.BSP
             }
 
             var corridorCenter = CoordinateOfCorridorCenter();
+            var corridorStart = CoordinateOfCorridorStart();
+            var corridorEnd = Vector2.zero;
             var corridorGO = Instantiate(corridorPrefab, corridorCenter, Quaternion.identity,
                 corridorParentT);
 
             switch (currentDirection)
             {
                 case Directions.Up:
+                    corridorSize = roomTwo.BottomCenterPosition.y - roomOne.TopCenterPosition.y;
                     corridorGO.transform.localScale = new Vector3(corridorWidth,
-                        Mathf.Abs(roomTwo.BottomCenterPosition.y - roomOne.TopCenterPosition.y), 1);
+                        Mathf.Abs(corridorSize), 1);
+                    corridorEnd= corridorStart+Vector2.up*(Mathf.Abs(corridorSize)+1);
                     break;
                 case Directions.Down:
-
+                    corridorSize = roomTwo.TopCenterPosition.y - roomOne.BottomCenterPosition.y;
                     corridorGO.transform.localScale = new Vector3(corridorWidth,
-                        Mathf.Abs(roomTwo.TopCenterPosition.y - roomOne.BottomCenterPosition.y), 1);
+                        Mathf.Abs(corridorSize), 1);
+                    corridorEnd=corridorStart-Vector2.up*(Mathf.Abs(corridorSize)+1);
                     break;
                 case Directions.Right:
+                    corridorSize = roomTwo.LeftCenterPosition.x - roomOne.RightCenterPosition.x;
                     corridorGO.transform.localScale =
-                        new Vector3(Mathf.Abs(roomTwo.LeftCenterPosition.x - roomOne.RightCenterPosition.x), corridorWidth, 1);
+                        new Vector3(Mathf.Abs(corridorSize), corridorWidth, 1);
+                    corridorEnd=corridorStart+Vector2.right*(Mathf.Abs(corridorSize)+1);
                     break;
                 case Directions.Left:
+                    corridorSize = roomTwo.RightCenterPosition.x - roomOne.LeftCenterPosition.x;
                     corridorGO.transform.localScale =
-                        new Vector3(Mathf.Abs(roomTwo.RightCenterPosition.x - roomOne.LeftCenterPosition.x), corridorWidth, 1);
+                        new Vector3(Mathf.Abs(corridorSize), corridorWidth, 1);
+                    corridorEnd=corridorStart-Vector2.right*(Mathf.Abs(corridorSize)+1);
                     break;
             }
 
+            Destroy(roomOne.Grid.GetWallAtPosition(roomOne.BottomLeftCorner, corridorStart, currentDirection));
+            Destroy(roomTwo.Grid.GetWallAtPosition(roomTwo.BottomLeftCorner, corridorEnd, (Directions)((int)currentDirection*-1)));
             corridorList.Add(new Corridor(roomOne.Center, roomTwo.Center, corridorWidth,
                 corridorGO));
 
@@ -383,6 +403,7 @@ namespace SnakeMaze.BSP
                 float lower;
                 float higher;
                 float coordinateX = 0, coordinateY = 0;
+                float offset = corridorWidth + 1.5f;
 
                 switch (currentDirection)
                 {
@@ -392,7 +413,7 @@ namespace SnakeMaze.BSP
                         higher = Mathf.Min(roomOne.TopLeftCorner.y, roomTwo.TopLeftCorner.y);
 
 
-                        coordinateX = roomOne.Center.x + Mathf.Sign((int)currentDirection) * roomOne.Size.x;
+                        coordinateX = roomOne.Center.x + Mathf.Sign((int)currentDirection) * roomOne.Size.x/2f-Mathf.Sign((int)currentDirection) *0.5f;
                         coordinateY = (int)Random.Range(lower+offset, higher-offset)+0.5f;
                         break;
                     case Directions.Up:
@@ -402,7 +423,7 @@ namespace SnakeMaze.BSP
 
 
                         coordinateX = (int)Random.Range(lower+offset, higher-offset)+0.5f;
-                        coordinateY = roomOne.Center.y + Mathf.Sign((int)currentDirection) * roomOne.Size.y;
+                        coordinateY = roomOne.Center.y + Mathf.Sign((int)currentDirection) * roomOne.Size.y/2f- Mathf.Sign((int)currentDirection) *0.5f;
                         break;
                 }
 
@@ -488,11 +509,7 @@ namespace SnakeMaze.BSP
                         // Since the size in y is odd, generate a center position which is unit and a half position to fit the tilemap perfectly.
                         actualCenter.y = UnitAndHalfPosition(tree.Root.Center.y);
                     }
-
-                    var roomGO = Instantiate(roomPrefab, actualCenter, Quaternion.identity, roomParentT);
-                    roomGO.transform.localScale = new Vector2(actualRoomSizeX, actualRoomSizeY);
-
-                    var room = new Room(actualCenter, new Vector2(actualRoomSizeX, actualRoomSizeY), roomGO);
+                    var room = new Room(actualCenter, new Vector2Int(actualRoomSizeX, actualRoomSizeY));
 
                     tree.Root.StoredRoom = room;
 
@@ -511,14 +528,6 @@ namespace SnakeMaze.BSP
                 return rounded + .5f;
             }
         }
-
-        // private Room InstantiateRoom(GameObject roomPrefab,Vector3 actualCenter,Vector3 actualSize,Quaternion rotation, Transform roomParentT)
-        // {
-        //     var room=Instantiate(roomPrefab, actualCenter, rotation, roomParentT);
-        //     var maze=room.AddComponent<MazeBuilder>();
-        //     // maze.BottomLeft=
-        //     
-        //
-        // }
+        
     }
 }

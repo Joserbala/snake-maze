@@ -109,7 +109,7 @@ namespace SnakeMaze.Utils
 
                 foreach (Room r in roomList)
                 {
-                    Gizmos.DrawWireCube(r.Center, r.Size);
+                    Gizmos.DrawWireCube(r.Center, new Vector3(r.Size.x,r.Size.y,0));
                 }
             }
         }
