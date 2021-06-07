@@ -365,7 +365,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d21121831f791504a88f4a2439c181fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roomSizePerturbation: 0.8
+  roomSizePerturbation: 0.33
   corridorWidth: 1
   numberIterations: 6
   offset: 1
