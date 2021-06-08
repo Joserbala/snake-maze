@@ -11,11 +11,13 @@ namespace SnakeMaze
     {
         private BSPGenerator _bspGenerator;
         private Transform _player;
+        private const int PixelsPerTile = 32;
+        
 
         private void Awake()
         {
             _bspGenerator = FindObjectOfType<BSPGenerator>();
-            _player = FindObjectOfType<Inputs>().gameObject.transform;
+            _player = FindObjectOfType<PlayerController>().gameObject.transform;
         }
 
         private void Start()
@@ -25,7 +27,8 @@ namespace SnakeMaze
 
         private void SpawnPlayer()
         {
-            var pos = _bspGenerator.RoomList[Random.Range(0, _bspGenerator.RoomList.Count)].Center;
+            var room = _bspGenerator.RoomList[Random.Range(0, _bspGenerator.RoomList.Count)];
+            var pos = room.Grid.GetCellAtPosition(room.BottomLeftCorner,room.Center).Position;
             _player.position = pos;
         }
     }
