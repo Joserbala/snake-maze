@@ -38,14 +38,6 @@
                     "interactions": ""
                 },
                 {
-                    "name": "Movement",
-                    "type": "Value",
-                    "id": "a8ae4786-cdee-4ad1-b283-2d2226b9c213",
-                    "expectedControlType": "Vector2",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
                     "name": "Boost",
                     "type": "PassThrough",
                     "id": "bc09ef68-8d34-489d-9bac-e89f2bde9324",
@@ -129,61 +121,6 @@
                     "processors": "",
                     "groups": "Mouse and Keyboard",
                     "action": "Vertical",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "WASD",
-                    "id": "d5ae65ae-9cca-4862-ad1f-4ea85764a5b8",
-                    "path": "2DVector",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Movement",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "up",
-                    "id": "03b0e5fb-1ed1-455f-ac76-f4fbe3f6f05d",
-                    "path": "<Keyboard>/w",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Mouse and Keyboard",
-                    "action": "Movement",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "down",
-                    "id": "35339d0d-5786-4149-b363-468c84f8f588",
-                    "path": "<Keyboard>/s",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Mouse and Keyboard",
-                    "action": "Movement",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "left",
-                    "id": "b96ae6af-6708-4071-96b0-683154f965b3",
-                    "path": "<Keyboard>/a",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Mouse and Keyboard",
-                    "action": "Movement",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "right",
-                    "id": "da682ca6-f048-4d25-9cdc-d0b80aa9b272",
-                    "path": "<Keyboard>/d",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Mouse and Keyboard",
-                    "action": "Movement",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },

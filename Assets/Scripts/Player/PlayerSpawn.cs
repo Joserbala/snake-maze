@@ -1,11 +1,8 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using SnakeMaze.BSP;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace SnakeMaze
+namespace SnakeMaze.Player
 {
     public class PlayerSpawn : MonoBehaviour
     {

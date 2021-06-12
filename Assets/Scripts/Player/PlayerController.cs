@@ -1,116 +1,39 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
+using SnakeMaze.Enums;
+using SnakeMaze.SO;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using Gyroscope = UnityEngine.InputSystem.Gyroscope;
 
-namespace SnakeMaze
+namespace SnakeMaze.Player
 {
-    public class PlayerController : MonoBehaviour
+    [RequireComponent(typeof(SpriteRenderer))]
+    public class PlayerController : PlayerPhysics
     {
-        [SerializeField] private PlayerInput _playerInput;
-        [SerializeField] private float normalSpeed = 1;
-        [SerializeField] private float boostSpeed = 2;
-        [SerializeField] private float coroutineSeconds = 0.02f;
-        [SerializeField] private LayerMask wallLayer;
+        [SerializeField] private PlayerVariableSO playerVariable;
+        [SerializeField] private SnakeSkinSO currentSkin;
 
-        private const int PixelsPerTile = 32;
-        private const int PlayerPixel = 4;
-        private float _horizontal;
-        private float _vertical;
-        private float _currentSpeed;
-        private Vector2 _direction;
-        private Vector2 _currentDirection;
-        private bool _isMoving;
-        private bool _isAlive;
+        private BodyController _bodyController;
+        private SpriteRenderer _spriteRenderer;
+        private Directions _currentDirection;
 
         private void Awake()
         {
-#if UNITY_EDITOR
-#else
-            Debug.Log("Awake");
-            InputSystem.EnableDevice(Gyroscope.current);
-            InputSystem.EnableDevice(Accelerometer.current);
-            InputSystem.EnableDevice(GravitySensor.current);
-            InputSystem.EnableDevice(LinearAccelerationSensor.current);
-#endif
+            _spriteRenderer = GetComponent<SpriteRenderer>();
+            _bodyController = FindObjectOfType<BodyController>();
         }
 
         private void Start()
         {
-            _currentSpeed = normalSpeed;
-            _currentDirection = Vector2.right;
-            _isAlive = true; 
+            _currentDirection = Directions.Right;
+            playerVariable.CurrentSpeed = playerVariable.NormalSpeed;
+            playerVariable.LastDirection = Directions.Right;
+            playerVariable.IsAlive = true;
+            playerVariable.IsMoving = false;
         }
 
-
-#if UNITY_EDITOR
-#else
-
-        public void ConnectMobile()
+        private void StartMoving(bool move)
         {
-            if (!Gyroscope.current.enabled)
-                InputSystem.EnableDevice(Gyroscope.current);
-        }
-        public void DisconnectMobile()
-        {
-            InputSystem.DisableDevice(Gyroscope.current);
-        }
-#endif
-        public void GetHorizontalValue(InputAction.CallbackContext ctx)
-        {
-            _horizontal = ctx.ReadValue<float>();
-                StartMoving();
-            // Debug.Log("Axis Vertical " + _horizontal);
-        }
-
-        public void GetVerticalValue(InputAction.CallbackContext ctx)
-        {
-            _vertical = ctx.ReadValue<float>();
-                StartMoving();
-            // Debug.Log("Axis Horizontal " + _vertical);
-        }
-        // public void GetHorizontalValueAcc(InputAction.CallbackContext ctx)
-        // {
-        //     _horizontal = ctx.ReadValue<float>();
-        //     StartMoving();
-        //     // Debug.Log("Axis Vertical " + _horizontal);
-        // }
-        //
-        // public void GetVerticalValueAcc(InputAction.CallbackContext ctx)
-        // {
-        //     _vertical = ctx.ReadValue<float>();
-        //     StartMoving();
-        //     // Debug.Log("Axis Horizontal " + _vertical);
-        // }
-
-        public void OnMovement(InputAction.CallbackContext value)
-        {
-            _direction = value.ReadValue<Vector2>();
-            StartMoving();
-            // Debug.Log("Getting Movement");
-        }
-
-        public void Boost(InputAction.CallbackContext ctx)
-        {
-            if (ctx.started)
-            {
-                _currentSpeed = boostSpeed;
-            }
-
-            if (ctx.canceled)
-            {
-                _currentSpeed = normalSpeed;
-                StartMoving();
-            }
-            // Debug.Log("Boost Velocity");
-        }
-
-        private void StartMoving()
-        {
-            if (_isMoving) return;
-            _isMoving = true;
+            if (!move) return;
             StartCoroutine(Move());
         }
 
@@ -118,48 +41,85 @@ namespace SnakeMaze
         {
             while (true)
             {
-                if (_horizontal != 0 || _vertical != 0)
+                if (playerVariable.Horizontal != 0 || playerVariable.Vertical != 0)
                 {
-                    var direction = Mathf.Abs(_horizontal) >= Mathf.Abs(_vertical)
-                        ? Vector2.right * _horizontal
-                        : Vector2.up * _vertical;
-                    _currentDirection = direction;
+                    var direction = Mathf.Abs(playerVariable.Horizontal) >= Mathf.Abs(playerVariable.Vertical)
+                        ? (Directions)((int)Directions.Right * playerVariable.Horizontal)
+                        : (Directions)((int)Directions.Up * playerVariable.Vertical);
+                    playerVariable.LastDirection = _currentDirection;
+                    if (direction != _currentDirection)
+                    {
+                        
+                        _currentDirection = direction;
+                        SetHeadSprite(direction);
+                    }
                 }
-                if(CheckWall(_currentDirection))
+
+                if (CheckCollision(DirectionsActions.DirectionsToVector2(_currentDirection)))
                 {
                     Die();
                     yield break;
                 }
 
-                var time = coroutineSeconds / _currentSpeed;
-                transform.Translate(PlayerPixel*1f / PixelsPerTile * _currentDirection.normalized, Space.World);
+                Move(_currentDirection);
+                _bodyController.MoveSnakeBody();
+                var time = playerVariable.CoroutineSeconds / playerVariable.CurrentSpeed;
                 yield return new WaitForSeconds(time);
             }
         }
 
-        private bool CheckWall(Vector2 direction)
+        private void SetHeadSprite(Directions direction)
         {
-            bool wall = false;
-            var hit = Physics2D.Raycast(transform.position, direction,
-                (PlayerPixel/2f/PixelsPerTile*1.5f), wallLayer);
-            if (hit)
+            Sprite currentSprite = null;
+            switch (direction)
             {
-                wall = hit.collider.CompareTag("Wall");
-                Debug.Log("Hitted");
+                case Directions.Up:
+                    currentSprite = currentSkin.SnakeSkin.Head.Vertical;
+                    _spriteRenderer.flipY = false;
+                    _spriteRenderer.flipX = false;
+                    break;
+                case Directions.Down:
+                    currentSprite = currentSkin.SnakeSkin.Head.Vertical;
+                    _spriteRenderer.flipY = true;
+                    _spriteRenderer.flipX = false;
+                    break;
+                case Directions.Right:
+                    currentSprite = currentSkin.SnakeSkin.Head.Horizontal;
+                    _spriteRenderer.flipY = false;
+                    _spriteRenderer.flipX = false;
+                    break;
+                case Directions.Left:
+                    currentSprite = currentSkin.SnakeSkin.Head.Horizontal;
+                    _spriteRenderer.flipY = false;
+                    _spriteRenderer.flipX = true;
+                    break;
             }
-            return wall;
+
+            _spriteRenderer.sprite = currentSprite;
+            
         }
 
         private void OnDrawGizmos()
         {
-            Gizmos.color=Color.green;
-            Gizmos.DrawLine(transform.position,transform.position + (Vector3)_currentDirection*(PlayerPixel/2f/PixelsPerTile*1.5f));
+            Gizmos.color = Color.green;
+            Gizmos.DrawLine(transform.position,
+                transform.position + (Vector3) DirectionsActions.DirectionsToVector2(_currentDirection)  *
+                (playerVariable.PlayerPixels / 2f / playerVariable.PixelsPerTile * 1.5f));
         }
 
         private void Die()
         {
-            _isAlive = false;
-            Debug.Log("Die");
+            playerVariable.IsAlive = false;
+        }
+
+        private void OnEnable()
+        {
+            playerVariable.startMoving += StartMoving;
+        }
+
+        private void OnDisable()
+        {
+            playerVariable.startMoving -= StartMoving;
         }
     }
 }

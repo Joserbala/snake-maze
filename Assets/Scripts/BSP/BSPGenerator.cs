@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using SnakeMaze.Enums;
 using SnakeMaze.Maze;
 using SnakeMaze.Structures;
 using SnakeMaze.Utils;
@@ -414,7 +415,7 @@ namespace SnakeMaze.BSP
 
             Destroy(roomOne.Grid.GetWallAtPosition(roomOne.BottomLeftCorner, corridorStart, currentDirection));
             Destroy(roomTwo.Grid.GetWallAtPosition(roomTwo.BottomLeftCorner, corridorEnd,
-                (Directions) ((int) currentDirection * -1)));
+                DirectionsActions.GetOppositeDirection(currentDirection)));
             corridorList.Add(new Corridor(roomOne.Center, roomTwo.Center, corridorWidth));
 
             return true;

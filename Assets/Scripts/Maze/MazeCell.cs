@@ -1,15 +1,10 @@
 using System.Collections.Generic;
+using SnakeMaze.Enums;
 using UnityEngine;
 
 namespace SnakeMaze.Maze
 {
-    public enum Directions
-    {
-        Up = 1,
-        Down = -1,
-        Right = 2,
-        Left = -2
-    }
+    
 
     public class MazeCell
     {

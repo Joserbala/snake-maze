@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using SnakeMaze.BSP;
+using SnakeMaze.Enums;
 using Unity.Mathematics;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -105,7 +106,7 @@ namespace SnakeMaze.Maze
                 wall=_currentGrid.Grid[(int) cellPos.x, (int) cellPos.y].GetWall(direction);
                 wall.SetActive(false);
                 
-                direction = (Directions)((int)direction * -1);
+                direction = DirectionsActions.GetOppositeDirection(direction);
                 wall = _currentGrid.Grid[(int) neighborSelected.x,
                     (int) neighborSelected.y].GetWall(direction);
                 wall.SetActive(false);

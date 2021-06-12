@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using SnakeMaze.Enums;
 using SnakeMaze.Maze;
 using UnityEngine;
 

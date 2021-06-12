@@ -51,14 +51,6 @@ public class @PlayerInputAsset : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""Movement"",
-                    ""type"": ""Value"",
-                    ""id"": ""a8ae4786-cdee-4ad1-b283-2d2226b9c213"",
-                    ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
-                    ""interactions"": """"
-                },
-                {
                     ""name"": ""Boost"",
                     ""type"": ""PassThrough"",
                     ""id"": ""bc09ef68-8d34-489d-9bac-e89f2bde9324"",
@@ -142,61 +134,6 @@ public class @PlayerInputAsset : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": ""Mouse and Keyboard"",
                     ""action"": ""Vertical"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""WASD"",
-                    ""id"": ""d5ae65ae-9cca-4862-ad1f-4ea85764a5b8"",
-                    ""path"": ""2DVector"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Movement"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""up"",
-                    ""id"": ""03b0e5fb-1ed1-455f-ac76-f4fbe3f6f05d"",
-                    ""path"": ""<Keyboard>/w"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Mouse and Keyboard"",
-                    ""action"": ""Movement"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""down"",
-                    ""id"": ""35339d0d-5786-4149-b363-468c84f8f588"",
-                    ""path"": ""<Keyboard>/s"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Mouse and Keyboard"",
-                    ""action"": ""Movement"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""left"",
-                    ""id"": ""b96ae6af-6708-4071-96b0-683154f965b3"",
-                    ""path"": ""<Keyboard>/a"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Mouse and Keyboard"",
-                    ""action"": ""Movement"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""right"",
-                    ""id"": ""da682ca6-f048-4d25-9cdc-d0b80aa9b272"",
-                    ""path"": ""<Keyboard>/d"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Mouse and Keyboard"",
-                    ""action"": ""Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -365,7 +302,6 @@ public class @PlayerInputAsset : IInputActionCollection, IDisposable
         m_PlayerControlls_HorizontalAcc = m_PlayerControlls.FindAction("Horizontal Acc", throwIfNotFound: true);
         m_PlayerControlls_Vertical = m_PlayerControlls.FindAction("Vertical", throwIfNotFound: true);
         m_PlayerControlls_VerticalAcc = m_PlayerControlls.FindAction("Vertical Acc", throwIfNotFound: true);
-        m_PlayerControlls_Movement = m_PlayerControlls.FindAction("Movement", throwIfNotFound: true);
         m_PlayerControlls_Boost = m_PlayerControlls.FindAction("Boost", throwIfNotFound: true);
     }
 
@@ -420,7 +356,6 @@ public class @PlayerInputAsset : IInputActionCollection, IDisposable
     private readonly InputAction m_PlayerControlls_HorizontalAcc;
     private readonly InputAction m_PlayerControlls_Vertical;
     private readonly InputAction m_PlayerControlls_VerticalAcc;
-    private readonly InputAction m_PlayerControlls_Movement;
     private readonly InputAction m_PlayerControlls_Boost;
     public struct PlayerControllsActions
     {
@@ -430,7 +365,6 @@ public class @PlayerInputAsset : IInputActionCollection, IDisposable
         public InputAction @HorizontalAcc => m_Wrapper.m_PlayerControlls_HorizontalAcc;
         public InputAction @Vertical => m_Wrapper.m_PlayerControlls_Vertical;
         public InputAction @VerticalAcc => m_Wrapper.m_PlayerControlls_VerticalAcc;
-        public InputAction @Movement => m_Wrapper.m_PlayerControlls_Movement;
         public InputAction @Boost => m_Wrapper.m_PlayerControlls_Boost;
         public InputActionMap Get() { return m_Wrapper.m_PlayerControlls; }
         public void Enable() { Get().Enable(); }
@@ -453,9 +387,6 @@ public class @PlayerInputAsset : IInputActionCollection, IDisposable
                 @VerticalAcc.started -= m_Wrapper.m_PlayerControllsActionsCallbackInterface.OnVerticalAcc;
                 @VerticalAcc.performed -= m_Wrapper.m_PlayerControllsActionsCallbackInterface.OnVerticalAcc;
                 @VerticalAcc.canceled -= m_Wrapper.m_PlayerControllsActionsCallbackInterface.OnVerticalAcc;
-                @Movement.started -= m_Wrapper.m_PlayerControllsActionsCallbackInterface.OnMovement;
-                @Movement.performed -= m_Wrapper.m_PlayerControllsActionsCallbackInterface.OnMovement;
-                @Movement.canceled -= m_Wrapper.m_PlayerControllsActionsCallbackInterface.OnMovement;
                 @Boost.started -= m_Wrapper.m_PlayerControllsActionsCallbackInterface.OnBoost;
                 @Boost.performed -= m_Wrapper.m_PlayerControllsActionsCallbackInterface.OnBoost;
                 @Boost.canceled -= m_Wrapper.m_PlayerControllsActionsCallbackInterface.OnBoost;
@@ -475,9 +406,6 @@ public class @PlayerInputAsset : IInputActionCollection, IDisposable
                 @VerticalAcc.started += instance.OnVerticalAcc;
                 @VerticalAcc.performed += instance.OnVerticalAcc;
                 @VerticalAcc.canceled += instance.OnVerticalAcc;
-                @Movement.started += instance.OnMovement;
-                @Movement.performed += instance.OnMovement;
-                @Movement.canceled += instance.OnMovement;
                 @Boost.started += instance.OnBoost;
                 @Boost.performed += instance.OnBoost;
                 @Boost.canceled += instance.OnBoost;
@@ -509,7 +437,6 @@ public class @PlayerInputAsset : IInputActionCollection, IDisposable
         void OnHorizontalAcc(InputAction.CallbackContext context);
         void OnVertical(InputAction.CallbackContext context);
         void OnVerticalAcc(InputAction.CallbackContext context);
-        void OnMovement(InputAction.CallbackContext context);
         void OnBoost(InputAction.CallbackContext context);
     }
 }
