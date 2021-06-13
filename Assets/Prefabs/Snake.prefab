@@ -12,6 +12,9 @@ GameObject:
   - component: {fileID: 4707501808995716482}
   - component: {fileID: 4707501808995716485}
   - component: {fileID: 4707501808995716484}
+  - component: {fileID: 694179350}
+  - component: {fileID: 694179351}
+  - component: {fileID: 694179352}
   m_Layer: 0
   m_Name: Snake
   m_TagString: Untagged
@@ -28,7 +31,7 @@ Transform:
   m_GameObject: {fileID: 4707501808995716481}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.5, y: 0.5, z: 0}
-  m_LocalScale: {x: 0.125, y: 0.125, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4707501809110164993}
   m_Father: {fileID: 0}
@@ -74,8 +77,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
-  m_Color: {r: 0.8679245, g: 0.26610893, b: 0.26610893, a: 1}
+  m_Sprite: {fileID: 2979764389279299, guid: 05f110f433eff9d4aaaca0a28eac83df, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -97,10 +100,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7f718849b7bd6c41a86c83e31354b09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerInput: {fileID: 0}
-  normalSpeed: 2
-  boostSpeed: 4
-  coroutineSeconds: 0.04
+  playerVariable: {fileID: 11400000, guid: c13d86b70e228d546a539cf94c0d76bc, type: 2}
 --- !u!114 &4707501808995716484
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -186,22 +186,6 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 4707501808995716485}
         m_TargetAssemblyTypeName: SnakeMaze.Inputs, Assembly-CSharp
-        m_MethodName: OnMovement
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: a8ae4786-cdee-4ad1-b283-2d2226b9c213
-    m_ActionName: PlayerControlls/Movement[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 4707501808995716485}
-        m_TargetAssemblyTypeName: SnakeMaze.Inputs, Assembly-CSharp
         m_MethodName: Boost
         m_Mode: 0
         m_Arguments:
@@ -214,11 +198,111 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: bc09ef68-8d34-489d-9bac-e89f2bde9324
     m_ActionName: PlayerControlls/Boost
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: bc363fec-1288-4852-b49d-547a4ce6b7b5
+    m_ActionName: PlayerControlls/Horizontal Acc[/Keyboard/a,/Keyboard/d]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4707501808995716485}
+        m_TargetAssemblyTypeName: SnakeMaze.PlayerController, Assembly-CSharp
+        m_MethodName: GetHorizontalValueAcc
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: bc363fec-1288-4852-b49d-547a4ce6b7b5
+    m_ActionName: PlayerControlls/Horizontal Acc[/Keyboard/a,/Keyboard/d]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4707501808995716485}
+        m_TargetAssemblyTypeName: SnakeMaze.PlayerController, Assembly-CSharp
+        m_MethodName: GetVerticalValueAcc
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: de3e8382-87c5-4705-a13d-05d264beb81a
+    m_ActionName: PlayerControlls/Vertical Acc[/Keyboard/w,/Keyboard/s]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: PlayerControlls
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!50 &694179350
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4707501808995716481}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 1
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
+--- !u!61 &694179351
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4707501808995716481}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.125, y: 0.125}
+    newSize: {x: 1, y: 2}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
+--- !u!114 &694179352
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4707501808995716481}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19ddf45d8c9c9a14bba61123a6096670, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  collisionLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  playerVariable: {fileID: 11400000, guid: c13d86b70e228d546a539cf94c0d76bc, type: 2}
+  currentSkin: {fileID: 11400000, guid: c22e9787dde4c3e4da48e601deec3564, type: 2}
 --- !u!1 &4707501809110165006
 GameObject:
   m_ObjectHideFlags: 0

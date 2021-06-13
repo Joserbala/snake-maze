@@ -7,18 +7,27 @@ using UnityEngine;
 
 namespace SnakeMaze.SO
 {
-    [CreateAssetMenu(fileName = "SnakeSkin", menuName="Scriptables/SnakeSkin")]
+    [CreateAssetMenu(fileName = "SnakeSkin", menuName = "Scriptables/SnakeSkin")]
     public class SnakeSkinSO : ScriptableObject
     {
-        [SerializeField] private Sprite bodyVertical;
-        [SerializeField] private Sprite bodyHorizontal;
-        [SerializeField] private Sprite bodyCorner;
+        [SerializeField] private Sprite bodyUp;
+        [SerializeField] private Sprite bodyDown;
+        [SerializeField] private Sprite bodyRight;
+        [SerializeField] private Sprite bodyLeft;
+        [SerializeField] private Sprite bodyCornerTopRight;
+        [SerializeField] private Sprite bodyCornerTopLeft;
+        [SerializeField] private Sprite bodyCornerBottomRight;
+        [SerializeField] private Sprite bodyCornerBottomLeft;
 
-        [SerializeField] private Sprite headVertical;
-        [SerializeField] private Sprite headHorizontal;
+        [SerializeField] private Sprite headUp;
+        [SerializeField] private Sprite headDown;
+        [SerializeField] private Sprite headRight;
+        [SerializeField] private Sprite headLeft;
 
-        [SerializeField] private Sprite tailVertical;
-        [SerializeField] private Sprite tailHorizontal;
+        [SerializeField] private Sprite tailUp;
+        [SerializeField] private Sprite tailDown;
+        [SerializeField] private Sprite tailRight;
+        [SerializeField] private Sprite tailLeft;
 
         private SnakeSkin _snakeSkin = new SnakeSkin();
 
@@ -31,9 +40,9 @@ namespace SnakeMaze.SO
 
         public void InitSnakeSkin()
         {
-            _snakeSkin.SetAllSprites(headVertical, headHorizontal,
-                bodyVertical, bodyHorizontal, bodyCorner,
-                tailVertical, tailHorizontal);
+            _snakeSkin.SetAllSprites(headUp, headDown, headRight, headLeft,
+                bodyUp, bodyDown, bodyRight, bodyLeft, bodyCornerTopRight, bodyCornerTopLeft,
+                bodyCornerBottomRight, bodyCornerBottomLeft, tailUp, tailDown, tailRight, tailLeft);
         }
     }
 }

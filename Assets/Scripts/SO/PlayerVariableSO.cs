@@ -23,7 +23,8 @@ namespace SnakeMaze.SO
         private bool _isMoving;
         private bool _start;
         private Directions _lastDirection;
-        
+        private Directions _currentDirection;
+
 
         public float NormalSpeed
         {
@@ -86,6 +87,12 @@ namespace SnakeMaze.SO
         {
             get => _lastDirection;
             set => _lastDirection = value;
+        }
+
+        public Directions CurrentDirection
+        {
+            get => _currentDirection;
+            set => _currentDirection = value;
         }
     }
 }

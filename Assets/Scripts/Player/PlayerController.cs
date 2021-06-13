@@ -27,6 +27,7 @@ namespace SnakeMaze.Player
             _currentDirection = Directions.Right;
             playerVariable.CurrentSpeed = playerVariable.NormalSpeed;
             playerVariable.LastDirection = Directions.Right;
+            playerVariable.CurrentDirection = Directions.Right;
             playerVariable.IsAlive = true;
             playerVariable.IsMoving = false;
         }
@@ -41,17 +42,20 @@ namespace SnakeMaze.Player
         {
             while (true)
             {
+                playerVariable.LastDirection = _currentDirection;
                 if (playerVariable.Horizontal != 0 || playerVariable.Vertical != 0)
                 {
                     var direction = Mathf.Abs(playerVariable.Horizontal) >= Mathf.Abs(playerVariable.Vertical)
                         ? (Directions)((int)Directions.Right * playerVariable.Horizontal)
                         : (Directions)((int)Directions.Up * playerVariable.Vertical);
-                    playerVariable.LastDirection = _currentDirection;
-                    if (direction != _currentDirection)
+                    
+                    if (direction != _currentDirection &&
+                        direction!=DirectionsActions.GetOppositeDirection(_currentDirection))
                     {
                         
+                        playerVariable.CurrentDirection = direction;
                         _currentDirection = direction;
-                        SetHeadSprite(direction);
+                        
                     }
                 }
 
@@ -60,7 +64,7 @@ namespace SnakeMaze.Player
                     Die();
                     yield break;
                 }
-
+                SetHeadSprite(_currentDirection);
                 Move(_currentDirection);
                 _bodyController.MoveSnakeBody();
                 var time = playerVariable.CoroutineSeconds / playerVariable.CurrentSpeed;
@@ -74,24 +78,16 @@ namespace SnakeMaze.Player
             switch (direction)
             {
                 case Directions.Up:
-                    currentSprite = currentSkin.SnakeSkin.Head.Vertical;
-                    _spriteRenderer.flipY = false;
-                    _spriteRenderer.flipX = false;
+                    currentSprite = currentSkin.SnakeSkin.Head.Up;
                     break;
                 case Directions.Down:
-                    currentSprite = currentSkin.SnakeSkin.Head.Vertical;
-                    _spriteRenderer.flipY = true;
-                    _spriteRenderer.flipX = false;
+                    currentSprite = currentSkin.SnakeSkin.Head.Down;
                     break;
                 case Directions.Right:
-                    currentSprite = currentSkin.SnakeSkin.Head.Horizontal;
-                    _spriteRenderer.flipY = false;
-                    _spriteRenderer.flipX = false;
+                    currentSprite = currentSkin.SnakeSkin.Head.Right;
                     break;
                 case Directions.Left:
-                    currentSprite = currentSkin.SnakeSkin.Head.Horizontal;
-                    _spriteRenderer.flipY = false;
-                    _spriteRenderer.flipX = true;
+                    currentSprite = currentSkin.SnakeSkin.Head.Left;
                     break;
             }
 

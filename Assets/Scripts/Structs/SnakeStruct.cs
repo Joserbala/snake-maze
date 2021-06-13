@@ -24,85 +24,107 @@ namespace SnakeMaze.Structs
             Tail = tail;
         }
 
-        public void SetBodySprites(Sprite vertical, Sprite horizontal, Sprite corner)
+        public void SetBodySprites(Sprite up, Sprite down, Sprite right, Sprite left,
+            Sprite cornerTopRight, Sprite cornerTopLeft, Sprite cornerBottomRight, Sprite cornerBottomLeft)
         {
-            Body.SetAllSprites(vertical, horizontal, corner);
+            Body.SetAllSprites(up, down, right, left, cornerTopRight, cornerTopLeft, cornerBottomRight,
+                cornerBottomLeft);
         }
 
-        public void SetHeadSprites(Sprite vertical, Sprite horizontal)
+        public void SetHeadSprites(Sprite up, Sprite down, Sprite right, Sprite left)
         {
-            Head.SetAllSprites(vertical, horizontal);
+            Head.SetAllSprites(up, down, right, left);
         }
 
-        public void SetTailSprites(Sprite vertical, Sprite horizontal)
+        public void SetTailSprites(Sprite up, Sprite down, Sprite right, Sprite left)
         {
-            Tail.SetAllSprites(vertical, horizontal);
+            Tail.SetAllSprites(up, down, right, left);
         }
 
-        public void SetAllSprites(Sprite headVertical, Sprite headHorizontal,
-            Sprite bodyVertical, Sprite bodyHorizontal, Sprite bodyCorner,
-            Sprite tailVertical, Sprite tailHorizontal)
+        public void SetAllSprites(Sprite headUp, Sprite headDown, Sprite headRight, Sprite headLeft,
+            Sprite bodyUp, Sprite bodyDown, Sprite bodyRight, Sprite bodyLeft,
+            Sprite bodyCornerTopRight, Sprite bodyCornerTopLeft, Sprite bodyCornerBottomRight,
+            Sprite bodyCornerBottomLeft,
+            Sprite tailUp, Sprite tailDown, Sprite tailRight, Sprite tailLeft)
         {
-            SetHeadSprites(headVertical, headHorizontal);
-            SetBodySprites(bodyVertical, bodyHorizontal, bodyCorner);
-            SetTailSprites(tailVertical, tailHorizontal);
+            SetHeadSprites(headUp, headDown, headRight, headLeft);
+            SetBodySprites(bodyUp, bodyDown, bodyRight, bodyLeft,
+                bodyCornerTopRight, bodyCornerTopLeft,
+                bodyCornerBottomRight, bodyCornerBottomLeft);
+            SetTailSprites(tailUp, tailDown, tailRight, tailLeft);
         }
     }
 
     public struct SnakeBody
     {
-        public Sprite Vertical;
-        public Sprite Horizontal;
-        public Sprite Corner;
+        public Sprite Up;
+        public Sprite Down;
+        public Sprite Right;
+        public Sprite Left;
+        public Sprite CornerTopRight;
+        public Sprite CornerTopLeft;
+        public Sprite CornerBottomRight;
+        public Sprite CornerBottomLeft;
 
-        public SnakeBody(Sprite vertical, Sprite horizontal, Sprite corner)
+        public void SetAllSprites(Sprite up, Sprite down, Sprite right, Sprite left,
+            Sprite cornerTopRight, Sprite cornerTopLeft, Sprite cornerBottomRight, Sprite cornerBottomLeft)
         {
-            Vertical = vertical;
-            Horizontal = horizontal;
-            Corner = corner;
-        }
-
-        public void SetAllSprites(Sprite vertical, Sprite horizontal, Sprite corner)
-        {
-            Vertical = vertical;
-            Horizontal = horizontal;
-            Corner = corner;
+            Up = up;
+            Down = down;
+            Left = left;
+            Right = right;
+            CornerTopRight = cornerTopRight;
+            CornerTopLeft = cornerTopLeft;
+            CornerBottomRight = cornerBottomRight;
+            CornerBottomLeft = cornerBottomLeft;
         }
     }
 
     public struct SnakeHead
     {
-        public Sprite Vertical;
-        public Sprite Horizontal;
+        public Sprite Up;
+        public Sprite Down;
+        public Sprite Right;
+        public Sprite Left;
 
-        public SnakeHead(Sprite vertical, Sprite horizontal)
+        public SnakeHead(Sprite up, Sprite down, Sprite right, Sprite left)
         {
-            Vertical = vertical;
-            Horizontal = horizontal;
+            Up = up;
+            Down = down;
+            Left = left;
+            Right = right;
         }
 
-        public void SetAllSprites(Sprite vertical, Sprite horizontal)
+        public void SetAllSprites(Sprite up, Sprite down, Sprite right, Sprite left)
         {
-            Vertical = vertical;
-            Horizontal = horizontal;
+            Up = up;
+            Down = down;
+            Left = left;
+            Right = right;
         }
     }
 
     public struct SnakeTail
     {
-        public Sprite Vertical;
-        public Sprite Horizontal;
+        public Sprite Up;
+        public Sprite Down;
+        public Sprite Right;
+        public Sprite Left;
 
-        public SnakeTail(Sprite vertical, Sprite horizontal)
+        public SnakeTail(Sprite up, Sprite down, Sprite right, Sprite left)
         {
-            Vertical = vertical;
-            Horizontal = horizontal;
+            Up = up;
+            Down = down;
+            Left = left;
+            Right = right;
         }
 
-        public void SetAllSprites(Sprite vertical, Sprite horizontal)
+        public void SetAllSprites(Sprite up, Sprite down, Sprite right, Sprite left)
         {
-            Vertical = vertical;
-            Horizontal = horizontal;
+            Up = up;
+            Down = down;
+            Left = left;
+            Right = right;
         }
     }
 }

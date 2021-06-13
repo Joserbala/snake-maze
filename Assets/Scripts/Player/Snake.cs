@@ -15,8 +15,6 @@ namespace SnakeMaze.Player
         private Sprite _lastSprite;
         private bool _isTail;
         private SpriteRenderer _spriteRenderer;
-        private bool _flipX;
-        private bool _flipY;
 
         private void Awake()
         {
@@ -60,28 +58,9 @@ namespace SnakeMaze.Player
             set => _isTail = value;
         }
 
-        public bool FlipX
-        {
-            get => _flipX;
-            set => _flipX = value;
-        }
-
-        public bool FlipY
-        {
-            get => _flipY;
-            set => _flipY = value;
-        }
-
         public void UpdateSprite(Sprite sprite)
         {
             _spriteRenderer.sprite = sprite;
-        }
-
-        public override void Move(Directions dir)
-        {
-            _lastDirection = _currentDirection;
-            _currentDirection = dir;
-            base.Move(dir);
         }
     }
 }
