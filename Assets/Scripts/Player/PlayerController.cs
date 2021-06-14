@@ -11,6 +11,7 @@ namespace SnakeMaze.Player
     {
         [SerializeField] private PlayerVariableSO playerVariable;
         [SerializeField] private SnakeSkinSO currentSkin;
+        [SerializeField] private EventSO playerDeath;
 
         private BodyController _bodyController;
         private SpriteRenderer _spriteRenderer;
@@ -106,6 +107,7 @@ namespace SnakeMaze.Player
         private void Die()
         {
             playerVariable.IsAlive = false;
+            playerDeath.CurrentAction?.Invoke();
         }
 
         private void OnEnable()

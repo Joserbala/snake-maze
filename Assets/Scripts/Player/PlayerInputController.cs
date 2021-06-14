@@ -12,15 +12,14 @@ namespace SnakeMaze
     public class PlayerInputController : MonoBehaviour
     {
         [SerializeField] private PlayerVariableSO playerVariable;
+        [SerializeField] private EventSO startGameEvent;
         private void Awake()
         {
 #if UNITY_EDITOR
 #else
             Debug.Log("Awake");
             InputSystem.EnableDevice(Gyroscope.current);
-            InputSystem.EnableDevice(Accelerometer.current);
-            InputSystem.EnableDevice(GravitySensor.current);
-            InputSystem.EnableDevice(LinearAccelerationSensor.current);
+            // InputSystem.EnableDevice(Accelerometer.current);
 #endif
         }
 
@@ -30,15 +29,15 @@ namespace SnakeMaze
 #if UNITY_EDITOR
 #else
 
-        public void ConnectMobile()
-        {
-            if (!Gyroscope.current.enabled)
-                InputSystem.EnableDevice(Gyroscope.current);
-        }
-        public void DisconnectMobile()
-        {
-            InputSystem.DisableDevice(Gyroscope.current);
-        }
+        // public void ConnectMobile()
+        // {
+        //     if (!Gyroscope.current.enabled)
+        //         InputSystem.EnableDevice(Gyroscope.current);
+        // }
+        // public void DisconnectMobile()
+        // {
+        //     InputSystem.DisableDevice(Gyroscope.current);
+        // }
 #endif
         public void GetHorizontalValue(InputAction.CallbackContext ctx)
         {
@@ -58,8 +57,6 @@ namespace SnakeMaze
         // {
         //     playerVariable.Vertical = ctx.ReadValue<float>();
         // }
-
-        
 
         public void Boost(InputAction.CallbackContext ctx)
         {

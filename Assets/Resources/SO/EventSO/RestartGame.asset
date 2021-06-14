@@ -9,11 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a7d872710cc71948815b65164f952ce, type: 3}
-  m_Name: PlayerVariable
+  m_Script: {fileID: 11500000, guid: 76e2da8bca96ab243bf277c032612c8c, type: 3}
+  m_Name: RestartGame
   m_EditorClassIdentifier: 
-  normalSpeed: 1
-  boostSpeed: 2
-  coroutineSeconds: 1
-  pixelsPerTile: 32
-  playerPixels: 4
+  eventName: 

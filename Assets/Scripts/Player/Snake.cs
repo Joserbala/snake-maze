@@ -15,10 +15,12 @@ namespace SnakeMaze.Player
         private Sprite _lastSprite;
         private bool _isTail;
         private SpriteRenderer _spriteRenderer;
+        private Collider2D _collider;
 
         private void Awake()
         {
             _spriteRenderer = GetComponent<SpriteRenderer>();
+            _collider = GetComponent<Collider2D>();
         }
 
         private void Start()
@@ -55,7 +57,12 @@ namespace SnakeMaze.Player
         public bool IsTail
         {
             get => _isTail;
-            set => _isTail = value;
+            set
+            {
+                _isTail = value;
+                _collider.enabled = !value;
+
+            }
         }
 
         public void UpdateSprite(Sprite sprite)
