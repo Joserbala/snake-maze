@@ -27,25 +27,9 @@ public class @PlayerInputAsset : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""Horizontal Acc"",
-                    ""type"": ""Value"",
-                    ""id"": ""bc363fec-1288-4852-b49d-547a4ce6b7b5"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """"
-                },
-                {
                     ""name"": ""Vertical"",
                     ""type"": ""Value"",
                     ""id"": ""c59a294f-4d10-46ee-ae8b-92824e1d1441"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """"
-                },
-                {
-                    ""name"": ""Vertical Acc"",
-                    ""type"": ""Value"",
-                    ""id"": ""de3e8382-87c5-4705-a13d-05d264beb81a"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """"
@@ -55,6 +39,14 @@ public class @PlayerInputAsset : IInputActionCollection, IDisposable
                     ""type"": ""PassThrough"",
                     ""id"": ""bc09ef68-8d34-489d-9bac-e89f2bde9324"",
                     ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Accelerometer"",
+                    ""type"": ""Value"",
+                    ""id"": ""4829b735-dcab-4df7-abb1-76cffc3ece88"",
+                    ""expectedControlType"": ""Quaternion"",
                     ""processors"": """",
                     ""interactions"": """"
                 }
@@ -171,90 +163,13 @@ public class @PlayerInputAsset : IInputActionCollection, IDisposable
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""A/D"",
-                    ""id"": ""d0cdcd0b-5ea6-463c-8157-bba7ce9474b0"",
-                    ""path"": ""1DAxis"",
-                    ""interactions"": ""Press(behavior=2)"",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Horizontal Acc"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""negative"",
-                    ""id"": ""db6b9990-4155-4f17-bf0c-4b54c065b2ce"",
-                    ""path"": ""<Keyboard>/a"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Mouse and Keyboard"",
-                    ""action"": ""Horizontal Acc"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""positive"",
-                    ""id"": ""d2223a5b-0139-42a5-9180-3ef983089d8a"",
-                    ""path"": ""<Keyboard>/d"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Mouse and Keyboard"",
-                    ""action"": ""Horizontal Acc"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
                     ""name"": """",
-                    ""id"": ""265e452c-8aab-4f46-84fb-6c6d4c6ef2b0"",
-                    ""path"": ""<Accelerometer>/acceleration/x"",
+                    ""id"": ""b4acc5cf-721e-460b-8077-2c785bc03f49"",
+                    ""path"": ""<AttitudeSensor>/attitude"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Mobile"",
-                    ""action"": ""Horizontal Acc"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""W/S"",
-                    ""id"": ""9979ef19-3db1-4f7e-8886-bf7fd6edcf5b"",
-                    ""path"": ""1DAxis"",
-                    ""interactions"": ""Press(behavior=2)"",
-                    ""processors"": """",
-                    ""groups"": ""Mouse and Keyboard"",
-                    ""action"": ""Vertical Acc"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""positive"",
-                    ""id"": ""bcb92726-5106-4150-95bc-b071de00f895"",
-                    ""path"": ""<Keyboard>/w"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Mouse and Keyboard"",
-                    ""action"": ""Vertical Acc"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""negative"",
-                    ""id"": ""775fadc0-ff62-479b-ac0f-ac3378e216a8"",
-                    ""path"": ""<Keyboard>/s"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Mouse and Keyboard"",
-                    ""action"": ""Vertical Acc"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""fbce4ce4-6d80-4e55-a742-80cccd354df4"",
-                    ""path"": ""<Accelerometer>/acceleration/y"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Mobile"",
-                    ""action"": ""Vertical Acc"",
+                    ""action"": ""Accelerometer"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -299,10 +214,9 @@ public class @PlayerInputAsset : IInputActionCollection, IDisposable
         // PlayerControlls
         m_PlayerControlls = asset.FindActionMap("PlayerControlls", throwIfNotFound: true);
         m_PlayerControlls_Horizontal = m_PlayerControlls.FindAction("Horizontal", throwIfNotFound: true);
-        m_PlayerControlls_HorizontalAcc = m_PlayerControlls.FindAction("Horizontal Acc", throwIfNotFound: true);
         m_PlayerControlls_Vertical = m_PlayerControlls.FindAction("Vertical", throwIfNotFound: true);
-        m_PlayerControlls_VerticalAcc = m_PlayerControlls.FindAction("Vertical Acc", throwIfNotFound: true);
         m_PlayerControlls_Boost = m_PlayerControlls.FindAction("Boost", throwIfNotFound: true);
+        m_PlayerControlls_Accelerometer = m_PlayerControlls.FindAction("Accelerometer", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -353,19 +267,17 @@ public class @PlayerInputAsset : IInputActionCollection, IDisposable
     private readonly InputActionMap m_PlayerControlls;
     private IPlayerControllsActions m_PlayerControllsActionsCallbackInterface;
     private readonly InputAction m_PlayerControlls_Horizontal;
-    private readonly InputAction m_PlayerControlls_HorizontalAcc;
     private readonly InputAction m_PlayerControlls_Vertical;
-    private readonly InputAction m_PlayerControlls_VerticalAcc;
     private readonly InputAction m_PlayerControlls_Boost;
+    private readonly InputAction m_PlayerControlls_Accelerometer;
     public struct PlayerControllsActions
     {
         private @PlayerInputAsset m_Wrapper;
         public PlayerControllsActions(@PlayerInputAsset wrapper) { m_Wrapper = wrapper; }
         public InputAction @Horizontal => m_Wrapper.m_PlayerControlls_Horizontal;
-        public InputAction @HorizontalAcc => m_Wrapper.m_PlayerControlls_HorizontalAcc;
         public InputAction @Vertical => m_Wrapper.m_PlayerControlls_Vertical;
-        public InputAction @VerticalAcc => m_Wrapper.m_PlayerControlls_VerticalAcc;
         public InputAction @Boost => m_Wrapper.m_PlayerControlls_Boost;
+        public InputAction @Accelerometer => m_Wrapper.m_PlayerControlls_Accelerometer;
         public InputActionMap Get() { return m_Wrapper.m_PlayerControlls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -378,18 +290,15 @@ public class @PlayerInputAsset : IInputActionCollection, IDisposable
                 @Horizontal.started -= m_Wrapper.m_PlayerControllsActionsCallbackInterface.OnHorizontal;
                 @Horizontal.performed -= m_Wrapper.m_PlayerControllsActionsCallbackInterface.OnHorizontal;
                 @Horizontal.canceled -= m_Wrapper.m_PlayerControllsActionsCallbackInterface.OnHorizontal;
-                @HorizontalAcc.started -= m_Wrapper.m_PlayerControllsActionsCallbackInterface.OnHorizontalAcc;
-                @HorizontalAcc.performed -= m_Wrapper.m_PlayerControllsActionsCallbackInterface.OnHorizontalAcc;
-                @HorizontalAcc.canceled -= m_Wrapper.m_PlayerControllsActionsCallbackInterface.OnHorizontalAcc;
                 @Vertical.started -= m_Wrapper.m_PlayerControllsActionsCallbackInterface.OnVertical;
                 @Vertical.performed -= m_Wrapper.m_PlayerControllsActionsCallbackInterface.OnVertical;
                 @Vertical.canceled -= m_Wrapper.m_PlayerControllsActionsCallbackInterface.OnVertical;
-                @VerticalAcc.started -= m_Wrapper.m_PlayerControllsActionsCallbackInterface.OnVerticalAcc;
-                @VerticalAcc.performed -= m_Wrapper.m_PlayerControllsActionsCallbackInterface.OnVerticalAcc;
-                @VerticalAcc.canceled -= m_Wrapper.m_PlayerControllsActionsCallbackInterface.OnVerticalAcc;
                 @Boost.started -= m_Wrapper.m_PlayerControllsActionsCallbackInterface.OnBoost;
                 @Boost.performed -= m_Wrapper.m_PlayerControllsActionsCallbackInterface.OnBoost;
                 @Boost.canceled -= m_Wrapper.m_PlayerControllsActionsCallbackInterface.OnBoost;
+                @Accelerometer.started -= m_Wrapper.m_PlayerControllsActionsCallbackInterface.OnAccelerometer;
+                @Accelerometer.performed -= m_Wrapper.m_PlayerControllsActionsCallbackInterface.OnAccelerometer;
+                @Accelerometer.canceled -= m_Wrapper.m_PlayerControllsActionsCallbackInterface.OnAccelerometer;
             }
             m_Wrapper.m_PlayerControllsActionsCallbackInterface = instance;
             if (instance != null)
@@ -397,18 +306,15 @@ public class @PlayerInputAsset : IInputActionCollection, IDisposable
                 @Horizontal.started += instance.OnHorizontal;
                 @Horizontal.performed += instance.OnHorizontal;
                 @Horizontal.canceled += instance.OnHorizontal;
-                @HorizontalAcc.started += instance.OnHorizontalAcc;
-                @HorizontalAcc.performed += instance.OnHorizontalAcc;
-                @HorizontalAcc.canceled += instance.OnHorizontalAcc;
                 @Vertical.started += instance.OnVertical;
                 @Vertical.performed += instance.OnVertical;
                 @Vertical.canceled += instance.OnVertical;
-                @VerticalAcc.started += instance.OnVerticalAcc;
-                @VerticalAcc.performed += instance.OnVerticalAcc;
-                @VerticalAcc.canceled += instance.OnVerticalAcc;
                 @Boost.started += instance.OnBoost;
                 @Boost.performed += instance.OnBoost;
                 @Boost.canceled += instance.OnBoost;
+                @Accelerometer.started += instance.OnAccelerometer;
+                @Accelerometer.performed += instance.OnAccelerometer;
+                @Accelerometer.canceled += instance.OnAccelerometer;
             }
         }
     }
@@ -434,9 +340,8 @@ public class @PlayerInputAsset : IInputActionCollection, IDisposable
     public interface IPlayerControllsActions
     {
         void OnHorizontal(InputAction.CallbackContext context);
-        void OnHorizontalAcc(InputAction.CallbackContext context);
         void OnVertical(InputAction.CallbackContext context);
-        void OnVerticalAcc(InputAction.CallbackContext context);
         void OnBoost(InputAction.CallbackContext context);
+        void OnAccelerometer(InputAction.CallbackContext context);
     }
 }

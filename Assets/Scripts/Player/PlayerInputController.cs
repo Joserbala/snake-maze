@@ -19,7 +19,8 @@ namespace SnakeMaze
 #else
             Debug.Log("Awake");
             InputSystem.EnableDevice(Gyroscope.current);
-            // InputSystem.EnableDevice(Accelerometer.current);
+            InputSystem.EnableDevice(Accelerometer.current);
+            InputSystem.EnableDevice(LinearAccelerationSensor.current);
 #endif
         }
 
@@ -42,21 +43,21 @@ namespace SnakeMaze
         public void GetHorizontalValue(InputAction.CallbackContext ctx)
         {
             playerVariable.Horizontal = ctx.ReadValue<float>();
+            // playerVariable.Horizontal=(Accelerometer.current.acceleration.ReadValue()).x;
         }
-
+        
         public void GetVerticalValue(InputAction.CallbackContext ctx)
         {
             playerVariable.Vertical = ctx.ReadValue<float>();
+            // playerVariable.Vertical=(Accelerometer.current.acceleration.ReadValue()).y;
         }
-        // public void GetHorizontalValueAcc(InputAction.CallbackContext ctx)
-        // {
-        //      playerVariable.Horizontal = ctx.ReadValue<float>();
-        // }
-        //
-        // public void GetVerticalValueAcc(InputAction.CallbackContext ctx)
-        // {
-        //     playerVariable.Vertical = ctx.ReadValue<float>();
-        // }
+        public void GetAcceleration(InputAction.CallbackContext ctx)
+        {
+            // playerVariable.Horizontal = ctx.ReadValue<Vector3>().x;
+            // playerVariable.Vertical = ctx.ReadValue<Vector3>().y;
+        }
+        
+        
 
         public void Boost(InputAction.CallbackContext ctx)
         {

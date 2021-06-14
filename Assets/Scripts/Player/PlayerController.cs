@@ -15,7 +15,7 @@ namespace SnakeMaze.Player
 
         private BodyController _bodyController;
         private SpriteRenderer _spriteRenderer;
-        private Directions _currentDirection;
+        private Directions _currentDirection=Directions.Right;
 
         private void Awake()
         {
@@ -47,8 +47,10 @@ namespace SnakeMaze.Player
                 if (playerVariable.Horizontal != 0 || playerVariable.Vertical != 0)
                 {
                     var direction = Mathf.Abs(playerVariable.Horizontal) >= Mathf.Abs(playerVariable.Vertical)
-                        ? (Directions)((int)Directions.Right * playerVariable.Horizontal)
-                        : (Directions)((int)Directions.Up * playerVariable.Vertical);
+                        ? (Directions)((int)Directions.Right * Mathf.Sign(playerVariable.Horizontal))
+                        : (Directions)((int)Directions.Up * Mathf.Sign(playerVariable.Vertical));
+                   
+                        
                     
                     if (direction != _currentDirection &&
                         direction!=DirectionsActions.GetOppositeDirection(_currentDirection))
@@ -58,14 +60,13 @@ namespace SnakeMaze.Player
                         _currentDirection = direction;
                         
                     }
+                    SetHeadSprite(_currentDirection);
                 }
-
                 if (CheckCollision(DirectionsActions.DirectionsToVector2(_currentDirection)))
                 {
                     Die();
                     yield break;
                 }
-                SetHeadSprite(_currentDirection);
                 Move(_currentDirection);
                 _bodyController.MoveSnakeBody();
                 var time = playerVariable.CoroutineSeconds / playerVariable.CurrentSpeed;
@@ -95,14 +96,16 @@ namespace SnakeMaze.Player
             _spriteRenderer.sprite = currentSprite;
             
         }
-
-        private void OnDrawGizmos()
-        {
-            Gizmos.color = Color.green;
-            Gizmos.DrawLine(transform.position,
-                transform.position + (Vector3) DirectionsActions.DirectionsToVector2(_currentDirection)  *
-                (playerVariable.PlayerPixels / 2f / playerVariable.PixelsPerTile * 1.5f));
-        }
+// #if UNITY_EDITOR
+//         private void OnDrawGizmos()
+//         {
+//             
+//             Gizmos.color = Color.green;
+//             Gizmos.DrawLine(transform.position,
+//                 transform.position + (Vector3) DirectionsActions.DirectionsToVector2(_currentDirection)  *
+//                 (playerVariable.PlayerPixels / 2f / playerVariable.PixelsPerTile * 1.5f));
+//         }
+// #endif
 
         private void Die()
         {

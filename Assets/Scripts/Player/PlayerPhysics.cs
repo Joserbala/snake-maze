@@ -31,8 +31,9 @@ namespace SnakeMaze.Player
             if (hit)
             {
                 collided = hit.collider.CompareTag("Wall");
-                Debug.Log("Hitted");
             }
+            if(collided)
+                Debug.Log(hit.collider.gameObject.name);
             return collided;
         }
     }

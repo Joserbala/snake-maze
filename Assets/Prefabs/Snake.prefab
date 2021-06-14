@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 4707501808995716485}
   - component: {fileID: 4707501808995716484}
   - component: {fileID: 694179350}
-  - component: {fileID: 694179351}
   - component: {fileID: 694179352}
+  - component: {fileID: 2044738408274143993}
   m_Layer: 0
   m_Name: Snake
   m_TagString: Untagged
@@ -101,6 +101,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerVariable: {fileID: 11400000, guid: c13d86b70e228d546a539cf94c0d76bc, type: 2}
+  startGameEvent: {fileID: 0}
 --- !u!114 &4707501808995716484
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -260,7 +261,25 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!61 &694179351
+--- !u!114 &694179352
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4707501808995716481}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19ddf45d8c9c9a14bba61123a6096670, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  collisionLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  playerVariable: {fileID: 11400000, guid: c13d86b70e228d546a539cf94c0d76bc, type: 2}
+  currentSkin: {fileID: 11400000, guid: c22e9787dde4c3e4da48e601deec3564, type: 2}
+  playerDeath: {fileID: 0}
+--- !u!61 &2044738408274143993
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -284,25 +303,8 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.125, y: 0.125}
   m_EdgeRadius: 0
---- !u!114 &694179352
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4707501808995716481}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 19ddf45d8c9c9a14bba61123a6096670, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  collisionLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  playerVariable: {fileID: 11400000, guid: c13d86b70e228d546a539cf94c0d76bc, type: 2}
-  currentSkin: {fileID: 11400000, guid: c22e9787dde4c3e4da48e601deec3564, type: 2}
 --- !u!1 &4707501809110165006
 GameObject:
   m_ObjectHideFlags: 0

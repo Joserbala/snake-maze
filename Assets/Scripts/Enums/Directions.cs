@@ -22,9 +22,15 @@ namespace SnakeMaze.Enums
                 Directions.Down => Vector2.down,
                 Directions.Right => Vector2.right,
                 Directions.Left => Vector2.left,
-                _=>Vector2.zero
+                _=> Default()
             };
             return dir;
+        }
+
+        private static Vector2 Default()
+        {
+            Debug.Log("Fallo");
+            return Vector2.zero;
         }
 
         public static Directions GetOppositeDirection(Directions direction)
@@ -35,7 +41,6 @@ namespace SnakeMaze.Enums
                 Directions.Down => Directions.Up,
                 Directions.Right => Directions.Left,
                 Directions.Left => Directions.Right,
-                _=>Directions.Left
             };
             return oppsite;
         }

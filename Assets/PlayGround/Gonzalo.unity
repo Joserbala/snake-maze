@@ -182,6 +182,46 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4707501808995716484, guid: 16e18e441b4b3e44da17466abd5324b4, type: 3}
+      propertyPath: m_ActionEvents.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4707501808995716484, guid: 16e18e441b4b3e44da17466abd5324b4, type: 3}
+      propertyPath: m_ActionEvents.Array.data[3].m_ActionId
+      value: 4829b735-dcab-4df7-abb1-76cffc3ece88
+      objectReference: {fileID: 0}
+    - target: {fileID: 4707501808995716484, guid: 16e18e441b4b3e44da17466abd5324b4, type: 3}
+      propertyPath: m_ActionEvents.Array.data[3].m_ActionName
+      value: PlayerControlls/Accelerometer
+      objectReference: {fileID: 0}
+    - target: {fileID: 4707501808995716484, guid: 16e18e441b4b3e44da17466abd5324b4, type: 3}
+      propertyPath: m_ActionEvents.Array.data[3].m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4707501808995716484, guid: 16e18e441b4b3e44da17466abd5324b4, type: 3}
+      propertyPath: m_ActionEvents.Array.data[3].m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4707501808995716484, guid: 16e18e441b4b3e44da17466abd5324b4, type: 3}
+      propertyPath: m_ActionEvents.Array.data[3].m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 846069014}
+    - target: {fileID: 4707501808995716484, guid: 16e18e441b4b3e44da17466abd5324b4, type: 3}
+      propertyPath: m_ActionEvents.Array.data[3].m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4707501808995716484, guid: 16e18e441b4b3e44da17466abd5324b4, type: 3}
+      propertyPath: m_ActionEvents.Array.data[3].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GetAcc
+      objectReference: {fileID: 0}
+    - target: {fileID: 4707501808995716484, guid: 16e18e441b4b3e44da17466abd5324b4, type: 3}
+      propertyPath: m_ActionEvents.Array.data[3].m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: SnakeMaze.PlayerInputController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4707501808995716484, guid: 16e18e441b4b3e44da17466abd5324b4, type: 3}
+      propertyPath: m_ActionEvents.Array.data[3].m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 16e18e441b4b3e44da17466abd5324b4, type: 3}
 --- !u!1 &137187072
@@ -666,6 +706,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 701149040}
   m_CullTransparentMesh: 1
+--- !u!114 &846069014 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4707501808995716485, guid: 16e18e441b4b3e44da17466abd5324b4, type: 3}
+  m_PrefabInstance: {fileID: 75813890}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7f718849b7bd6c41a86c83e31354b09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1174578112
 GameObject:
   m_ObjectHideFlags: 0

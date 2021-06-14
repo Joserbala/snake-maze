@@ -31,7 +31,6 @@ namespace SnakeMaze
         {
             deathPanel.SetActive(!_isDeathPanelActive);
             _isDeathPanelActive = !_isDeathPanelActive;
-            Debug.Log("Dead");
         }
     }
 }
