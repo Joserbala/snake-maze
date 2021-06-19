@@ -1,36 +1,60 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using SnakeMaze.SO;
 using UnityEngine;
+using UnityEngine.UI;
 
-namespace SnakeMaze
+namespace SnakeMaze.UI
 {
     public class CanvasManager : MonoBehaviour
     {
         [SerializeField] private GameObject deathPanel;
-        [SerializeField] private EventSO playerDeath;
+        [SerializeField] private GameObject pausePanel;
+        [SerializeField] private BusGameManagerSO gameManager;
+        [SerializeField] private Button pauseButton;
+        [SerializeField] private Button resumeButton;
         private bool _isDeathPanelActive;
+        private bool _isPausePanelActive;
 
         private void Start()
         {
             _isDeathPanelActive = false;
+            _isPausePanelActive = false;
         }
-
-        private void OnEnable()
+        private void PressResumeButton()
         {
-            playerDeath.CurrentAction += SwitchDeathPanel;
+            if (!gameManager.GameStarted) return;
+            gameManager.PauseGame?.Invoke(false);
         }
-
-        private void OnDisable()
+        private void PressPauseButton()
         {
-            playerDeath.CurrentAction -= SwitchDeathPanel;
+            if (!gameManager.GameStarted||_isDeathPanelActive||_isPausePanelActive) return;
+            gameManager.PauseGame?.Invoke(true);
         }
 
         private void SwitchDeathPanel()
         {
             deathPanel.SetActive(!_isDeathPanelActive);
             _isDeathPanelActive = !_isDeathPanelActive;
+        }
+        private void SwitchPausePanel(bool pause)
+        {
+            pausePanel.SetActive(pause);
+        }
+
+        private void OnEnable()
+        {
+            Debug.Log("Subscribing in canvas");
+            gameManager.EndGame += SwitchDeathPanel;
+            gameManager.PauseGame += SwitchPausePanel;
+            resumeButton.onClick.AddListener(PressResumeButton);
+            pauseButton.onClick.AddListener(PressPauseButton);
+        }
+
+        private void OnDisable()
+        {
+            gameManager.EndGame -= SwitchDeathPanel;
+            gameManager.PauseGame -= SwitchPausePanel;
+            resumeButton.onClick.RemoveListener(PressResumeButton);
+            pauseButton.onClick.RemoveListener(PressPauseButton);
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using SnakeMaze.Enums;
 using SnakeMaze.Maze;
+using SnakeMaze.SO;
 using SnakeMaze.Structures;
 using SnakeMaze.Utils;
 using UnityEngine;
@@ -47,6 +48,8 @@ namespace SnakeMaze.BSP
         private BSPData _rootdata;
         private MazeBuilder _mazeBuilder;
 
+        [Header("BusSO")] [SerializeField] private BusMazeManagerSO mazeManager;
+
         /// <summary>
         /// Structure that will store the whole information about the partitions.
         /// </summary>
@@ -71,6 +74,10 @@ namespace SnakeMaze.BSP
         private void Awake()
         {
             _mazeBuilder = FindObjectOfType<MazeBuilder>();
+        }
+
+        private void Start()
+        {
             GenerateDungeon();
 
             if (printCorridorsInConsole)
@@ -80,11 +87,6 @@ namespace SnakeMaze.BSP
             if (printRoomsInConsole)
                 foreach (Room r in _roomList)
                     Debug.Log(r);
-        }
-
-        private void Start()
-        {
-            
         }
 
         /// <summary>
@@ -111,6 +113,8 @@ namespace SnakeMaze.BSP
         /// </remarks>
         public void GenerateDungeon()
         {
+            Debug.Log("Maze Started");
+            mazeManager.StartMaze?.Invoke();
             if (printTreeInConsole)
                 Debug.Log(BinaryTreeUtils<BSPData>.InOrderHorizontal(_tree, 0));
 
@@ -125,6 +129,8 @@ namespace SnakeMaze.BSP
             _roomList = GenerateRooms(_tree);
             _mazeBuilder.GenerateMazes(_roomList);
             GenerateCorridorsGood(_tree, ref _corridorList);
+            Debug.Log("Maze finished");
+            mazeManager.FinishMaze?.Invoke();
         }
 
         private BinaryTree<BSPData> BSP(BinaryTree<BSPData> tree, int iterations)

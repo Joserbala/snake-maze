@@ -5,14 +5,15 @@ using SnakeMaze.Player;
 using SnakeMaze.SO;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 using Gyroscope = UnityEngine.InputSystem.Gyroscope;
 
-namespace SnakeMaze
+namespace SnakeMaze.Player
 {
     public class PlayerInputController : MonoBehaviour
     {
         [SerializeField] private PlayerVariableSO playerVariable;
-        [SerializeField] private EventSO startGameEvent;
+        [SerializeField] private BusGameManagerSO gameManager;
         private void Awake()
         {
 #if UNITY_EDITOR
@@ -63,14 +64,14 @@ namespace SnakeMaze
         {
             if (ctx.started)
             {
-               playerVariable.CurrentSpeed = playerVariable.BoostSpeed;
+                playerVariable.CurrentSpeed = playerVariable.BoostSpeed;
             }
 
             if (ctx.canceled)
             {
                 playerVariable.CurrentSpeed = playerVariable.NormalSpeed;
-                if (!playerVariable.IsMoving)
-                    playerVariable.IsMoving = true;
+                if(!gameManager.GameStarted&& playerVariable.IsAlive)
+                    gameManager.StartGame?.Invoke();
             }
         }
     }

@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using SnakeMaze.Enums;
 using SnakeMaze.SO;
@@ -11,10 +10,11 @@ namespace SnakeMaze.Player
     {
         [SerializeField] private PlayerVariableSO playerVariable;
         [SerializeField] private SnakeSkinSO currentSkin;
-        [SerializeField] private EventSO playerDeath;
+        [SerializeField] private BusGameManagerSO gameManager;
 
         private BodyController _bodyController;
         private SpriteRenderer _spriteRenderer;
+        private IEnumerator _moveCoroutine;
         private Directions _currentDirection=Directions.Right;
 
         private void Awake()
@@ -33,10 +33,24 @@ namespace SnakeMaze.Player
             playerVariable.IsMoving = false;
         }
 
-        private void StartMoving(bool move)
+        private void StartMoving()
         {
-            if (!move) return;
-            StartCoroutine(Move());
+            playerVariable.IsMoving = true;
+            _moveCoroutine = Move();
+            StartCoroutine(_moveCoroutine);
+        }
+        private void StopMoving()
+        {
+            playerVariable.IsMoving = false;
+            StopCoroutine(_moveCoroutine);
+        }
+
+        private void SetMoving(bool pause)
+        {
+            if(pause)
+                StopMoving();
+            else
+                StartMoving();
         }
 
         private IEnumerator Move()
@@ -110,17 +124,22 @@ namespace SnakeMaze.Player
         private void Die()
         {
             playerVariable.IsAlive = false;
-            playerDeath.CurrentAction?.Invoke();
+            gameManager.GameStarted = false;
+            gameManager.EndGame?.Invoke();
         }
 
         private void OnEnable()
         {
-            playerVariable.startMoving += StartMoving;
+            gameManager.StartGame += StartMoving;
+            gameManager.EndGame += StopMoving;
+            gameManager.PauseGame += SetMoving;
         }
 
         private void OnDisable()
         {
-            playerVariable.startMoving -= StartMoving;
+            gameManager.StartGame -= StartMoving;
+            gameManager.EndGame -= StopMoving;
+            gameManager.PauseGame -= SetMoving;
         }
     }
 }

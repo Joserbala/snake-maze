@@ -20,7 +20,7 @@ namespace SnakeMaze.Player
             // Invoke(nameof(InitBody), 0.5f);
             _growSnake = false;
             InitBody();
-            InvokeRepeating(nameof(GrowSnakeNestMove),0,2f);
+            InvokeRepeating(nameof(GrowSnakeNestMove), 0, 2f);
         }
 
         private void InitBody()
@@ -60,16 +60,17 @@ namespace SnakeMaze.Player
         {
             _growSnake = true;
         }
+
         private void InstantiateTail()
         {
             var lastTail = snakeParts[snakeParts.Count - 1];
-            var pos = 
-                lastTail.transform.position - (Vector3)DirectionsActions.DirectionsToVector2(lastTail.LastDirection)*
-                player.PlayerPixels * 1f / player.PixelsPerTile;
+            var pos =
+                lastTail.transform.position - (Vector3) DirectionsActions.DirectionsToVector2(lastTail.LastDirection) *
+                (player.PlayerPixels * 1f) / player.PixelsPerTile;
             var body = Instantiate(snakePrefab, pos, Quaternion.identity, transform);
             var snake = body.GetComponent<Snake>();
             snake.IsTail = true;
-            snake.LastDirection =lastTail.LastDirection;
+            snake.LastDirection = lastTail.LastDirection;
             snake.CurrentDirection = lastTail.LastDirection;
             snake.CurrentSprite = lastTail.LastSprite;
             snake.LastSprite = lastTail.LastSprite;
@@ -80,10 +81,10 @@ namespace SnakeMaze.Player
         private void TailToBody(Snake newBody, int index)
         {
             newBody.IsTail = false;
-            newBody.CurrentSprite=GetActualSprite(index);
+            newBody.CurrentSprite = GetActualSprite(index);
             newBody.UpdateSprite(newBody.CurrentSprite);
         }
-        
+
 
         public void MoveSnakeBody()
         {
@@ -112,7 +113,7 @@ namespace SnakeMaze.Player
             snakeParts[0].CurrentSprite = GetActualSprite(0);
             snakeParts[0].UpdateSprite(snakeParts[0].CurrentSprite);
 
-            if(snakeParts.Count>2)
+            if (snakeParts.Count > 2)
             {
                 for (int i = 1; i < snakeParts.Count - 1; i++)
                 {
@@ -121,7 +122,7 @@ namespace SnakeMaze.Player
                     snakeParts[i].UpdateSprite(snakeParts[i].CurrentSprite);
                 }
             }
-            
+
             snakeParts[snakeParts.Count - 1].LastSprite = snakeParts[snakeParts.Count - 1].CurrentSprite;
             snakeParts[snakeParts.Count - 1].CurrentSprite = GetActualSprite(snakeParts.Count - 1);
             snakeParts[snakeParts.Count - 1].UpdateSprite(snakeParts[snakeParts.Count - 1].CurrentSprite);
@@ -131,7 +132,6 @@ namespace SnakeMaze.Player
                 InstantiateTail();
                 _growSnake = false;
             }
-            
         }
 
         private Sprite GetActualTailSprite(Directions followingDirection)
@@ -153,10 +153,11 @@ namespace SnakeMaze.Player
                 return GetActualBodySprite(snakeParts[1].CurrentDirection, player.CurrentDirection);
 
             if (index == snakeParts.Count - 1)
-                return GetActualTailSprite(snakeParts[snakeParts.Count-2].LastDirection);
-            
-            return snakeParts[index-1].LastSprite;
+                return GetActualTailSprite(snakeParts[snakeParts.Count - 2].LastDirection);
+
+            return snakeParts[index - 1].LastSprite;
         }
+
         private Sprite GetActualBodySprite(Directions previousDir, Directions followingDir)
         {
             Sprite sprite = null;
