@@ -19,12 +19,13 @@ namespace SnakeMaze.Utils
         private IEnumerator AsyncLoadScene()
         {
             AsyncOperation gameLevel = SceneManager.LoadSceneAsync("Gonzalo");
-
             while (gameLevel.progress<1)
             {
                 fillImage.fillAmount = gameLevel.progress;
                 yield return new WaitForEndOfFrame();
             }
+
+
         }
         
     }
