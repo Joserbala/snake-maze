@@ -41,27 +41,27 @@ namespace SnakeMaze.Player
 #endif
         public void GetHorizontalValue(InputAction.CallbackContext ctx)
         {
-//             float value = 0;
 // #if UNITY_ANDROID
 //             value = (ctx.ReadValue<float>() / Screen.currentResolution.width - 0.5f) * 2f;
 // #endif
-// #if UNITY_EDITOR
-//             value = ctx.ReadValue<float>();
-// #endif
-//             playerVariable.Horizontal = value;
+#if UNITY_EDITOR
+             float value = 0;
+            value = ctx.ReadValue<float>();
+             playerVariable.Horizontal = value;
+#endif
             // playerVariable.Horizontal=(Accelerometer.current.acceleration.ReadValue()).x;
         }
 
         public void GetVerticalValue(InputAction.CallbackContext ctx)
         {
-//             float value = 0;
 // #if UNITY_ANDROID
 //             value = (ctx.ReadValue<float>() / Screen.currentResolution.height - 0.5f) * 2f;
 // #endif
-// #if UNITY_EDITOR
-//             value = ctx.ReadValue<float>();
-// #endif
-//             playerVariable.Vertical = value;
+#if UNITY_EDITOR
+            float value = 0;
+            value = ctx.ReadValue<float>();
+             playerVariable.Vertical = value;
+#endif
             // playerVariable.Vertical=(Accelerometer.current.acceleration.ReadValue()).y;
         }
 
