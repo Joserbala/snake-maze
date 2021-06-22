@@ -20,7 +20,7 @@ public class @PlayerInputAsset : IInputActionCollection, IDisposable
             ""actions"": [
                 {
                     ""name"": ""Horizontal"",
-                    ""type"": ""Value"",
+                    ""type"": ""PassThrough"",
                     ""id"": ""56505741-3c3e-4661-bdd9-7f3fccbe55ae"",
                     ""expectedControlType"": """",
                     ""processors"": """",
@@ -28,7 +28,7 @@ public class @PlayerInputAsset : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": ""Vertical"",
-                    ""type"": ""Value"",
+                    ""type"": ""PassThrough"",
                     ""id"": ""c59a294f-4d10-46ee-ae8b-92824e1d1441"",
                     ""expectedControlType"": """",
                     ""processors"": """",
@@ -48,6 +48,22 @@ public class @PlayerInputAsset : IInputActionCollection, IDisposable
                     ""id"": ""4829b735-dcab-4df7-abb1-76cffc3ece88"",
                     ""expectedControlType"": ""Quaternion"",
                     ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""ResetVel"",
+                    ""type"": ""Button"",
+                    ""id"": ""27c3c7b9-f6ad-443d-89f9-5c9e17e1bc06"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Delta"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""ea004aae-5b64-4e34-a753-3227d4ddf506"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": ""StickDeadzone(min=0.8,max=0.925)"",
                     ""interactions"": """"
                 }
             ],
@@ -91,6 +107,28 @@ public class @PlayerInputAsset : IInputActionCollection, IDisposable
                     ""path"": ""<Gyroscope>/angularVelocity/x"",
                     ""interactions"": """",
                     ""processors"": ""Clamp(min=-1,max=1),Invert,AxisDeadzone(min=0.8)"",
+                    ""groups"": ""Mobile"",
+                    ""action"": ""Horizontal"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b850c983-694b-4aa9-a0f6-d36494371013"",
+                    ""path"": ""<Touchscreen>/position/x"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Mobile"",
+                    ""action"": ""Horizontal"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""81e5dd58-51c7-4467-a8b2-8e9a1958c3d3"",
+                    ""path"": ""<Touchscreen>/touch1/position/x"",
+                    ""interactions"": """",
+                    ""processors"": """",
                     ""groups"": ""Mobile"",
                     ""action"": ""Horizontal"",
                     ""isComposite"": false,
@@ -142,9 +180,31 @@ public class @PlayerInputAsset : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""a62bec52-557b-4572-b225-74a8284d9c40"",
+                    ""path"": ""<Touchscreen>/position/y"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Mobile"",
+                    ""action"": ""Vertical"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""606b582a-e720-44a1-9ca3-28dd670cdeb2"",
+                    ""path"": ""<Touchscreen>/touch1/delta/y"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Mobile"",
+                    ""action"": ""Vertical"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""1b91f292-831b-436f-a8c6-df6fe74f09f8"",
                     ""path"": ""<Touchscreen>/press"",
-                    ""interactions"": ""Hold(duration=9999999)"",
+                    ""interactions"": ""Hold"",
                     ""processors"": """",
                     ""groups"": ""Mobile"",
                     ""action"": ""Boost"",
@@ -155,7 +215,7 @@ public class @PlayerInputAsset : IInputActionCollection, IDisposable
                     ""name"": """",
                     ""id"": ""aab727b1-d146-497b-9caf-5019d69bbb28"",
                     ""path"": ""<Keyboard>/space"",
-                    ""interactions"": ""Hold(duration=9999999)"",
+                    ""interactions"": ""Hold"",
                     ""processors"": """",
                     ""groups"": ""Mouse and Keyboard"",
                     ""action"": ""Boost"",
@@ -170,6 +230,50 @@ public class @PlayerInputAsset : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": ""Mobile"",
                     ""action"": ""Accelerometer"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""843d41f6-c18e-4bf8-b837-8535850790b5"",
+                    ""path"": ""<Touchscreen>/press"",
+                    ""interactions"": ""Press(behavior=1)"",
+                    ""processors"": """",
+                    ""groups"": ""Mobile"",
+                    ""action"": ""ResetVel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f5929140-ad25-4329-a62b-df0fe5ad420f"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": ""Press(behavior=1)"",
+                    ""processors"": """",
+                    ""groups"": ""Mouse and Keyboard"",
+                    ""action"": ""ResetVel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e2474135-6fd6-4184-8614-1ad97fa10505"",
+                    ""path"": ""<Touchscreen>/delta"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Mobile"",
+                    ""action"": ""Delta"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2a6738ee-fd7f-4c5b-9f94-c9a555d213bb"",
+                    ""path"": ""<Touchscreen>/touch1/delta"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Mobile"",
+                    ""action"": ""Delta"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -301,6 +405,8 @@ public class @PlayerInputAsset : IInputActionCollection, IDisposable
         m_PlayerControlls_Vertical = m_PlayerControlls.FindAction("Vertical", throwIfNotFound: true);
         m_PlayerControlls_Boost = m_PlayerControlls.FindAction("Boost", throwIfNotFound: true);
         m_PlayerControlls_Accelerometer = m_PlayerControlls.FindAction("Accelerometer", throwIfNotFound: true);
+        m_PlayerControlls_ResetVel = m_PlayerControlls.FindAction("ResetVel", throwIfNotFound: true);
+        m_PlayerControlls_Delta = m_PlayerControlls.FindAction("Delta", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_LeftClick = m_UI.FindAction("Left Click", throwIfNotFound: true);
@@ -360,6 +466,8 @@ public class @PlayerInputAsset : IInputActionCollection, IDisposable
     private readonly InputAction m_PlayerControlls_Vertical;
     private readonly InputAction m_PlayerControlls_Boost;
     private readonly InputAction m_PlayerControlls_Accelerometer;
+    private readonly InputAction m_PlayerControlls_ResetVel;
+    private readonly InputAction m_PlayerControlls_Delta;
     public struct PlayerControllsActions
     {
         private @PlayerInputAsset m_Wrapper;
@@ -368,6 +476,8 @@ public class @PlayerInputAsset : IInputActionCollection, IDisposable
         public InputAction @Vertical => m_Wrapper.m_PlayerControlls_Vertical;
         public InputAction @Boost => m_Wrapper.m_PlayerControlls_Boost;
         public InputAction @Accelerometer => m_Wrapper.m_PlayerControlls_Accelerometer;
+        public InputAction @ResetVel => m_Wrapper.m_PlayerControlls_ResetVel;
+        public InputAction @Delta => m_Wrapper.m_PlayerControlls_Delta;
         public InputActionMap Get() { return m_Wrapper.m_PlayerControlls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -389,6 +499,12 @@ public class @PlayerInputAsset : IInputActionCollection, IDisposable
                 @Accelerometer.started -= m_Wrapper.m_PlayerControllsActionsCallbackInterface.OnAccelerometer;
                 @Accelerometer.performed -= m_Wrapper.m_PlayerControllsActionsCallbackInterface.OnAccelerometer;
                 @Accelerometer.canceled -= m_Wrapper.m_PlayerControllsActionsCallbackInterface.OnAccelerometer;
+                @ResetVel.started -= m_Wrapper.m_PlayerControllsActionsCallbackInterface.OnResetVel;
+                @ResetVel.performed -= m_Wrapper.m_PlayerControllsActionsCallbackInterface.OnResetVel;
+                @ResetVel.canceled -= m_Wrapper.m_PlayerControllsActionsCallbackInterface.OnResetVel;
+                @Delta.started -= m_Wrapper.m_PlayerControllsActionsCallbackInterface.OnDelta;
+                @Delta.performed -= m_Wrapper.m_PlayerControllsActionsCallbackInterface.OnDelta;
+                @Delta.canceled -= m_Wrapper.m_PlayerControllsActionsCallbackInterface.OnDelta;
             }
             m_Wrapper.m_PlayerControllsActionsCallbackInterface = instance;
             if (instance != null)
@@ -405,6 +521,12 @@ public class @PlayerInputAsset : IInputActionCollection, IDisposable
                 @Accelerometer.started += instance.OnAccelerometer;
                 @Accelerometer.performed += instance.OnAccelerometer;
                 @Accelerometer.canceled += instance.OnAccelerometer;
+                @ResetVel.started += instance.OnResetVel;
+                @ResetVel.performed += instance.OnResetVel;
+                @ResetVel.canceled += instance.OnResetVel;
+                @Delta.started += instance.OnDelta;
+                @Delta.performed += instance.OnDelta;
+                @Delta.canceled += instance.OnDelta;
             }
         }
     }
@@ -490,6 +612,8 @@ public class @PlayerInputAsset : IInputActionCollection, IDisposable
         void OnVertical(InputAction.CallbackContext context);
         void OnBoost(InputAction.CallbackContext context);
         void OnAccelerometer(InputAction.CallbackContext context);
+        void OnResetVel(InputAction.CallbackContext context);
+        void OnDelta(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

@@ -14,23 +14,21 @@ namespace SnakeMaze.Player
     {
         [SerializeField] private PlayerVariableSO playerVariable;
         [SerializeField] private BusGameManagerSO gameManager;
+
         private void Awake()
         {
 #if UNITY_EDITOR
 #else
             Debug.Log("Awake");
-            InputSystem.EnableDevice(Gyroscope.current);
-            InputSystem.EnableDevice(Accelerometer.current);
-            InputSystem.EnableDevice(LinearAccelerationSensor.current);
+            // InputSystem.EnableDevice(Gyroscope.current);
+            // InputSystem.EnableDevice(Accelerometer.current);
+            // InputSystem.EnableDevice(LinearAccelerationSensor.current);
 #endif
         }
-
-        
 
 
 #if UNITY_EDITOR
 #else
-
         // public void ConnectMobile()
         // {
         //     if (!Gyroscope.current.enabled)
@@ -43,35 +41,66 @@ namespace SnakeMaze.Player
 #endif
         public void GetHorizontalValue(InputAction.CallbackContext ctx)
         {
-            playerVariable.Horizontal = ctx.ReadValue<float>();
+//             float value = 0;
+// #if UNITY_ANDROID
+//             value = (ctx.ReadValue<float>() / Screen.currentResolution.width - 0.5f) * 2f;
+// #endif
+// #if UNITY_EDITOR
+//             value = ctx.ReadValue<float>();
+// #endif
+//             playerVariable.Horizontal = value;
             // playerVariable.Horizontal=(Accelerometer.current.acceleration.ReadValue()).x;
         }
-        
+
         public void GetVerticalValue(InputAction.CallbackContext ctx)
         {
-            playerVariable.Vertical = ctx.ReadValue<float>();
+//             float value = 0;
+// #if UNITY_ANDROID
+//             value = (ctx.ReadValue<float>() / Screen.currentResolution.height - 0.5f) * 2f;
+// #endif
+// #if UNITY_EDITOR
+//             value = ctx.ReadValue<float>();
+// #endif
+//             playerVariable.Vertical = value;
             // playerVariable.Vertical=(Accelerometer.current.acceleration.ReadValue()).y;
         }
+
         public void GetAcceleration(InputAction.CallbackContext ctx)
         {
             // playerVariable.Horizontal = ctx.ReadValue<Vector3>().x;
             // playerVariable.Vertical = ctx.ReadValue<Vector3>().y;
         }
-        
-        
+
+        public void GetDelta(InputAction.CallbackContext ctx)
+        {
+#if UNITY_ANDROID
+            playerVariable.Horizontal = ctx.ReadValue<Vector2>().x;
+            playerVariable.Vertical = ctx.ReadValue<Vector2>().y;
+#endif
+        }
+
 
         public void Boost(InputAction.CallbackContext ctx)
         {
-            if (ctx.started)
+            if (ctx.performed)
             {
                 playerVariable.CurrentSpeed = playerVariable.BoostSpeed;
+                Debug.Log("Boost");
             }
 
-            if (ctx.canceled)
+            if (ctx.started)
+            {
+                if (!gameManager.GameStarted && playerVariable.IsAlive)
+                    gameManager.StartGame?.Invoke();
+                Debug.Log("Start Game");
+            }
+        }
+
+        public void ResetVel(InputAction.CallbackContext ctx)
+        {
+            if (ctx.performed)
             {
                 playerVariable.CurrentSpeed = playerVariable.NormalSpeed;
-                if(!gameManager.GameStarted&& playerVariable.IsAlive)
-                    gameManager.StartGame?.Invoke();
             }
         }
     }
