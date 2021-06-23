@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using SnakeMaze.Enums;
+using SnakeMaze.Exceptions;
 using SnakeMaze.TileMaps;
 using UnityEngine;
 
@@ -35,6 +36,7 @@ namespace SnakeMaze.Maze
                 Directions.Down => 2,
                 Directions.Right => 1,
                 Directions.Left => 3,
+                _=> throw new NotEnumTypeSupportedException()
             };
             spriteBinaryType[index] = '0';
         }

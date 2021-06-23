@@ -17,6 +17,7 @@ namespace SnakeMaze.TileMaps
             mazeSkin.InitMazeSkin();
         }
 
+
         public void PaintWallTiles(IEnumerable<WallTile> wallTiles)
         {
             foreach (var wallTile in wallTiles)

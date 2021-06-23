@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using SnakeMaze.Exceptions;
 using UnityEngine;
 
 namespace SnakeMaze.Enums
@@ -22,17 +24,10 @@ namespace SnakeMaze.Enums
                 Directions.Down => Vector2.down,
                 Directions.Right => Vector2.right,
                 Directions.Left => Vector2.left,
-                _=> Default()
+                _=> throw new NotEnumTypeSupportedException()
             };
             return dir;
         }
-
-        private static Vector2 Default()
-        {
-            Debug.Log("Fallo");
-            return Vector2.zero;
-        }
-
         public static Directions GetOppositeDirection(Directions direction)
         {
             var oppsite = direction switch
@@ -41,6 +36,7 @@ namespace SnakeMaze.Enums
                 Directions.Down => Directions.Up,
                 Directions.Right => Directions.Left,
                 Directions.Left => Directions.Right,
+                _=> throw new NotEnumTypeSupportedException()
             };
             return oppsite;
         }
