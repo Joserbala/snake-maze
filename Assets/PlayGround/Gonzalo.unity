@@ -1351,8 +1351,6 @@ MonoBehaviour:
   corridorPrefab: {fileID: 3609830069511699395, guid: 14ba0cbc1f93ea747992ed338a90974d, type: 3}
   corridorParentT: {fileID: 1244240207}
   roomParentT: {fileID: 137187073}
-  horizontalCorridors: {fileID: 0}
-  verticalCorridors: {fileID: 0}
   tileMapVisualizer: {fileID: 1958332526}
   mazeManager: {fileID: 11400000, guid: 7be945dc6d5169a4996cac759dd306c0, type: 2}
 --- !u!1 &1244240206
@@ -2218,7 +2216,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wallTilemap: {fileID: 902123884}
-  mazeSkin: {fileID: 11400000, guid: e66aea517d60ac448ab0d84d7fade1fb, type: 2}
+  mazeSkin: {fileID: 11400000, guid: 2a5338372c70fad45a378387a6efc126, type: 2}
 --- !u!4 &1958332527
 Transform:
   m_ObjectHideFlags: 0
