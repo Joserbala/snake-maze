@@ -141,6 +141,38 @@ namespace SnakeMaze.Maze
                 SetCellInMaze((int) cellPos.x, (int) cellPos.y);
             }
         }
+        // private void RunPrimm()
+        // {
+        //     _currentFrontier = new List<Vector2>();
+        //     SetCellInMaze(Random.Range(0, _currentGrid.Rows), Random.Range(0, _currentGrid.Columns));
+        //     var neighbors = new List<Vector2>();
+        //     var cellPos = new Vector2();
+        //     var neighborSelected = new Vector2();
+        //     var removePosition = 0;
+        //     var direction = Directions.Right;
+        //     while (_currentFrontier.Count != 0)
+        //     {
+        //         removePosition = Random.Range(0, _currentFrontier.Count);
+        //         cellPos = _currentFrontier[removePosition];
+        //         _currentFrontier.RemoveAt(removePosition);
+        //
+        //         neighbors = GetNeighbors((int) cellPos.x, (int) cellPos.y);
+        //         neighborSelected = neighbors[Random.Range(0, neighbors.Count)];
+        //
+        //         direction = GetDirection((int) cellPos.x, (int) cellPos.y, (int) neighborSelected.x,
+        //             (int) neighborSelected.y);
+        //         _currentGrid.Grid[(int) cellPos.x, (int) cellPos.y].GetWall(direction);
+        //         direction = (Directions)((int)direction * -1);
+        //         _currentGrid.Grid[(int) neighborSelected.x,
+        //             (int) neighborSelected.y].GetWall(direction);
+        //         SetCellInMaze((int) cellPos.x, (int) cellPos.y);
+        //     }
+        //
+        //     foreach (var mazeCell in _currentGrid.Grid)
+        //     {
+        //         mazeCell.SetWallTile();
+        //     }
+        // }
 
         private List<Vector2> GetNeighbors(int i, int j)
         {
