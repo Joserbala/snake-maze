@@ -17,6 +17,7 @@ namespace SnakeMaze.Enums
         LeftBot=3,
         Right=4,
         Left=1,
-        Bot=2
+        Bot=2,
+        Empty=0
     }
 }

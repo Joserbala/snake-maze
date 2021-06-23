@@ -8,6 +8,12 @@ namespace SnakeMaze.TileMaps
         private Vector2Int _position;
         private WallSprites _spriteType;
 
+        public WallTile(Vector2Int position, WallSprites spriteType)
+        {
+            _position = position;
+            _spriteType = spriteType;
+        }
+
         public Vector2Int Position
         {
             get => _position;

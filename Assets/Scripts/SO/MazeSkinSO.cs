@@ -10,8 +10,9 @@ namespace SnakeMaze.SO
     [CreateAssetMenu(fileName = "MazeSkin", menuName = "Scriptables/TileMaps/MazeSkinSO")]
     public class MazeSkinSO : ScriptableObject
     {
-        [SerializeField] private TileBase 
-            topRightLeft,
+        [Header("Maze")] [SerializeField] private TileBase topRightLeft;
+
+        [SerializeField] private TileBase
             topRightBot,
             topLeftBot,
             topRight,
@@ -24,10 +25,16 @@ namespace SnakeMaze.SO
             leftBot,
             right,
             left,
-            bot;
+            bot,
+            empty;
 
+        [Header("Corridors")] [SerializeField] private TileBase horizontalCorridor;
+        [SerializeField] private TileBase verticalCorridor;
+        
         private Dictionary<WallSprites, TileBase> _tileDic=new Dictionary<WallSprites, TileBase>();
 
+        public TileBase HorizontalCorridor => horizontalCorridor;
+        public TileBase VerticalCorridor => verticalCorridor;
         public Dictionary<WallSprites, TileBase> TileDic
         {
             get => _tileDic;
@@ -50,6 +57,7 @@ namespace SnakeMaze.SO
            _tileDic.Add(WallSprites.Right,right);
            _tileDic.Add(WallSprites.Left,left);
            _tileDic.Add(WallSprites.Bot,bot);
+           _tileDic.Add(WallSprites.Empty,empty);
 
         }
 

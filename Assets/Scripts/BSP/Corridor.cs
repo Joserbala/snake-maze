@@ -8,6 +8,13 @@ namespace SnakeMaze.BSP
         private Vector2 _center;
         private Vector2 _endPoint;
         private Vector2 _startPoint;
+        private bool _horizontalCorridor;
+
+        public bool HorizontalCorridor
+        {
+            get => _horizontalCorridor;
+            set => _horizontalCorridor = value;
+        }
 
         public GameObject CorridorGO { get; set; }
 

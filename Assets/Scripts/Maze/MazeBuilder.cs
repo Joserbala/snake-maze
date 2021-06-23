@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using SnakeMaze.BSP;
 using SnakeMaze.Enums;
+using SnakeMaze.TileMaps;
 using Unity.Mathematics;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -12,6 +13,7 @@ namespace SnakeMaze.Maze
     {
         [SerializeField] private GameObject cellPrefab;
         [SerializeField] private Vector2 cellSize = new Vector2(1f, 1f);
+        [SerializeField] private TileMapVisualizer tileMapVisualizer;
         private Vector2Int _currentGidSize;
         private Vector2 _currentBottomLeft = new Vector2(0, 0);
 
@@ -68,6 +70,16 @@ namespace SnakeMaze.Maze
             // StartCoroutine(Primm());
         }
 
+        public void PaintTheMaze(MazeGrid mazeGrid)
+        {
+            List<WallTile> wallList=new List<WallTile>();
+            foreach (var mazeCell in mazeGrid.Grid)
+            {
+                mazeCell.SetWallTile();
+                wallList.Add(mazeCell.Tile);
+            }
+            tileMapVisualizer.PaintWallTiles(wallList);
+        }
         private void CreateTheGrid()
         {
             for (int i = 0; i < _currentGrid.Rows; i++)
@@ -76,42 +88,7 @@ namespace SnakeMaze.Maze
                 Vector3 cellPosition = _currentBottomLeft
                                        + Vector2.right * (i * cellSize.x + cellSize.x / 2)
                                        + Vector2.up * (j * cellSize.y + cellSize.y / 2);
-                var currentCell = Instantiate(cellPrefab, cellPosition, Quaternion.identity, transform);
-                currentCell.name = "Cell" + i + "," + j;
-                _currentGrid.Grid[i, j] = new MazeCell(currentCell, cellPosition, i, j);
-            }
-        }
-
-        IEnumerator Primm()
-        {
-            _currentFrontier = new List<Vector2>();
-            SetCellInMaze(Random.Range(0, _currentGrid.Rows), Random.Range(0, _currentGrid.Columns));
-            GameObject wall;
-            var neighbors = new List<Vector2>();
-            var cellPos = new Vector2();
-            var neighborSelected = new Vector2();
-            var removePosition = 0;
-            var direction = Directions.Right;
-            while (_currentFrontier.Count != 0)
-            {
-                removePosition = Random.Range(0, _currentFrontier.Count);
-                cellPos = _currentFrontier[removePosition];
-                _currentFrontier.RemoveAt(removePosition);
-
-                neighbors = GetNeighbors((int) cellPos.x, (int) cellPos.y);
-                neighborSelected = neighbors[Random.Range(0, neighbors.Count)];
-
-                direction = GetDirection((int) cellPos.x, (int) cellPos.y, (int) neighborSelected.x,
-                    (int) neighborSelected.y);
-                wall=_currentGrid.Grid[(int) cellPos.x, (int) cellPos.y].GetWall(direction);
-                wall.SetActive(false);
-                
-                direction = DirectionsActions.GetOppositeDirection(direction);
-                wall = _currentGrid.Grid[(int) neighborSelected.x,
-                    (int) neighborSelected.y].GetWall(direction);
-                wall.SetActive(false);
-                SetCellInMaze((int) cellPos.x, (int) cellPos.y);
-                yield return new WaitForSeconds(0.1f);
+                _currentGrid.Grid[i, j] = new MazeCell(cellPosition, i, j);
             }
         }
         private void RunPrimm()
@@ -128,51 +105,21 @@ namespace SnakeMaze.Maze
                 removePosition = Random.Range(0, _currentFrontier.Count);
                 cellPos = _currentFrontier[removePosition];
                 _currentFrontier.RemoveAt(removePosition);
-
+        
                 neighbors = GetNeighbors((int) cellPos.x, (int) cellPos.y);
                 neighborSelected = neighbors[Random.Range(0, neighbors.Count)];
-
+        
                 direction = GetDirection((int) cellPos.x, (int) cellPos.y, (int) neighborSelected.x,
                     (int) neighborSelected.y);
-                _currentGrid.Grid[(int) cellPos.x, (int) cellPos.y].GetWall(direction).SetActive(false);
+                _currentGrid.Grid[(int) cellPos.x, (int) cellPos.y].GetWall(direction);
                 direction = (Directions)((int)direction * -1);
                 _currentGrid.Grid[(int) neighborSelected.x,
-                    (int) neighborSelected.y].GetWall(direction).SetActive(false);
+                    (int) neighborSelected.y].GetWall(direction);
                 SetCellInMaze((int) cellPos.x, (int) cellPos.y);
             }
+        
+            
         }
-        // private void RunPrimm()
-        // {
-        //     _currentFrontier = new List<Vector2>();
-        //     SetCellInMaze(Random.Range(0, _currentGrid.Rows), Random.Range(0, _currentGrid.Columns));
-        //     var neighbors = new List<Vector2>();
-        //     var cellPos = new Vector2();
-        //     var neighborSelected = new Vector2();
-        //     var removePosition = 0;
-        //     var direction = Directions.Right;
-        //     while (_currentFrontier.Count != 0)
-        //     {
-        //         removePosition = Random.Range(0, _currentFrontier.Count);
-        //         cellPos = _currentFrontier[removePosition];
-        //         _currentFrontier.RemoveAt(removePosition);
-        //
-        //         neighbors = GetNeighbors((int) cellPos.x, (int) cellPos.y);
-        //         neighborSelected = neighbors[Random.Range(0, neighbors.Count)];
-        //
-        //         direction = GetDirection((int) cellPos.x, (int) cellPos.y, (int) neighborSelected.x,
-        //             (int) neighborSelected.y);
-        //         _currentGrid.Grid[(int) cellPos.x, (int) cellPos.y].GetWall(direction);
-        //         direction = (Directions)((int)direction * -1);
-        //         _currentGrid.Grid[(int) neighborSelected.x,
-        //             (int) neighborSelected.y].GetWall(direction);
-        //         SetCellInMaze((int) cellPos.x, (int) cellPos.y);
-        //     }
-        //
-        //     foreach (var mazeCell in _currentGrid.Grid)
-        //     {
-        //         mazeCell.SetWallTile();
-        //     }
-        // }
 
         private List<Vector2> GetNeighbors(int i, int j)
         {

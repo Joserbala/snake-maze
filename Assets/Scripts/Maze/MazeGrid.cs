@@ -6,8 +6,6 @@ using UnityEngine;
 
 public class MazeGrid
 {
-
-
    private Vector2Int _gridSize;
    private Vector2 _cellSize;
    private MazeCell[,] _grid;
@@ -37,20 +35,12 @@ public class MazeGrid
       var iCell =  Mathf.FloorToInt((pos.x - bottomLeft.x) / _cellSize.x);
       var jCell = Mathf.FloorToInt((pos.y - bottomLeft.y) / _cellSize.y);
       return _grid[iCell, jCell];
-
-
    }
-   
-   public GameObject GetWallAtPosition(Vector2 bottomLeft, Vector2 pos,Directions direction)
+
+   public void GetWallAtPosition(Vector2 bottomLeft, Vector2 pos,Directions direction)
    {
       var iCell =  Mathf.FloorToInt((pos.x - bottomLeft.x) / _cellSize.x);
       var jCell = Mathf.FloorToInt((pos.y - bottomLeft.y) / _cellSize.y);
-      return _grid[iCell, jCell].GetWall(direction);
+      _grid[iCell, jCell].GetWall(direction);
    }
-   // public void GetWallAtPosition(Vector2 bottomLeft, Vector2 pos,Directions direction)
-   // {
-   //    var iCell =  Mathf.FloorToInt((pos.x - bottomLeft.x) / _cellSize.x);
-   //    var jCell = Mathf.FloorToInt((pos.y - bottomLeft.y) / _cellSize.y);
-   //    _grid[iCell, jCell].GetWall(direction);
-   // }
 }

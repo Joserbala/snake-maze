@@ -4,6 +4,7 @@ using SnakeMaze.Enums;
 using SnakeMaze.Maze;
 using SnakeMaze.SO;
 using SnakeMaze.Structures;
+using SnakeMaze.TileMaps;
 using SnakeMaze.Utils;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -42,9 +43,7 @@ namespace SnakeMaze.BSP
         [Header("Prefabs")] [SerializeField] private GameObject corridorPrefab;
         [SerializeField] private Transform corridorParentT;
         [SerializeField] private Transform roomParentT;
-
-        [Header("Corridors")] [SerializeField] private SpritePainter horizontalCorridors;
-        [SerializeField] private SpritePainter verticalCorridors;
+        [SerializeField] private TileMapVisualizer tileMapVisualizer;
         private BSPData _rootdata;
         private MazeBuilder _mazeBuilder;
 
@@ -129,6 +128,10 @@ namespace SnakeMaze.BSP
             _roomList = GenerateRooms(_tree);
             _mazeBuilder.GenerateMazes(_roomList);
             GenerateCorridorsGood(_tree, ref _corridorList);
+            foreach (var room in _roomList)
+            {
+                _mazeBuilder.PaintTheMaze(room.Grid);
+            }
             Debug.Log("Maze finished");
             mazeManager.FinishMaze?.Invoke();
         }
@@ -345,6 +348,156 @@ namespace SnakeMaze.BSP
             finalRightNode = currentRightNode;
         }
 
+        // private bool GenerateCorridor(Room roomOne, Room roomTwo, ref List<Corridor> corridorList)
+        // {
+        //     var roomOnePosition = roomOne.Center;
+        //     var roomTwoPosition = roomTwo.Center;
+        //     var minDistanceX = roomOne.Size.x / 2 + roomTwo.Size.x / 2;
+        //     var minDistanceY = roomOne.Size.y / 2 + roomTwo.Size.y / 2;
+        //     var relativeDistanceX = roomTwoPosition.x - roomOnePosition.x;
+        //     var relativeDistanceY = roomTwoPosition.y - roomOnePosition.y;
+        //     var corridorSize = 0f;
+        //
+        //
+        //     Directions currentDirection;
+        //
+        //     if (minDistanceX < Mathf.Abs(relativeDistanceX) && minDistanceY < Mathf.Abs(relativeDistanceY))
+        //     {
+        //         // Rooms don't overlap.
+        //         return false;
+        //     }
+        //
+        //     if (minDistanceX > Mathf.Abs(relativeDistanceX))
+        //     {
+        //         // Rooms overlap in X axis.
+        //         currentDirection = relativeDistanceY > 0 ? Directions.Up : Directions.Down;
+        //     }
+        //     else
+        //     {
+        //         // Rooms overlap in Y axis.
+        //         currentDirection = relativeDistanceX > 0 ? Directions.Right : Directions.Left;
+        //     }
+        //
+        //     var corridorCenter = CoordinateOfCorridorCenter();
+        //     var corridorStart = CoordinateOfCorridorStart();
+        //     var corridorEnd = Vector2.zero;
+        //     // var corridorGO = Instantiate(corridorPrefab, corridorCenter, Quaternion.identity,
+        //     //     corridorParentT);
+        //
+        //
+        //     switch (currentDirection)
+        //     {
+        //         case Directions.Up:
+        //             corridorSize = roomTwo.BottomCenterPosition.y - roomOne.TopCenterPosition.y;
+        //             // corridorGO.transform.localScale = new Vector3(corridorWidth,
+        //             //     Mathf.Abs(corridorSize), 1);
+        //             corridorEnd = corridorStart + Vector2.up * (Mathf.Abs(corridorSize) + 1);
+        //
+        //             verticalCorridors.PaintObject(new Vector2(corridorStart.x, roomOne.TopCenterPosition.y+_mazeBuilder.CellSize.y/2f),
+        //                 Directions.Up, (int) Mathf.Abs(corridorSize),corridorParentT);
+        //             break;
+        //         case Directions.Down:
+        //             corridorSize = roomTwo.TopCenterPosition.y - roomOne.BottomCenterPosition.y;
+        //             // corridorGO.transform.localScale = new Vector3(corridorWidth,
+        //             //     Mathf.Abs(corridorSize), 1);
+        //             corridorEnd = corridorStart - Vector2.up * (Mathf.Abs(corridorSize) + 1);
+        //             verticalCorridors.PaintObject(new Vector2(corridorStart.x, roomOne.BottomLeftCorner.y-_mazeBuilder.CellSize.y/2f),
+        //                 Directions.Down, (int) Mathf.Abs(corridorSize),corridorParentT);
+        //             break;
+        //         case Directions.Right:
+        //             corridorSize = roomTwo.LeftCenterPosition.x - roomOne.RightCenterPosition.x;
+        //             // corridorGO.transform.localScale =
+        //             //     new Vector3(Mathf.Abs(corridorSize), corridorWidth, 1);
+        //             corridorEnd = corridorStart + Vector2.right * (Mathf.Abs(corridorSize) + 1);
+        //             horizontalCorridors.PaintObject(new Vector2( roomOne.BottomRightCorner.x+_mazeBuilder.CellSize.x/2f,corridorStart.y),
+        //                 Directions.Right, (int) Mathf.Abs(corridorSize),corridorParentT);
+        //             break;
+        //         case Directions.Left:
+        //             corridorSize = roomTwo.RightCenterPosition.x - roomOne.LeftCenterPosition.x;
+        //             // corridorGO.transform.localScale =
+        //             //     new Vector3(Mathf.Abs(corridorSize), corridorWidth, 1);
+        //             corridorEnd = corridorStart - Vector2.right * (Mathf.Abs(corridorSize) + 1);
+        //             horizontalCorridors.PaintObject(new Vector2( roomOne.BottomLeftCorner.x-_mazeBuilder.CellSize.x/2f,corridorStart.y),
+        //                 Directions.Left, (int) Mathf.Abs(corridorSize),corridorParentT);
+        //             break;
+        //     }
+        //
+        //     Destroy(roomOne.Grid.GetWallAtPosition(roomOne.BottomLeftCorner, corridorStart, currentDirection));
+        //     Destroy(roomTwo.Grid.GetWallAtPosition(roomTwo.BottomLeftCorner, corridorEnd,
+        //         DirectionsActions.GetOppositeDirection(currentDirection)));
+        //     corridorList.Add(new Corridor(roomOne.Center, roomTwo.Center, corridorWidth));
+        //
+        //     return true;
+        //
+        //     Vector2 CoordinateOfCorridorStart()
+        //     {
+        //         float lower;
+        //         float higher;
+        //         float coordinateX = 0, coordinateY = 0;
+        //         float offset = corridorWidth + 1.5f;
+        //
+        //         switch (currentDirection)
+        //         {
+        //             case Directions.Left:
+        //             case Directions.Right:
+        //                 lower = Mathf.Max(roomOne.BottomLeftCorner.y, roomTwo.BottomLeftCorner.y);
+        //                 higher = Mathf.Min(roomOne.TopLeftCorner.y, roomTwo.TopLeftCorner.y);
+        //
+        //
+        //                 coordinateX = roomOne.Center.x + Mathf.Sign((int) currentDirection) * roomOne.Size.x / 2f -
+        //                               Mathf.Sign((int) currentDirection) * 0.5f;
+        //                 coordinateY = (int) Random.Range(lower + offset, higher - offset) + 0.5f;
+        //                 break;
+        //             case Directions.Up:
+        //             case Directions.Down:
+        //                 lower = Mathf.Max(roomOne.BottomLeftCorner.x, roomTwo.BottomLeftCorner.x);
+        //                 higher = Mathf.Min(roomOne.BottomRightCorner.x, roomTwo.BottomRightCorner.x);
+        //
+        //
+        //                 coordinateX = (int) Random.Range(lower + offset, higher - offset) + 0.5f;
+        //                 coordinateY = roomOne.Center.y + Mathf.Sign((int) currentDirection) * roomOne.Size.y / 2f -
+        //                               Mathf.Sign((int) currentDirection) * 0.5f;
+        //                 break;
+        //         }
+        //
+        //         return new Vector2(coordinateX, coordinateY);
+        //     }
+        //
+        //     Vector2 CoordinateOfCorridorCenter()
+        //     {
+        //         float lower;
+        //         float higher;
+        //         float coordinateX = 0, coordinateY = 0;
+        //         float offset = corridorWidth + 1.5f;
+        //
+        //
+        //         switch (currentDirection)
+        //         {
+        //             case Directions.Left:
+        //             case Directions.Right:
+        //                 lower = Mathf.Max(roomOne.BottomCenterPosition.y, roomTwo.BottomCenterPosition.y);
+        //                 higher = Mathf.Min(roomOne.TopCenterPosition.y, roomTwo.TopCenterPosition.y);
+        //
+        //
+        //                 coordinateX = (roomOne.Center.x + Mathf.Sign((int) currentDirection) * roomOne.Size.x / 2f +
+        //                     roomTwo.Center.x - Mathf.Sign((int) currentDirection) * roomTwo.Size.x / 2f) / 2f;
+        //                 coordinateY = (int) Random.Range(lower + offset, higher - offset) + 0.5f;
+        //                 break;
+        //             case Directions.Up:
+        //             case Directions.Down:
+        //                 lower = Mathf.Max(roomOne.LeftCenterPosition.x, roomTwo.LeftCenterPosition.x);
+        //                 higher = Mathf.Min(roomOne.RightCenterPosition.x, roomTwo.RightCenterPosition.x);
+        //
+        //
+        //                 coordinateX = (int) Random.Range(lower + offset, higher - offset) + 0.5f;
+        //                 coordinateY = (roomOne.Center.y + Mathf.Sign((int) currentDirection) * roomOne.Size.y / 2f +
+        //                     roomTwo.Center.y - Mathf.Sign((int) currentDirection) * roomTwo.Size.y / 2f) / 2f;
+        //                 break;
+        //         }
+        //
+        //         return new Vector2(coordinateX, coordinateY);
+        //     }
+        // }
         private bool GenerateCorridor(Room roomOne, Room roomTwo, ref List<Corridor> corridorList)
         {
             var roomOnePosition = roomOne.Center;
@@ -354,16 +507,16 @@ namespace SnakeMaze.BSP
             var relativeDistanceX = roomTwoPosition.x - roomOnePosition.x;
             var relativeDistanceY = roomTwoPosition.y - roomOnePosition.y;
             var corridorSize = 0f;
-
-
+        
+        
             Directions currentDirection;
-
+        
             if (minDistanceX < Mathf.Abs(relativeDistanceX) && minDistanceY < Mathf.Abs(relativeDistanceY))
             {
                 // Rooms don't overlap.
                 return false;
             }
-
+        
             if (minDistanceX > Mathf.Abs(relativeDistanceX))
             {
                 // Rooms overlap in X axis.
@@ -374,14 +527,14 @@ namespace SnakeMaze.BSP
                 // Rooms overlap in Y axis.
                 currentDirection = relativeDistanceX > 0 ? Directions.Right : Directions.Left;
             }
-
+        
             var corridorCenter = CoordinateOfCorridorCenter();
             var corridorStart = CoordinateOfCorridorStart();
             var corridorEnd = Vector2.zero;
             // var corridorGO = Instantiate(corridorPrefab, corridorCenter, Quaternion.identity,
             //     corridorParentT);
-
-
+        
+        
             switch (currentDirection)
             {
                 case Directions.Up:
@@ -389,24 +542,24 @@ namespace SnakeMaze.BSP
                     // corridorGO.transform.localScale = new Vector3(corridorWidth,
                     //     Mathf.Abs(corridorSize), 1);
                     corridorEnd = corridorStart + Vector2.up * (Mathf.Abs(corridorSize) + 1);
-
-                    verticalCorridors.PaintObject(new Vector2(corridorStart.x, roomOne.TopCenterPosition.y+_mazeBuilder.CellSize.y/2f),
-                        Directions.Up, (int) Mathf.Abs(corridorSize),corridorParentT);
+                    
+                    tileMapVisualizer.PaintCorridorTiles(new Vector2Int((int)corridorStart.x, (int)(roomOne.TopCenterPosition.y+_mazeBuilder.CellSize.y/2f)),
+                        Directions.Up, (int) Mathf.Abs(corridorSize),false);
                     break;
                 case Directions.Down:
                     corridorSize = roomTwo.TopCenterPosition.y - roomOne.BottomCenterPosition.y;
                     // corridorGO.transform.localScale = new Vector3(corridorWidth,
                     //     Mathf.Abs(corridorSize), 1);
                     corridorEnd = corridorStart - Vector2.up * (Mathf.Abs(corridorSize) + 1);
-                    verticalCorridors.PaintObject(new Vector2(corridorStart.x, roomOne.BottomLeftCorner.y-_mazeBuilder.CellSize.y/2f),
-                        Directions.Down, (int) Mathf.Abs(corridorSize),corridorParentT);
+                    tileMapVisualizer.PaintCorridorTiles(new Vector2Int((int)corridorStart.x, (int)(roomOne.BottomLeftCorner.y-_mazeBuilder.CellSize.y/2f)),
+                        Directions.Down, (int) Mathf.Abs(corridorSize),false);
                     break;
                 case Directions.Right:
                     corridorSize = roomTwo.LeftCenterPosition.x - roomOne.RightCenterPosition.x;
                     // corridorGO.transform.localScale =
                     //     new Vector3(Mathf.Abs(corridorSize), corridorWidth, 1);
                     corridorEnd = corridorStart + Vector2.right * (Mathf.Abs(corridorSize) + 1);
-                    horizontalCorridors.PaintObject(new Vector2( roomOne.BottomRightCorner.x+_mazeBuilder.CellSize.x/2f,corridorStart.y),
+                    tileMapVisualizer.PaintCorridorTiles(new Vector2Int((int) (roomOne.BottomRightCorner.x+_mazeBuilder.CellSize.x/2f),(int)corridorStart.y),
                         Directions.Right, (int) Mathf.Abs(corridorSize),corridorParentT);
                     break;
                 case Directions.Left:
@@ -414,33 +567,33 @@ namespace SnakeMaze.BSP
                     // corridorGO.transform.localScale =
                     //     new Vector3(Mathf.Abs(corridorSize), corridorWidth, 1);
                     corridorEnd = corridorStart - Vector2.right * (Mathf.Abs(corridorSize) + 1);
-                    horizontalCorridors.PaintObject(new Vector2( roomOne.BottomLeftCorner.x-_mazeBuilder.CellSize.x/2f,corridorStart.y),
+                    tileMapVisualizer.PaintCorridorTiles(new Vector2Int((int) (roomOne.BottomLeftCorner.x-_mazeBuilder.CellSize.x/2f),(int)corridorStart.y),
                         Directions.Left, (int) Mathf.Abs(corridorSize),corridorParentT);
                     break;
             }
-
-            Destroy(roomOne.Grid.GetWallAtPosition(roomOne.BottomLeftCorner, corridorStart, currentDirection));
-            Destroy(roomTwo.Grid.GetWallAtPosition(roomTwo.BottomLeftCorner, corridorEnd,
-                DirectionsActions.GetOppositeDirection(currentDirection)));
+        
+            roomOne.Grid.GetWallAtPosition(roomOne.BottomLeftCorner, corridorStart, currentDirection);
+            roomTwo.Grid.GetWallAtPosition(roomTwo.BottomLeftCorner, corridorEnd,
+                DirectionsActions.GetOppositeDirection(currentDirection));
             corridorList.Add(new Corridor(roomOne.Center, roomTwo.Center, corridorWidth));
-
+        
             return true;
-
+        
             Vector2 CoordinateOfCorridorStart()
             {
                 float lower;
                 float higher;
                 float coordinateX = 0, coordinateY = 0;
                 float offset = corridorWidth + 1.5f;
-
+        
                 switch (currentDirection)
                 {
                     case Directions.Left:
                     case Directions.Right:
                         lower = Mathf.Max(roomOne.BottomLeftCorner.y, roomTwo.BottomLeftCorner.y);
                         higher = Mathf.Min(roomOne.TopLeftCorner.y, roomTwo.TopLeftCorner.y);
-
-
+        
+        
                         coordinateX = roomOne.Center.x + Mathf.Sign((int) currentDirection) * roomOne.Size.x / 2f -
                                       Mathf.Sign((int) currentDirection) * 0.5f;
                         coordinateY = (int) Random.Range(lower + offset, higher - offset) + 0.5f;
@@ -449,33 +602,33 @@ namespace SnakeMaze.BSP
                     case Directions.Down:
                         lower = Mathf.Max(roomOne.BottomLeftCorner.x, roomTwo.BottomLeftCorner.x);
                         higher = Mathf.Min(roomOne.BottomRightCorner.x, roomTwo.BottomRightCorner.x);
-
-
+        
+        
                         coordinateX = (int) Random.Range(lower + offset, higher - offset) + 0.5f;
                         coordinateY = roomOne.Center.y + Mathf.Sign((int) currentDirection) * roomOne.Size.y / 2f -
                                       Mathf.Sign((int) currentDirection) * 0.5f;
                         break;
                 }
-
+        
                 return new Vector2(coordinateX, coordinateY);
             }
-
+        
             Vector2 CoordinateOfCorridorCenter()
             {
                 float lower;
                 float higher;
                 float coordinateX = 0, coordinateY = 0;
                 float offset = corridorWidth + 1.5f;
-
-
+        
+        
                 switch (currentDirection)
                 {
                     case Directions.Left:
                     case Directions.Right:
                         lower = Mathf.Max(roomOne.BottomCenterPosition.y, roomTwo.BottomCenterPosition.y);
                         higher = Mathf.Min(roomOne.TopCenterPosition.y, roomTwo.TopCenterPosition.y);
-
-
+        
+        
                         coordinateX = (roomOne.Center.x + Mathf.Sign((int) currentDirection) * roomOne.Size.x / 2f +
                             roomTwo.Center.x - Mathf.Sign((int) currentDirection) * roomTwo.Size.x / 2f) / 2f;
                         coordinateY = (int) Random.Range(lower + offset, higher - offset) + 0.5f;
@@ -484,14 +637,14 @@ namespace SnakeMaze.BSP
                     case Directions.Down:
                         lower = Mathf.Max(roomOne.LeftCenterPosition.x, roomTwo.LeftCenterPosition.x);
                         higher = Mathf.Min(roomOne.RightCenterPosition.x, roomTwo.RightCenterPosition.x);
-
-
+        
+        
                         coordinateX = (int) Random.Range(lower + offset, higher - offset) + 0.5f;
                         coordinateY = (roomOne.Center.y + Mathf.Sign((int) currentDirection) * roomOne.Size.y / 2f +
                             roomTwo.Center.y - Mathf.Sign((int) currentDirection) * roomTwo.Size.y / 2f) / 2f;
                         break;
                 }
-
+        
                 return new Vector2(coordinateX, coordinateY);
             }
         }
