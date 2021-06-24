@@ -30,11 +30,12 @@ namespace SnakeMaze.SO
 
         [Header("Corridors")] [SerializeField] private TileBase horizontalCorridor;
         [SerializeField] private TileBase verticalCorridor;
-        
-        private Dictionary<WallSprites, TileBase> _tileDic=new Dictionary<WallSprites, TileBase>();
+
+        private Dictionary<WallSprites, TileBase> _tileDic;
 
         public TileBase HorizontalCorridor => horizontalCorridor;
         public TileBase VerticalCorridor => verticalCorridor;
+
         public Dictionary<WallSprites, TileBase> TileDic
         {
             get => _tileDic;
@@ -43,23 +44,24 @@ namespace SnakeMaze.SO
 
         public void InitMazeSkin()
         {
-           _tileDic.Add(WallSprites.TopRightLeft,topRightLeft);
-           _tileDic.Add(WallSprites.TopRightBot,topRightBot);
-           _tileDic.Add(WallSprites.TopLeftBot,topLeftBot);
-           _tileDic.Add(WallSprites.TopRight,topRight);
-           _tileDic.Add(WallSprites.TopLeft,topLeft);
-           _tileDic.Add(WallSprites.TopBot,topBot);
-           _tileDic.Add(WallSprites.Top,top);
-           _tileDic.Add(WallSprites.RightLeftBot,rightLeftBot);
-           _tileDic.Add(WallSprites.RightLeft,rightLeft);
-           _tileDic.Add(WallSprites.RightBot,rightBot);
-           _tileDic.Add(WallSprites.LeftBot,leftBot);
-           _tileDic.Add(WallSprites.Right,right);
-           _tileDic.Add(WallSprites.Left,left);
-           _tileDic.Add(WallSprites.Bot,bot);
-           _tileDic.Add(WallSprites.Empty,empty);
-
+            _tileDic = new Dictionary<WallSprites, TileBase>()
+            {
+                {WallSprites.TopRightLeft, topRightLeft},
+                {WallSprites.TopRightBot, topRightBot},
+                {WallSprites.TopLeftBot, topLeftBot},
+                {WallSprites.TopRight, topRight},
+                {WallSprites.TopLeft, topLeft},
+                {WallSprites.TopBot, topBot},
+                {WallSprites.Top, top},
+                {WallSprites.RightLeftBot, rightLeftBot},
+                {WallSprites.RightLeft, rightLeft},
+                {WallSprites.RightBot, rightBot},
+                {WallSprites.LeftBot, leftBot},
+                {WallSprites.Right, right},
+                {WallSprites.Left, left},
+                {WallSprites.Bot, bot},
+                {WallSprites.Empty, empty}
+            };
         }
-
     }
 }

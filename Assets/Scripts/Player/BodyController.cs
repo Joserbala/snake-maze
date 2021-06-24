@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using SnakeMaze.Audio;
 using SnakeMaze.Enums;
 using SnakeMaze.SO;
 using UnityEngine;
@@ -12,6 +13,7 @@ namespace SnakeMaze.Player
         [SerializeField] private SnakeSkinSO currentSkin;
         [SerializeField] private Transform headPosition;
         [SerializeField] private PlayerVariableSO player;
+        [SerializeField] private AudioRequest eatRequest;
         private List<Snake> snakeParts = new List<Snake>();
         private bool _growSnake;
 
@@ -76,6 +78,7 @@ namespace SnakeMaze.Player
             snake.LastSprite = lastTail.LastSprite;
             snakeParts.Add(snake);
             TailToBody(lastTail, snakeParts.Count - 2);
+            eatRequest.PlayAudio();
         }
 
         private void TailToBody(Snake newBody, int index)

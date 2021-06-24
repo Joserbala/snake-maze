@@ -41,7 +41,7 @@ namespace SnakeMaze.SO
                 {AudioClipType.BoostOut, boostOut},
                 {AudioClipType.Death, death},
                 {AudioClipType.Eat, eat},
-                {AudioClipType.TapUi, tapUi},
+                {AudioClipType.TapUi, tapUi}
             };
         }
 

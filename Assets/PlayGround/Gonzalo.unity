@@ -526,7 +526,7 @@ MonoBehaviour:
   clipType: 4
   playOnStart: 0
   audioBus: {fileID: 11400000, guid: 66864f3b335e1604a8601c4582d2e3bc, type: 2}
-  audioConfig: {fileID: 11400000, guid: 7abe29c6862607645bf62d44c6c130da, type: 2}
+  audioConfig: {fileID: 11400000, guid: e4cadd25487b3014781182b785aab544, type: 2}
 --- !u!1 &295203456
 GameObject:
   m_ObjectHideFlags: 0
@@ -537,6 +537,7 @@ GameObject:
   m_Component:
   - component: {fileID: 295203458}
   - component: {fileID: 295203457}
+  - component: {fileID: 295203459}
   m_Layer: 0
   m_Name: SnakeBody
   m_TagString: Untagged
@@ -560,6 +561,7 @@ MonoBehaviour:
   currentSkin: {fileID: 11400000, guid: c22e9787dde4c3e4da48e601deec3564, type: 2}
   headPosition: {fileID: 694179349}
   player: {fileID: 11400000, guid: c13d86b70e228d546a539cf94c0d76bc, type: 2}
+  eatRequest: {fileID: 295203459}
 --- !u!4 &295203458
 Transform:
   m_ObjectHideFlags: 0
@@ -574,6 +576,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &295203459
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 295203456}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35e9123ba1ecc0d459245aa482d3f7cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clipType: 5
+  playOnStart: 0
+  audioBus: {fileID: 11400000, guid: 66864f3b335e1604a8601c4582d2e3bc, type: 2}
+  audioConfig: {fileID: 11400000, guid: 7abe29c6862607645bf62d44c6c130da, type: 2}
 --- !u!1 &385165250
 GameObject:
   m_ObjectHideFlags: 0
@@ -846,8 +864,8 @@ MonoBehaviour:
   m_LookaheadTime: 0
   m_LookaheadSmoothing: 0
   m_LookaheadIgnoreY: 0
-  m_XDamping: 1
-  m_YDamping: 1
+  m_XDamping: 2
+  m_YDamping: 2
   m_ZDamping: 1
   m_TargetMovementOnly: 1
   m_ScreenX: 0.5
@@ -2389,7 +2407,7 @@ MonoBehaviour:
   gameManager: {fileID: 11400000, guid: 9f456d6bfae0f5f459d343256c8b7365, type: 2}
   pauseButton: {fileID: 1799297668}
   resumeButton: {fileID: 1392535956}
-  tapRequest: {fileID: 0}
+  tapRequest: {fileID: 1888288329}
 --- !u!4 &1888288328
 Transform:
   m_ObjectHideFlags: 0
@@ -2419,7 +2437,7 @@ MonoBehaviour:
   clipType: 6
   playOnStart: 0
   audioBus: {fileID: 11400000, guid: 66864f3b335e1604a8601c4582d2e3bc, type: 2}
-  audioConfig: {fileID: 11400000, guid: 7abe29c6862607645bf62d44c6c130da, type: 2}
+  audioConfig: {fileID: 11400000, guid: 825a1a64b81903541bf9e3c1b1453db7, type: 2}
 --- !u!1 &1958332525
 GameObject:
   m_ObjectHideFlags: 0
@@ -2588,7 +2606,7 @@ MonoBehaviour:
   clipType: 2
   playOnStart: 0
   audioBus: {fileID: 11400000, guid: 66864f3b335e1604a8601c4582d2e3bc, type: 2}
-  audioConfig: {fileID: 11400000, guid: 7abe29c6862607645bf62d44c6c130da, type: 2}
+  audioConfig: {fileID: 11400000, guid: 825a1a64b81903541bf9e3c1b1453db7, type: 2}
 --- !u!1 &2091192898
 GameObject:
   m_ObjectHideFlags: 0
@@ -2635,4 +2653,4 @@ MonoBehaviour:
   clipType: 3
   playOnStart: 0
   audioBus: {fileID: 11400000, guid: 66864f3b335e1604a8601c4582d2e3bc, type: 2}
-  audioConfig: {fileID: 11400000, guid: 7abe29c6862607645bf62d44c6c130da, type: 2}
+  audioConfig: {fileID: 11400000, guid: 825a1a64b81903541bf9e3c1b1453db7, type: 2}
