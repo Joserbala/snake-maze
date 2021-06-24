@@ -7,7 +7,7 @@ EditorBuildSettings:
   m_Scenes:
   - enabled: 1
     path: Assets/PlayGround/Joser/Main Menu.unity
-    guid: 9168e2d5efa48ff4195183e1f68f442d
+    guid: e4b21c23c3243a04da28b73c2568b425
   - enabled: 1
     path: Assets/PlayGround/LoadingScene.unity
     guid: 4edd08cbaefca0943ac558d1ca303c84

@@ -18,6 +18,6 @@ MonoBehaviour:
   panStereo: 0
   reverbZoneMix: 1
   randomPitch: 1
-  minPitch: 0.8
-  maxPitch: 1.2
+  minPitch: 0.9
+  maxPitch: 1.1
   ignorePause: 0
