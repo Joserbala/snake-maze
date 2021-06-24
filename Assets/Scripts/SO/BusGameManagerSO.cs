@@ -21,12 +21,14 @@ namespace SnakeMaze.SO
         {
             StartGame += SetGameStartedTrue;
             EndGame += SetGameStartedFalase;
+            PauseGame += SetTimeScale;
         }
 
         private void OnDisable()
         {
             StartGame -= SetGameStartedTrue;
             EndGame -= SetGameStartedFalase;
+            PauseGame -= SetTimeScale;
         }
 
         public void ResetValues()
@@ -34,6 +36,10 @@ namespace SnakeMaze.SO
             _gameStarted = false;
         }
 
+        private void SetTimeScale(bool value)
+        {
+            Time.timeScale = value ? 0 : 1;
+        }
         private void SetGameStartedTrue() => _gameStarted = true;
         private void SetGameStartedFalase() => _gameStarted = false;
     }

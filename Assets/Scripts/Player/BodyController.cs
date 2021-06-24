@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using SnakeMaze.Audio;
 using SnakeMaze.Enums;
@@ -14,15 +15,37 @@ namespace SnakeMaze.Player
         [SerializeField] private Transform headPosition;
         [SerializeField] private PlayerVariableSO player;
         [SerializeField] private AudioRequest eatRequest;
+        [SerializeField] private BusGameManagerSO gameManagerSo;
         private List<Snake> snakeParts = new List<Snake>();
         private bool _growSnake;
+        private IEnumerator _grow;
 
         private void Start()
         {
             _growSnake = false;
             InitBody();
-            InvokeRepeating(nameof(GrowSnakeNextMove), 2, 2f);
         }
+
+        IEnumerator StartGrowing()
+        {
+            while (true)
+            {
+                yield return new WaitForSeconds(2f);
+                GrowSnakeNextMove();
+            }
+        }
+
+        private void StartGrow()
+        {
+            _grow = StartGrowing();
+            StartCoroutine(_grow);
+        }
+
+        private void StopGrow()
+        {
+            StopCoroutine(_grow);
+        }
+
 
         private void InitBody()
         {
@@ -132,6 +155,7 @@ namespace SnakeMaze.Player
             if (_growSnake)
             {
                 InstantiateTail();
+                Debug.Log("Instantiate tail");
                 _growSnake = false;
             }
         }
@@ -211,6 +235,19 @@ namespace SnakeMaze.Player
             }
 
             return sprite;
+        }
+
+        private void OnEnable()
+        {
+            gameManagerSo.StartGame += StartGrow;
+            gameManagerSo.EndGame += StopGrow;
+
+        }
+
+        private void OnDisable()
+        {
+            gameManagerSo.StartGame -= StartGrow;
+            gameManagerSo.EndGame -= StopGrow;   
         }
     }
 }
