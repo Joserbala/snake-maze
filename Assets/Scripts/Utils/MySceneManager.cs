@@ -8,6 +8,7 @@ namespace SnakeMaze.Utils
     {
         [SerializeField] private BusGameManagerSO gameManagerSo;
         [SerializeField] private BusMazeManagerSO mazeManagerSo;
+
         public void LoadCurrentScene()
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
@@ -15,6 +16,11 @@ namespace SnakeMaze.Utils
         public void LoadLoadingScene()
         {
             SceneManager.LoadScene("LoadingScene");
+        }
+
+        public void LoadScene(string sceneToLoad = "LoadingScene")
+        {
+            SceneManager.LoadScene(sceneToLoad);
         }
 
         private void ResetSoOnLoadScene(Scene scene, LoadSceneMode loadSceneMode)
