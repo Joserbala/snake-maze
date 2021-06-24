@@ -1,10 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
+using SnakeMaze.Enums;
 using UnityEngine;
 
-namespace SnakeMaze
+namespace SnakeMaze.SO
 {
-    public class AudioClipSO : MonoBehaviour
+    [CreateAssetMenu(fileName = "AudioCclip", menuName = "Scriptables/Audio/AudioClipSO")]
+    public class AudioClipSO : ScriptableObject
     {
         [SerializeField] private AudioClip clip;
         [SerializeField] private bool loop;

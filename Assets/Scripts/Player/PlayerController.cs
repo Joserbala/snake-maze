@@ -1,4 +1,5 @@
 using System.Collections;
+using SnakeMaze.Audio;
 using SnakeMaze.Enums;
 using SnakeMaze.SO;
 using UnityEngine;
@@ -11,6 +12,7 @@ namespace SnakeMaze.Player
         [SerializeField] private PlayerVariableSO playerVariable;
         [SerializeField] private SnakeSkinSO currentSkin;
         [SerializeField] private BusGameManagerSO gameManager;
+        [SerializeField] private AudioRequest deathRequest;
 
         private BodyController _bodyController;
         private SpriteRenderer _spriteRenderer;
@@ -125,6 +127,7 @@ namespace SnakeMaze.Player
         {
             playerVariable.IsAlive = false;
             gameManager.GameStarted = false;
+            deathRequest.PlayAudio();
             gameManager.EndGame?.Invoke();
         }
 

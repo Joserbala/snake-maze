@@ -12,6 +12,7 @@ namespace SnakeMaze.TileMaps
         [SerializeField] private Tilemap wallTilemap;
         [SerializeField] private MazeSkinSO mazeSkin;
 
+
         private void Awake()
         {
             mazeSkin.InitMazeSkin();

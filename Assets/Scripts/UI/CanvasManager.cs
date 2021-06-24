@@ -1,3 +1,4 @@
+using SnakeMaze.Audio;
 using SnakeMaze.SO;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,6 +12,7 @@ namespace SnakeMaze.UI
         [SerializeField] private BusGameManagerSO gameManager;
         [SerializeField] private Button pauseButton;
         [SerializeField] private Button resumeButton;
+        [SerializeField] private AudioRequest tapRequest;
         private bool _isDeathPanelActive;
         private bool _isPausePanelActive;
 
@@ -22,11 +24,13 @@ namespace SnakeMaze.UI
         private void PressResumeButton()
         {
             if (!gameManager.GameStarted) return;
+            tapRequest.PlayAudio();
             gameManager.PauseGame?.Invoke(false);
         }
         private void PressPauseButton()
         {
             if (!gameManager.GameStarted||_isDeathPanelActive||_isPausePanelActive) return;
+            tapRequest.PlayAudio();
             gameManager.PauseGame?.Invoke(true);
         }
 

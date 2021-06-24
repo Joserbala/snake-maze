@@ -1,8 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using SnakeMaze.Audio;
 using SnakeMaze.Player;
 using SnakeMaze.SO;
+using SnakeMaze.SO.Audio;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
@@ -14,9 +16,12 @@ namespace SnakeMaze.Player
     {
         [SerializeField] private PlayerVariableSO playerVariable;
         [SerializeField] private BusGameManagerSO gameManager;
-
+        [SerializeField] private AudioRequest boostIn;
+        [SerializeField] private AudioRequest boostOut;
+        private bool _isOnBoost;
         private void Awake()
         {
+            _isOnBoost = false;
 #if UNITY_EDITOR
 #else
             Debug.Log("Awake");
@@ -85,6 +90,8 @@ namespace SnakeMaze.Player
             if (ctx.performed)
             {
                 playerVariable.CurrentSpeed = playerVariable.BoostSpeed;
+                boostIn.PlayAudio();
+                _isOnBoost = true;
                 Debug.Log("Boost");
             }
 
@@ -100,7 +107,10 @@ namespace SnakeMaze.Player
         {
             if (ctx.performed)
             {
+                if (!_isOnBoost) return;
+                _isOnBoost = false;
                 playerVariable.CurrentSpeed = playerVariable.NormalSpeed;
+                boostOut.PlayAudio();
             }
         }
     }
