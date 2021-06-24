@@ -46,7 +46,6 @@ namespace SnakeMaze.UI
 
         private void OnEnable()
         {
-            Debug.Log("Subscribing in canvas");
             gameManager.EndGame += SwitchDeathPanel;
             gameManager.PauseGame += SwitchPausePanel;
             resumeButton.onClick.AddListener(PressResumeButton);

@@ -112,7 +112,6 @@ namespace SnakeMaze.BSP
         /// </remarks>
         public void GenerateDungeon()
         {
-            Debug.Log("Maze Started");
             mazeManager.StartMaze?.Invoke();
             if (printTreeInConsole)
                 Debug.Log(BinaryTreeUtils<BSPData>.InOrderHorizontal(_tree, 0));
@@ -132,7 +131,6 @@ namespace SnakeMaze.BSP
             {
                 _mazeBuilder.PaintTheMaze(room.Grid);
             }
-            Debug.Log("Maze finished");
             mazeManager.FinishMaze?.Invoke();
         }
 

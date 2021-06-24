@@ -19,10 +19,9 @@ namespace SnakeMaze.Player
 
         private void Start()
         {
-            // Invoke(nameof(InitBody), 0.5f);
             _growSnake = false;
             InitBody();
-            InvokeRepeating(nameof(GrowSnakeNestMove), 0, 2f);
+            InvokeRepeating(nameof(GrowSnakeNextMove), 2, 2f);
         }
 
         private void InitBody()
@@ -58,7 +57,7 @@ namespace SnakeMaze.Player
         }
 
         [ContextMenu("Grow Snake")]
-        public void GrowSnakeNestMove()
+        public void GrowSnakeNextMove()
         {
             _growSnake = true;
         }

@@ -63,6 +63,7 @@ namespace SnakeMaze.Audio
         private void PlayAudioClip(AudioClipType clipType, AudioConfigSO settings)
         {
             AudioClipSO clip = audioSkin.AudioDic[clipType];
+            Debug.Log(clipType);
             SoundEmitter soundEmitter = pool.Request();
             if (soundEmitter != null)
             {

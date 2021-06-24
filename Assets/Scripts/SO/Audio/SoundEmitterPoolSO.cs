@@ -55,6 +55,8 @@ namespace SnakeMaze.SO.Audio
         public SoundEmitter Request()
         {
             var member = _avalible.Count > 0 ? _avalible.Pop() : Create();
+            if (member == null)
+                member = Create();
             member.gameObject.SetActive(true);
             return member;
         }
