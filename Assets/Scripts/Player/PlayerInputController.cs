@@ -1,14 +1,7 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using SnakeMaze.Audio;
-using SnakeMaze.Player;
 using SnakeMaze.SO;
-using SnakeMaze.SO.Audio;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Serialization;
-using Gyroscope = UnityEngine.InputSystem.Gyroscope;
 
 namespace SnakeMaze.Player
 {
@@ -22,28 +15,7 @@ namespace SnakeMaze.Player
         private void Awake()
         {
             _isOnBoost = false;
-#if UNITY_EDITOR
-#else
-            Debug.Log("Awake");
-            // InputSystem.EnableDevice(Gyroscope.current);
-            // InputSystem.EnableDevice(Accelerometer.current);
-            // InputSystem.EnableDevice(LinearAccelerationSensor.current);
-#endif
         }
-
-
-#if UNITY_EDITOR
-#else
-        // public void ConnectMobile()
-        // {
-        //     if (!Gyroscope.current.enabled)
-        //         InputSystem.EnableDevice(Gyroscope.current);
-        // }
-        // public void DisconnectMobile()
-        // {
-        //     InputSystem.DisableDevice(Gyroscope.current);
-        // }
-#endif
         public void GetHorizontalValue(InputAction.CallbackContext ctx)
         {
 // #if UNITY_ANDROID
@@ -90,16 +62,15 @@ namespace SnakeMaze.Player
             if (ctx.performed)
             {
                 playerVariable.CurrentSpeed = playerVariable.BoostSpeed;
-                boostIn.PlayAudio();
+                if(gameManager.GameStarted)
+                    boostIn.PlayAudio();
                 _isOnBoost = true;
-                Debug.Log("Boost");
             }
 
             if (ctx.started)
             {
                 if (!gameManager.GameStarted && playerVariable.IsAlive)
                     gameManager.StartGame?.Invoke();
-                Debug.Log("Start Game");
             }
         }
 
@@ -110,7 +81,8 @@ namespace SnakeMaze.Player
                 if (!_isOnBoost) return;
                 _isOnBoost = false;
                 playerVariable.CurrentSpeed = playerVariable.NormalSpeed;
-                boostOut.PlayAudio();
+                if(gameManager.GameStarted)
+                    boostOut.PlayAudio();
             }
         }
     }
