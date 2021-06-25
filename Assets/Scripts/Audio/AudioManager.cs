@@ -1,12 +1,8 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using SnakeMaze.Audio;
 using SnakeMaze.Enums;
 using SnakeMaze.SO;
 using SnakeMaze.SO.Audio;
 using UnityEngine;
-using UnityEngine.Audio;
 
 namespace SnakeMaze.Audio
 {
@@ -22,7 +18,7 @@ namespace SnakeMaze.Audio
 
         private void Awake()
         {
-            pool.PreWarm(initSize);
+            pool.Prewarm(initSize);
             pool.SetParent(transform);
             audioSkin.InitDic();
         }

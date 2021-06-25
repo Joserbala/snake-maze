@@ -1,79 +1,22 @@
-using System;
-using System.Collections.Generic;
 using UnityEngine;
 using SnakeMaze.Audio;
+using SnakeMaze.Interfaces;
 
 namespace SnakeMaze.SO.Audio
 {
-    [CreateAssetMenu(fileName = "SoundEmitterPool",menuName = "Scriptables/Audio/SoundEmitterPoolSO")]
-    public class SoundEmitterPoolSO : ScriptableObject
+    [CreateAssetMenu(fileName = "SoundEmitterPool", menuName = "Scriptables/Audio/SoundEmitterPoolSO")]
+    public class SoundEmitterPoolSO : ComponentPoolSO<SoundEmitter>
     {
-        [SerializeField] private SoundEmitter prefab;
-        private Stack<SoundEmitter> _avalible = new Stack<SoundEmitter>();
-        private bool _hasBeenPrewarmed;
-        
-        private Transform _root;
-        private Transform _parent;
+        [SerializeField] private SoundEmitterFactorySO _factory;
 
-        public Transform Root
+        public override IFactory<SoundEmitter> Factory
         {
-            get
-            {
-                if (_root == null)
-                {
-                    _root = new GameObject(name).transform;
-                    _root.SetParent(_parent);
-                }
-                return _root;
-            }
+            get => _factory;
+            set => _factory = value as SoundEmitterFactorySO; 
         }
-
-        public void SetParent(Transform value)
+        public void ResetValues()
         {
-            _parent = value;
-            Root.SetParent(_parent);
-        }
-
-        public void PreWarm(int amount)
-        {
-            if (_hasBeenPrewarmed) return;
-
-            for (int i = 0; i < amount; i++)
-            {
-                _avalible.Push(Create());
-            }
-            _hasBeenPrewarmed = true;
-        }
-
-        public SoundEmitter Create()
-        {
-            var member =  Instantiate(prefab,Root.transform);
-            member.gameObject.SetActive(false);
-            return member;
-        }
-        
-        public SoundEmitter Request()
-        {
-            var member = _avalible.Count > 0 ? _avalible.Pop() : Create();
-            if (member == null)
-                member = Create();
-            member.gameObject.SetActive(true);
-            return member;
-        }
-
-        public void Return(SoundEmitter member)
-        {
-            member.transform.SetParent(Root.transform);
-            member.gameObject.SetActive(false);
-            _avalible.Push(member);
-        }
-
-        private void OnDisable()
-        {
-            _avalible.Clear();
-            _hasBeenPrewarmed = false;
-            if(_root!=null)
-                Destroy(_root.gameObject);
+            HasBeenPrewarmed = false;
         }
     }
 }

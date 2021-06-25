@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fa5e83cd66ce53a4580f6af0fab00749, type: 3}
-  m_Name: SoundEmitterPool
+  m_Script: {fileID: 11500000, guid: f0317210080c3664ca1ca53310b781ad, type: 3}
+  m_Name: SoundEmitterFactory
   m_EditorClassIdentifier: 
-  _factory: {fileID: 11400000, guid: 7bd1c352ee730f84b81cc5158fb70d8e, type: 2}
+  prefab: {fileID: 7269686560794192498, guid: d4053bbeb5c4ac946a38432e1ba7fb76, type: 3}

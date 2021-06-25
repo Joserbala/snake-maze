@@ -1,4 +1,5 @@
 using SnakeMaze.SO;
+using SnakeMaze.SO.Audio;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -8,6 +9,7 @@ namespace SnakeMaze.Utils
     {
         [SerializeField] private BusGameManagerSO gameManagerSo;
         [SerializeField] private BusMazeManagerSO mazeManagerSo;
+        [SerializeField] private SoundEmitterPoolSO soundEmitterPoolSo;
 
         public void LoadCurrentScene()
         {
@@ -27,6 +29,7 @@ namespace SnakeMaze.Utils
         {
             gameManagerSo.ResetValues();
             mazeManagerSo.ResetValues();
+            soundEmitterPoolSo.ResetValues();
         }
 
         private void OnEnable()
