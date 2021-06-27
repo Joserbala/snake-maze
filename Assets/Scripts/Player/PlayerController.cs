@@ -17,6 +17,7 @@ namespace SnakeMaze.Player
         private BodyController _bodyController;
         private SpriteRenderer _spriteRenderer;
         private IEnumerator _moveCoroutine;
+        private IEnumerator _changeSpeedCoroutine;
         private Directions _currentDirection=Directions.Right;
 
         private void Awake()
@@ -41,10 +42,22 @@ namespace SnakeMaze.Player
             _moveCoroutine = Move();
             StartCoroutine(_moveCoroutine);
         }
+
         private void StopMoving()
         {
             playerVariable.IsMoving = false;
             StopCoroutine(_moveCoroutine);
+        }
+
+        private void StartChangingSpeed()
+        {
+            _changeSpeedCoroutine = ChangeSpeed();
+            StartCoroutine(_changeSpeedCoroutine);
+        }
+
+        private void StopChangingSpeed()
+        {
+            StopCoroutine(_changeSpeedCoroutine);
         }
 
         private void SetMoving(bool pause)
@@ -53,6 +66,22 @@ namespace SnakeMaze.Player
                 StopMoving();
             else
                 StartMoving();
+        }
+        private void SetChangingSpeed(bool pause)
+        {
+            if(pause)
+                StopChangingSpeed();
+            else
+                StartChangingSpeed();
+        }
+
+        private IEnumerator ChangeSpeed()
+        {
+            while (playerVariable.CurrentCoroutineSeconds>playerVariable.MinimunCoroutineSec)
+            {
+                yield return new WaitForSeconds(playerVariable.ChangeSpeedRate);
+                playerVariable.CurrentCoroutineSeconds -= playerVariable.SpeedChangeAmount;
+            }
         }
 
         private IEnumerator Move()
@@ -85,7 +114,7 @@ namespace SnakeMaze.Player
                 }
                 Move(_currentDirection);
                 _bodyController.MoveSnakeBody();
-                var time = playerVariable.CoroutineSeconds / playerVariable.CurrentSpeed;
+                var time = playerVariable.CurrentCoroutineSeconds / playerVariable.CurrentSpeed;
                 yield return new WaitForSeconds(time);
             }
         }
@@ -137,14 +166,18 @@ namespace SnakeMaze.Player
             gameManager.EndGame += StopMoving;
             gameManager.WinGame += StopMoving;
             gameManager.PauseGame += SetMoving;
+            gameManager.StartGame += StartChangingSpeed;
+            gameManager.EndGame += StopChangingSpeed;
+            gameManager.WinGame += StopChangingSpeed;
+            gameManager.PauseGame += SetChangingSpeed;
         }
 
         private void OnDisable()
         {
-            gameManager.StartGame -= StartMoving;
-            gameManager.EndGame -= StopMoving;
-            gameManager.WinGame -= StopMoving;
-            gameManager.PauseGame -= SetMoving;
+            gameManager.StartGame -= StartChangingSpeed;
+            gameManager.EndGame -= StopChangingSpeed;
+            gameManager.WinGame -= StopChangingSpeed;
+            gameManager.PauseGame -= SetChangingSpeed;
         }
     }
 }

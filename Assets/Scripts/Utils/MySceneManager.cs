@@ -10,6 +10,7 @@ namespace SnakeMaze.Utils
         [SerializeField] private BusGameManagerSO gameManagerSo;
         [SerializeField] private BusMazeManagerSO mazeManagerSo;
         [SerializeField] private SoundEmitterPoolSO soundEmitterPoolSo;
+        [SerializeField] private PlayerVariableSO playerVariableSo;
 
         public void LoadCurrentScene()
         {
@@ -30,6 +31,7 @@ namespace SnakeMaze.Utils
             gameManagerSo?.ResetValues();
             mazeManagerSo?.ResetValues();
             soundEmitterPoolSo?.ResetValues();
+            playerVariableSo?.ResetValues();
         }
 
         private void OnEnable()

@@ -1385,6 +1385,7 @@ MonoBehaviour:
   gameManagerSo: {fileID: 11400000, guid: 9f456d6bfae0f5f459d343256c8b7365, type: 2}
   mazeManagerSo: {fileID: 11400000, guid: 7be945dc6d5169a4996cac759dd306c0, type: 2}
   soundEmitterPoolSo: {fileID: 11400000, guid: 5be60cb14928fea4cb97f70489964bc2, type: 2}
+  playerVariableSo: {fileID: 11400000, guid: c13d86b70e228d546a539cf94c0d76bc, type: 2}
 --- !u!4 &815990852
 Transform:
   m_ObjectHideFlags: 0

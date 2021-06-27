@@ -10,9 +10,13 @@ namespace SnakeMaze.SO
         [SerializeField] private float normalSpeed = 1;
         [SerializeField] private float boostSpeed = 2;
         [SerializeField] private float coroutineSeconds = 0.02f;
+        [SerializeField] private float minimunCoroutineSec = 0.001f;
+        [SerializeField] private float speedChangeAmount = 0.01f;
+        [SerializeField] private float changeSpeedRate = 5f;
         [SerializeField] private int pixelsPerTile = 32;
         [SerializeField] private int playerPixels = 4;
 
+        private float _currentCoroutineSeconds;
         private float _horizontal;
         private float _vertical;
         private float _currentSpeed;
@@ -25,17 +29,30 @@ namespace SnakeMaze.SO
         public float NormalSpeed
         {
             get=>normalSpeed;
-            set=>normalSpeed=value;
         }
         public float BoostSpeed
         {
             get=>boostSpeed;
-            set=>boostSpeed=value;
         }
-        public float CoroutineSeconds
+        public float CurrentCoroutineSeconds
         {
-            get=>coroutineSeconds;
-            set=>coroutineSeconds=value;
+            get=>_currentCoroutineSeconds;
+            set=>_currentCoroutineSeconds=value;
+        }
+        public float SpeedChangeAmount
+        {
+            get=>speedChangeAmount;
+            set=>speedChangeAmount=value;
+        }
+        public float ChangeSpeedRate
+        {
+            get=>changeSpeedRate;
+            set=>changeSpeedRate=value;
+        }
+        public float MinimunCoroutineSec
+        {
+            get=>minimunCoroutineSec;
+            set=>minimunCoroutineSec=value;
         }
 
         public float CurrentSpeed
@@ -81,6 +98,11 @@ namespace SnakeMaze.SO
         {
             get => _currentDirection;
             set => _currentDirection = value;
+        }
+
+        public void ResetValues()
+        {
+            _currentCoroutineSeconds = coroutineSeconds;
         }
     }
 }

@@ -14,6 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   normalSpeed: 1
   boostSpeed: 2
-  coroutineSeconds: 0.07
+  coroutineSeconds: 0.06
+  minimunCoroutineSec: 0.001
+  speedChangeAmount: 0.001
+  changeSpeedRate: 5
   pixelsPerTile: 32
   playerPixels: 4
