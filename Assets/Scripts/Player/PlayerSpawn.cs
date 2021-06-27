@@ -20,7 +20,11 @@ namespace SnakeMaze.Player
 
         private void SpawnPlayer()
         {
-            var room = _bspGenerator.RoomList[Random.Range(0, _bspGenerator.RoomList.Count)];
+            Room room = null;
+            do
+            {
+                room = _bspGenerator.OneCorridorRooms[Random.Range(0, _bspGenerator.OneCorridorRooms.Count)];
+            } while (room.IsExitRoom);
             var pos = room.Grid.GetCellAtPosition(room.BottomLeftCorner,room.Center).Position;
             _player.position = pos;
         }

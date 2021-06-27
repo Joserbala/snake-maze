@@ -17,6 +17,12 @@ public class MazeGrid
       set => _grid = value;
    }
 
+   public Vector2 CellSize
+   {
+      get => _cellSize;
+      set => _cellSize = value;
+   }
+
    public int Rows => _rows;
    public int Columns => _columns;
 

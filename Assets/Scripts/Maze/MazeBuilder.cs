@@ -1,9 +1,7 @@
-using System.Collections;
 using System.Collections.Generic;
 using SnakeMaze.BSP;
 using SnakeMaze.Enums;
 using SnakeMaze.TileMaps;
-using Unity.Mathematics;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -75,8 +73,16 @@ namespace SnakeMaze.Maze
             List<WallTile> wallList=new List<WallTile>();
             foreach (var mazeCell in mazeGrid.Grid)
             {
-                mazeCell.SetWallTile();
-                wallList.Add(mazeCell.Tile);
+                if(!mazeCell.IsExit)
+                {
+                    mazeCell.SetWallTile();
+                    wallList.Add(mazeCell.Tile);
+                }
+                else
+                {
+                    var pos = new Vector2Int((int)mazeCell.Position.x, (int)mazeCell.Position.y);
+                    tileMapVisualizer.PaintExitTile(pos);
+                }
             }
             tileMapVisualizer.PaintWallTiles(wallList);
         }

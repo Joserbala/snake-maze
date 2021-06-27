@@ -135,6 +135,7 @@ namespace SnakeMaze.Player
         {
             gameManager.StartGame += StartMoving;
             gameManager.EndGame += StopMoving;
+            gameManager.WinGame += StopMoving;
             gameManager.PauseGame += SetMoving;
         }
 
@@ -142,6 +143,7 @@ namespace SnakeMaze.Player
         {
             gameManager.StartGame -= StartMoving;
             gameManager.EndGame -= StopMoving;
+            gameManager.WinGame -= StopMoving;
             gameManager.PauseGame -= SetMoving;
         }
     }

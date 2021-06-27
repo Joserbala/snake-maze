@@ -16,8 +16,9 @@ namespace SnakeMaze.Maze
         public Vector3 Position { get; }
         public WallTile Tile { get; private set; }
         public Dictionary<Directions, GameObject> Walls { get; set; }
-        public bool InMaze = false;
-        public bool IsFrontier = false;
+        public bool InMaze { get; set; }
+        public bool IsFrontier { get; set; }
+        public bool IsExit { get; set; }
         private char[] spriteBinaryType;
         
         public MazeCell(Vector3 pos, int i, int j)
@@ -26,6 +27,7 @@ namespace SnakeMaze.Maze
             GridX = i;
             GridY = j;
             spriteBinaryType= new []{'1','1','1','1'};
+            IsExit = false;
         }
 
         public void GetWall(Directions dir)

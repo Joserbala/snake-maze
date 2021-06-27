@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using SnakeMaze.Enums;
+using SnakeMaze.Exceptions;
 using SnakeMaze.Maze;
 using SnakeMaze.SO;
 using SnakeMaze.Structures;
 using SnakeMaze.TileMaps;
 using SnakeMaze.Utils;
+using Unity.Mathematics;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -42,6 +44,7 @@ namespace SnakeMaze.BSP
 
         [Header("Prefabs")] [SerializeField] private GameObject corridorPrefab;
         [SerializeField] private Transform corridorParentT;
+        [SerializeField] private GameObject exitPrefab;
         [SerializeField] private Transform roomParentT;
         [SerializeField] private TileMapVisualizer tileMapVisualizer;
         private BSPData _rootdata;
@@ -65,6 +68,11 @@ namespace SnakeMaze.BSP
         /// </summary>
         private List<Room> _roomList;
 
+        private List<Room> _oneCorridorRooms;
+        public List<Room> OneCorridorRooms
+        {
+            get => _oneCorridorRooms;
+        }
         public List<Room> RoomList
         {
             get => _roomList;
@@ -127,6 +135,7 @@ namespace SnakeMaze.BSP
             _roomList = GenerateRooms(_tree);
             _mazeBuilder.GenerateMazes(_roomList);
             GenerateCorridorsGood(_tree, ref _corridorList);
+            GenerateExit(_roomList);
             foreach (var room in _roomList)
             {
                 _mazeBuilder.PaintTheMaze(room.Grid);
@@ -422,6 +431,8 @@ namespace SnakeMaze.BSP
             roomOne.Grid.GetWallAtPosition(roomOne.BottomLeftCorner, corridorStart, currentDirection);
             roomTwo.Grid.GetWallAtPosition(roomTwo.BottomLeftCorner, corridorEnd,
                 DirectionsActions.GetOppositeDirection(currentDirection));
+            roomOne.NumberOfCorridors++;
+            roomTwo.NumberOfCorridors++;
             corridorList.Add(new Corridor(roomOne.Center, roomTwo.Center, corridorWidth));
         
             return true;
@@ -543,7 +554,7 @@ namespace SnakeMaze.BSP
                     var room = new Room(actualCenter, new Vector2Int(actualRoomSizeX, actualRoomSizeY));
 
                     tree.Root.StoredRoom = room;
-
+            
                     roomList.Add(room);
                 }
 
@@ -558,6 +569,59 @@ namespace SnakeMaze.BSP
                 var rounded = Mathf.RoundToInt(number);
                 return rounded + .5f;
             }
+        }
+
+        private void InitOneCorridorRoomsList(List<Room> roomList)
+        {
+            _oneCorridorRooms = new List<Room>();
+            foreach (var room in roomList)
+            {
+                if(room.NumberOfCorridors==1) 
+                    _oneCorridorRooms.Add(room);
+            }
+        }
+        private void GenerateExit(List<Room> roomList)
+        {
+           InitOneCorridorRoomsList(roomList);
+
+            var exitRoom = _oneCorridorRooms[Random.Range(0, _oneCorridorRooms.Count)];
+            int randomNumber = 0;
+            do
+            {
+                randomNumber = Random.Range(-2, 2);
+            } while (randomNumber == 0);
+
+            var dir = (Directions) randomNumber;
+            Vector2 cellPos = Vector2.zero;
+            float xPos = 0;
+            float yPos = 0;
+            var offset = exitRoom.Grid.CellSize / 10f;
+            switch (dir)
+            {
+                case Directions.Up:
+                    xPos =  Random.Range(exitRoom.LeftCenterPosition.x+offset.x, exitRoom.RightCenterPosition.x-offset.x);
+                    cellPos = new Vector2(xPos, exitRoom.TopCenterPosition.y-offset.y);
+                    break;
+                case Directions.Down:
+                    xPos =  Random.Range(exitRoom.LeftCenterPosition.x+offset.x, exitRoom.RightCenterPosition.x-offset.x);
+                    cellPos = new Vector2(xPos, exitRoom.BottomCenterPosition.y+offset.y);
+                    break;
+                case Directions.Right:
+                    yPos =  Random.Range(exitRoom.BottomCenterPosition.y+offset.y, exitRoom.TopCenterPosition.y-offset.y);
+                    cellPos = new Vector2( exitRoom.RightCenterPosition.x-offset.x,yPos);
+                    break;
+                case Directions.Left:
+                    yPos =  Random.Range(exitRoom.BottomCenterPosition.y+offset.y, exitRoom.TopCenterPosition.y-offset.y);
+                    cellPos = new Vector2( exitRoom.LeftCenterPosition.x+offset.x,yPos);
+                    break;
+                default:
+                    throw new NotEnumTypeSupportedException();
+            }
+            var exitCell = exitRoom.Grid.GetCellAtPosition(exitRoom.BottomLeftCorner,cellPos);
+            exitCell.IsExit = true;
+            exitRoom.IsExitRoom = true;
+            Instantiate(exitPrefab,  exitCell.Position, quaternion.identity);
+
         }
     }
 }

@@ -27,9 +27,9 @@ namespace SnakeMaze.Utils
 
         private void ResetSoOnLoadScene(Scene scene, LoadSceneMode loadSceneMode)
         {
-            gameManagerSo.ResetValues();
-            mazeManagerSo.ResetValues();
-            soundEmitterPoolSo.ResetValues();
+            gameManagerSo?.ResetValues();
+            mazeManagerSo?.ResetValues();
+            soundEmitterPoolSo?.ResetValues();
         }
 
         private void OnEnable()

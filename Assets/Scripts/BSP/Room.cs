@@ -16,17 +16,22 @@ namespace SnakeMaze.BSP
         public Vector2 RightCenterPosition => new Vector2(Center.x + Size.x / 2f, Center.y);
         public Vector2 TopCenterPosition => new Vector2(Center.x, Center.y + Size.y / 2f);
         public Vector2 BottomCenterPosition => new Vector2(Center.x, Center.y - Size.y / 2f);
-        
+
+        public int NumberOfCorridors { get; set; }
+        public bool IsExitRoom { get; set; }
+
         public Room(Vector2 center, Vector2Int size)
         {
             Center = center;
             Size = size;
+            NumberOfCorridors = 0;
         }
         public Room(Vector2 center, Vector2Int size, MazeGrid grid)
         {
             Center = center;
             Size = size;
             Grid = grid;
+            NumberOfCorridors = 0;
         }
 
         public override string ToString()

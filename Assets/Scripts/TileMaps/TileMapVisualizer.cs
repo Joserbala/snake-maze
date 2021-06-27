@@ -39,6 +39,11 @@ namespace SnakeMaze.TileMaps
             }
         }
 
+        public void PaintExitTile(Vector2Int position)
+        {
+            PaintSingleTile(wallTilemap, mazeSkin.Exit,position);
+        }
+
         private void PaintSingleTile(Tilemap tilemap, TileBase tile, Vector2Int position)
         {
             var tilePosition = tilemap.WorldToCell((Vector3Int) position);

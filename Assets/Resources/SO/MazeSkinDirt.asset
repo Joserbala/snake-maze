@@ -29,3 +29,4 @@ MonoBehaviour:
   empty: {fileID: 11400000, guid: d3556e5e827d77c4a93e884cc2364127, type: 2}
   horizontalCorridor: {fileID: 11400000, guid: e469d40ad25267943ab3231933d35271, type: 2}
   verticalCorridor: {fileID: 11400000, guid: 80f114546f49c074fbae1924f57e115f, type: 2}
+  exit: {fileID: 11400000, guid: a7719dcf2dc0db349b8984eaaa4f2857, type: 2}

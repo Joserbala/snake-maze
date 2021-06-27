@@ -9,6 +9,7 @@ namespace SnakeMaze.SO
         public Action StartGame;
         public Action EndGame;
         public Action<bool> PauseGame;
+        public Action WinGame;
         private bool _gameStarted;
 
         public bool GameStarted
@@ -21,6 +22,7 @@ namespace SnakeMaze.SO
         {
             StartGame += SetGameStartedTrue;
             EndGame += SetGameStartedFalase;
+            WinGame += SetGameStartedFalase;
             PauseGame += SetTimeScale;
         }
 
@@ -28,6 +30,7 @@ namespace SnakeMaze.SO
         {
             StartGame -= SetGameStartedTrue;
             EndGame -= SetGameStartedFalase;
+            WinGame -= SetGameStartedFalase;
             PauseGame -= SetTimeScale;
         }
 
