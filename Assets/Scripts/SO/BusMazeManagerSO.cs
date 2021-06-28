@@ -1,10 +1,11 @@
 using System;
+using SnakeMaze.Interfaces;
 using UnityEngine;
 
 namespace SnakeMaze.SO
 {
     [CreateAssetMenu(fileName = "MazeManagerSO", menuName = "Scriptables/BusSO/BusMazeManagerSO")]
-    public class BusMazeManagerSO : ScriptableObject
+    public class BusMazeManagerSO : ResseteableSO
     {
         public Action StartMaze;
         public Action FinishMaze;
@@ -27,7 +28,7 @@ namespace SnakeMaze.SO
             FinishMaze -= SetIsMazeFinishedFalse;
         }
 
-        public void ResetValues()
+        public override void ResetValues()
         {
             _isMazeFinished = false;
         }

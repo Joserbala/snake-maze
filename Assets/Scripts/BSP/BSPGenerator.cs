@@ -623,5 +623,10 @@ namespace SnakeMaze.BSP
             Instantiate(exitPrefab,  exitCell.Position, quaternion.identity);
 
         }
+
+        public Room GetRandomRoom()
+        {
+            return _roomList[Random.Range(0, _roomList.Count)];
+        }
     }
 }

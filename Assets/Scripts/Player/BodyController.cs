@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using SnakeMaze.Audio;
 using SnakeMaze.Enums;
 using SnakeMaze.SO;
+using SnakeMaze.SO.FoodSO;
 using UnityEngine;
 
 namespace SnakeMaze.Player
@@ -15,6 +16,7 @@ namespace SnakeMaze.Player
         [SerializeField] private Transform headPosition;
         [SerializeField] private PlayerVariableSO player;
         [SerializeField] private AudioRequest eatRequest;
+        [SerializeField] private BusFoodSO busFoodSo;
         [SerializeField] private BusGameManagerSO gameManagerSo;
         private List<Snake> snakeParts = new List<Snake>();
         private bool _growSnake;
@@ -31,7 +33,7 @@ namespace SnakeMaze.Player
             while (true)
             {
                 yield return new WaitForSeconds(2f);
-                GrowSnakeNextMove();
+                // GrowSnakeNextMove();
             }
         }
 
@@ -241,6 +243,7 @@ namespace SnakeMaze.Player
         {
             gameManagerSo.StartGame += StartGrow;
             gameManagerSo.EndGame += StopGrow;
+            busFoodSo.OnEatFoodNoArg += GrowSnakeNextMove;
 
         }
 
@@ -248,6 +251,7 @@ namespace SnakeMaze.Player
         {
             gameManagerSo.StartGame -= StartGrow;
             gameManagerSo.EndGame -= StopGrow;   
+            busFoodSo.OnEatFoodNoArg -= GrowSnakeNextMove;
         }
     }
 }

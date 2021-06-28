@@ -49,4 +49,9 @@ public class MazeGrid
       var jCell = Mathf.FloorToInt((pos.y - bottomLeft.y) / _cellSize.y);
       _grid[iCell, jCell].GetWall(direction);
    }
+
+   public MazeCell GetRandomCell()
+   {
+      return Grid[Random.Range(0, _rows), Random.Range(0, _columns)];
+   }
 }

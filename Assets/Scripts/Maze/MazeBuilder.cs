@@ -49,7 +49,7 @@ namespace SnakeMaze.Maze
                 InitMazeValues(room);
                 room.Grid=new MazeGrid(_currentGidSize, cellSize);
                 _currentGrid = room.Grid;
-                CreateMaze();
+                CreateMaze(room);
             }
         }
 
@@ -64,6 +64,12 @@ namespace SnakeMaze.Maze
         private void CreateMaze()
         {
             CreateTheGrid();
+            RunPrimm();
+            // StartCoroutine(Primm());
+        }
+        private void CreateMaze(Room room)
+        {
+            CreateTheGrid(room);
             RunPrimm();
             // StartCoroutine(Primm());
         }
@@ -95,6 +101,17 @@ namespace SnakeMaze.Maze
                                        + Vector2.right * (i * cellSize.x + cellSize.x / 2)
                                        + Vector2.up * (j * cellSize.y + cellSize.y / 2);
                 _currentGrid.Grid[i, j] = new MazeCell(cellPosition, i, j);
+            }
+        }
+        private void CreateTheGrid(Room room)
+        {
+            for (int i = 0; i < _currentGrid.Rows; i++)
+            for (int j = 0; j < _currentGrid.Columns; j++)
+            {
+                Vector3 cellPosition = _currentBottomLeft
+                                       + Vector2.right * (i * cellSize.x + cellSize.x / 2)
+                                       + Vector2.up * (j * cellSize.y + cellSize.y / 2);
+                _currentGrid.Grid[i, j] = new MazeCell(cellPosition, i, j, room);
             }
         }
         private void RunPrimm()

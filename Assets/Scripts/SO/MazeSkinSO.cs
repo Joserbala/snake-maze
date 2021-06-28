@@ -37,11 +37,17 @@ namespace SnakeMaze.SO
         public TileBase VerticalCorridor => verticalCorridor;
 
         [Header("Exit")] [SerializeField] private TileBase exit;
+        [Header("Food")] [SerializeField] private TileBase food;
 
         public TileBase Exit
         {
             get => exit;
             set => exit = value;
+        }
+        public TileBase Food
+        {
+            get => food;
+            set => food = value;
         }
 
         public Dictionary<WallSprites, TileBase> TileDic

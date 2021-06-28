@@ -7,10 +7,7 @@ namespace SnakeMaze.Utils
 {
     public class MySceneManager : MonoBehaviour
     {
-        [SerializeField] private BusGameManagerSO gameManagerSo;
-        [SerializeField] private BusMazeManagerSO mazeManagerSo;
-        [SerializeField] private SoundEmitterPoolSO soundEmitterPoolSo;
-        [SerializeField] private PlayerVariableSO playerVariableSo;
+        [SerializeField] private SOManager soManager;
 
         public void LoadCurrentScene()
         {
@@ -28,10 +25,7 @@ namespace SnakeMaze.Utils
 
         private void ResetSoOnLoadScene(Scene scene, LoadSceneMode loadSceneMode)
         {
-            gameManagerSo?.ResetValues();
-            mazeManagerSo?.ResetValues();
-            soundEmitterPoolSo?.ResetValues();
-            playerVariableSo?.ResetValues();
+            soManager.ResetScriptables();
         }
 
         private void OnEnable()

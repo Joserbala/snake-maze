@@ -1,5 +1,7 @@
 using SnakeMaze.Audio;
 using SnakeMaze.SO;
+using SnakeMaze.SO.FoodSO;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,19 +12,23 @@ namespace SnakeMaze.UI
         [SerializeField] private GameObject deathPanel;
         [SerializeField] private GameObject pausePanel;
         [SerializeField] private GameObject winPanel;
+        [SerializeField] private TextMeshProUGUI points;
         [SerializeField] private BusGameManagerSO gameManager;
+        [SerializeField] private BusFoodSO busFoodSo;
         [SerializeField] private Button pauseButton;
         [SerializeField] private Button resumeButton;
         [SerializeField] private AudioRequest tapRequest;
         private bool _isDeathPanelActive;
         private bool _isPausePanelActive;
         private bool _isWinPanelActive;
+        private int _points;
 
         private void Start()
         {
             _isDeathPanelActive = false;
             _isPausePanelActive = false;
             _isWinPanelActive = false;
+            ResetPoints();
         }
         private void PressResumeButton()
         {
@@ -52,6 +58,18 @@ namespace SnakeMaze.UI
             pausePanel.SetActive(pause);
         }
 
+        private void ResetPoints()
+        {
+            _points = 0;
+            points.text = _points.ToString();
+        }
+
+        private void AddPoints(int amount)
+        {
+            _points += amount;
+            points.text = _points.ToString();
+        }
+
         private void OnEnable()
         {
             gameManager.EndGame += SwitchDeathPanel;
@@ -59,6 +77,8 @@ namespace SnakeMaze.UI
             gameManager.PauseGame += SwitchPausePanel;
             resumeButton.onClick.AddListener(PressResumeButton);
             pauseButton.onClick.AddListener(PressPauseButton);
+            busFoodSo.OnEatFoodPoints += AddPoints;
+
         }
 
         private void OnDisable()
@@ -68,6 +88,7 @@ namespace SnakeMaze.UI
             gameManager.PauseGame -= SwitchPausePanel;
             resumeButton.onClick.RemoveListener(PressResumeButton);
             pauseButton.onClick.RemoveListener(PressPauseButton);
+            busFoodSo.OnEatFoodPoints -= AddPoints;
         }
     }
 }

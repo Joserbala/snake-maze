@@ -1,11 +1,12 @@
 using System;
 using SnakeMaze.Enums;
+using SnakeMaze.Interfaces;
 using UnityEngine;
 
 namespace SnakeMaze.SO
 {
     [CreateAssetMenu(fileName = "PlayerVariable", menuName = "Scriptables/PlayerVariable")]
-    public class PlayerVariableSO : ScriptableObject
+    public class PlayerVariableSO : ResseteableSO
     {
         [SerializeField] private float normalSpeed = 1;
         [SerializeField] private float boostSpeed = 2;
@@ -100,7 +101,7 @@ namespace SnakeMaze.SO
             set => _currentDirection = value;
         }
 
-        public void ResetValues()
+        public override void ResetValues()
         {
             _currentCoroutineSeconds = coroutineSeconds;
         }

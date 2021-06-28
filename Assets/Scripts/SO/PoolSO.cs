@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace SnakeMaze.SO
 {
-    public abstract class PoolSO<T> : ScriptableObject
+    public abstract class PoolSO<T> : ResseteableSO
     {
         protected readonly Stack<T> Available = new Stack<T>();
         public abstract IFactory<T> Factory { get; set; }

@@ -1,10 +1,11 @@
 using System;
+using SnakeMaze.Interfaces;
 using UnityEngine;
 
 namespace SnakeMaze.SO
 {
     [CreateAssetMenu(fileName = "GameManagerSO", menuName = "Scriptables/BusSO/BusGameManagerSO")]
-    public class BusGameManagerSO : ScriptableObject
+    public class BusGameManagerSO : ResseteableSO
     {
         public Action StartGame;
         public Action EndGame;
@@ -34,7 +35,7 @@ namespace SnakeMaze.SO
             PauseGame -= SetTimeScale;
         }
 
-        public void ResetValues()
+        public override void ResetValues()
         {
             _gameStarted = false;
         }

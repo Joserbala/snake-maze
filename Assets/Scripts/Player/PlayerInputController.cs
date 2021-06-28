@@ -61,10 +61,12 @@ namespace SnakeMaze.Player
         {
             if (ctx.performed)
             {
-                playerVariable.CurrentSpeed = playerVariable.BoostSpeed;
                 if(gameManager.GameStarted)
+                {
+                    playerVariable.CurrentSpeed = playerVariable.BoostSpeed;
                     boostIn.PlayAudio();
-                _isOnBoost = true;
+                    _isOnBoost = true;
+                }
             }
 
             if (ctx.started)
@@ -76,13 +78,13 @@ namespace SnakeMaze.Player
 
         public void ResetVel(InputAction.CallbackContext ctx)
         {
+            if (!gameManager.GameStarted) return;
             if (ctx.performed)
             {
                 if (!_isOnBoost) return;
                 _isOnBoost = false;
                 playerVariable.CurrentSpeed = playerVariable.NormalSpeed;
-                if(gameManager.GameStarted)
-                    boostOut.PlayAudio();
+                boostOut.PlayAudio();
             }
         }
     }

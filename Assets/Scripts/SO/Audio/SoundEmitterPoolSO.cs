@@ -7,14 +7,14 @@ namespace SnakeMaze.SO.Audio
     [CreateAssetMenu(fileName = "SoundEmitterPool", menuName = "Scriptables/Audio/SoundEmitterPoolSO")]
     public class SoundEmitterPoolSO : ComponentPoolSO<SoundEmitter>
     {
-        [SerializeField] private SoundEmitterFactorySO _factory;
+        [SerializeField] private SoundEmitterFactorySO factory;
 
         public override IFactory<SoundEmitter> Factory
         {
-            get => _factory;
-            set => _factory = value as SoundEmitterFactorySO; 
+            get => factory;
+            set => factory = (SoundEmitterFactorySO)value;
         }
-        public void ResetValues()
+        public override void ResetValues()
         {
             HasBeenPrewarmed = false;
         }

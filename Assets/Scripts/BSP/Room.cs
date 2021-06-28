@@ -19,12 +19,14 @@ namespace SnakeMaze.BSP
 
         public int NumberOfCorridors { get; set; }
         public bool IsExitRoom { get; set; }
+        public int NumberOfFood { get; set; }
 
         public Room(Vector2 center, Vector2Int size)
         {
             Center = center;
             Size = size;
             NumberOfCorridors = 0;
+            NumberOfFood = 0;
         }
         public Room(Vector2 center, Vector2Int size, MazeGrid grid)
         {
@@ -32,16 +34,14 @@ namespace SnakeMaze.BSP
             Size = size;
             Grid = grid;
             NumberOfCorridors = 0;
+            NumberOfFood = 0;
         }
 
         public override string ToString()
         {
             var dataString = "";
 
-            if (this != null)
-            {
-                dataString += $"pos<{Center.x},{Center.y}>:size<{Size.x},{Size.y}>";
-            }
+            dataString += $"pos<{Center.x},{Center.y}>:size<{Size.x},{Size.y}>";
 
             return dataString;
         }
