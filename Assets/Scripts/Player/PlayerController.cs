@@ -170,6 +170,7 @@ namespace SnakeMaze.Player
             gameManager.EndGame += StopChangingSpeed;
             gameManager.WinGame += StopChangingSpeed;
             gameManager.PauseGame += SetChangingSpeed;
+            gameManager.EndGame += StopAllCoroutines;
         }
 
         private void OnDisable()
@@ -178,6 +179,7 @@ namespace SnakeMaze.Player
             gameManager.EndGame -= StopChangingSpeed;
             gameManager.WinGame -= StopChangingSpeed;
             gameManager.PauseGame -= SetChangingSpeed;
+            gameManager.EndGame -= StopAllCoroutines;
         }
     }
 }
