@@ -1830,15 +1830,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d21121831f791504a88f4a2439c181fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roomSizePerturbation: 1
+  roomSizePerturbation: 0.5
   corridorWidth: 1
   numberIterations: 6
   offset: 1
-  mapSize: {x: 100, y: 100}
-  maxRoomSize: {x: 20, y: 20}
-  drawCorridors: 1
-  drawPartitions: 1
-  drawRooms: 1
+  mapSize: {x: 50, y: 50}
+  maxRoomSize: {x: 7, y: 7}
+  drawCorridors: 0
+  drawPartitions: 0
+  drawRooms: 0
   printCorridorsInConsole: 0
   printRoomsInConsole: 0
   printTreeInConsole: 0
@@ -3379,7 +3379,7 @@ MonoBehaviour:
   busGameManagerSo: {fileID: 11400000, guid: 9f456d6bfae0f5f459d343256c8b7365, type: 2}
   pool: {fileID: 11400000, guid: bea656a84ef9cb74a9b461856291e07d, type: 2}
   tileMapVisualizer: {fileID: 1958332526}
-  initFoodNumber: 300
+  initFoodNumber: 10
   delayTime: 1
 --- !u!1 &1958332525
 GameObject:

@@ -1,3 +1,4 @@
+using System;
 using SnakeMaze.Audio;
 using SnakeMaze.SO;
 using UnityEngine;
@@ -55,8 +56,6 @@ namespace SnakeMaze.Player
             playerVariable.Vertical = ctx.ReadValue<Vector2>().y;
 #endif
         }
-
-
         public void Boost(InputAction.CallbackContext ctx)
         {
             if (ctx.performed)
@@ -75,7 +74,6 @@ namespace SnakeMaze.Player
                     gameManager.StartGame?.Invoke();
             }
         }
-
         public void ResetVel(InputAction.CallbackContext ctx)
         {
             if (!gameManager.GameStarted) return;

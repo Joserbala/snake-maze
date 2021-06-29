@@ -175,6 +175,10 @@ namespace SnakeMaze.Player
 
         private void OnDisable()
         {
+            gameManager.StartGame -= StartMoving;
+            gameManager.EndGame -= StopMoving;
+            gameManager.WinGame -= StopMoving;
+            gameManager.PauseGame -= SetMoving;
             gameManager.StartGame -= StartChangingSpeed;
             gameManager.EndGame -= StopChangingSpeed;
             gameManager.WinGame -= StopChangingSpeed;
