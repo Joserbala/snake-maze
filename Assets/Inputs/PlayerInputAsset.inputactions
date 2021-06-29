@@ -50,7 +50,7 @@
                     "type": "PassThrough",
                     "id": "ea004aae-5b64-4e34-a753-3227d4ddf506",
                     "expectedControlType": "Vector2",
-                    "processors": "StickDeadzone(min=0.8,max=0.925)",
+                    "processors": "StickDeadzone(min=0.5,max=0.925)",
                     "interactions": ""
                 }
             ],
