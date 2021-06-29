@@ -20,6 +20,7 @@ namespace SnakeMaze.BSP
         public int NumberOfCorridors { get; set; }
         public bool IsExitRoom { get; set; }
         public int NumberOfFood { get; set; }
+        public int NumberOfCells{get;set;}
 
         public Room(Vector2 center, Vector2Int size)
         {
