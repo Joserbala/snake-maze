@@ -27,10 +27,17 @@ namespace SnakeMaze.Food
         private BSPGenerator _bspGenerator;
         private IEnumerator _randomSpawn;
 
+        private int _maxFood;
+
         private void Awake()
         {
             _bspGenerator = FindObjectOfType<BSPGenerator>();
-            pool.Prewarm(initFoodNumber);
+            _maxFood = 0;
+            for (int i = 0; i < _bspGenerator.RoomList.Count; i++)
+            {
+                _maxFood += _bspGenerator.RoomList[i].NumberOfCells;
+            }
+            pool.Prewarm(_maxFood);
             pool.SetParent(transform);
         }
 
