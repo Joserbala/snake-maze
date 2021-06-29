@@ -30,4 +30,4 @@ MonoBehaviour:
   horizontalCorridor: {fileID: 11400000, guid: e6cf4dc7a59a4144fb068aae43726e80, type: 2}
   verticalCorridor: {fileID: 11400000, guid: 7b7fc63258c66a14eaeed5ebe70d6fcc, type: 2}
   exit: {fileID: 11400000, guid: ab08dbdd51d48344fbc135a0e53f0c87, type: 2}
-  food: {fileID: 11400000, guid: f6f6af3d72865cd4b90aecbc40987508, type: 2}
+  food: {fileID: 11400000, guid: f05cfee38c11664489c9d01d0011adaa, type: 2}
