@@ -32,15 +32,6 @@ namespace SnakeMaze.BSP
         [SerializeField] private Vector2 mapSize;
         [SerializeField] private Vector2 maxRoomSize;
 
-        [Header("Flags for Visualization")]
-        [SerializeField] private bool drawCorridors;
-
-        [SerializeField] private bool drawPartitions;
-        [SerializeField] private bool drawRooms;
-        [SerializeField] private bool printCorridorsInConsole;
-        [SerializeField] private bool printRoomsInConsole;
-        [SerializeField] private bool printTreeInConsole;
-
         [Header("Prefabs")]
         [SerializeField] private GameObject corridorPrefab;
         [SerializeField] private Transform corridorParentT;
@@ -87,14 +78,6 @@ namespace SnakeMaze.BSP
         private void Start()
         {
             GenerateDungeon();
-
-            if (printCorridorsInConsole)
-                foreach (Corridor c in _corridorList)
-                    Debug.Log(c);
-
-            if (printRoomsInConsole)
-                foreach (Room r in _roomList)
-                    Debug.Log(r);
         }
 
         /// <summary>
@@ -122,8 +105,6 @@ namespace SnakeMaze.BSP
         public void GenerateDungeon()
         {
             mazeManager.StartMaze?.Invoke();
-            if (printTreeInConsole)
-                Debug.Log(BinaryTreeUtils<BSPData>.InOrderHorizontal(_tree, 0));
 
             // Putting the information related to the whole map in the tree root.
             _rootdata = new BSPData(new Bounds(Vector2.zero, new Vector3(mapSize.x, mapSize.y, 0)));
@@ -280,19 +261,6 @@ namespace SnakeMaze.BSP
         {
             return Random.Range(maxRoomSize.x + offset, root.PartitionBounds.size.x - maxRoomSize.x - offset);
         }
-
-        private void OnDrawGizmos()
-        {
-            if (_tree != null)
-                if (drawPartitions)
-                    BinaryTreeUtils<BSPData>.DrawGizmosPartitions(_tree);
-
-            if (_corridorList != null && _corridorList.Count > 0 && drawCorridors)
-                BinaryTreeUtils<BSPData>.DrawGizmosCorridorList(_corridorList);
-
-            if (_roomList != null && _roomList.Count > 0 && drawRooms)
-                BinaryTreeUtils<BSPData>.DrawGizmosRoomList(_roomList);
-        }
         // Creo que me daría igual si los centros son una sala o un pasillo.
 
         private void GenerateCorridorsGood(BinaryTree<BSPData> tree, ref List<Corridor> corridorList)
@@ -443,7 +411,7 @@ namespace SnakeMaze.BSP
                 float lower;
                 float higher;
                 float coordinateX = 0, coordinateY = 0;
-                float offset = corridorWidth + 1.5f;
+                float offset = corridorWidth + 0f;
 
                 switch (currentDirection)
                 {

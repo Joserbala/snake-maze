@@ -1835,13 +1835,7 @@ MonoBehaviour:
   numberIterations: 6
   offset: 1
   mapSize: {x: 50, y: 50}
-  maxRoomSize: {x: 7, y: 7}
-  drawCorridors: 0
-  drawPartitions: 0
-  drawRooms: 0
-  printCorridorsInConsole: 0
-  printRoomsInConsole: 0
-  printTreeInConsole: 0
+  maxRoomSize: {x: 10, y: 10}
   corridorPrefab: {fileID: 3609830069511699395, guid: 14ba0cbc1f93ea747992ed338a90974d, type: 3}
   corridorParentT: {fileID: 1244240207}
   exitPrefab: {fileID: 1500456513857369619, guid: 09f21596c3392984f9f3abdbf8b7c4e4, type: 3}
