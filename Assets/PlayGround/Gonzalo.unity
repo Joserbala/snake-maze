@@ -1836,12 +1836,6 @@ MonoBehaviour:
   offset: 1
   mapSize: {x: 50, y: 50}
   maxRoomSize: {x: 10, y: 10}
-  drawCorridors: 0
-  drawPartitions: 0
-  drawRooms: 0
-  printCorridorsInConsole: 0
-  printRoomsInConsole: 0
-  printTreeInConsole: 0
   corridorPrefab: {fileID: 3609830069511699395, guid: 14ba0cbc1f93ea747992ed338a90974d, type: 3}
   corridorParentT: {fileID: 1244240207}
   exitPrefab: {fileID: 1500456513857369619, guid: 09f21596c3392984f9f3abdbf8b7c4e4, type: 3}
@@ -3160,6 +3154,9 @@ GameObject:
   - component: {fileID: 1953164631}
   - component: {fileID: 1953164636}
   - component: {fileID: 1953164635}
+  - component: {fileID: 1953164634}
+  - component: {fileID: 1953164633}
+  - component: {fileID: 1953164632}
   m_Layer: 6
   m_Name: Food
   m_TagString: Wall
@@ -3181,6 +3178,67 @@ Transform:
   m_Father: {fileID: 41789834}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!66 &1953164632
+CompositeCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1953164630}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_GeometryType: 0
+  m_GenerationType: 0
+  m_EdgeRadius: 0
+  m_ColliderPaths:
+  - m_Collider: {fileID: 1953164634}
+    m_ColliderPaths: []
+  m_CompositePaths:
+    m_Paths: []
+  m_VertexDistance: 0.0005
+  m_OffsetDistance: 0.00005
+--- !u!50 &1953164633
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1953164630}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
+--- !u!19719996 &1953164634
+TilemapCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1953164630}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 1
+  m_Offset: {x: 0, y: 0}
+  m_MaximumTileChangeCount: 1000
+  m_ExtrusionFactor: 0.00001
 --- !u!483693784 &1953164635
 TilemapRenderer:
   m_ObjectHideFlags: 0
@@ -3315,7 +3373,7 @@ MonoBehaviour:
   busGameManagerSo: {fileID: 11400000, guid: 9f456d6bfae0f5f459d343256c8b7365, type: 2}
   pool: {fileID: 11400000, guid: bea656a84ef9cb74a9b461856291e07d, type: 2}
   tileMapVisualizer: {fileID: 1958332526}
-  initFoodNumber: 100
+  initFoodNumber: 10
   delayTime: 1
 --- !u!1 &1958332525
 GameObject:
