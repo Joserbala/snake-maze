@@ -20,7 +20,15 @@ namespace SnakeMaze.BSP
         public int NumberOfCorridors { get; set; }
         public bool IsExitRoom { get; set; }
         public int NumberOfFood { get; set; }
-        public int NumberOfCells{get;set;}
+
+        public int NumberOfCells
+        {
+            get
+            {
+                var dist=BottomLeftCorner - TopRightCorner;
+                return (int) (dist.x / Grid.CellSize.x * dist.y / Grid.CellSize.y);
+            }
+        }
 
         public Room(Vector2 center, Vector2Int size)
         {
