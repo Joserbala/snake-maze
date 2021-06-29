@@ -292,8 +292,6 @@ namespace SnakeMaze.BSP
             if (_roomList != null && _roomList.Count > 0 && drawRooms)
                 BinaryTreeUtils<BSPData>.DrawGizmosRoomList(_roomList);
         }
-
-        // TODO: Colocar los pasillos en posiciones de tiles en lugar del centro: cuando el tamaño de las salas es par, el pasillo no se colocará correctamente.
         // Creo que me daría igual si los centros son una sala o un pasillo.
 
         private void GenerateCorridorsGood(BinaryTree<BSPData> tree, ref List<Corridor> corridorList)
