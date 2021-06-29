@@ -1834,7 +1834,7 @@ MonoBehaviour:
   corridorWidth: 1
   numberIterations: 6
   offset: 1
-  mapSize: {x: 50, y: 50}
+  mapSize: {x: 45, y: 45}
   maxRoomSize: {x: 10, y: 10}
   corridorPrefab: {fileID: 3609830069511699395, guid: 14ba0cbc1f93ea747992ed338a90974d, type: 3}
   corridorParentT: {fileID: 1244240207}
@@ -3309,7 +3309,7 @@ MonoBehaviour:
   busGameManagerSo: {fileID: 11400000, guid: 9f456d6bfae0f5f459d343256c8b7365, type: 2}
   pool: {fileID: 11400000, guid: bea656a84ef9cb74a9b461856291e07d, type: 2}
   tileMapVisualizer: {fileID: 1958332526}
-  initFoodNumber: 10
+  initFoodNumber: 100
   delayTime: 1
 --- !u!1 &1958332525
 GameObject:
