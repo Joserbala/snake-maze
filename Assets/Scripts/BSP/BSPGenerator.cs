@@ -309,8 +309,11 @@ namespace SnakeMaze.BSP
                     BinaryTreeUtils<BSPData>.GetAllChildren(tree.Left, ref leftNodeList);
                     BinaryTreeUtils<BSPData>.GetAllChildren(tree.Right, ref rightNodeList);
                     GetNearestNodes(leftNodeList, rightNodeList, out leftNode, out rightNode);
-                    GenerateCorridor(leftNode.StoredRoom, rightNode.StoredRoom, ref corridorList);
-
+                    var corridorGenerated =GenerateCorridor(leftNode.StoredRoom, rightNode.StoredRoom, ref corridorList);
+                    if (!corridorGenerated)
+                    {
+                        
+                    }
                     GenerateCorridorsGood(tree.Left, ref _corridorList);
                     GenerateCorridorsGood(tree.Right, ref _corridorList);
                 }
@@ -381,8 +384,7 @@ namespace SnakeMaze.BSP
                 // Rooms overlap in Y axis.
                 currentDirection = relativeDistanceX > 0 ? Directions.Right : Directions.Left;
             }
-        
-            var corridorCenter = CoordinateOfCorridorCenter();
+            
             var corridorStart = CoordinateOfCorridorStart();
             var corridorEnd = Vector2.zero;
             // var corridorGO = Instantiate(corridorPrefab, corridorCenter, Quaternion.identity,

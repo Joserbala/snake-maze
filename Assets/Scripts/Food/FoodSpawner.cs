@@ -54,9 +54,11 @@ namespace SnakeMaze.Food
             var roomFoodAmount = initFoodNumber / _bspGenerator.RoomList.Count;
             var rest = initFoodNumber % _bspGenerator.RoomList.Count;
             MazeCell[] cellList = new MazeCell[roomFoodAmount];
+            int actualRoomFoodAmount=0;
             foreach (var room in _bspGenerator.RoomList)
             {
-                for (int i = 0; i < roomFoodAmount; i++)
+                actualRoomFoodAmount = Mathf.Clamp(roomFoodAmount, 0, room.NumberOfCells);
+                for (int i = 0; i < actualRoomFoodAmount; i++)
                 {
                     do
                     {
@@ -67,21 +69,34 @@ namespace SnakeMaze.Food
                 }
 
                 SpawnFood(cellList);
-                room.NumberOfFood += roomFoodAmount;
+                room.NumberOfFood += actualRoomFoodAmount;
             }
 
             if (rest == 0) return;
             cellList = new MazeCell[rest];
+            Room currentRoom = null;
+            int security=0;
             for (int i = 0; i < rest; i++)
             {
-                var room = _bspGenerator.GetRandomRoom();
+                security = 0;
+                do
+                { 
+                    currentRoom = _bspGenerator.GetRandomRoom();
+                    if(security==20)
+                        break;
+                    security++;
+
+                } while (currentRoom.NumberOfFood>=currentRoom.NumberOfCells);
+                if(security==20)
+                    break;
                 do
                 {
-                    cellList[i] = room.Grid.GetRandomCell();
+                    cellList[i] = currentRoom.Grid.GetRandomCell();
                 } while (cellList[i].HasFood);
 
                 cellList[i].HasFood = true;
-                room.NumberOfFood++;
+                currentRoom.NumberOfFood++;
+                
             }
 
             SpawnFood(cellList);
@@ -102,10 +117,13 @@ namespace SnakeMaze.Food
             food = (List<FoodController>) pool.Request(cells.Length);
             for (int i = 0; i < cells.Length; i++)
             {
-                food[i].Cell = cells[i];
-                food[i].transform.position = cells[i].Position;
-                var tilePos = new Vector2Int((int) cells[i].Position.x, (int) cells[i].Position.y);
-                tileMapVisualizer.PaintFoodTile(tilePos);
+                if(cells[i]!=null)
+                {
+                    food[i].Cell = cells[i];
+                    food[i].transform.position = cells[i].Position;
+                    var tilePos = new Vector2Int((int) cells[i].Position.x, (int) cells[i].Position.y);
+                    tileMapVisualizer.PaintFoodTile(tilePos);
+                }
             }
         }
 
