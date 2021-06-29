@@ -37,7 +37,7 @@ namespace SnakeMaze.SO
         public TileBase VerticalCorridor => verticalCorridor;
 
         [Header("Exit")] [SerializeField] private TileBase exit;
-        [Header("Food")] [SerializeField] private TileBase food;
+        [Header("Food")] [SerializeField] private List<TileBase> food;
 
         public TileBase Exit
         {
@@ -46,8 +46,7 @@ namespace SnakeMaze.SO
         }
         public TileBase Food
         {
-            get => food;
-            set => food = value;
+            get => food[Random.Range(0,food.Count)];
         }
 
         public Dictionary<WallSprites, TileBase> TileDic
