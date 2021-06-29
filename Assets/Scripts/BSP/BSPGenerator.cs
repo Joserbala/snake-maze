@@ -397,7 +397,7 @@ namespace SnakeMaze.BSP
                     corridorSize = roomTwo.BottomCenterPosition.y - roomOne.TopCenterPosition.y;
                     // corridorGO.transform.localScale = new Vector3(corridorWidth,
                     //     Mathf.Abs(corridorSize), 1);
-                    corridorEnd = corridorStart + Vector2.up * (Mathf.Abs(corridorSize) + 1);
+                    corridorEnd = corridorStart + Vector2.up * (Mathf.Abs(corridorSize) + roomOne.Grid.CellSize.y);
                     
                     tileMapVisualizer.PaintCorridorTiles(new Vector2Int((int)corridorStart.x, (int)(roomOne.TopCenterPosition.y+_mazeBuilder.CellSize.y/2f)),
                         Directions.Up, (int) Mathf.Abs(corridorSize),false);
@@ -406,7 +406,7 @@ namespace SnakeMaze.BSP
                     corridorSize = roomTwo.TopCenterPosition.y - roomOne.BottomCenterPosition.y;
                     // corridorGO.transform.localScale = new Vector3(corridorWidth,
                     //     Mathf.Abs(corridorSize), 1);
-                    corridorEnd = corridorStart - Vector2.up * (Mathf.Abs(corridorSize) + 1);
+                    corridorEnd = corridorStart - Vector2.up * (Mathf.Abs(corridorSize) + roomOne.Grid.CellSize.y);
                     tileMapVisualizer.PaintCorridorTiles(new Vector2Int((int)corridorStart.x, (int)(roomOne.BottomLeftCorner.y-_mazeBuilder.CellSize.y/2f)),
                         Directions.Down, (int) Mathf.Abs(corridorSize),false);
                     break;
@@ -414,7 +414,7 @@ namespace SnakeMaze.BSP
                     corridorSize = roomTwo.LeftCenterPosition.x - roomOne.RightCenterPosition.x;
                     // corridorGO.transform.localScale =
                     //     new Vector3(Mathf.Abs(corridorSize), corridorWidth, 1);
-                    corridorEnd = corridorStart + Vector2.right * (Mathf.Abs(corridorSize) + 1);
+                    corridorEnd = corridorStart + Vector2.right * (Mathf.Abs(corridorSize) + roomOne.Grid.CellSize.x);
                     tileMapVisualizer.PaintCorridorTiles(new Vector2Int((int) (roomOne.BottomRightCorner.x+_mazeBuilder.CellSize.x/2f),(int)corridorStart.y),
                         Directions.Right, (int) Mathf.Abs(corridorSize),corridorParentT);
                     break;
@@ -422,7 +422,7 @@ namespace SnakeMaze.BSP
                     corridorSize = roomTwo.RightCenterPosition.x - roomOne.LeftCenterPosition.x;
                     // corridorGO.transform.localScale =
                     //     new Vector3(Mathf.Abs(corridorSize), corridorWidth, 1);
-                    corridorEnd = corridorStart - Vector2.right * (Mathf.Abs(corridorSize) + 1);
+                    corridorEnd = corridorStart - Vector2.right * (Mathf.Abs(corridorSize) + roomOne.Grid.CellSize.x);
                     tileMapVisualizer.PaintCorridorTiles(new Vector2Int((int) (roomOne.BottomLeftCorner.x-_mazeBuilder.CellSize.x/2f),(int)corridorStart.y),
                         Directions.Left, (int) Mathf.Abs(corridorSize),corridorParentT);
                     break;

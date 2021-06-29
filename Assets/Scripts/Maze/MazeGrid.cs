@@ -45,8 +45,12 @@ public class MazeGrid
 
    public void GetWallAtPosition(Vector2 bottomLeft, Vector2 pos,Directions direction)
    {
-      var iCell =  Mathf.FloorToInt((pos.x - bottomLeft.x) / _cellSize.x);
-      var jCell = Mathf.FloorToInt((pos.y - bottomLeft.y) / _cellSize.y);
+      var number = Mathf.Abs(pos.x - bottomLeft.x);
+      var iCell =  Mathf.FloorToInt(number/ _cellSize.x);
+      number = Mathf.Abs(pos.y - bottomLeft.y);
+      var jCell = Mathf.FloorToInt(number / _cellSize.y);
+      iCell = Mathf.Clamp(iCell, 0, _grid.GetLength(0)-1);
+      jCell = Mathf.Clamp(jCell, 0, _grid.GetLength(1)-1);
       _grid[iCell, jCell].GetWall(direction);
    }
 
