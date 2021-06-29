@@ -32,13 +32,6 @@ namespace SnakeMaze.Food
         private void Awake()
         {
             _bspGenerator = FindObjectOfType<BSPGenerator>();
-            _maxFood = 0;
-            for (int i = 0; i < _bspGenerator.RoomList.Count; i++)
-            {
-                _maxFood += _bspGenerator.RoomList[i].NumberOfCells;
-            }
-            pool.Prewarm(_maxFood);
-            pool.SetParent(transform);
         }
 
         private void OnEnable()
@@ -58,6 +51,13 @@ namespace SnakeMaze.Food
 
         private void InitFood()
         {
+            _maxFood = 0;
+            for (int i = 0; i < _bspGenerator.RoomList.Count; i++)
+            {
+                _maxFood += _bspGenerator.RoomList[i].NumberOfCells;
+            }
+            pool.Prewarm(_maxFood);
+            pool.SetParent(transform);
             var roomFoodAmount = initFoodNumber / _bspGenerator.RoomList.Count;
             var rest = initFoodNumber % _bspGenerator.RoomList.Count;
             MazeCell[] cellList = new MazeCell[roomFoodAmount];
