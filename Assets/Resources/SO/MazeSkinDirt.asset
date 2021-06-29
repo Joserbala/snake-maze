@@ -27,7 +27,7 @@ MonoBehaviour:
   left: {fileID: 11400000, guid: ec14b9f7a6e354c4282e9e05729c6a6a, type: 2}
   bot: {fileID: 11400000, guid: dc65a834a17b10440ae2b48b54cbf398, type: 2}
   empty: {fileID: 11400000, guid: d3556e5e827d77c4a93e884cc2364127, type: 2}
-  horizontalCorridor: {fileID: 11400000, guid: e469d40ad25267943ab3231933d35271, type: 2}
-  verticalCorridor: {fileID: 11400000, guid: 80f114546f49c074fbae1924f57e115f, type: 2}
-  exit: {fileID: 11400000, guid: a7719dcf2dc0db349b8984eaaa4f2857, type: 2}
+  horizontalCorridor: {fileID: 11400000, guid: e6cf4dc7a59a4144fb068aae43726e80, type: 2}
+  verticalCorridor: {fileID: 11400000, guid: 7b7fc63258c66a14eaeed5ebe70d6fcc, type: 2}
+  exit: {fileID: 11400000, guid: ab08dbdd51d48344fbc135a0e53f0c87, type: 2}
   food: {fileID: 11400000, guid: f3f53bf43de58e442a47f4de7ca6526d, type: 2}
