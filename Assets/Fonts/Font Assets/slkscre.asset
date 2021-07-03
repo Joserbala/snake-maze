@@ -102,9 +102,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71c1514a6bd24e1e882cebbe1904ce04, type: 3}
   m_Name: slkscre
   m_EditorClassIdentifier: 
-  hashCode: 0
+  hashCode: 1804002643
   material: {fileID: -830449815082933342}
-  materialHashCode: 0
+  materialHashCode: -1409131373
   m_Version: 1.1.0
   m_SourceFontFileGUID: d5f288d929c0e624eadc43bf7b38b367
   m_SourceFontFile_EditorRef: {fileID: 12800000, guid: d5f288d929c0e624eadc43bf7b38b367, type: 3}
@@ -2327,7 +2327,8 @@ MonoBehaviour:
   m_FontFeatureTable:
     m_GlyphPairAdjustmentRecords: []
   fallbackFontAssets: []
-  m_FallbackFontAssetTable: []
+  m_FallbackFontAssetTable:
+  - {fileID: 11400000, guid: 2e498d1c8094910479dc3e1b768306a4, type: 2}
   m_CreationSettings:
     sourceFontFileName: 
     sourceFontFileGUID: d5f288d929c0e624eadc43bf7b38b367
@@ -2337,9 +2338,9 @@ MonoBehaviour:
     packingMode: 4
     atlasWidth: 512
     atlasHeight: 512
-    characterSetSelectionMode: 0
-    characterSequence: 32 - 126, 160, 8203, 8230, 9633
-    referencedFontAssetGUID: 
+    characterSetSelectionMode: 6
+    characterSequence: 20-7E
+    referencedFontAssetGUID: 11f7307857d4bc24eb958f81381f547a
     referencedTextAssetGUID: 
     fontStyle: 0
     fontStyleModifier: 0
@@ -2360,7 +2361,7 @@ MonoBehaviour:
     italicTypeface: {fileID: 0}
   - regularTypeface: {fileID: 0}
     italicTypeface: {fileID: 0}
-  - regularTypeface: {fileID: 0}
+  - regularTypeface: {fileID: 11400000, guid: ac1b84971f977d440bfe32a48fb207aa, type: 2}
     italicTypeface: {fileID: 0}
   - regularTypeface: {fileID: 0}
     italicTypeface: {fileID: 0}
