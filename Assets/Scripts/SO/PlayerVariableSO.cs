@@ -30,31 +30,31 @@ namespace SnakeMaze.SO
 
         public float NormalSpeed
         {
-            get=>normalSpeed;
+            get => normalSpeed;
         }
         public float BoostSpeed
         {
-            get=>boostSpeed;
+            get => boostSpeed;
         }
         public float CurrentCoroutineSeconds
         {
-            get=>_currentCoroutineSeconds;
-            set=>_currentCoroutineSeconds=value;
+            get => _currentCoroutineSeconds;
+            set => _currentCoroutineSeconds = value;
         }
         public float SpeedChangeAmount
         {
-            get=>speedChangeAmount;
-            set=>speedChangeAmount=value;
+            get => speedChangeAmount;
+            set => speedChangeAmount = value;
         }
         public float ChangeSpeedRate
         {
-            get=>changeSpeedRate;
-            set=>changeSpeedRate=value;
+            get => changeSpeedRate;
+            set => changeSpeedRate = value;
         }
         public float MinimunCoroutineSec
         {
-            get=>minimunCoroutineSec;
-            set=>minimunCoroutineSec=value;
+            get => minimunCoroutineSec;
+            set => minimunCoroutineSec = value;
         }
 
         public float CurrentSpeed
@@ -62,32 +62,32 @@ namespace SnakeMaze.SO
             get => _currentSpeed;
             set => _currentSpeed = value;
         }
-        
-        public int PixelsPerTile=>pixelsPerTile;
-        public int PlayerPixels=>playerPixels;
+
+        public int PixelsPerTile => pixelsPerTile;
+        public int PlayerPixels => playerPixels;
 
         public float Horizontal
         {
             get => _horizontal;
-            set => _horizontal=value;
+            set => _horizontal = value;
         }
         public float Vertical
         {
             get => _vertical;
-            set => _vertical=value;
+            set => _vertical = value;
         }
 
         public bool IsMoving
         {
             get => _isMoving;
-            set=> _isMoving = value;
-            
+            set => _isMoving = value;
+
         }
         public bool IsAlive
         {
             get => _isAlive;
-            set=> _isAlive = value;
-            
+            set => _isAlive = value;
+
         }
 
         public Directions LastDirection
@@ -102,7 +102,7 @@ namespace SnakeMaze.SO
             set => _currentDirection = value;
         }
 
-        public float Poitns
+        public float Points
         {
             get => _poitns;
             set => _poitns = value;

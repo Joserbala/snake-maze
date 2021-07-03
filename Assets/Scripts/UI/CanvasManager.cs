@@ -11,9 +11,11 @@ namespace SnakeMaze.UI
     {
         [SerializeField] private GameObject deathPanel;
         [SerializeField] private GameObject pausePanel;
+        [SerializeField] private GameObject inGameHUDGroup;
         [SerializeField] private GameObject winPanel;
         [SerializeField] private PlayerVariableSO player;
         [SerializeField] private TextMeshProUGUI points;
+        [SerializeField] private TextMeshProUGUI finalScore;
         [SerializeField] private BusGameManagerSO gameManager;
         [SerializeField] private BusFoodSO busFoodSo;
         [SerializeField] private Button pauseButton;
@@ -30,15 +32,17 @@ namespace SnakeMaze.UI
             _isWinPanelActive = false;
             ResetPoints();
         }
+
         private void PressResumeButton()
         {
             if (!gameManager.GameStarted) return;
             tapRequest.PlayAudio();
             gameManager.PauseGame?.Invoke(false);
         }
+
         private void PressPauseButton()
         {
-            if (!gameManager.GameStarted||_isDeathPanelActive||_isPausePanelActive) return;
+            if (!gameManager.GameStarted || _isDeathPanelActive || _isPausePanelActive) return;
             tapRequest.PlayAudio();
             gameManager.PauseGame?.Invoke(true);
         }
@@ -48,11 +52,13 @@ namespace SnakeMaze.UI
             deathPanel.SetActive(!_isDeathPanelActive);
             _isDeathPanelActive = !_isDeathPanelActive;
         }
+
         private void SwitchWinPanel()
         {
             winPanel.SetActive(!_isWinPanelActive);
             _isWinPanelActive = !_isWinPanelActive;
         }
+
         private void SwitchPausePanel(bool pause)
         {
             pausePanel.SetActive(pause);
@@ -60,31 +66,40 @@ namespace SnakeMaze.UI
 
         private void ResetPoints()
         {
-            player.Poitns = 0;
-            points.text = player.Poitns.ToString();
+            player.Points = 0;
+            points.text = player.Points.ToString();
         }
 
         private void AddPoints(int amount)
         {
-            player.Poitns += amount;
-            points.text = player.Poitns.ToString();
+            player.Points += amount;
+            points.text = player.Points.ToString();
+        }
+
+        private void SetFinalScore()
+        {
+            inGameHUDGroup.SetActive(false);
+            finalScore.text = player.Points.ToString();
         }
 
         private void OnEnable()
         {
             gameManager.EndGame += SwitchDeathPanel;
+            gameManager.EndGame += SetFinalScore;
             gameManager.WinGame += SwitchWinPanel;
+            gameManager.WinGame += SetFinalScore;
             gameManager.PauseGame += SwitchPausePanel;
             resumeButton.onClick.AddListener(PressResumeButton);
             pauseButton.onClick.AddListener(PressPauseButton);
             busFoodSo.OnEatFoodPoints += AddPoints;
-
         }
 
         private void OnDisable()
         {
             gameManager.EndGame -= SwitchDeathPanel;
+            gameManager.EndGame -= SetFinalScore;
             gameManager.WinGame -= SwitchWinPanel;
+            gameManager.WinGame -= SetFinalScore;
             gameManager.PauseGame -= SwitchPausePanel;
             resumeButton.onClick.RemoveListener(PressResumeButton);
             pauseButton.onClick.RemoveListener(PressPauseButton);
