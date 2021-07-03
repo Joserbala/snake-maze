@@ -38,11 +38,12 @@ namespace SnakeMaze.SO
         public override void ResetValues()
         {
             _gameStarted = false;
+            SetTimeScale(false);
         }
 
-        private void SetTimeScale(bool value)
+        private void SetTimeScale(bool paused)
         {
-            Time.timeScale = value ? 0 : 1;
+            Time.timeScale = paused ? 0 : 1;
         }
         private void SetGameStartedTrue() => _gameStarted = true;
         private void SetGameStartedFalase() => _gameStarted = false;

@@ -1,14 +1,12 @@
-using System.Collections;
 using System.Collections.Generic;
 using SnakeMaze.Enums;
-using SnakeMaze.TileMaps;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
 namespace SnakeMaze.SO
 {
     [CreateAssetMenu(fileName = "MazeSkin", menuName = "Scriptables/TileMaps/MazeSkinSO")]
-    public class MazeSkinSO : ScriptableObject
+    public class MazeSkinSO : InitiableSO
     {
         [Header("Maze")] [SerializeField] private TileBase topRightLeft;
 
@@ -75,6 +73,11 @@ namespace SnakeMaze.SO
                 {WallSprites.Bot, bot},
                 {WallSprites.Empty, empty}
             };
+        }
+
+        public override void InitScriptable()
+        {
+            InitMazeSkin();
         }
     }
 }

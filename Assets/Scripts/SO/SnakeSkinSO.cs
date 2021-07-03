@@ -1,14 +1,10 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using SnakeMaze.Maze;
 using SnakeMaze.Structs;
 using UnityEngine;
 
 namespace SnakeMaze.SO
 {
     [CreateAssetMenu(fileName = "SnakeSkin", menuName = "Scriptables/SnakeSkin")]
-    public class SnakeSkinSO : ScriptableObject
+    public class SnakeSkinSO : InitiableSO
     {
         [SerializeField] private Sprite bodyUp;
         [SerializeField] private Sprite bodyDown;
@@ -33,16 +29,16 @@ namespace SnakeMaze.SO
 
         public SnakeSkin SnakeSkin => _snakeSkin;
 
-        private void OnEnable()
-        {
-            InitSnakeSkin();
-        }
-
         public void InitSnakeSkin()
         {
             _snakeSkin.SetAllSprites(headUp, headDown, headRight, headLeft,
                 bodyUp, bodyDown, bodyRight, bodyLeft, bodyCornerTopRight, bodyCornerTopLeft,
                 bodyCornerBottomRight, bodyCornerBottomLeft, tailUp, tailDown, tailRight, tailLeft);
+        }
+
+        public override void InitScriptable()
+        {
+            InitSnakeSkin();
         }
     }
 }

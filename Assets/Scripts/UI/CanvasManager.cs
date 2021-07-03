@@ -20,6 +20,8 @@ namespace SnakeMaze.UI
         [SerializeField] private BusFoodSO busFoodSo;
         [SerializeField] private Button pauseButton;
         [SerializeField] private Button resumeButton;
+        [SerializeField] private Button menuButton;
+        [SerializeField] private Button deathMenuButton;
         [SerializeField] private AudioRequest tapRequest;
         private bool _isDeathPanelActive;
         private bool _isPausePanelActive;
@@ -64,6 +66,11 @@ namespace SnakeMaze.UI
             pausePanel.SetActive(pause);
         }
 
+        private void PressMenuButton()
+        {
+            gameManager.EndGame?.Invoke();
+        }
+
         private void ResetPoints()
         {
             player.Points = 0;
@@ -91,6 +98,8 @@ namespace SnakeMaze.UI
             gameManager.PauseGame += SwitchPausePanel;
             resumeButton.onClick.AddListener(PressResumeButton);
             pauseButton.onClick.AddListener(PressPauseButton);
+            menuButton.onClick.AddListener(PressMenuButton);
+            deathMenuButton.onClick.AddListener(PressMenuButton);
             busFoodSo.OnEatFoodPoints += AddPoints;
         }
 
@@ -103,6 +112,8 @@ namespace SnakeMaze.UI
             gameManager.PauseGame -= SwitchPausePanel;
             resumeButton.onClick.RemoveListener(PressResumeButton);
             pauseButton.onClick.RemoveListener(PressPauseButton);
+            menuButton.onClick.RemoveListener(PressMenuButton);
+            deathMenuButton.onClick.RemoveListener(PressMenuButton);
             busFoodSo.OnEatFoodPoints -= AddPoints;
         }
     }

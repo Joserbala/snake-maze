@@ -8,7 +8,7 @@ namespace SnakeMaze.Audio
 {
     public class AudioManager : MonoBehaviour
     {
-        [SerializeField] private AudioSkinSO audioSkin;
+        [SerializeField] private SkinContainerSO skinContainer;
         [SerializeField] private BusAudioSO busAudio;
         [SerializeField] private BusAudioSO busMusic;
         [SerializeField] private SoundEmitterPoolSO pool;
@@ -20,7 +20,8 @@ namespace SnakeMaze.Audio
         {
             pool.Prewarm(initSize);
             pool.SetParent(transform);
-            audioSkin.InitDic();
+            if(skinContainer.CurrentAudioSkin.AudioDic==null)
+                skinContainer.CurrentAudioSkin.InitScriptable();
         }
 
         private void OnEnable()
@@ -43,7 +44,7 @@ namespace SnakeMaze.Audio
         {
             var fadeDuration = 2f;
             var startTime = 0f;
-            AudioClipSO clip = audioSkin.AudioDic[clipType];
+            AudioClipSO clip = skinContainer.CurrentAudioSkin.AudioDic[clipType];
             if (_musicEmitter != null && _musicEmitter.IsPlaying())
             {
                 if(_musicEmitter.GetClip()==clip.Clip)
@@ -58,9 +59,7 @@ namespace SnakeMaze.Audio
         
         private void PlayAudioClip(AudioClipType clipType, AudioConfigSO settings)
         {
-            AudioClipSO clip = audioSkin.AudioDic[clipType];
-            if(clipType==AudioClipType.Eat)
-                Debug.Log(clipType);
+            AudioClipSO clip = skinContainer.CurrentAudioSkin.AudioDic[clipType];
             SoundEmitter soundEmitter = pool.Request();
             if (soundEmitter != null)
             {

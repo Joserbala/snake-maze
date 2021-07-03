@@ -11,20 +11,14 @@ namespace SnakeMaze.TileMaps
     {
         [SerializeField] private Tilemap wallTilemap;
         [SerializeField] private Tilemap foodTilemap;
-        [SerializeField] private MazeSkinSO mazeSkin;
-
-
-        private void Awake()
-        {
-            mazeSkin.InitMazeSkin();
-        }
+        [SerializeField] private SkinContainerSO skinContainer;
 
 
         public void PaintWallTiles(IEnumerable<WallTile> wallTiles)
         {
             foreach (var wallTile in wallTiles)
             {
-                var tile = mazeSkin.TileDic[wallTile.SpriteType];
+                var tile = skinContainer.CurrentMazeSkin.TileDic[wallTile.SpriteType];
                 PaintSingleTile(wallTilemap, tile, wallTile.Position);
             }
         }
@@ -33,7 +27,7 @@ namespace SnakeMaze.TileMaps
         {
             for (int i = 0; i < amount; i++)
             {
-                var tile = horizontalCorridor ? mazeSkin.HorizontalCorridor : mazeSkin.VerticalCorridor;
+                var tile = horizontalCorridor ? skinContainer.CurrentMazeSkin.HorizontalCorridor : skinContainer.CurrentMazeSkin.VerticalCorridor;
                 var dir = DirectionsActions.DirectionsToVector2(direction);
                 var actualDir = new Vector2Int((int) dir.x, (int) dir.y);
                 PaintSingleTile(wallTilemap, tile, position + actualDir * i);
@@ -43,14 +37,14 @@ namespace SnakeMaze.TileMaps
 
         public void PaintExitTile(Vector2Int position)
         {
-            PaintSingleTile(wallTilemap, mazeSkin.Exit, position);
+            PaintSingleTile(wallTilemap, skinContainer.CurrentMazeSkin.Exit, position);
         }
 
         public void PaintFoodTile(Vector2Int position)
         {
-            Debug.Log("Hey");
-            PaintSingleTile(foodTilemap, mazeSkin.Food, position);
+            PaintSingleTile(foodTilemap, skinContainer.CurrentMazeSkin.Food, position);
         }
+
         public void EraseFoodTile(Vector2Int position)
         {
             PaintSingleTile(foodTilemap, null, position);

@@ -12,7 +12,7 @@ namespace SnakeMaze.Player
     public class BodyController : MonoBehaviour
     {
         [SerializeField] private GameObject snakePrefab;
-        [SerializeField] private SnakeSkinSO currentSkin;
+        [SerializeField] private SkinContainerSO skinContainer;
         [SerializeField] private Transform headPosition;
         [SerializeField] private PlayerVariableSO player;
         [SerializeField] private AudioRequest eatRequest;
@@ -55,20 +55,20 @@ namespace SnakeMaze.Player
             InstantiateInitialBody(position - Vector3.right * player.PlayerPixels / player.PixelsPerTile,
                 Directions.Right, Directions.Right);
             snakeParts[0].IsTail = false;
-            snakeParts[0].CurrentSprite = currentSkin.SnakeSkin.Body.Right;
-            snakeParts[0].LastSprite = currentSkin.SnakeSkin.Body.Right;
+            snakeParts[0].CurrentSprite = skinContainer.CurrentSnakeSkin.SnakeSkin.Body.Right;
+            snakeParts[0].LastSprite = skinContainer.CurrentSnakeSkin.SnakeSkin.Body.Right;
             snakeParts[0].UpdateSprite(snakeParts[0].CurrentSprite);
             InstantiateInitialBody(position - Vector3.right * 2 * player.PlayerPixels / player.PixelsPerTile,
                 Directions.Right, Directions.Right);
             snakeParts[1].IsTail = false;
-            snakeParts[1].CurrentSprite = currentSkin.SnakeSkin.Body.Right;
-            snakeParts[1].LastSprite = currentSkin.SnakeSkin.Body.Right;
+            snakeParts[1].CurrentSprite = skinContainer.CurrentSnakeSkin.SnakeSkin.Body.Right;
+            snakeParts[1].LastSprite = skinContainer.CurrentSnakeSkin.SnakeSkin.Body.Right;
             snakeParts[1].UpdateSprite(snakeParts[1].CurrentSprite);
             InstantiateInitialBody(position - Vector3.right * 3 * player.PlayerPixels / player.PixelsPerTile,
                 Directions.Right, Directions.Right);
             snakeParts[2].IsTail = true;
-            snakeParts[2].CurrentSprite = currentSkin.SnakeSkin.Tail.Right;
-            snakeParts[2].LastSprite = currentSkin.SnakeSkin.Tail.Right;
+            snakeParts[2].CurrentSprite = skinContainer.CurrentSnakeSkin.SnakeSkin.Tail.Right;
+            snakeParts[2].LastSprite = skinContainer.CurrentSnakeSkin.SnakeSkin.Tail.Right;
             snakeParts[2].UpdateSprite(snakeParts[2].CurrentSprite);
         }
 
@@ -157,7 +157,6 @@ namespace SnakeMaze.Player
             if (_growSnake)
             {
                 InstantiateTail();
-                Debug.Log("Instantiate tail");
                 _growSnake = false;
             }
         }
@@ -166,11 +165,11 @@ namespace SnakeMaze.Player
         {
             var sprite = followingDirection switch
             {
-                Directions.Up => currentSkin.SnakeSkin.Tail.Up,
-                Directions.Down => currentSkin.SnakeSkin.Tail.Down,
-                Directions.Right => currentSkin.SnakeSkin.Tail.Right,
-                Directions.Left => currentSkin.SnakeSkin.Tail.Left,
-                _ => currentSkin.SnakeSkin.Tail.Up
+                Directions.Up => skinContainer.CurrentSnakeSkin.SnakeSkin.Tail.Up,
+                Directions.Down => skinContainer.CurrentSnakeSkin.SnakeSkin.Tail.Down,
+                Directions.Right => skinContainer.CurrentSnakeSkin.SnakeSkin.Tail.Right,
+                Directions.Left => skinContainer.CurrentSnakeSkin.SnakeSkin.Tail.Left,
+                _ => skinContainer.CurrentSnakeSkin.SnakeSkin.Tail.Up
             };
             return sprite;
         }
@@ -196,44 +195,44 @@ namespace SnakeMaze.Player
                 if (previousDir == Directions.Down)
                 {
                     sprite = followingDir == Directions.Left
-                        ? currentSkin.SnakeSkin.Body.CornerTopLeft
-                        : currentSkin.SnakeSkin.Body.CornerTopRight;
+                        ? skinContainer.CurrentSnakeSkin.SnakeSkin.Body.CornerTopLeft
+                        : skinContainer.CurrentSnakeSkin.SnakeSkin.Body.CornerTopRight;
                 }
 
                 if (previousDir == Directions.Up)
                 {
                     sprite = followingDir == Directions.Left
-                        ? currentSkin.SnakeSkin.Body.CornerBottomLeft
-                        : currentSkin.SnakeSkin.Body.CornerBottomRight;
+                        ? skinContainer.CurrentSnakeSkin.SnakeSkin.Body.CornerBottomLeft
+                        : skinContainer.CurrentSnakeSkin.SnakeSkin.Body.CornerBottomRight;
                 }
 
                 if (previousDir == Directions.Right)
                 {
                     sprite = followingDir == Directions.Down
-                        ? currentSkin.SnakeSkin.Body.CornerBottomLeft
-                        : currentSkin.SnakeSkin.Body.CornerTopLeft;
+                        ? skinContainer.CurrentSnakeSkin.SnakeSkin.Body.CornerBottomLeft
+                        : skinContainer.CurrentSnakeSkin.SnakeSkin.Body.CornerTopLeft;
                 }
 
                 if (previousDir == Directions.Left)
                 {
                     sprite = followingDir == Directions.Down
-                        ? currentSkin.SnakeSkin.Body.CornerBottomRight
-                        : currentSkin.SnakeSkin.Body.CornerTopRight;
+                        ? skinContainer.CurrentSnakeSkin.SnakeSkin.Body.CornerBottomRight
+                        : skinContainer.CurrentSnakeSkin.SnakeSkin.Body.CornerTopRight;
                 }
             }
             //If previous dir is horizontal
             else if (Mathf.Abs((int) previousDir) == 2)
             {
                 sprite = followingDir == Directions.Left
-                    ? currentSkin.SnakeSkin.Body.Left
-                    : currentSkin.SnakeSkin.Body.Right;
+                    ? skinContainer.CurrentSnakeSkin.SnakeSkin.Body.Left
+                    : skinContainer.CurrentSnakeSkin.SnakeSkin.Body.Right;
             }
             //Following dir is vertical
             else
             {
                 sprite = followingDir == Directions.Down
-                    ? currentSkin.SnakeSkin.Body.Down
-                    : currentSkin.SnakeSkin.Body.Up;
+                    ? skinContainer.CurrentSnakeSkin.SnakeSkin.Body.Down
+                    : skinContainer.CurrentSnakeSkin.SnakeSkin.Body.Up;
             }
 
             return sprite;
