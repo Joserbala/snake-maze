@@ -1210,6 +1210,7 @@ GameObject:
   - component: {fileID: 487699537}
   - component: {fileID: 487699539}
   - component: {fileID: 487699538}
+  - component: {fileID: 487699540}
   m_Layer: 0
   m_Name: cm
   m_TagString: Untagged
@@ -1286,6 +1287,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &487699540
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 487699536}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68bb026fafb42b14791938953eaace77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_NoiseProfile: {fileID: 11400000, guid: 69ce8388f6785dd4c8c39915efece2f4, type: 2}
+  m_PivotOffset: {x: 0, y: 0, z: 0}
+  m_AmplitudeGain: 0
+  m_FrequencyGain: 0
+  mNoiseOffsets: {x: 0, y: 0, z: 0}
 --- !u!1 &547180304
 GameObject:
   m_ObjectHideFlags: 0
@@ -2004,6 +2022,7 @@ GameObject:
   - component: {fileID: 1496547214}
   - component: {fileID: 1496547213}
   - component: {fileID: 1496547215}
+  - component: {fileID: 1496547216}
   m_Layer: 0
   m_Name: CM vcam1
   m_TagString: Untagged
@@ -2073,6 +2092,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a8a05de0ac134f4f9d01bef6b9da077, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1496547216
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1496547212}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8332c6479ba50e247ab85db902279470, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dieDuration: 0.5
+  dieAmplitud: 1
+  dieFrecuency: 1.5
+  eatDuration: 0.5
+  eatAmplitud: 0.5
+  eatFrecuency: 1
+  virtaulCamera: {fileID: 1496547213}
+  gameManagerSo: {fileID: 11400000, guid: 9f456d6bfae0f5f459d343256c8b7365, type: 2}
+  busFoodSo: {fileID: 11400000, guid: 0bfa56e9da8fbb0499f5daa4940873f4, type: 2}
 --- !u!1 &1527179387
 GameObject:
   m_ObjectHideFlags: 0
