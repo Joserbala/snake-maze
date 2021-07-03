@@ -25,6 +25,7 @@ namespace SnakeMaze.SO
         private bool _isMoving;
         private Directions _lastDirection;
         private Directions _currentDirection;
+        private float _poitns;
 
 
         public float NormalSpeed
@@ -101,9 +102,16 @@ namespace SnakeMaze.SO
             set => _currentDirection = value;
         }
 
+        public float Poitns
+        {
+            get => _poitns;
+            set => _poitns = value;
+        }
+
         public override void ResetValues()
         {
             _currentCoroutineSeconds = coroutineSeconds;
+            _poitns = 0;
         }
     }
 }

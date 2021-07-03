@@ -503,7 +503,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &163927006
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2973,6 +2973,7 @@ MonoBehaviour:
   deathPanel: {fileID: 2010868652}
   pausePanel: {fileID: 1788468141}
   winPanel: {fileID: 163927005}
+  player: {fileID: 11400000, guid: c13d86b70e228d546a539cf94c0d76bc, type: 2}
   points: {fileID: 5433641}
   gameManager: {fileID: 11400000, guid: 9f456d6bfae0f5f459d343256c8b7365, type: 2}
   busFoodSo: {fileID: 11400000, guid: 0bfa56e9da8fbb0499f5daa4940873f4, type: 2}

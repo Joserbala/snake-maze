@@ -12,6 +12,7 @@ namespace SnakeMaze.UI
         [SerializeField] private GameObject deathPanel;
         [SerializeField] private GameObject pausePanel;
         [SerializeField] private GameObject winPanel;
+        [SerializeField] private PlayerVariableSO player;
         [SerializeField] private TextMeshProUGUI points;
         [SerializeField] private BusGameManagerSO gameManager;
         [SerializeField] private BusFoodSO busFoodSo;
@@ -21,7 +22,6 @@ namespace SnakeMaze.UI
         private bool _isDeathPanelActive;
         private bool _isPausePanelActive;
         private bool _isWinPanelActive;
-        private int _points;
 
         private void Start()
         {
@@ -60,14 +60,14 @@ namespace SnakeMaze.UI
 
         private void ResetPoints()
         {
-            _points = 0;
-            points.text = _points.ToString();
+            player.Poitns = 0;
+            points.text = player.Poitns.ToString();
         }
 
         private void AddPoints(int amount)
         {
-            _points += amount;
-            points.text = _points.ToString();
+            player.Poitns += amount;
+            points.text = player.Poitns.ToString();
         }
 
         private void OnEnable()
