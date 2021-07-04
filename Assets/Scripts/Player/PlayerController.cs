@@ -10,7 +10,7 @@ namespace SnakeMaze.Player
     public class PlayerController : PlayerPhysics
     {
         [SerializeField] private PlayerVariableSO playerVariable;
-        [SerializeField] private SnakeSkinSO currentSkin;
+        [SerializeField] private SkinContainerSO skinContainer;
         [SerializeField] private BusGameManagerSO gameManager;
         [SerializeField] private AudioRequest deathRequest;
 
@@ -125,16 +125,16 @@ namespace SnakeMaze.Player
             switch (direction)
             {
                 case Directions.Up:
-                    currentSprite = currentSkin.SnakeSkin.Head.Up;
+                    currentSprite = skinContainer.CurrentSnakeSkin.SnakeSkin.Head.Up;
                     break;
                 case Directions.Down:
-                    currentSprite = currentSkin.SnakeSkin.Head.Down;
+                    currentSprite = skinContainer.CurrentSnakeSkin.SnakeSkin.Head.Down;
                     break;
                 case Directions.Right:
-                    currentSprite = currentSkin.SnakeSkin.Head.Right;
+                    currentSprite = skinContainer.CurrentSnakeSkin.SnakeSkin.Head.Right;
                     break;
                 case Directions.Left:
-                    currentSprite = currentSkin.SnakeSkin.Head.Left;
+                    currentSprite = skinContainer.CurrentSnakeSkin.SnakeSkin.Head.Left;
                     break;
             }
 

@@ -110,6 +110,7 @@ namespace SnakeMaze.SO
 
         public override void ResetValues()
         {
+            _isAlive = false;
             _currentCoroutineSeconds = coroutineSeconds;
             _poitns = 0;
         }

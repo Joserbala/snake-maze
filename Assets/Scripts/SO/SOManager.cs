@@ -9,6 +9,8 @@ namespace SnakeMaze.SO
     {
         public List<ResseteableSO> scriptableToReset;
 
+        public List<InitiableSO> scriptableToInitiate;
+
         public void ResetScriptables()
         {
             foreach (var scriptable in scriptableToReset)
@@ -16,5 +18,15 @@ namespace SnakeMaze.SO
                 scriptable.ResetValues();
             }
         }
+
+        public void InitScriptables()
+        {
+            foreach (var scriptable in scriptableToInitiate)
+            {
+                scriptable.InitScriptable();
+            }
+        }
+        
+        
     }
 }

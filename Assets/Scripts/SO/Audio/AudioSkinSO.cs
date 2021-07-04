@@ -1,12 +1,11 @@
-using System.Collections;
 using System.Collections.Generic;
 using SnakeMaze.Enums;
 using UnityEngine;
 
-namespace SnakeMaze.SO
+namespace SnakeMaze.SO.Audio
 {
     [CreateAssetMenu(fileName = "AudioSkin",menuName = "Scriptables/Audio/AudioSkin")]
-    public class AudioSkinSO : ScriptableObject
+    public class AudioSkinSO : InitiableSO
     {
         [SerializeField] private AudioClipSO gameMusic;
 
@@ -31,7 +30,7 @@ namespace SnakeMaze.SO
             set=> _audioDic= value;
         }
 
-        public void InitDic()
+        private void InitDic()
         {
             _audioDic = new Dictionary<AudioClipType, AudioClipSO>()
             {
@@ -45,5 +44,9 @@ namespace SnakeMaze.SO
             };
         }
 
+        public override void InitScriptable()
+        {
+            InitDic();
+        }
     }
 }

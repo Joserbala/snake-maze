@@ -1,6 +1,4 @@
-using System;
 using SnakeMaze.Enums;
-using SnakeMaze.SO;
 using UnityEngine;
 
 namespace SnakeMaze.Player
@@ -8,7 +6,6 @@ namespace SnakeMaze.Player
     [RequireComponent(typeof(SpriteRenderer))]
     public class Snake : PlayerPhysics
     {
-        [SerializeField] private SnakeSkinSO currentSkin;
         private Directions _currentDirection;
         private Directions _lastDirection;
         private Sprite _currentSprite;

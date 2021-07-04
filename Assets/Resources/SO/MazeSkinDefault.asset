@@ -30,3 +30,8 @@ MonoBehaviour:
   horizontalCorridor: {fileID: 11400000, guid: 7370c06bacc36054eba0ba8aa7760ba3, type: 2}
   verticalCorridor: {fileID: 11400000, guid: 07624b8af5e949c4bac360b8de2363b8, type: 2}
   exit: {fileID: 11400000, guid: a7719dcf2dc0db349b8984eaaa4f2857, type: 2}
+  food:
+  - {fileID: 11400000, guid: f6f6af3d72865cd4b90aecbc40987508, type: 2}
+  - {fileID: 11400000, guid: d843e1c54900f4945a194a15210b9a30, type: 2}
+  - {fileID: 11400000, guid: af5e9a6a68b3e6c44b04f4b40d25ba06, type: 2}
+  - {fileID: 11400000, guid: f05cfee38c11664489c9d01d0011adaa, type: 2}

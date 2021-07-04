@@ -76,7 +76,6 @@ namespace SnakeMaze.SO
 
         protected virtual void OnDisable()
         {
-            Debug.Log("Clear");
             Available.Clear();
             HasBeenPrewarmed = false;
         }
