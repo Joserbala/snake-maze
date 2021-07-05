@@ -20,8 +20,6 @@ namespace SnakeMaze.Audio
         {
             pool.Prewarm(initSize);
             pool.SetParent(transform);
-            if(skinContainer.CurrentAudioSkin.AudioDic==null)
-                skinContainer.CurrentAudioSkin.InitScriptable();
         }
 
         private void OnEnable()
