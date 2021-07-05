@@ -41,5 +41,10 @@ namespace SnakeMaze.Audio
         {
             audioBus.OnAudioFinish?.Invoke();
         }
+
+        private void StopMusic()
+        {
+            audioBus.OnMusicStop?.Invoke(audioConfig);
+        }
     }
 }

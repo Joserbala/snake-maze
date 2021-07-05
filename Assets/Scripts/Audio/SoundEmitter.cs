@@ -31,7 +31,7 @@ namespace SnakeMaze.Audio
             }
         }
         
-        public void FadeMusicIn(AudioClip musicClip, AudioConfigSO settings, float duration, float startTime = 0f)
+        public void FadeMusicIn(AudioClip musicClip, AudioConfigSO settings, float startTime = 0f)
         {
             PlayAudioClip(musicClip, settings, true);
             _audioSource.volume = 0f;
@@ -39,7 +39,7 @@ namespace SnakeMaze.Audio
             if (startTime <= _audioSource.clip.length)
                 _audioSource.time = startTime;
 
-            _audioSource.DOFade(settings.Volume, duration);
+            _audioSource.DOFade(settings.Volume, settings.FadeInTime);
         }
         
         public float FadeMusicOut(float duration)

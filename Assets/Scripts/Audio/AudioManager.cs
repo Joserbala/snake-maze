@@ -27,7 +27,7 @@ namespace SnakeMaze.Audio
             busAudio.OnAudioPlay += PlayAudioClip;
             
             busMusic.OnAudioPlay += PlayMusic;
-            busMusic.OnAudioStop += StopMusic;
+            busMusic.OnMusicStop += StopMusic;
 
         }
         private void OnDestroy()
@@ -35,23 +35,22 @@ namespace SnakeMaze.Audio
             busAudio.OnAudioPlay -= PlayAudioClip;
             
             busMusic.OnAudioPlay -= PlayMusic;
-            busMusic.OnAudioStop -= StopMusic;
+            busMusic.OnMusicStop -= StopMusic;
         }
 
         private void PlayMusic(AudioClipType clipType, AudioConfigSO settings)
         {
-            var fadeDuration = 2f;
             var startTime = 0f;
             AudioClipSO clip = skinContainer.CurrentAudioSkin.AudioDic[clipType];
             if (_musicEmitter != null && _musicEmitter.IsPlaying())
             {
                 if(_musicEmitter.GetClip()==clip.Clip)
                     return;
-                startTime = _musicEmitter.FadeMusicOut(fadeDuration);
+                startTime = _musicEmitter.FadeMusicOut(settings.FadeOutTime);
             }
 
             _musicEmitter = pool.Request();
-            _musicEmitter.FadeMusicIn(clip.Clip,settings,1f,startTime);
+            _musicEmitter.FadeMusicIn(clip.Clip,settings,startTime);
             _musicEmitter.OnFinishedPlaying += StopMusicEmitter;
         }
         
@@ -69,10 +68,12 @@ namespace SnakeMaze.Audio
                 throw new NullReferenceException();
             }
         }
-        private void StopMusic()
+        private void StopMusic(AudioConfigSO settings)
         {
-            if (_musicEmitter != null && _musicEmitter.IsPlaying())
-                _musicEmitter.Stop();
+
+            if (_musicEmitter == null || !_musicEmitter.IsPlaying()) return;
+            _musicEmitter.OnFinishedPlaying += StopMusicEmitter;
+            _musicEmitter.FadeMusicOut(settings.FadeOutTime);
             
         }
 
