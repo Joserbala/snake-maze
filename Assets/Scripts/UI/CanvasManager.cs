@@ -15,7 +15,8 @@ namespace SnakeMaze.UI
         [SerializeField] private GameObject winPanel;
         [SerializeField] private PlayerVariableSO player;
         [SerializeField] private TextMeshProUGUI points;
-        [SerializeField] private TextMeshProUGUI finalScore;
+        [SerializeField] private TextMeshProUGUI finalScoreLose;
+        [SerializeField] private TextMeshProUGUI finalScoreWin;
         [SerializeField] private BusGameManagerSO gameManager;
         [SerializeField] private BusFoodSO busFoodSo;
         [SerializeField] private Button pauseButton;
@@ -49,18 +50,6 @@ namespace SnakeMaze.UI
             gameManager.PauseGame?.Invoke(true);
         }
 
-        private void SwitchDeathPanel()
-        {
-            deathPanel.SetActive(!_isDeathPanelActive);
-            _isDeathPanelActive = !_isDeathPanelActive;
-        }
-
-        private void SwitchWinPanel()
-        {
-            winPanel.SetActive(!_isWinPanelActive);
-            _isWinPanelActive = !_isWinPanelActive;
-        }
-
         private void SwitchPausePanel(bool pause)
         {
             pausePanel.SetActive(pause);
@@ -83,18 +72,52 @@ namespace SnakeMaze.UI
             points.text = player.Points.ToString();
         }
 
-        private void SetFinalScore()
+        private void OnPlayerWin()
+        {
+            SwitchWinPanel();
+            OnWinSetFinalScore();
+        }
+
+        private void OnPlayerLose()
+        {
+            SwitchDeathPanel();
+            OnLoseSetFinalScore();
+        }
+
+        private void SwitchDeathPanel()
+        {
+            deathPanel.SetActive(!_isDeathPanelActive);
+            _isDeathPanelActive = !_isDeathPanelActive;
+        }
+
+        private void SwitchWinPanel()
+        {
+            winPanel.SetActive(!_isWinPanelActive);
+            _isWinPanelActive = !_isWinPanelActive;
+        }
+
+        /// <summary>
+        /// Hides the ingame HUD and Sets the final score when the player wins.
+        /// </summary>
+        private void OnWinSetFinalScore()
         {
             inGameHUDGroup.SetActive(false);
-            finalScore.text = player.Points.ToString();
+            finalScoreWin.text = player.Points.ToString();
+        }
+
+        /// <summary>
+        /// Hides the ingame HUD and sets the final score when the player loses.
+        /// </summary>
+        private void OnLoseSetFinalScore()
+        {
+            inGameHUDGroup.SetActive(false);
+            finalScoreLose.text = player.Points.ToString();
         }
 
         private void OnEnable()
         {
-            gameManager.EndGame += SwitchDeathPanel;
-            gameManager.EndGame += SetFinalScore;
-            gameManager.WinGame += SwitchWinPanel;
-            gameManager.WinGame += SetFinalScore;
+            gameManager.EndGame += OnPlayerLose;
+            gameManager.WinGame += OnPlayerWin;
             gameManager.PauseGame += SwitchPausePanel;
             resumeButton.onClick.AddListener(PressResumeButton);
             pauseButton.onClick.AddListener(PressPauseButton);
@@ -105,10 +128,8 @@ namespace SnakeMaze.UI
 
         private void OnDisable()
         {
-            gameManager.EndGame -= SwitchDeathPanel;
-            gameManager.EndGame -= SetFinalScore;
-            gameManager.WinGame -= SwitchWinPanel;
-            gameManager.WinGame -= SetFinalScore;
+            gameManager.EndGame -= OnPlayerLose;
+            gameManager.WinGame -= OnPlayerWin;
             gameManager.PauseGame -= SwitchPausePanel;
             resumeButton.onClick.RemoveListener(PressResumeButton);
             pauseButton.onClick.RemoveListener(PressPauseButton);
