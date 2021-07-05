@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bd0243ec718d27499ef2c2750071441, type: 3}
   m_Name: MenuMusic
   m_EditorClassIdentifier: 
-  clip: {fileID: 0}
+  clip: {fileID: 8300000, guid: 32a596dcd0b63234e8cfa9ceddf80b1f, type: 3}
   loop: 1
   ignorePause: 0

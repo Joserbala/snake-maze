@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bd0243ec718d27499ef2c2750071441, type: 3}
   m_Name: GameMusic
   m_EditorClassIdentifier: 
-  clip: {fileID: 0}
+  clip: {fileID: 8300000, guid: d6a242ba6eda35a46aed94814ced1bef, type: 3}
   loop: 1
   ignorePause: 0

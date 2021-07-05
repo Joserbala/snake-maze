@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9583ed5ddf5e85544935a63922ef4dc8, type: 3}
   m_Name: DefaultAudioSkin
   m_EditorClassIdentifier: 
-  gameMusic: {fileID: 11400000, guid: b18f9da58e74b4740982aeec3636a7b9, type: 2}
-  menuMusic: {fileID: 11400000, guid: b18f9da58e74b4740982aeec3636a7b9, type: 2}
+  gameMusic: {fileID: 11400000, guid: 14f87aa812d3d8e4d98d614e7474e7aa, type: 2}
+  menuMusic: {fileID: 11400000, guid: 1921e0cba13d7fb4baa424ed0f49b0b9, type: 2}
   boostIn: {fileID: 11400000, guid: b18f9da58e74b4740982aeec3636a7b9, type: 2}
   boostOut: {fileID: 11400000, guid: 718aedd05557b4a4ba0e175660c1fd6a, type: 2}
   death: {fileID: 11400000, guid: 980d69af5dd4457438536fcc34c404d3, type: 2}

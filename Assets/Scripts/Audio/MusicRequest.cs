@@ -24,13 +24,13 @@ namespace SnakeMaze.Audio
         private IEnumerator PlayDelayed()
         {
             yield return new WaitForSeconds(1f);
-
-            if (playOnAwake)
-                PlayMusic();
+            
+            PlayMusic();
         }
 
-        private void PlayMusic()
+        public void PlayMusic()
         {
+            Debug.Log("Playing Music");
             busMusic.OnAudioPlay?.Invoke(clipType, audioConfig);
         }
         private void StopAudio()
@@ -40,6 +40,10 @@ namespace SnakeMaze.Audio
         private void FinishAudio()
         {
             busMusic.OnAudioFinish?.Invoke();
+        }
+        public void StopMusic()
+        {
+            busMusic.OnMusicStop?.Invoke(audioConfig);
         }
     }
 }
