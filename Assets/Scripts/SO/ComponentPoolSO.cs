@@ -34,6 +34,8 @@ namespace SnakeMaze.SO
         public override T Request()
         {
             T member = base.Request();
+            if (member == null)
+                member = Create();
             member.gameObject.SetActive(true);
             return member;
         }
