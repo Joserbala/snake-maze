@@ -1301,6 +1301,9 @@ MonoBehaviour:
   eatRequest: {fileID: 295203459}
   busFoodSo: {fileID: 11400000, guid: 0bfa56e9da8fbb0499f5daa4940873f4, type: 2}
   gameManagerSo: {fileID: 11400000, guid: 9f456d6bfae0f5f459d343256c8b7365, type: 2}
+  playerSpawnEvent: {fileID: 11400000, guid: c9ed8c4b0b6cfdf4dacec0ec4be73eea, type: 2}
+  infiniteGrow: 0
+  growTime: 2
 --- !u!4 &295203458
 Transform:
   m_ObjectHideFlags: 0
@@ -1754,8 +1757,8 @@ GameObject:
   m_Component:
   - component: {fileID: 487699537}
   - component: {fileID: 487699539}
-  - component: {fileID: 487699538}
   - component: {fileID: 487699540}
+  - component: {fileID: 487699538}
   m_Layer: 0
   m_Name: cm
   m_TagString: Untagged
@@ -3653,6 +3656,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mazeManager: {fileID: 11400000, guid: 7be945dc6d5169a4996cac759dd306c0, type: 2}
+  playerSpawnEvent: {fileID: 11400000, guid: c9ed8c4b0b6cfdf4dacec0ec4be73eea, type: 2}
 --- !u!4 &1648883903
 Transform:
   m_ObjectHideFlags: 0

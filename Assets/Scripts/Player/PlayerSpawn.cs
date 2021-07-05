@@ -8,6 +8,7 @@ namespace SnakeMaze.Player
     public class PlayerSpawn : MonoBehaviour
     {
         [SerializeField] private BusMazeManagerSO mazeManager;
+        [SerializeField] private EventSO playerSpawnEvent;
         private BSPGenerator _bspGenerator;
         private Transform _player;
 
@@ -27,6 +28,7 @@ namespace SnakeMaze.Player
             } while (room.IsExitRoom);
             var pos = room.Grid.GetCellAtPosition(room.BottomLeftCorner,room.Center).Position;
             _player.position = pos;
+            playerSpawnEvent.CurrentAction?.Invoke();
         }
 
         private void OnEnable()

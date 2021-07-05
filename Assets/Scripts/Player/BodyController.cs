@@ -18,6 +18,9 @@ namespace SnakeMaze.Player
         [SerializeField] private AudioRequest eatRequest;
         [SerializeField] private BusFoodSO busFoodSo;
         [SerializeField] private BusGameManagerSO gameManagerSo;
+        [SerializeField] private EventSO playerSpawnEvent;
+        [SerializeField] private bool infiniteGrow;
+        [SerializeField] private float growTime=2f;
         private List<Snake> snakeParts = new List<Snake>();
         private bool _growSnake;
         private IEnumerator _grow;
@@ -25,26 +28,27 @@ namespace SnakeMaze.Player
         private void Start()
         {
             _growSnake = false;
-            InitBody();
         }
 
-        IEnumerator StartGrowing()
+        IEnumerator StartInfiniteGrowing()
         {
             while (true)
             {
-                yield return new WaitForSeconds(2f);
-                // GrowSnakeNextMove();
+                yield return new WaitForSeconds(growTime);
+                GrowSnakeNextMove();
             }
         }
 
         private void StartGrow()
         {
-            _grow = StartGrowing();
+            _grow = StartInfiniteGrowing();
             StartCoroutine(_grow);
         }
 
-        private void StopGrow()
+        private void StopInfinteGrow()
         {
+            if (_grow == null) return;
+                
             StopCoroutine(_grow);
         }
 
@@ -240,17 +244,25 @@ namespace SnakeMaze.Player
 
         private void OnEnable()
         {
-            gameManagerSo.StartGame += StartGrow;
-            gameManagerSo.EndGame += StopGrow;
+            if(infiniteGrow)
+            {
+                gameManagerSo.StartGame += StartGrow;
+                gameManagerSo.EndGame += StopInfinteGrow;
+            }
             busFoodSo.OnEatFoodNoArg += GrowSnakeNextMove;
+            playerSpawnEvent.CurrentAction += InitBody;
 
         }
 
         private void OnDisable()
         {
-            gameManagerSo.StartGame -= StartGrow;
-            gameManagerSo.EndGame -= StopGrow;   
+            if(infiniteGrow)
+            {
+                gameManagerSo.StartGame -= StartGrow;
+                gameManagerSo.EndGame -= StopInfinteGrow;
+            }
             busFoodSo.OnEatFoodNoArg -= GrowSnakeNextMove;
+            playerSpawnEvent.CurrentAction -= InitBody;
         }
     }
 }
