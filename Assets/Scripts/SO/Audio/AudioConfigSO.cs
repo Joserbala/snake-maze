@@ -14,6 +14,8 @@ namespace SnakeMaze.SO
         [SerializeField] private bool randomPitch;
         [SerializeField] private float minPitch, maxPitch;
         [SerializeField] private bool ignorePause;
+        [SerializeField] private float fadeOutTime = 2f;
+        [SerializeField] private float fadeInTime = 1f;
 
         public float Volume
         {
@@ -32,6 +34,17 @@ namespace SnakeMaze.SO
                 }
             }
             set=> pitch=value;
+        }
+
+        public float FadeOutTime
+        {
+            get => fadeOutTime;
+            set => fadeOutTime = value;
+        }
+        public float FadeInTime
+        {
+            get => fadeInTime;
+            set => fadeInTime = value;
         }
 
         public void ApplyTo(AudioSource audioSource)

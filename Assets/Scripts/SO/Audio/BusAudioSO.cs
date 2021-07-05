@@ -10,5 +10,6 @@ namespace SnakeMaze.SO.Audio
         public Action<AudioClipType, AudioConfigSO> OnAudioPlay;
         public Action OnAudioFinish;
         public Action OnAudioStop;
+        public Action<AudioConfigSO> OnMusicStop;
     }
 }
