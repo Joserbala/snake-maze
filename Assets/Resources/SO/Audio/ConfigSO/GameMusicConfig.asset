@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: GameMusicConfig
   m_EditorClassIdentifier: 
   audioMixerGroup: {fileID: 0}
-  volume: 0.44
+  volume: 0.35
   pitch: 1
   panStereo: 0
   reverbZoneMix: 1
