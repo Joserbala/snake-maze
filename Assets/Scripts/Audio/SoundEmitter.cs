@@ -16,6 +16,16 @@ namespace SnakeMaze.Audio
             _audioSource = GetComponent<AudioSource>();
             _audioSource.playOnAwake = false;
         }
+        [ContextMenu("Play")]
+        private void PlayMusicTest()
+        {
+            _audioSource.Play();
+        }
+        [ContextMenu("Stop")]
+        private void StopMusicTest()
+        {
+            _audioSource.Stop();
+        }
 
         public void PlayAudioClip(AudioClip clip, AudioConfigSO settings, bool loop)
         {
@@ -34,14 +44,11 @@ namespace SnakeMaze.Audio
         public void FadeMusicIn(AudioClip musicClip, AudioConfigSO settings, float startTime = 0f)
         {
             PlayAudioClip(musicClip, settings, true);
-            _audioSource.volume = 0f;
-            
+
             if (startTime <= _audioSource.clip.length)
                 _audioSource.time = startTime;
-
-            _audioSource.DOFade(settings.Volume, settings.FadeInTime);
         }
-        
+
         public float FadeMusicOut(float duration)
         {
             _audioSource.DOFade(0f, duration).onComplete += OnFadeOutComplete;
@@ -62,6 +69,12 @@ namespace SnakeMaze.Audio
         public void Resume() => _audioSource.Play();
         public void Pause() => _audioSource.Pause();
         public void Stop() => _audioSource.Stop();
+
+        public void StopMusic()
+        {
+            _audioSource.Stop();
+            NotifyFinished();
+        }
 
         public void Finish()
         {

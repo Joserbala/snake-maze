@@ -46,11 +46,11 @@ namespace SnakeMaze.Audio
             {
                 if(_musicEmitter.GetClip()==clip.Clip)
                     return;
-                startTime = _musicEmitter.FadeMusicOut(settings.FadeOutTime);
+                _musicEmitter.StopMusic();
             }
 
             _musicEmitter = pool.Request();
-            _musicEmitter.FadeMusicIn(clip.Clip,settings,startTime);
+            _musicEmitter.PlayAudioClip(clip.Clip,settings, true);
             _musicEmitter.OnFinishedPlaying += StopMusicEmitter;
         }
         
@@ -73,8 +73,8 @@ namespace SnakeMaze.Audio
 
             if (_musicEmitter == null || !_musicEmitter.IsPlaying()) return;
             _musicEmitter.OnFinishedPlaying += StopMusicEmitter;
-            _musicEmitter.FadeMusicOut(settings.FadeOutTime);
-            
+            _musicEmitter.StopMusic();
+
         }
 
         private void OnSoundEmitterFinished(SoundEmitter soundEmitter)

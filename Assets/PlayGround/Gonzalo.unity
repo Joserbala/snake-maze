@@ -3222,6 +3222,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1527179389}
   - component: {fileID: 1527179390}
+  - component: {fileID: 1527179388}
+  - component: {fileID: 1527179391}
   m_Layer: 0
   m_Name: AudioManager
   m_TagString: Untagged
@@ -3229,6 +3231,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &1527179388
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1527179387}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0cf23496dd498e418d304a21824814c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clipType: 0
+  playOnAwake: 0
+  busMusic: {fileID: 11400000, guid: 29ab42adc445bca4eacbb22218415bfe, type: 2}
+  audioConfig: {fileID: 11400000, guid: cfc0aa71278dd1a42b5b51cc2bd0624f, type: 2}
 --- !u!4 &1527179389
 Transform:
   m_ObjectHideFlags: 0
@@ -3260,6 +3278,20 @@ MonoBehaviour:
   busMusic: {fileID: 11400000, guid: 29ab42adc445bca4eacbb22218415bfe, type: 2}
   pool: {fileID: 11400000, guid: 5be60cb14928fea4cb97f70489964bc2, type: 2}
   initSize: 4
+--- !u!114 &1527179391
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1527179387}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2eec0d87f47877f4f82519d66495a749, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  musicRequest: {fileID: 1527179388}
+  gameManagerSo: {fileID: 11400000, guid: 9f456d6bfae0f5f459d343256c8b7365, type: 2}
 --- !u!1 &1536790798
 GameObject:
   m_ObjectHideFlags: 0

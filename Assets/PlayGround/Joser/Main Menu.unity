@@ -380,6 +380,7 @@ GameObject:
   - component: {fileID: 411972919}
   - component: {fileID: 411972918}
   - component: {fileID: 411972917}
+  - component: {fileID: 411972920}
   m_Layer: 5
   m_Name: Play_Button
   m_TagString: Untagged
@@ -463,6 +464,18 @@ MonoBehaviour:
           m_StringArgument: LoadingScene
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 411972920}
+        m_TargetAssemblyTypeName: SnakeMaze.Audio.AudioRequest, Assembly-CSharp
+        m_MethodName: PlayAudio
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &411972918
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -501,6 +514,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 411972915}
   m_CullTransparentMesh: 1
+--- !u!114 &411972920
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 411972915}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35e9123ba1ecc0d459245aa482d3f7cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clipType: 6
+  playOnStart: 0
+  audioBus: {fileID: 11400000, guid: 66864f3b335e1604a8601c4582d2e3bc, type: 2}
+  audioConfig: {fileID: 11400000, guid: 825a1a64b81903541bf9e3c1b1453db7, type: 2}
 --- !u!1 &550828453
 GameObject:
   m_ObjectHideFlags: 0

@@ -52,6 +52,7 @@ namespace SnakeMaze.UI
 
         private void SwitchPausePanel(bool pause)
         {
+            _isPausePanelActive = pause;
             pausePanel.SetActive(pause);
         }
 
@@ -86,6 +87,7 @@ namespace SnakeMaze.UI
 
         private void SwitchDeathPanel()
         {
+            if (_isPausePanelActive) return;
             deathPanel.SetActive(!_isDeathPanelActive);
             _isDeathPanelActive = !_isDeathPanelActive;
         }
