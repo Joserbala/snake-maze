@@ -10,14 +10,15 @@ namespace SnakeMaze.Utils
 
         private void Awake()
         {
-            if(!PlayerPrefs.HasKey("ScriptablesInitiated"))
-                PlayerPrefs.SetInt("ScriptablesInitiated", 0);
-            if (PlayerPrefs.GetInt("ScriptablesInitiated") == 0)
-            {
-                Debug.Log("Scriptables initiated");
-                soManager.InitScriptables();
-                PlayerPrefs.SetInt("ScriptablesInitiated", 1);
-            }
+            // if(!PlayerPrefs.HasKey("ScriptablesInitiated"))
+            //     PlayerPrefs.SetInt("ScriptablesInitiated", 0);
+            // if (PlayerPrefs.GetInt("ScriptablesInitiated") == 0)
+            // {
+            //     Debug.Log("Scriptables initiated");
+            //     soManager.InitScriptables();
+            //     PlayerPrefs.SetInt("ScriptablesInitiated", 1);
+            // }
+            soManager.InitScriptables();
         }
 
         private void ResetScriptables(Scene scene, LoadSceneMode loadSceneMode)
@@ -36,7 +37,7 @@ namespace SnakeMaze.Utils
 
         private void OnApplicationQuit()
         {
-            PlayerPrefs.SetInt("ScriptablesInitiated", 0);
+            // PlayerPrefs.SetInt("ScriptablesInitiated", 0);
         }
     }
 }
