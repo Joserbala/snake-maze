@@ -51,8 +51,6 @@ namespace SnakeMaze.SO
         {
             audioSource.outputAudioMixerGroup = audioMixerGroup;
             audioSource.volume = volume;
-            Debug.Log("settings volume: "+volume);
-            Debug.Log("audio source volume" + audioSource.volume);
             audioSource.pitch = Pitch;
             audioSource.panStereo = panStereo;
             audioSource.reverbZoneMix = reverbZoneMix;
