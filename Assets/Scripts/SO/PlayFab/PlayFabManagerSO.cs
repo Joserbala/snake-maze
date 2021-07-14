@@ -93,22 +93,18 @@ namespace SnakeMaze.SO.PlayFabManager
                 FunctionName = "CreateAccount",
                 GeneratePlayStreamEvent = true,
                 FunctionParameter = new { displayName = nickname }
+                // FunctionParameter = nickname
             };
-            PlayFabClientAPI.ExecuteCloudScript<CloudScriptResult>(request,
+            PlayFabClientAPI.ExecuteCloudScript<ErrorData>(request,
                 result =>
                 {
-                    CloudScriptResult serverResponse = (CloudScriptResult)
-                        result.FunctionResult; //as CloudScriptResult;
-                    Debug.Log("Create account response: " + serverResponse.Result);
-
-                    if (serverResponse.Result == 200)
+                    ErrorData serverResponse = (ErrorData)
+                    result.FunctionResult; //as CloudScriptResult;
+                    for (int i = 0; i < result.Logs.Count; i++)
                     {
-                        onSuccess();
+                        Debug.Log(result.Logs[i].Message);
                     }
-                    else
-                    {
-                        onFail(PlayFabErrorCode.UnknownError);
-                    }
+                    onSuccess();
                 },
                 error =>
                 {

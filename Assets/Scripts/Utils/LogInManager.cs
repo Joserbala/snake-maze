@@ -62,6 +62,7 @@ namespace SnakeMaze.Utils
             else
             {
                 onServerLogin?.Invoke();
+                playFabManagerSo.Nickname = loginResult.InfoResultPayload.PlayerProfile.DisplayName;
             }
         }
 
@@ -71,6 +72,7 @@ namespace SnakeMaze.Utils
             duplicateErrorText.SetActive(false);
             unknownErrorText.SetActive(false);
             if (!CheckNickname(nickname.text)) return;
+            
 
             playFabManagerSo.CreateAccount(nickname.text, () =>
                 {
@@ -127,8 +129,8 @@ namespace SnakeMaze.Utils
 
         private void LoadGameSetup(Dictionary<string, string> data)
         {
-            SetPlayFabVersion(data["ClientVersion"]);
-            SetPlayFabEconomyModel(data["EconomySetup"]);
+            // SetPlayFabVersion(data["ClientVersion"]);
+            // SetPlayFabEconomyModel(data["EconomySetup"]);
         }
 
         private void SetPlayFabVersion(string version) => gameVersion = version;

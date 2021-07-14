@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using PlayFab;
 using PlayFab.ClientModels;
 
 namespace SnakeMaze.PlayFab
@@ -30,8 +31,12 @@ namespace SnakeMaze.PlayFab
         public int HardCoins;
     }
 
-    public class ErrorData : CloudScriptResult
+    public class ErrorData 
     {
-        public int ErrorCode;
+        public PlayFabErrorCode ErrorCode;
+    }
+    public class ErrorDataTest : ErrorData
+    {
+        public String Nickname;
     }
 }
