@@ -1141,7 +1141,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Enter text...
+  m_text: Username...
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 11f7307857d4bc24eb958f81381f547a, type: 2}
   m_sharedMaterial: {fileID: -830449815082933342, guid: 11f7307857d4bc24eb958f81381f547a, type: 2}
@@ -1168,7 +1168,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 85.1
+  m_fontSize: 95.6
   m_fontSizeBase: 14
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2716,7 +2716,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playFabManagerSo: {fileID: 11400000, guid: 139fc8d043f03dd4caf81ec6546c77d9, type: 2}
   createAccountPanel: {fileID: 56735667}
-  nickName: {fileID: 0}
+  invalidUsernameText: {fileID: 1379436028}
+  duplicateErrorText: {fileID: 232122259}
+  unknownErrorText: {fileID: 51341923}
+  nickname: {fileID: 1527338507}
   gameVersion: 0.0.1
 --- !u!4 &1993327768
 Transform:
