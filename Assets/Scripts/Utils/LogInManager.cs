@@ -14,7 +14,9 @@ namespace SnakeMaze.Utils
         public static event Action onServerLogin;
         [SerializeField] private PlayFabManagerSO playFabManagerSo;
         [SerializeField] private GameObject createAccountPanel;
-        [SerializeField] private GameObject errorText;
+        [SerializeField] private GameObject invalidUsernameText;
+        [SerializeField] private GameObject duplicateErrorText;
+        [SerializeField] private GameObject unknownErrorText;
         [SerializeField] private TextMeshProUGUI nickname;
 
         #region DATA
@@ -64,8 +66,10 @@ namespace SnakeMaze.Utils
 
         public void CreateAccount()
         {
+            invalidUsernameText.SetActive(false);
+            duplicateErrorText.SetActive(false);
+            unknownErrorText.SetActive(true);
             if (!CheckNickname(nickname.text)) return;
-
             
             playFabManagerSo.CreateAccount(nickname.text,() =>
                 {
@@ -74,10 +78,10 @@ namespace SnakeMaze.Utils
                     playFabManagerSo.Nickname = nickname.text;
 
                 },
-                () =>
+                (error) =>
                 {
-                    Debug.LogError("Create Account Failed!");
-                    CreateAccountFailed();
+                    Debug.LogError("Create Account Failed!"); 
+                    CreateAccountFailed(error==PlayFabErrorCode.DuplicateUsername);
 
                 });
         }
@@ -91,17 +95,18 @@ namespace SnakeMaze.Utils
         {
             if (value.Length < 3 || value.Length > 25)
             {
-                CreateAccountFailed();
+                invalidUsernameText.SetActive(true);
                 return false;
             }
-
-            errorText.SetActive(false);
             return true;
         }
 
-        private void CreateAccountFailed()
+        private void CreateAccountFailed(bool unkown)
         {
-            errorText.SetActive(true);
+            if (unkown)
+                unknownErrorText.SetActive(true);
+            else
+                duplicateErrorText.SetActive(true);
         }
 
         private void OnLogginFailed(PlayFabError error)
