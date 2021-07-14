@@ -54,7 +54,8 @@ namespace SnakeMaze.Utils
             Debug.Log("User newly created: " + loginResult.NewlyCreated);
             Debug.Log("User Name: " + loginResult.InfoResultPayload.PlayerProfile.DisplayName);
 
-            if (loginResult.NewlyCreated || String.IsNullOrWhiteSpace(loginResult.InfoResultPayload.PlayerProfile.DisplayName))
+            if (loginResult.NewlyCreated ||
+                String.IsNullOrWhiteSpace(loginResult.InfoResultPayload.PlayerProfile.DisplayName))
             {
                 createAccountPanel.SetActive(true);
             }
@@ -68,27 +69,24 @@ namespace SnakeMaze.Utils
         {
             invalidUsernameText.SetActive(false);
             duplicateErrorText.SetActive(false);
-            unknownErrorText.SetActive(true);
+            unknownErrorText.SetActive(false);
             if (!CheckNickname(nickname.text)) return;
-            
-            playFabManagerSo.CreateAccount(nickname.text,() =>
+
+            playFabManagerSo.CreateAccount(nickname.text, () =>
                 {
                     onServerLogin?.Invoke();
                     createAccountPanel.SetActive(false);
                     playFabManagerSo.Nickname = nickname.text;
-
                 },
                 (error) =>
                 {
-                    Debug.LogError("Create Account Failed!"); 
-                    CreateAccountFailed(error==PlayFabErrorCode.DuplicateUsername);
-
+                    Debug.LogError("Create Account Failed!");
+                    CreateAccountFailed(error == PlayFabErrorCode.DuplicateUsername);
                 });
         }
 
         private void SetNickname()
         {
-            
         }
 
         private bool CheckNickname(string value)
@@ -98,6 +96,7 @@ namespace SnakeMaze.Utils
                 invalidUsernameText.SetActive(true);
                 return false;
             }
+
             return true;
         }
 
