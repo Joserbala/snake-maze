@@ -10,12 +10,8 @@ namespace SnakeMaze.Utils
 
         private void Awake()
         {
-            Debug.Log("Help");
-            Debug.Log(PlayerPrefs.GetInt("ScriptablesInitiated") == 0);
-            Debug.Log(PlayerPrefs.GetInt("ScriptablesInitiated"));
             if (PlayerPrefs.GetInt("ScriptablesInitiated") == 0)
             {
-                Debug.Log("Scriptables initiated");
                 soManager.InitScriptables();
                 PlayerPrefs.SetInt("ScriptablesInitiated", 1);
             }
@@ -23,7 +19,6 @@ namespace SnakeMaze.Utils
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         private static void InitPlayerPrefs()
         {
-            Debug.Log("BeforeLoadScene");
             PlayerPrefs.SetInt("ScriptablesInitiated",0);
             PlayerPrefs.Save();
         }
