@@ -29,4 +29,9 @@ namespace SnakeMaze.PlayFab
         public int SoftCoins;
         public int HardCoins;
     }
+
+    public class ErrorData : CloudScriptResult
+    {
+        public int ErrorCode;
+    }
 }

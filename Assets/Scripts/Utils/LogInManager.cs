@@ -10,12 +10,15 @@ namespace SnakeMaze.Utils
 {
     public class LogInManager : MonoBehaviour
     {
-         //Event para que este evento no se pueda llamar desde otra clase, solo suscribirse.
+        //Event para que este evento no se pueda llamar desde otra clase, solo suscribirse.
         public static event Action onServerLogin;
         [SerializeField] private PlayFabManagerSO playFabManagerSo;
         [SerializeField] private GameObject createAccountPanel;
-        [SerializeField] private TextMeshProUGUI nickName;
-        
+        [SerializeField] private GameObject invalidUsernameText;
+        [SerializeField] private GameObject duplicateErrorText;
+        [SerializeField] private GameObject unknownErrorText;
+        [SerializeField] private TextMeshProUGUI nickname;
+
         #region DATA
 
         public string gameVersion;
@@ -49,8 +52,9 @@ namespace SnakeMaze.Utils
         {
             Debug.Log("User login: " + loginResult.PlayFabId);
             Debug.Log("User newly created: " + loginResult.NewlyCreated);
+            Debug.Log("User Name: " + loginResult.InfoResultPayload.PlayerProfile.DisplayName);
 
-            if (loginResult.NewlyCreated || playFabManagerSo.NickName==String.Empty)
+            if (loginResult.NewlyCreated || String.IsNullOrWhiteSpace(loginResult.InfoResultPayload.PlayerProfile.DisplayName))
             {
                 createAccountPanel.SetActive(true);
             }
@@ -62,12 +66,49 @@ namespace SnakeMaze.Utils
 
         public void CreateAccount()
         {
-            if(nickName.text==String.Empty) return;
+            invalidUsernameText.SetActive(false);
+            duplicateErrorText.SetActive(false);
+            unknownErrorText.SetActive(true);
+            if (!CheckNickname(nickname.text)) return;
+            
+            playFabManagerSo.CreateAccount(nickname.text,() =>
+                {
+                    onServerLogin?.Invoke();
+                    createAccountPanel.SetActive(false);
+                    playFabManagerSo.Nickname = nickname.text;
 
-            playFabManagerSo.NickName = nickName.text;
-            playFabManagerSo.CreateAccount(()=>onServerLogin?.Invoke(),()=>Debug.LogError("Create Account Failed!"));
+                },
+                (error) =>
+                {
+                    Debug.LogError("Create Account Failed!"); 
+                    CreateAccountFailed(error==PlayFabErrorCode.DuplicateUsername);
+
+                });
         }
-        // private void 
+
+        private void SetNickname()
+        {
+            
+        }
+
+        private bool CheckNickname(string value)
+        {
+            if (value.Length < 3 || value.Length > 25)
+            {
+                invalidUsernameText.SetActive(true);
+                return false;
+            }
+            return true;
+        }
+
+        private void CreateAccountFailed(bool unkown)
+        {
+            if (unkown)
+                unknownErrorText.SetActive(true);
+            else
+                duplicateErrorText.SetActive(true);
+        }
+
         private void OnLogginFailed(PlayFabError error)
         {
             Debug.LogError("Login failed: " + error.ErrorMessage);
@@ -75,21 +116,14 @@ namespace SnakeMaze.Utils
 
         #endregion
 
-       
 
         #region LOAD_SERVER_DATA
 
         public void LoadServerData()
         {
             playFabManagerSo.GetTitleData(
-                titleData =>
-                {
-                    LoadGameSetup(titleData.Data);
-                },
-                error =>
-                {
-                    Debug.LogError("Get title data failed: "+ error.ErrorMessage);
-                });
+                titleData => { LoadGameSetup(titleData.Data); },
+                error => { Debug.LogError("Get title data failed: " + error.ErrorMessage); });
         }
 
         private void LoadGameSetup(Dictionary<string, string> data)

@@ -10,15 +10,15 @@ namespace SnakeMaze.SO.PlayFabManager
     public class PlayFabManagerSO : InitiableSO
     {
         [SerializeField] private bool isTest = true;
-        private string _nickName;
+        private string _nickname;
 
         public static string PLAYFAB_TITLE_ID_TEST = "E0CD8";
         public static string PLAYFAB_TITLE_RELEASE = "6F99B";
 
-        public string NickName
+        public string Nickname
         {
-            get => _nickName;
-            set => _nickName = value;
+            get => _nickname;
+            set => _nickname = value;
         }
 
         public override void InitScriptable()
@@ -38,7 +38,11 @@ namespace SnakeMaze.SO.PlayFabManager
             var request = new LoginWithCustomIDRequest()
             {
                 CreateAccount = true,
-                CustomId = SystemInfo.deviceUniqueIdentifier
+                CustomId = SystemInfo.deviceUniqueIdentifier,
+                InfoRequestParameters = new GetPlayerCombinedInfoRequestParams
+                    {
+                    GetPlayerProfile = true
+                    }
             };
 
             PlayFabClientAPI.LoginWithCustomID(request, onSuccess, onFail);
@@ -82,12 +86,13 @@ namespace SnakeMaze.SO.PlayFabManager
 
         #region CREATE_ACCOUNT
 
-        public void CreateAccount(Action onSuccess, Action onFail)
+        public void CreateAccount(string nickname,Action onSuccess, Action<PlayFabErrorCode> onFail)
         {
             var request = new ExecuteCloudScriptRequest()
             {
                 FunctionName = "CreateAccount",
-                GeneratePlayStreamEvent = true
+                GeneratePlayStreamEvent = true,
+                FunctionParameter = new { displayName = nickname }
             };
             PlayFabClientAPI.ExecuteCloudScript<CloudScriptResult>(request,
                 result =>
@@ -102,12 +107,13 @@ namespace SnakeMaze.SO.PlayFabManager
                     }
                     else
                     {
-                        onFail();
+                        onFail(PlayFabErrorCode.UnknownError);
                     }
                 },
                 error =>
                 {
-                    onFail();
+                    onFail(error.Error);
+                    Debug.LogError("CUIDADO FUNCTION FAILED: " + error.Error);
                     Debug.LogError("CUIDADO FUNCTION FAILED: " + error.ErrorMessage);
                 });
         }
