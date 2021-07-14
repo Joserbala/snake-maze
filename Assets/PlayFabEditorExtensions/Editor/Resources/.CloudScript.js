@@ -32,12 +32,10 @@
 const SUCCESS = 200;
 const FAILED = 400;
 
-handlers.CreateAccount = function (args) {
+handlers.CreateAccount = function () {
     UpdateUserReadOnlyData({
-        'HighScore': 0
+        HighScore: 0
     });
-
-    return UpdateDisplayName(args.displayName);
 }
 
 /////////////////////////////////////////////////////////////////////////
@@ -55,14 +53,6 @@ function UpdateUserReadOnlyData(data) {
 
     server.UpdateUserReadOnlyData(request);
 }
-
-function UpdateDisplayName(displayName) {
-    let request = {
-        DisplayName: displayName
-    };
-
-    return server.UpdateUserTitleDisplayName(request);
-};
 
 // This is a Cloud Script function. "args" is set to the value of the "FunctionParameter" 
 // parameter of the ExecuteCloudScript API.
