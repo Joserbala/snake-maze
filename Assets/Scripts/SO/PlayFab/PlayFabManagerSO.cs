@@ -10,22 +10,22 @@ namespace SnakeMaze.SO.PlayFabManager
     public class PlayFabManagerSO : InitiableSO
     {
         [SerializeField] private bool isTest = true;
-        private string _nickname;
+        private string displayName;
 
         public static string PLAYFAB_TITLE_ID_TEST = "E0CD8";
         public static string PLAYFAB_TITLE_RELEASE = "6F99B";
 
-        public string Nickname
+        public string DisplayName
         {
-            get => _nickname;
-            set => _nickname = value;
+            get => displayName;
+            set => displayName = value;
         }
 
         public override void InitScriptable()
         {
             SetupPlayFabServer();
         }
-        
+
         #region LOGIN
 
         private void SetupPlayFabServer()
@@ -39,10 +39,11 @@ namespace SnakeMaze.SO.PlayFabManager
             {
                 CreateAccount = true,
                 CustomId = SystemInfo.deviceUniqueIdentifier,
+
                 InfoRequestParameters = new GetPlayerCombinedInfoRequestParams
-                    {
+                {
                     GetPlayerProfile = true
-                    }
+                }
             };
 
             PlayFabClientAPI.LoginWithCustomID(request, onSuccess, onFail);
@@ -55,11 +56,12 @@ namespace SnakeMaze.SO.PlayFabManager
                 FunctionName = "GetLoginData",
                 GeneratePlayStreamEvent = true
             };
-            
+
             PlayFabClientAPI.ExecuteCloudScript<LoginDataResult>(request,
                 result =>
                 {
                     LoginDataResult serverResponse = result.FunctionResult as LoginDataResult;
+
                     if (serverResponse.Result == 200)
                     {
                         onSuccess(serverResponse);
@@ -86,24 +88,24 @@ namespace SnakeMaze.SO.PlayFabManager
 
         #region CREATE_ACCOUNT
 
-        public void CreateAccount(string nickname,Action onSuccess, Action<PlayFabErrorCode> onFail)
+        public void CreateAccount(string nickname, Action onSuccess, Action<PlayFabErrorCode> onFail)
         {
             var request = new ExecuteCloudScriptRequest()
             {
                 FunctionName = "CreateAccount",
-                GeneratePlayStreamEvent = true,
-                FunctionParameter = new { displayName = nickname }
-                // FunctionParameter = nickname
+                GeneratePlayStreamEvent = true
             };
+
             PlayFabClientAPI.ExecuteCloudScript<ErrorData>(request,
                 result =>
                 {
-                    ErrorData serverResponse = (ErrorData)
-                    result.FunctionResult; //as CloudScriptResult;
+                    ErrorData serverResponse = (ErrorData)result.FunctionResult;
+
                     for (int i = 0; i < result.Logs.Count; i++)
                     {
                         Debug.Log(result.Logs[i].Message);
                     }
+
                     onSuccess();
                 },
                 error =>

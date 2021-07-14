@@ -11,7 +11,7 @@ namespace SnakeMaze.Utils
     public class LogInManager : MonoBehaviour
     {
         //Event para que este evento no se pueda llamar desde otra clase, solo suscribirse.
-        public static event Action onServerLogin;
+        public static event Action OnServerLogin;
         [SerializeField] private PlayFabManagerSO playFabManagerSo;
         [SerializeField] private GameObject createAccountPanel;
         [SerializeField] private GameObject invalidUsernameText;
@@ -33,12 +33,12 @@ namespace SnakeMaze.Utils
 
         private void Awake()
         {
-            onServerLogin += LoadServerData;
+            OnServerLogin += LoadServerData;
         }
 
         private void OnDestroy()
         {
-            onServerLogin -= LoadServerData;
+            OnServerLogin -= LoadServerData;
         }
 
         #region LOGIN
@@ -52,17 +52,17 @@ namespace SnakeMaze.Utils
         {
             Debug.Log("User login: " + loginResult.PlayFabId);
             Debug.Log("User newly created: " + loginResult.NewlyCreated);
-            Debug.Log("User Name: " + loginResult.InfoResultPayload.PlayerProfile.DisplayName);
+            // Debug.Log("User Name: " + loginResult.InfoResultPayload.PlayerProfile.DisplayName); TODO: Ver por qué falla esta línea.
 
             if (loginResult.NewlyCreated ||
-                String.IsNullOrWhiteSpace(loginResult.InfoResultPayload.PlayerProfile.DisplayName))
+                string.IsNullOrWhiteSpace(loginResult.InfoResultPayload.PlayerProfile.DisplayName))
             {
                 createAccountPanel.SetActive(true);
             }
             else
             {
-                onServerLogin?.Invoke();
-                playFabManagerSo.Nickname = loginResult.InfoResultPayload.PlayerProfile.DisplayName;
+                OnServerLogin?.Invoke();
+                playFabManagerSo.DisplayName = loginResult.InfoResultPayload.PlayerProfile.DisplayName;
             }
         }
 
@@ -71,20 +71,36 @@ namespace SnakeMaze.Utils
             invalidUsernameText.SetActive(false);
             duplicateErrorText.SetActive(false);
             unknownErrorText.SetActive(false);
-            if (!CheckNickname(nickname.text)) return;
-            
 
-            playFabManagerSo.CreateAccount(nickname.text, () =>
+            if (!CheckNickname(nickname.text)) return;
+
+            playFabManagerSo.CreateAccount( // TODO: Revisar errores al crear cuenta, textos a mostrar.
+                nickname.text,
+                onSuccess: () =>
                 {
-                    onServerLogin?.Invoke();
-                    createAccountPanel.SetActive(false);
-                    playFabManagerSo.Nickname = nickname.text;
+                    PlayFabClientAPI.UpdateUserTitleDisplayName(
+                        new UpdateUserTitleDisplayNameRequest
+                        {
+                            DisplayName = nickname.text
+                        },
+                        resultCallback: (result) =>
+                        {
+                            OnServerLogin?.Invoke();
+                            createAccountPanel.SetActive(false);
+                            playFabManagerSo.DisplayName = nickname.text;
+                        },
+                        errorCallback: (error) =>
+                        {
+                            Debug.LogError("Create Account Failed!");
+                        }
+                    );
                 },
-                (error) =>
+                onFail: (error) =>
                 {
                     Debug.LogError("Create Account Failed!");
                     CreateAccountFailed(error == PlayFabErrorCode.DuplicateUsername);
-                });
+                }
+            );
         }
 
         private void SetNickname()
