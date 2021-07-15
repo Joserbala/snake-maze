@@ -19,6 +19,8 @@ namespace SnakeMaze.Utils
         [SerializeField] private GameObject unknownErrorText;
         [SerializeField] private TextMeshProUGUI nickname;
 
+        private string _currentDisplayName;
+
         #region DATA
 
         public string gameVersion;
@@ -52,7 +54,7 @@ namespace SnakeMaze.Utils
         {
             Debug.Log("User login: " + loginResult.PlayFabId);
             Debug.Log("User newly created: " + loginResult.NewlyCreated);
-            // Debug.Log("User Name: " + loginResult.InfoResultPayload.PlayerProfile.DisplayName); TODO: Ver por qué falla esta línea.
+            // Debug.Log("User Name: " + loginResult.InfoResultPayload.PlayerProfile.DisplayName);
 
             if (loginResult.NewlyCreated ||
                 string.IsNullOrWhiteSpace(loginResult.InfoResultPayload.PlayerProfile.DisplayName))
@@ -63,6 +65,7 @@ namespace SnakeMaze.Utils
             {
                 OnServerLogin?.Invoke();
                 playFabManagerSo.DisplayName = loginResult.InfoResultPayload.PlayerProfile.DisplayName;
+                Debug.Log("User Name: " + loginResult.InfoResultPayload.PlayerProfile.DisplayName);
             }
         }
 
@@ -75,41 +78,45 @@ namespace SnakeMaze.Utils
             if (!CheckNickname(nickname.text)) return;
 
             playFabManagerSo.CreateAccount( // TODO: Revisar errores al crear cuenta, textos a mostrar.
-                nickname.text,
+                _currentDisplayName,
                 onSuccess: () =>
                 {
-                    PlayFabClientAPI.UpdateUserTitleDisplayName(
-                        new UpdateUserTitleDisplayNameRequest
-                        {
-                            DisplayName = nickname.text
-                        },
-                        resultCallback: (result) =>
-                        {
-                            OnServerLogin?.Invoke();
-                            createAccountPanel.SetActive(false);
-                            playFabManagerSo.DisplayName = nickname.text;
-                        },
-                        errorCallback: (error) =>
-                        {
-                            Debug.LogError("Create Account Failed!");
-                        }
-                    );
+                    SetNickname(_currentDisplayName);
                 },
                 onFail: (error) =>
                 {
                     Debug.LogError("Create Account Failed!");
-                    CreateAccountFailed(error == PlayFabErrorCode.DuplicateUsername);
+                    Debug.Log(error.ErrorMessage);
+                    CreateAccountFailed(error.Error == PlayFabErrorCode.DuplicateUsername);
                 }
             );
         }
 
-        private void SetNickname()
+        private void SetNickname(string value)
         {
+            PlayFabClientAPI.UpdateUserTitleDisplayName(
+                new UpdateUserTitleDisplayNameRequest
+                {
+                    DisplayName = value
+                },
+                resultCallback: (result) =>
+                {
+                    OnServerLogin?.Invoke();
+                    createAccountPanel.SetActive(false);
+                    playFabManagerSo.DisplayName = value;
+                },
+                errorCallback: (error) =>
+                {
+                    Debug.LogWarning("Create Account Failed!");
+                    CreateAccountFailed(error.Error == PlayFabErrorCode.DuplicateUsername);
+                }
+            );
         }
 
         private bool CheckNickname(string value)
         {
-            if (value.Length < 3 || value.Length > 25)
+            _currentDisplayName = value.Trim();
+            if (_currentDisplayName.Length < 3 || _currentDisplayName.Length > 25)
             {
                 invalidUsernameText.SetActive(true);
                 return false;
