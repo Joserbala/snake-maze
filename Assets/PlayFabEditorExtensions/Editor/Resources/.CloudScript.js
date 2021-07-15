@@ -41,6 +41,7 @@ handlers.CreateAccount = function () {
         HighScore: JSON.stringify(HighScore)
     });
 
+    // Error control in client.
     log.info(JSON.stringify(result));
 };
 
@@ -55,8 +56,19 @@ handlers.UpdateScore = function (args) {
         HighScore: JSON.stringify(HighScore)
     });
 
+    // Error control in client.
     log.info(JSON.stringify(result));
 };
+
+handlers.GetLoginData = function () {
+    let playerData = GetUserReadOnlyData();
+
+    let loginData = {
+        ReadOnlyData: playerData
+    };
+
+    return { LoginData: loginData }
+}
 
 /////////////////////////////////////////////////////////////////////////
 //
@@ -75,22 +87,35 @@ function UpdateUserReadOnlyData(data) {
         Data: data
     };
 
+    let result = server.UpdateUserReadOnlyData(request);
+
+    // Error control in client.
+    log.info(JSON.stringify(result));
+
     return server.UpdateUserReadOnlyData(request);
 };
 
 /**
+ * Gets the ReadOnlyData from the user with PlayFabId = currentPlayerId.
  * 
- * @param {*} data 
- * @returns 
+ * @param {undefined} data 
+ * @returns {Object} All the ReadOnlyData.
  */
 function GetUserReadOnlyData(data) {
+    // let request = {
+    //     PlayFabId: currentPlayerId,
+    //     IfChangedFromDataVersion: 1,
+    //     Keys: data
+    // };
+
     let request = {
         PlayFabId: currentPlayerId,
-        IfChangedFromDataVersion: 1,
-        Keys: data
+        Data: data
     };
 
-    return server.GetUserReadOnlyData(request);
+    let result = server.GetUserReadOnlyData(request);
+
+    return result.Data;
 }
 
 // This is a Cloud Script function. "args" is set to the value of the "FunctionParameter" 
