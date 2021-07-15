@@ -33,10 +33,30 @@ const SUCCESS = 200;
 const FAILED = 400;
 
 handlers.CreateAccount = function () {
-    UpdateUserReadOnlyData({
-        HighScore: 0
+    let HighScore = {
+        Score: 0
+    };
+
+    let result = UpdateUserReadOnlyData({
+        HighScore: JSON.stringify(HighScore)
     });
-}
+
+    log.info(JSON.stringify(result));
+};
+
+handlers.UpdateScore = function (args) {
+    let highScore = args.highScore;
+
+    let HighScore = {
+        Score: highScore
+    };
+
+    let result = UpdateUserReadOnlyData({
+        HighScore: JSON.stringify(HighScore)
+    });
+
+    log.info(JSON.stringify(result));
+};
 
 /////////////////////////////////////////////////////////////////////////
 //
@@ -44,14 +64,33 @@ handlers.CreateAccount = function () {
 //
 /////////////////////////////////////////////////////////////////////////
 
-// currentPlayerId es variable de entorno.
+/**
+ * 
+ * @param {Object} data - The object with all the data we want to update.
+ * @returns {Object}
+ */
 function UpdateUserReadOnlyData(data) {
     let request = {
         PlayFabId: currentPlayerId,
         Data: data
     };
 
-    server.UpdateUserReadOnlyData(request);
+    return server.UpdateUserReadOnlyData(request);
+};
+
+/**
+ * 
+ * @param {*} data 
+ * @returns 
+ */
+function GetUserReadOnlyData(data) {
+    let request = {
+        PlayFabId: currentPlayerId,
+        IfChangedFromDataVersion: 1,
+        Keys: data
+    };
+
+    return server.GetUserReadOnlyData(request);
 }
 
 // This is a Cloud Script function. "args" is set to the value of the "FunctionParameter" 
