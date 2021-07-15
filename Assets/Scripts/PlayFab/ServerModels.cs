@@ -5,15 +5,9 @@ using PlayFab.ClientModels;
 
 namespace SnakeMaze.PlayFab
 {
-    [Serializable]
-    public class CloudScriptResult
-    {
-        //Mismo nombre que la variable que devuelve la función de cloud script.
-        public int Result;
-    }
 
     [Serializable]
-    public class LoginDataResult : CloudScriptResult
+    public class LoginDataResult 
     {
         public LoginDataStructure LoginData;
     }
@@ -21,8 +15,8 @@ namespace SnakeMaze.PlayFab
     public class LoginDataStructure
     {
         public Dictionary<string, UserDataRecord> ReadOnlyData;
-        public List<ItemInstance> Inventory;
-        public CurrencyData Currency;
+        // public List<ItemInstance> Inventory;
+        // public CurrencyData Currency;
     }
 
     public class CurrencyData
@@ -34,6 +28,10 @@ namespace SnakeMaze.PlayFab
     public class ErrorData 
     {
         public PlayFabErrorCode ErrorCode;
+    }
+    public class ErrorDataFull 
+    {
+        public PlayFabError Error;
     }
     public class ErrorDataTest : ErrorData
     {

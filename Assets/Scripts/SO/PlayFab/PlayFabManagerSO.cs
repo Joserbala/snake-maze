@@ -60,21 +60,28 @@ namespace SnakeMaze.SO.PlayFabManager
             PlayFabClientAPI.ExecuteCloudScript<LoginDataResult>(request,
                 result =>
                 {
-                    LoginDataResult serverResponse = result.FunctionResult as LoginDataResult;
+                    LoginDataResult serverResponse = (LoginDataResult) result.FunctionResult;
 
-                    if (serverResponse.Result == 200)
+                    if (result.Logs.Count > 0)
                     {
-                        onSuccess(serverResponse);
+                        if (result.Logs[0].Level == "Error")
+                        {
+                            onFail();
+                        }
+
+                        else
+                        {
+                            onSuccess(serverResponse);
+                        }
                     }
                     else
                     {
-                        onFail();
+                        onSuccess(serverResponse);
                     }
                 },
-                error =>
-                {
-                });
+                error => { });
         }
+
         #endregion
 
         #region TITLE_DATA
@@ -88,7 +95,7 @@ namespace SnakeMaze.SO.PlayFabManager
 
         #region CREATE_ACCOUNT
 
-        public void CreateAccount(string nickname, Action onSuccess, Action<PlayFabError> onFail)
+        public void CreateAccount(string nickname, Action onSuccess, Action onFail)
         {
             var request = new ExecuteCloudScriptRequest()
             {
@@ -99,19 +106,58 @@ namespace SnakeMaze.SO.PlayFabManager
             PlayFabClientAPI.ExecuteCloudScript<ErrorData>(request,
                 result =>
                 {
-                    ErrorData serverResponse = (ErrorData)result.FunctionResult;
+                    ErrorData serverResponse = (ErrorData) result.FunctionResult;
 
                     for (int i = 0; i < result.Logs.Count; i++)
                     {
                         Debug.Log(result.Logs[i].Message);
                     }
-                    Debug.Log(serverResponse.ErrorCode);
 
-                    onSuccess();
+                    if (result.Logs[0].Level == "Error")
+                    {
+                        onFail();
+                    }
+
+                    else
+                        onSuccess();
                 },
                 error =>
                 {
-                    onFail(error);
+                    onFail();
+                    Debug.LogError("CUIDADO FUNCTION FAILED: " + error.Error);
+                    Debug.LogError("CUIDADO FUNCTION FAILED: " + error.ErrorMessage);
+                });
+        }
+
+        #endregion
+
+        #region USER_DATA
+
+        [ContextMenu("Testt")]
+        public void UpdateUserScore()
+        {
+            UpdateUserScore(20);
+        }
+
+        public void UpdateUserScore(int newHighScore)
+        {
+            var request = new ExecuteCloudScriptRequest()
+            {
+                FunctionName = "UpdateScore",
+                GeneratePlayStreamEvent = true,
+                FunctionParameter = new {highScore = newHighScore}
+            };
+            PlayFabClientAPI.ExecuteCloudScript<ErrorDataFull>(request,
+                result =>
+                {
+                    Debug.Log("Score Updated Successfully");
+                    if (result.Logs[0].Level == "Error")
+                    {
+                        Debug.Log("Error updating score");
+                    }
+                },
+                error =>
+                {
                     Debug.LogError("CUIDADO FUNCTION FAILED: " + error.Error);
                     Debug.LogError("CUIDADO FUNCTION FAILED: " + error.ErrorMessage);
                 });
