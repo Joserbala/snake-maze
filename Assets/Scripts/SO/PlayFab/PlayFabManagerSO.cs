@@ -88,7 +88,7 @@ namespace SnakeMaze.SO.PlayFabManager
 
         #region CREATE_ACCOUNT
 
-        public void CreateAccount(string nickname, Action onSuccess, Action<PlayFabErrorCode> onFail)
+        public void CreateAccount(string nickname, Action onSuccess, Action<PlayFabError> onFail)
         {
             var request = new ExecuteCloudScriptRequest()
             {
@@ -105,12 +105,13 @@ namespace SnakeMaze.SO.PlayFabManager
                     {
                         Debug.Log(result.Logs[i].Message);
                     }
+                    Debug.Log(serverResponse.ErrorCode);
 
                     onSuccess();
                 },
                 error =>
                 {
-                    onFail(error.Error);
+                    onFail(error);
                     Debug.LogError("CUIDADO FUNCTION FAILED: " + error.Error);
                     Debug.LogError("CUIDADO FUNCTION FAILED: " + error.ErrorMessage);
                 });

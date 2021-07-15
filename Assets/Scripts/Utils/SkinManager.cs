@@ -9,14 +9,16 @@ namespace SnakeMaze.Utils
         [SerializeField] private SkinContainerSO skinContainerSo;
 
         [ContextMenu("Change To Default Skin ")]
-        private void ChangeToDefaultSkin()
+        public void ChangeToDefaultSkin()
         {
             skinContainerSo.ChangeMazeSkin(MazeSkins.Default);
         }
         [ContextMenu("Change To Mockup Skin ")]
-        private void ChangeToMockuptSkin()
+        public void ChangeToMockuptSkin()
         {
             skinContainerSo.ChangeMazeSkin(MazeSkins.Mockup);
         }
+        
+        
     }
 }

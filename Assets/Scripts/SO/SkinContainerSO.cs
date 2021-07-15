@@ -64,6 +64,16 @@ namespace SnakeMaze.SO
             CurrentMazeSkin = _mazeSkinDic[newSkin];
             CurrentMazeSkin.InitScriptable();
         }
+        public void ChangeSnakeSkin(SnakeSkins newSkin)
+        {
+            CurrentSnakeSkin = _snakeSkinDic[newSkin];
+            CurrentSnakeSkin.InitScriptable();
+        }
+        public void ChangeAudioSkin(AudioSkins newSkin)
+        {
+            CurrentAudioSkin = _audioSkinDic[newSkin];
+            CurrentAudioSkin.InitScriptable();
+        }
         
     }
 }
