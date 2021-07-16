@@ -53,14 +53,13 @@ namespace SnakeMaze.SO.PlayFabManager
         {
             var request = new ExecuteCloudScriptRequest()
             {
-                FunctionName = "GetLoginData",
-                GeneratePlayStreamEvent = true
+                FunctionName = "GetLoginData"
             };
 
             PlayFabClientAPI.ExecuteCloudScript<LoginDataResult>(request,
                 result =>
                 {
-                    LoginDataResult serverResponse = (LoginDataResult) result.FunctionResult;
+                    LoginDataResult serverResponse = (LoginDataResult)result.FunctionResult;
 
                     if (result.Logs.Count > 0)
                     {
@@ -99,14 +98,13 @@ namespace SnakeMaze.SO.PlayFabManager
         {
             var request = new ExecuteCloudScriptRequest()
             {
-                FunctionName = "CreateAccount",
-                GeneratePlayStreamEvent = true
+                FunctionName = "CreateAccount"
             };
 
             PlayFabClientAPI.ExecuteCloudScript<ErrorData>(request,
                 result =>
                 {
-                    ErrorData serverResponse = (ErrorData) result.FunctionResult;
+                    ErrorData serverResponse = (ErrorData)result.FunctionResult;
 
                     for (int i = 0; i < result.Logs.Count; i++)
                     {
@@ -136,7 +134,7 @@ namespace SnakeMaze.SO.PlayFabManager
         [ContextMenu("Testt")]
         public void UpdateUserScore()
         {
-            UpdateUserScore(20);
+            UpdateUserScore(50);
         }
 
         public void UpdateUserScore(int newHighScore)
@@ -144,8 +142,7 @@ namespace SnakeMaze.SO.PlayFabManager
             var request = new ExecuteCloudScriptRequest()
             {
                 FunctionName = "UpdateScore",
-                GeneratePlayStreamEvent = true,
-                FunctionParameter = new {highScore = newHighScore}
+                FunctionParameter = new { highScore = newHighScore }
             };
             PlayFabClientAPI.ExecuteCloudScript<ErrorDataFull>(request,
                 result =>
