@@ -150,9 +150,9 @@ namespace SnakeMaze.SO.PlayFabManager
             PlayFabClientAPI.ExecuteCloudScript<ErrorDataFull>(request,
                 result =>
                 {
-                    Debug.Log("Score Updated Successfully");
                     if (result.Logs[0].Level == "Error")
                     {
+                        Debug.Log(result.Logs[0].Message);
                         Debug.Log("Error updating score");
                     }
                 },

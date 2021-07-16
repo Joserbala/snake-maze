@@ -479,7 +479,7 @@ GameObject:
   - component: {fileID: 90621412}
   - component: {fileID: 90621413}
   m_Layer: 0
-  m_Name: UserDataaManager
+  m_Name: UserDataManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -512,7 +512,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   logInEvent: {fileID: 11400000, guid: 2fc6491a2815eef4db6d81b318afcd74, type: 2}
+  userDataControllerSo: {fileID: 11400000, guid: 7b995dda3e709d84a99988d0ce522e91, type: 2}
   playFabManager: {fileID: 11400000, guid: 139fc8d043f03dd4caf81ec6546c77d9, type: 2}
+  busGameManagerSo: {fileID: 11400000, guid: 9f456d6bfae0f5f459d343256c8b7365, type: 2}
+  player: {fileID: 11400000, guid: c13d86b70e228d546a539cf94c0d76bc, type: 2}
 --- !u!1 &232122259
 GameObject:
   m_ObjectHideFlags: 0
