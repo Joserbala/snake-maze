@@ -5,9 +5,9 @@ namespace SnakeMaze.UI
 {
     public class DoLerp : MonoBehaviour
     {
-        [SerializeField] private float unitsPerSecondInitial = .0f;
-        [SerializeField] private float unitsPerSecondFinal = 2.0f;
-        [SerializeField] private float timeToLerp = 1.0f;
+        [SerializeField] private float unitsPerSecondInitial = 5.0f;
+        [SerializeField] private float unitsPerSecondFinal = 1000.0f;
+        [SerializeField] private float timeToLerp = 2.0f;
         [SerializeField] private float stoppedTime = .1f;
 
         private float unitsPerSecond;
