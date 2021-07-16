@@ -1,18 +1,17 @@
-using System;
 using System.Collections.Generic;
 using SnakeMaze.SO.PlayFabManager;
 using UnityEngine;
 using PlayFab;
 using PlayFab.ClientModels;
+using SnakeMaze.SO;
 using TMPro;
 
 namespace SnakeMaze.Utils
 {
     public class LogInManager : MonoBehaviour
     {
-        //Event para que este evento no se pueda llamar desde otra clase, solo suscribirse.
-        public static event Action OnServerLogin;
         [SerializeField] private PlayFabManagerSO playFabManagerSo;
+        [SerializeField] private EventSO logInEvent;
         [SerializeField] private GameObject createAccountPanel;
         [SerializeField] private GameObject invalidUsernameText;
         [SerializeField] private GameObject duplicateErrorText;
@@ -35,12 +34,12 @@ namespace SnakeMaze.Utils
 
         private void Awake()
         {
-            OnServerLogin += LoadServerData;
+            logInEvent.CurrentAction += LoadServerData;
         }
 
         private void OnDestroy()
         {
-            OnServerLogin -= LoadServerData;
+            logInEvent.CurrentAction -= LoadServerData;
         }
 
         #region LOGIN
@@ -63,7 +62,7 @@ namespace SnakeMaze.Utils
             }
             else
             {
-                OnServerLogin?.Invoke();
+                logInEvent.CurrentAction?.Invoke();
                 playFabManagerSo.DisplayName = loginResult.InfoResultPayload.PlayerProfile.DisplayName;
                 Debug.Log("User Name: " + loginResult.InfoResultPayload.PlayerProfile.DisplayName);
             }
@@ -77,17 +76,14 @@ namespace SnakeMaze.Utils
 
             if (!CheckNickname(nickname.text)) return;
 
-            playFabManagerSo.CreateAccount( // TODO: Revisar errores al crear cuenta, textos a mostrar.
-                _currentDisplayName,
+            playFabManagerSo.CreateAccount(_currentDisplayName,
                 onSuccess: () =>
                 {
                     SetNickname(_currentDisplayName);
                 },
-                onFail: (error) =>
+                onFail: () =>
                 {
                     Debug.LogError("Create Account Failed!");
-                    Debug.Log(error.ErrorMessage);
-                    CreateAccountFailed(error.Error == PlayFabErrorCode.DuplicateUsername);
                 }
             );
         }
@@ -101,13 +97,16 @@ namespace SnakeMaze.Utils
                 },
                 resultCallback: (result) =>
                 {
-                    OnServerLogin?.Invoke();
+                    logInEvent.CurrentAction?.Invoke();
                     createAccountPanel.SetActive(false);
                     playFabManagerSo.DisplayName = value;
                 },
                 errorCallback: (error) =>
                 {
-                    Debug.LogWarning("Create Account Failed!");
+                    Debug.Log(error.Error);
+                    Debug.Log(error.ErrorMessage);
+                    Debug.Log(error.ErrorDetails);
+                    Debug.LogWarning("Nicname error");
                     CreateAccountFailed(error.Error == PlayFabErrorCode.DuplicateUsername);
                 }
             );
