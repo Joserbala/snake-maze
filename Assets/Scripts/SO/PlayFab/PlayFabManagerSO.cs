@@ -2,6 +2,7 @@ using System;
 using PlayFab;
 using PlayFab.ClientModels;
 using SnakeMaze.PlayFab;
+using SnakeMaze.Utils;
 using UnityEngine;
 
 namespace SnakeMaze.SO.PlayFabManager
@@ -63,7 +64,7 @@ namespace SnakeMaze.SO.PlayFabManager
 
                     if (result.Logs.Count > 0)
                     {
-                        if (result.Logs[0].Level == "Error")
+                        if (result.Logs[0].Level == Constants.ErrorMessage)
                         {
                             onFail();
                         }
@@ -98,7 +99,8 @@ namespace SnakeMaze.SO.PlayFabManager
         {
             var request = new ExecuteCloudScriptRequest()
             {
-                FunctionName = "CreateAccount"
+                FunctionName = nameof(CreateAccount),
+                GeneratePlayStreamEvent = true
             };
 
             PlayFabClientAPI.ExecuteCloudScript<ErrorData>(request,
@@ -111,11 +113,10 @@ namespace SnakeMaze.SO.PlayFabManager
                         Debug.Log(result.Logs[i].Message);
                     }
 
-                    if (result.Logs[0].Level == "Error")
+                    if (result.Logs[0].Level == Constants.ErrorMessage)
                     {
                         onFail();
                     }
-
                     else
                         onSuccess();
                 },
@@ -134,20 +135,22 @@ namespace SnakeMaze.SO.PlayFabManager
         [ContextMenu("Testt")]
         public void UpdateUserScore()
         {
-            UpdateUserScore(50);
+            UpdateScore(50);
         }
 
-        public void UpdateUserScore(int newHighScore)
+        public void UpdateScore(int newHighScore)
         {
             var request = new ExecuteCloudScriptRequest()
             {
-                FunctionName = "UpdateScore",
-                FunctionParameter = new { highScore = newHighScore }
+                FunctionName = nameof(UpdateScore),
+                FunctionParameter = new { highScore = newHighScore },
+                GeneratePlayStreamEvent = true
             };
+
             PlayFabClientAPI.ExecuteCloudScript<ErrorDataFull>(request,
                 result =>
                 {
-                    if (result.Logs[0].Level == "Error")
+                    if (result.Logs[0].Level == Constants.ErrorMessage)
                     {
                         Debug.Log(result.Logs[0].Message);
                         Debug.Log("Error updating score");

@@ -51,7 +51,7 @@ namespace SnakeMaze.Player
             Debug.Log("new socre: " + points);
             if (points <= userDataControllerSo.HighScore) return;
 
-            playFabManager.UpdateUserScore(player.Points);
+            playFabManager.UpdateScore(player.Points);
             userDataControllerSo.HighScore = points;
             Debug.Log(" userDataControllerSo.HighScore: " + userDataControllerSo.HighScore);
             Debug.Log("Score updated");

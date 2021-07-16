@@ -32,7 +32,7 @@
 const SUCCESS = 200;
 const FAILED = 400;
 
-handlers.CreateAccount = function () {
+handlers.CreateAccount = () => {
     let HighScore = {
         Score: 0
     };
@@ -45,7 +45,7 @@ handlers.CreateAccount = function () {
     log.info(JSON.stringify(result));
 };
 
-handlers.UpdateScore = function (args) {
+handlers.UpdateScore = (args) => {
     let highScore = args.highScore;
 
     let HighScore = {
@@ -60,14 +60,14 @@ handlers.UpdateScore = function (args) {
     log.info(JSON.stringify(result));
 };
 
-handlers.GetLoginData = function () {
-    let playerData = GetUserReadOnlyData();
+handlers.GetLoginData = () => {
+    let playerData = GetUserReadOnlyData().Data;
 
     let loginData = {
         ReadOnlyData: playerData
     };
 
-    return { LoginData: loginData }
+    return { LoginData: loginData };
 }
 
 /////////////////////////////////////////////////////////////////////////
@@ -89,17 +89,14 @@ function UpdateUserReadOnlyData(data) {
 
     let result = server.UpdateUserReadOnlyData(request);
 
-    // Error control in client.
-    log.debug(result);
-
-    return server.UpdateUserReadOnlyData(request);
+    return result;
 };
 
 /**
  * Gets the ReadOnlyData from the user with PlayFabId = currentPlayerId.
  * 
  * @param {undefined} data 
- * @returns {Object} All the ReadOnlyData.
+ * @returns {Object} All the ReadOnlyData, access it with .Data
  */
 function GetUserReadOnlyData(data) {
     // let request = {
@@ -115,7 +112,7 @@ function GetUserReadOnlyData(data) {
 
     let result = server.GetUserReadOnlyData(request);
 
-    return result.Data;
+    return result;
 }
 
 // This is a Cloud Script function. "args" is set to the value of the "FunctionParameter" 
