@@ -153,6 +153,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fillImage: {fileID: 1881569671}
+  playFabServerResponse: {fileID: 0}
+  waitForPlayfab: 0
+  sceneToLoad: 3
 --- !u!4 &267781115
 Transform:
   m_ObjectHideFlags: 0

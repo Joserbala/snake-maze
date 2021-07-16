@@ -5,6 +5,7 @@ using PlayFab;
 using PlayFab.ClientModels;
 using SnakeMaze.SO;
 using TMPro;
+using UnityEditor.PackageManager;
 
 namespace SnakeMaze.Utils
 {
@@ -12,6 +13,7 @@ namespace SnakeMaze.Utils
     {
         [SerializeField] private PlayFabManagerSO playFabManagerSo;
         [SerializeField] private EventSO logInEvent;
+        [SerializeField] private EventSO playFabServerResponse;
         [SerializeField] private GameObject createAccountPanel;
         [SerializeField] private GameObject invalidUsernameText;
         [SerializeField] private GameObject duplicateErrorText;
@@ -134,6 +136,7 @@ namespace SnakeMaze.Utils
 
         private void OnLogginFailed(PlayFabError error)
         {
+            playFabServerResponse.CurrentAction?.Invoke();
             Debug.LogError("Login failed: " + error.ErrorMessage);
         }
 

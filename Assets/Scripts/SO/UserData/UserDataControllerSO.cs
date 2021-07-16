@@ -7,6 +7,7 @@ namespace SnakeMaze.SO.UserDataSO
     public class UserDataControllerSO : ScriptableObject
     {
         [SerializeField] private int _highScore;
+        [SerializeField] private EventSO playFabServerResponse;
 
 
         public int HighScore
@@ -21,6 +22,7 @@ namespace SnakeMaze.SO.UserDataSO
             JsonUtility.FromJsonOverwrite(jsonData, userData);
 
             _highScore = userData.Score;
+            playFabServerResponse.CurrentAction.Invoke();
         }
 
         private void OnDisable()
