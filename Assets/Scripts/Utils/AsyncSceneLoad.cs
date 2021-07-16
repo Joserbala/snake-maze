@@ -46,6 +46,8 @@ namespace SnakeMaze.Utils
                 yield return new WaitForEndOfFrame();
             }
 
+            yield return new WaitForSeconds(.5f);
+
             gameLevel.allowSceneActivation = true;
         }
 

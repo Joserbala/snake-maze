@@ -779,10 +779,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b5ed6184a46f7b4bb5a74a008eadee6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitsPerSecondInitial: 200
-  unitsPerSecondFinal: 300
-  minTimeToLerp: 2
-  maxTimeToLerp: 5
+  unitsPerSecondInitial: 0.1
+  unitsPerSecondFinal: 2000
+  timeToLerp: 2
   stoppedTime: 0.1
 --- !u!1 &660069943
 GameObject:
@@ -1552,7 +1551,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 90
+  m_fontSize: 18
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1

@@ -5,14 +5,13 @@ namespace SnakeMaze.UI
 {
     public class DoLerp : MonoBehaviour
     {
-        [SerializeField] private float unitsPerSecondInitial = 1.0f;
+        [SerializeField] private float unitsPerSecondInitial = .0f;
         [SerializeField] private float unitsPerSecondFinal = 2.0f;
-        [SerializeField] private float minTimeToLerp = .5f;
-        [SerializeField] private float maxTimeToLerp = 1.0f;
+        [SerializeField] private float timeToLerp = 1.0f;
         [SerializeField] private float stoppedTime = .1f;
 
         private float unitsPerSecond;
-        private float timeToLerp;
+        private float timeToLerpCounter = 0;
 
         private void Start()
         {
@@ -26,24 +25,27 @@ namespace SnakeMaze.UI
         {
             while (true)
             {
-                timeToLerp = Random.Range(minTimeToLerp, maxTimeToLerp);
-                while (unitsPerSecond <= unitsPerSecondFinal)
+                timeToLerpCounter = 0;
+                while (timeToLerpCounter <= timeToLerp)
                 {
                     Debug.Log("Aumentando");
                     unitsPerSecond = Mathf.Lerp(unitsPerSecond, unitsPerSecondFinal, timeToLerp * Time.deltaTime);
+                    timeToLerpCounter += Time.deltaTime;
 
                     yield return null;
                 }
 
-                timeToLerp = Random.Range(minTimeToLerp, maxTimeToLerp);
-                while (unitsPerSecond >= unitsPerSecondInitial)
+                timeToLerpCounter = 0;
+                while (timeToLerpCounter <= timeToLerp)
                 {
                     Debug.Log("Disminuyendo");
                     unitsPerSecond = Mathf.Lerp(unitsPerSecond, unitsPerSecondInitial, timeToLerp * Time.deltaTime);
+                    timeToLerpCounter += Time.deltaTime;
 
                     yield return null;
                 }
 
+                unitsPerSecond = unitsPerSecondInitial;
                 yield return new WaitForSeconds(stoppedTime);
             }
         }
