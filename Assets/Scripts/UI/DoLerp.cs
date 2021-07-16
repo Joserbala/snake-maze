@@ -28,7 +28,6 @@ namespace SnakeMaze.UI
                 timeToLerpCounter = 0;
                 while (timeToLerpCounter <= timeToLerp)
                 {
-                    Debug.Log("Aumentando");
                     unitsPerSecond = Mathf.Lerp(unitsPerSecond, unitsPerSecondFinal, timeToLerp * Time.deltaTime);
                     timeToLerpCounter += Time.deltaTime;
 
@@ -38,7 +37,6 @@ namespace SnakeMaze.UI
                 timeToLerpCounter = 0;
                 while (timeToLerpCounter <= timeToLerp)
                 {
-                    Debug.Log("Disminuyendo");
                     unitsPerSecond = Mathf.Lerp(unitsPerSecond, unitsPerSecondInitial, timeToLerp * Time.deltaTime);
                     timeToLerpCounter += Time.deltaTime;
 
