@@ -90,7 +90,7 @@ function UpdateUserReadOnlyData(data) {
     let result = server.UpdateUserReadOnlyData(request);
 
     // Error control in client.
-    log.info(JSON.stringify(result));
+    log.debug(result);
 
     return server.UpdateUserReadOnlyData(request);
 };
