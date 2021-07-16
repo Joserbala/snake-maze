@@ -8,6 +8,7 @@ namespace SnakeMaze.Player
     public class UserManager : MonoBehaviour
     {
         [SerializeField] private EventSO logInEvent;
+        [SerializeField] private EventSO playFabServerResponse;
         [SerializeField] private UserDataControllerSO userDataControllerSo;
         [SerializeField] private PlayFabManagerSO playFabManager;
         [SerializeField] private BusGameManagerSO busGameManagerSo;
@@ -32,7 +33,10 @@ namespace SnakeMaze.Player
                     LoadUserData(loginData.LoginData.ReadOnlyData["HighScore"].Value);
                     Debug.Log("Server HighScore: " + loginData.LoginData.ReadOnlyData["HighScore"].Value);
                 },
-                null);
+                () =>
+                {
+                    playFabServerResponse.CurrentAction?.Invoke();
+                });
         }
 
         private void LoadUserData(string userDataJson)

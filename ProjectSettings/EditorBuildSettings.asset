@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/PlayGround/Joser/MakingPlayFabCall.unity
+    guid: bafdfe7fe435d934f8ba35dce35a79d6
+  - enabled: 1
     path: Assets/PlayGround/Joser/Main Menu.unity
     guid: e4b21c23c3243a04da28b73c2568b425
   - enabled: 1
