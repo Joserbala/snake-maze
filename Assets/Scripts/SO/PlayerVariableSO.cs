@@ -115,4 +115,5 @@ namespace SnakeMaze.SO
             _poitns = 0;
         }
     }
+    
 }

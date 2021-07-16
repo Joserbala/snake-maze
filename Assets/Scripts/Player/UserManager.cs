@@ -1,7 +1,6 @@
-using System;
 using SnakeMaze.SO;
 using SnakeMaze.SO.PlayFabManager;
-using SnakeMaze.Utils;
+using SnakeMaze.SO.UserData;
 using UnityEngine;
 
 namespace SnakeMaze.Player
@@ -50,7 +49,9 @@ namespace SnakeMaze.Player
 
             playFabManager.UpdateUserScore(player.Points);
             userDataControllerSo.HighScore = points;
+            Debug.Log(" userDataControllerSo.HighScore: " +  userDataControllerSo.HighScore);
             Debug.Log("Score updated");
+            Debug.Log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         }
 
         private void OnEnable()

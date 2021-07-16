@@ -74,6 +74,6 @@ namespace SnakeMaze.SO
             CurrentAudioSkin = _audioSkinDic[newSkin];
             CurrentAudioSkin.InitScriptable();
         }
-        
+
     }
 }

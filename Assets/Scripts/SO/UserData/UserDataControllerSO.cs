@@ -1,11 +1,12 @@
 using UnityEngine;
 
-namespace SnakeMaze.Player
+namespace SnakeMaze.SO.UserData
 {
     [CreateAssetMenu(fileName = "UserData", menuName = "Scriptables/User/UserDataControllerSO")]
     public class UserDataControllerSO : ScriptableObject
     {
-        [SerializeField] private int _highScore;
+        [SerializeField] private  int _highScore;
+
 
         public int HighScore
         {
@@ -15,18 +16,22 @@ namespace SnakeMaze.Player
 
         public void LoadData(string jsonData)
         {
-            Debug.Log("Loading Data");
-            
             var userData = new UserData();
             JsonUtility.FromJsonOverwrite(jsonData, userData);
-
+            
             _highScore = userData.Score;
-            Debug.Log("Server HighScore: " + userData.Score);
-            Debug.Log("Server json HighScore: " + jsonData);
-            Debug.Log("Local points: " + HighScore);
         }
 
+        private void OnDisable()
+        {
+            Debug.Log("Disbling UserData with score: " + _highScore);
+        }
 
+        private void OnEnable()
+        {
+            Debug.Log("Enabling UserData with score: " + _highScore);
+        }
+        
         private class UserData
         {
             public int Score;
