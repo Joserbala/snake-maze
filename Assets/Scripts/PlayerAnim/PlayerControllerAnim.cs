@@ -1,10 +1,11 @@
 using System.Collections;
-using SnakeMaze.Audio;
 using SnakeMaze.Enums;
+using SnakeMaze.Exceptions;
+using SnakeMaze.Player;
 using SnakeMaze.SO;
 using UnityEngine;
 
-namespace SnakeMaze.Player
+namespace SnakeMaze.PlayerAnim
 {
     [RequireComponent(typeof(SpriteRenderer))]
     public class PlayerControllerAnim : PlayerPhysics
@@ -45,7 +46,6 @@ namespace SnakeMaze.Player
             _lastDirection = Directions.Right;
             _nextDirection = Directions.Right;
         }
-       
 
         public void StartMoving()
         {
@@ -85,7 +85,8 @@ namespace SnakeMaze.Player
                         Directions.Right => Directions.Down,
                         Directions.Down => Directions.Left,
                         Directions.Left => Directions.Up,
-                        Directions.Up => Directions.Right
+                        Directions.Up => Directions.Right,
+                        _ => throw new NotEnumTypeSupportedException()
                     };
                 }
                 _bodyController.MoveSnakeBody();

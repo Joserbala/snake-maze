@@ -132,7 +132,7 @@ namespace SnakeMaze.SO.PlayFabManager
 
         #region USER_DATA
 
-        [ContextMenu("Testt")]
+        [ContextMenu("Test Score")]
         public void UpdateUserScore()
         {
             UpdateScore(50);
@@ -154,6 +154,40 @@ namespace SnakeMaze.SO.PlayFabManager
                     {
                         Debug.Log(result.Logs[0].Message);
                         Debug.Log("Error updating score");
+                    }
+                },
+                error =>
+                {
+                    Debug.LogError("CUIDADO FUNCTION FAILED: " + error.Error);
+                    Debug.LogError("CUIDADO FUNCTION FAILED: " + error.ErrorMessage);
+                });
+        }
+        [ContextMenu("Test Gold")]
+        public void UpdateUserGold()
+        {
+            AddSCCurrency(50);
+        }
+        public void AddSCCurrency(int newGold)
+        {
+            var request = new ExecuteCloudScriptRequest()
+            {
+                FunctionName = nameof(AddSCCurrency),
+                FunctionParameter = new { amount = newGold },
+                GeneratePlayStreamEvent = true
+            };
+
+            PlayFabClientAPI.ExecuteCloudScript<ErrorDataFull>(request,
+                result =>
+                {
+                    IntTestPlayFab serverResponse = (IntTestPlayFab) result.FunctionResult;
+                    if (result.Logs[0].Level == Constants.ErrorMessage)
+                    {
+                        Debug.Log(result.Logs[0].Message);
+                        Debug.Log("Error updating gold");
+                    }
+                    else
+                    {
+                        Debug.Log("PlayFab Total Gold: " + serverResponse.Balance);
                     }
                 },
                 error =>

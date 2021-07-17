@@ -1,6 +1,8 @@
+using SnakeMaze.PlayFab;
 using SnakeMaze.SO;
 using SnakeMaze.SO.PlayFabManager;
 using SnakeMaze.SO.UserDataSO;
+using SnakeMaze.Utils;
 using UnityEngine;
 
 namespace SnakeMaze.Player
@@ -30,18 +32,27 @@ namespace SnakeMaze.Player
             playFabManager.GetLoginData(
                 loginData =>
                 {
-                    LoadUserData(loginData.LoginData.ReadOnlyData["HighScore"].Value);
+                    LoadUserData(loginData);
                     Debug.Log("Server HighScore: " + loginData.LoginData.ReadOnlyData["HighScore"].Value);
                 },
-                () =>
-                {
-                    playFabServerResponse.CurrentAction?.Invoke();
-                });
+                () => { playFabServerResponse.CurrentAction?.Invoke(); });
         }
 
-        private void LoadUserData(string userDataJson)
+        private void LoadUserData(LoginDataResult loginData)
         {
-            userDataControllerSo.LoadData(userDataJson);
+            userDataControllerSo.LoadData(loginData);
+        }
+
+        private void OnWinUpdate()
+        {
+            UpdateScoreData();
+            UpdateCurrencyData(true);
+        }
+
+        private void OnLooseUpdate()
+        {
+            UpdateScoreData();
+            UpdateCurrencyData(false);
         }
 
         private void UpdateScoreData()
@@ -58,14 +69,27 @@ namespace SnakeMaze.Player
             Debug.Log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         }
 
+        private void UpdateCurrencyData(bool hasWon)
+        {
+            var coins = EconomyManager.SetCoinsFromPoint(hasWon, player.Points);
+            userDataControllerSo.SoftCoins += coins;
+            playFabManager.AddSCCurrency( coins);
+            Debug.Log("Coins received: " + coins);
+            Debug.Log("New coins: " + userDataControllerSo.SoftCoins);
+            
+        }
+
+
         private void OnEnable()
         {
-            busGameManagerSo.EndGame += UpdateScoreData;
+            busGameManagerSo.EndGame += OnLooseUpdate;
+            busGameManagerSo.WinGame += OnWinUpdate;
         }
 
         private void OnDisable()
         {
-            busGameManagerSo.EndGame -= UpdateScoreData;
+            busGameManagerSo.EndGame -= OnLooseUpdate;
+            busGameManagerSo.WinGame -= OnWinUpdate;
         }
     }
 }
