@@ -1,5 +1,5 @@
 const SUCCESS = true;
-const FAILED = false;
+const FAILURE = false;
 const VirtualCurrency = 'VirtualCurrency';
 const HCCode = 'HC';
 const SCCode = 'SC';
@@ -67,13 +67,9 @@ handlers.AddSCCurrency = (args) => {
     } catch (error) {
         log.error(error);
 
-        return { isSuccess: FAILED, error: error.apiErrorInfo.apiError.error };
+        return { isSuccess: FAILURE, error: error.apiErrorInfo.apiError.error };
     }
 };
-
-handlers.PurchaseItem = (args) => {
-
-}
 
 /////////////////////////////////////////////////////////////////////////
 //
@@ -137,24 +133,6 @@ function GetCatalogItems(catalogVersion = null) {
     };
 
     return server.GetCatalogItems(request);
-}
-
-/**
- * 
- * @param {string} itemId - Unique identifier of the item to purchase.
- * @param {number} price - The price of the item to purchase.
- * @param {string} virtualCurrency - The Virtual Currency to be used for the item to purchase.
- * @returns {object[]} Details for the items purchased.
- * @throws Will throw an error if the API encounters an error.
- */
-function PurchaseItem(itemId, price, virtualCurrency) {
-    var request = {
-        ItemId: itemId,
-        Price: price,
-        VirtualCurrency: virtualCurrency
-    };
-
-    return server.PurchaseItem(request);
 };
 
 /**

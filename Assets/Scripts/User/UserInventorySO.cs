@@ -27,22 +27,29 @@ namespace SnakeMaze.User
             Debug.Log(item);
             Debug.Log(item.ItemId);
             Debug.Log(item.CustomData);
+
             switch (item.ItemClass)
             {
                 case Constants.SnakeSkin:
-                    if (item.CustomData != null)
+
+                    if (item.CustomData != null && !_snakeDictionary.ContainsKey(item.ItemId))
                     {
-                        _snakeDictionary.Add(item.ItemId,
+                        _snakeDictionary.Add(
+                            item.ItemId,
                             SkinEnumUtils.StringToSnakeEnum(item.CustomData[Constants.SkinType]));
+
                         Debug.Log($"{item.ItemId} successfully loaded");
                     }
 
                     break;
                 case Constants.MazeSkin:
-                    if (item.CustomData != null)
+
+                    if (item.CustomData != null && !_mazeDictionary.ContainsKey(item.ItemId))
                     {
-                        _mazeDictionary.Add(item.ItemId,
+                        _mazeDictionary.Add(
+                            item.ItemId,
                             SkinEnumUtils.StringToMazeEnum(item.CustomData[Constants.SkinType]));
+
                         Debug.Log($"{item.ItemId} successfully loaded");
                     }
 

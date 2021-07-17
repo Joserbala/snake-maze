@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using PlayFab;
 using PlayFab.ClientModels;
 using SnakeMaze.PlayFab;
@@ -212,39 +213,24 @@ namespace SnakeMaze.SO.PlayFabManager
         [ContextMenu("TestPurchase")]
         public void PurchaseDefaultSkins()
         {
-            PurchaseItem(Constants.DefaultMazeSkin, 0, "SC", instances => { }, () => { });
-            PurchaseItem(Constants.DefaultSnakeSkin, 0, "SC", instances => { }, () => { });
+            PurchaseItem(Constants.DefaultMazeSkin, 0, "SC", instances => { Debug.Log("Success!"); }, error => { Debug.LogError(error.GenerateErrorReport()); });
+            PurchaseItem(Constants.DefaultSnakeSkin, 0, "SC", instances => { Debug.Log("Success!"); }, error => { Debug.LogError(error.GenerateErrorReport()); });
         }
 
-        public void PurchaseItem(string item, int gold, string moneyType, Action<ItemInstance[]> onSuccess, Action onFail)
+        public void PurchaseItem(string item, int gold, string moneyType, Action<List<ItemInstance>> onSuccess, Action<PlayFabError> onFail)
         {
-            var request = new ExecuteCloudScriptRequest()
+            var request = new PurchaseItemRequest()
             {
-                FunctionName = nameof(PurchaseItem),
-                FunctionParameter = new { itemId = item, price = gold, virtualCurrency = moneyType },
-                GeneratePlayStreamEvent = true
+                ItemId = item,
+                Price = gold,
+                VirtualCurrency = moneyType
             };
 
-            PlayFabClientAPI.ExecuteCloudScript<SkinData>(
+            PlayFabClientAPI.PurchaseItem(
                 request,
-                result =>
-                {
-                    SkinData serverResponse = (SkinData)result.FunctionResult;
-                    if (!serverResponse.isSuccess)
-                    {
-                        Debug.Log(result.Logs[0].Message);
-                        onFail();
-                    }
-                    else
-                    {
-                        onSuccess(serverResponse.data);
-                    }
-                },
-                error =>
-                {
-                    Debug.LogError("CUIDADO FUNCTION FAILED: " + error.Error);
-                    Debug.LogError("CUIDADO FUNCTION FAILED: " + error.ErrorMessage);
-                });
+                result => onSuccess(result.Items),
+                error => onFail(error)
+            );
         }
 
         #endregion

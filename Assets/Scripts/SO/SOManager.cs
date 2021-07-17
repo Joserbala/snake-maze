@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using SnakeMaze.Interfaces;
 using UnityEngine;
 
 namespace SnakeMaze.SO
@@ -8,7 +7,6 @@ namespace SnakeMaze.SO
     public class SOManager : ScriptableObject
     {
         public List<ResseteableSO> scriptableToReset;
-
         public List<InitiableSO> scriptableToInitiate;
 
         public void ResetScriptables()
@@ -26,7 +24,5 @@ namespace SnakeMaze.SO
                 scriptable.InitScriptable();
             }
         }
-        
-        
     }
 }
