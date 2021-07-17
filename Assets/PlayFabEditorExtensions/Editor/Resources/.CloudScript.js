@@ -34,11 +34,13 @@ handlers.UpdateScore = (args) => {
 
 handlers.GetLoginData = () => {
     var readOnlyData = GetUserReadOnlyData().Data;
+    var catalog = GetCatalogItems();
     var inventory = GetUserInventory();
     var currency = GetCurrency(inventory);
 
     var loginData = {
         readOnlyData: readOnlyData,
+        catalog: catalog,
         inventory: inventory.Inventory,
         currency: currency
     };
@@ -69,6 +71,10 @@ handlers.AddSCCurrency = (args) => {
     }
 };
 
+handlers.PurchaseItem = (args) => {
+
+}
+
 /////////////////////////////////////////////////////////////////////////
 //
 //                          SERVER CALLS
@@ -77,8 +83,9 @@ handlers.AddSCCurrency = (args) => {
 
 /**
  * 
- * @param {Object} data - The object with all the data we want to update.
- * @returns {Object}
+ * @param {object} data - The object with all the data we want to update.
+ * @returns {object} .DataVersion has the version that has been set after the update.
+ * @throws Will throw an error if the API encounters an error.
  */
 function UpdateUserReadOnlyData(data) {
     var request = {
@@ -86,16 +93,15 @@ function UpdateUserReadOnlyData(data) {
         Data: data
     };
 
-    var result = server.UpdateUserReadOnlyData(request);
-
-    return result;
+    return server.UpdateUserReadOnlyData(request);
 };
 
 /**
  * Gets the ReadOnlyData from the user with PlayFabId = currentPlayerId.
  * 
- * @param {undefined} data 
- * @returns {Object} All the ReadOnlyData, access it with .Data
+ * @param {undefined} data - Do not set any value in this parameter.
+ * @returns {object} All the ReadOnlyData, access it with .Data
+ * @throws Will throw an error if the API encounters an error.
  */
 function GetUserReadOnlyData(data) {
     var request = {
@@ -108,7 +114,8 @@ function GetUserReadOnlyData(data) {
 
 /**
  * 
- * @returns {Object} The inventory of the user with currentPlayerId.
+ * @returns {object} The inventory of the user with currentPlayerId.
+ * @throws Will throw an error if the API encounters an error.
  */
 function GetUserInventory() {
     var request = {
@@ -116,6 +123,38 @@ function GetUserInventory() {
     }
 
     return server.GetUserInventory(request);
+}; // TODO: revisar que en el user inventory cuando se añada algo esa clave no exista antes.
+
+/**
+ * 
+ * @param {string} [catalogVersion=null] - Which catalog is requested.
+ * @returns {object[]} List of items belonging to catalogVersion.
+ * @throws Will throw an error if the API encounters an error.
+ */
+function GetCatalogItems(catalogVersion = null) {
+    var request = {
+        CatalogVersion: catalogVersion
+    };
+
+    return server.GetCatalogItems(request);
+}
+
+/**
+ * 
+ * @param {string} itemId - Unique identifier of the item to purchase.
+ * @param {number} price - The price of the item to purchase.
+ * @param {string} virtualCurrency - The Virtual Currency to be used for the item to purchase.
+ * @returns {object[]} Details for the items purchased.
+ * @throws Will throw an error if the API encounters an error.
+ */
+function PurchaseItem(itemId, price, virtualCurrency) {
+    var request = {
+        ItemId: itemId,
+        Price: price,
+        VirtualCurrency: virtualCurrency
+    };
+
+    return server.PurchaseItem(request);
 };
 
 /**
@@ -123,7 +162,8 @@ function GetUserInventory() {
  * 
  * @param {number} amount - The amount to be added to virtualCurrency
  * @param {string} virtualCurrency - The code for the virtual currency to change.
- * @returns {Object} Access with .Balance to check the balance of the user.
+ * @returns {oject} Access with .Balance to check the balance of the user.
+ * @throws Will throw an error if the API encounters an error.
  */
 function AddUserUserVirtualCurrency(amount, virtualCurrency) {
     var request = {

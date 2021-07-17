@@ -4,7 +4,6 @@ using PlayFab.ClientModels;
 using SnakeMaze.PlayFab;
 using SnakeMaze.Utils;
 using UnityEngine;
-using Currency = SnakeMaze.Enums.Currency;
 
 namespace SnakeMaze.SO.PlayFabManager
 {
@@ -55,10 +54,11 @@ namespace SnakeMaze.SO.PlayFabManager
         {
             var request = new ExecuteCloudScriptRequest()
             {
-                FunctionName = "GetLoginData"
+                FunctionName = nameof(GetLoginData)
             };
 
-            PlayFabClientAPI.ExecuteCloudScript<LoginDataResult>(request,
+            PlayFabClientAPI.ExecuteCloudScript<LoginDataResult>(
+                request,
                 result =>
                 {
                     LoginDataResult serverResponse = (LoginDataResult)result.FunctionResult;
@@ -69,7 +69,6 @@ namespace SnakeMaze.SO.PlayFabManager
                         {
                             onFail();
                         }
-
                         else
                         {
                             onSuccess(serverResponse);
@@ -104,7 +103,8 @@ namespace SnakeMaze.SO.PlayFabManager
                 GeneratePlayStreamEvent = true
             };
 
-            PlayFabClientAPI.ExecuteCloudScript<ErrorData>(request,
+            PlayFabClientAPI.ExecuteCloudScript<ErrorData>(
+                request,
                 result =>
                 {
                     ErrorData serverResponse = (ErrorData)result.FunctionResult;
@@ -119,7 +119,9 @@ namespace SnakeMaze.SO.PlayFabManager
                         onFail();
                     }
                     else
+                    {
                         onSuccess();
+                    }
                 },
                 error =>
                 {
@@ -148,7 +150,8 @@ namespace SnakeMaze.SO.PlayFabManager
                 GeneratePlayStreamEvent = true
             };
 
-            PlayFabClientAPI.ExecuteCloudScript<BaseServerResult>(request,
+            PlayFabClientAPI.ExecuteCloudScript<BaseServerResult>(
+                request,
                 result =>
                 {
                     if (result.Logs[0].Level == Constants.ErrorMessage)
@@ -163,11 +166,13 @@ namespace SnakeMaze.SO.PlayFabManager
                     Debug.LogError("CUIDADO FUNCTION FAILED: " + error.ErrorMessage);
                 });
         }
+
         [ContextMenu("Test Gold")]
         public void UpdateUserGold()
         {
-            AddSCCurrency(50, (x) =>{} );
+            AddSCCurrency(50, (x) => { });
         }
+
         public void AddSCCurrency(int newGold, Action<int> onSuccsess)
         {
             var request = new ExecuteCloudScriptRequest()
@@ -177,10 +182,11 @@ namespace SnakeMaze.SO.PlayFabManager
                 GeneratePlayStreamEvent = true
             };
 
-            PlayFabClientAPI.ExecuteCloudScript<IntTestPlayFab>(request,
+            PlayFabClientAPI.ExecuteCloudScript<IntTestPlayFab>(
+                request,
                 result =>
                 {
-                    IntTestPlayFab serverResponse = (IntTestPlayFab) result.FunctionResult;
+                    IntTestPlayFab serverResponse = (IntTestPlayFab)result.FunctionResult;
                     if (result.Logs[0].Level == Constants.ErrorMessage)
                     {
                         Debug.Log(result.Logs[0].Message);
@@ -202,26 +208,29 @@ namespace SnakeMaze.SO.PlayFabManager
         #endregion
 
         #region PURCHASES
-[ContextMenu("TestPurchase")]
+
+        [ContextMenu("TestPurchase")]
         public void PurchaseDefaultSkins()
         {
             PurchaseItem(Constants.DefaultMazeSkin, 0, "SC", instances => { }, () => { });
             PurchaseItem(Constants.DefaultSnakeSkin, 0, "SC", instances => { }, () => { });
         }
-        public void PurchaseItem(string item, int gold , string moneyType, Action<ItemInstance[]> onSuccess, Action onFail )
+
+        public void PurchaseItem(string item, int gold, string moneyType, Action<ItemInstance[]> onSuccess, Action onFail)
         {
             var request = new ExecuteCloudScriptRequest()
             {
                 FunctionName = nameof(PurchaseItem),
-                FunctionParameter = new { id = item, price = gold, currency = moneyType },
+                FunctionParameter = new { itemId = item, price = gold, virtualCurrency = moneyType },
                 GeneratePlayStreamEvent = true
             };
 
-            PlayFabClientAPI.ExecuteCloudScript<SkinData>(request,
+            PlayFabClientAPI.ExecuteCloudScript<SkinData>(
+                request,
                 result =>
                 {
-                    SkinData serverResponse = (SkinData) result.FunctionResult;
-                    if(!serverResponse.isSuccess)
+                    SkinData serverResponse = (SkinData)result.FunctionResult;
+                    if (!serverResponse.isSuccess)
                     {
                         Debug.Log(result.Logs[0].Message);
                         onFail();

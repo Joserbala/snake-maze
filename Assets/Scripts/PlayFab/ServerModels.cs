@@ -39,6 +39,7 @@ namespace SnakeMaze.PlayFab
     {
         public ItemInstance[] data;
     }
+
     public class ErrorData
     {
         public PlayFabErrorCode errorCode;
