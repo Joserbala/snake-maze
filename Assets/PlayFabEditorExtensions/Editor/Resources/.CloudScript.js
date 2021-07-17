@@ -1,15 +1,15 @@
-const SUCCESS = 200;
-const FAILED = 400;
+const SUCCESS = true;
+const FAILED = false;
 const VirtualCurrency = 'VirtualCurrency';
 const HCCode = 'HC';
 const SCCode = 'SC';
 
 handlers.CreateAccount = () => {
-    let HighScore = {
+    var HighScore = {
         Score: 0
     };
 
-    let result = UpdateUserReadOnlyData({
+    var result = UpdateUserReadOnlyData({
         HighScore: JSON.stringify(HighScore)
     });
 
@@ -18,13 +18,13 @@ handlers.CreateAccount = () => {
 };
 
 handlers.UpdateScore = (args) => {
-    let highScore = args.highScore;
+    var highScore = args.highScore;
 
-    let HighScore = {
+    var HighScore = {
         Score: highScore
     };
 
-    let result = UpdateUserReadOnlyData({
+    var result = UpdateUserReadOnlyData({
         HighScore: JSON.stringify(HighScore)
     });
 
@@ -33,17 +33,40 @@ handlers.UpdateScore = (args) => {
 };
 
 handlers.GetLoginData = () => {
-    let readOnlyData = GetUserReadOnlyData().Data;
-    let inventory = GetInventory();
-    let currency = GetCurrency(inventory);
+    var readOnlyData = GetUserReadOnlyData().Data;
+    var inventory = GetUserInventory();
+    var currency = GetCurrency(inventory);
 
-    let loginData = {
-        ReadOnlyData: readOnlyData,
-        Inventory: inventory.Inventory,
-        Currency: currency
+    var loginData = {
+        readOnlyData: readOnlyData,
+        inventory: inventory.Inventory,
+        currency: currency
     };
 
-    return { LoginData: loginData };
+    return { loginData: loginData };
+};
+
+handlers.GetCurrency = () => {
+    var currency = {
+        currency: GetCurrency(GetUserInventory())
+    };
+
+    return currency;
+};
+
+handlers.AddSCCurrency = (args) => {
+    var amount = args.amount;
+
+    try {
+        var result = AddUserUserVirtualCurrency(amount, SCCode);
+        log.info(result);
+
+        return { isSuccess: SUCCESS, balance: result.Balance };
+    } catch (error) {
+        log.error(error);
+
+        return { isSuccess: FAILED, error: error.apiErrorInfo.apiError.error };
+    }
 };
 
 /////////////////////////////////////////////////////////////////////////
@@ -58,12 +81,12 @@ handlers.GetLoginData = () => {
  * @returns {Object}
  */
 function UpdateUserReadOnlyData(data) {
-    let request = {
+    var request = {
         PlayFabId: currentPlayerId,
         Data: data
     };
 
-    let result = server.UpdateUserReadOnlyData(request);
+    var result = server.UpdateUserReadOnlyData(request);
 
     return result;
 };
@@ -75,26 +98,41 @@ function UpdateUserReadOnlyData(data) {
  * @returns {Object} All the ReadOnlyData, access it with .Data
  */
 function GetUserReadOnlyData(data) {
-    let request = {
+    var request = {
         PlayFabId: currentPlayerId,
         Data: data
     };
 
-    let result = server.GetUserReadOnlyData(request);
-
-    return result;
+    return server.GetUserReadOnlyData(request);
 };
 
 /**
  * 
  * @returns {Object} The inventory of the user with currentPlayerId.
  */
-function GetInventory() {
-    let request = {
+function GetUserInventory() {
+    var request = {
         PlayFabId: currentPlayerId
     }
 
     return server.GetUserInventory(request);
+};
+
+/**
+ * Adds a certain amount of currency to virtualCurrency.
+ * 
+ * @param {number} amount - The amount to be added to virtualCurrency
+ * @param {string} virtualCurrency - The code for the virtual currency to change.
+ * @returns {Object} Access with .Balance to check the balance of the user.
+ */
+function AddUserUserVirtualCurrency(amount, virtualCurrency) {
+    var request = {
+        Amount: amount,
+        PlayFabId: currentPlayerId,
+        VirtualCurrency: virtualCurrency
+    };
+
+    return server.AddUserVirtualCurrency(request);
 };
 
 /////////////////////////////////////////////////////////////////////////
@@ -104,9 +142,9 @@ function GetInventory() {
 /////////////////////////////////////////////////////////////////////////
 
 function GetCurrency(inventory) {
-    let currency = {
-        SoftCoins: inventory[VirtualCurrency][SCCode],
-        HardCoins: inventory[VirtualCurrency][HCCode]
+    var currency = {
+        softCoins: inventory[VirtualCurrency][SCCode],
+        hardCoins: inventory[VirtualCurrency][HCCode]
     };
 
     return currency;
