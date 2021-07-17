@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d3e90ee9515f5344db496f5532c6d811, type: 3}
-  m_Name: MazeSkinDirt
+  m_Name: MazeSkinDefault
   m_EditorClassIdentifier: 
   topRightLeft: {fileID: 11400000, guid: 0a279f9e9ac6ee84b842a9caf70279db, type: 2}
   topRightBot: {fileID: 11400000, guid: 5327aaebca9880f4da577884d2afc069, type: 2}

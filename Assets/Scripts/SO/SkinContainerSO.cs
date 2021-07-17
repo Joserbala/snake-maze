@@ -9,45 +9,51 @@ namespace SnakeMaze.SO
     public class SkinContainerSO : InitiableSO
     {
         [SerializeField] private MazeSkinSO defaultMazeSkin;
-        [SerializeField] private MazeSkinSO mockupMazeSkin;
+        [SerializeField] private MazeSkinSO spaceMazeSkin;
+        [SerializeField] private MazeSkinSO skin3MazeSkin;
         [SerializeField] private SnakeSkinSO defaultSnakeSkin;
+        [SerializeField] private SnakeSkinSO astronautSnakeSkin;
+        [SerializeField] private SnakeSkinSO skin3SnakeSkin;
         [SerializeField] private AudioSkinSO defaultAudioSkin;
 
-        private Dictionary<MazeSkins, MazeSkinSO> _mazeSkinDic;
-        private Dictionary<SnakeSkins, SnakeSkinSO> _snakeSkinDic;
-        private Dictionary<AudioSkins, AudioSkinSO> _audioSkinDic;
+        private Dictionary<MazeSkinEnum, MazeSkinSO> _mazeSkinDic;
+        private Dictionary<SnakeSkinEnum, SnakeSkinSO> _snakeSkinDic;
+        private Dictionary<AudioSkinEnum, AudioSkinSO> _audioSkinDic;
 
         public MazeSkinSO CurrentMazeSkin { get; set; }
         public SnakeSkinSO CurrentSnakeSkin { get; set; }
         public AudioSkinSO CurrentAudioSkin { get; set; }
 
-        public Dictionary<MazeSkins, MazeSkinSO> MazeSkinDic => _mazeSkinDic;
-        public Dictionary<SnakeSkins, SnakeSkinSO> SnakeSkinDic => _snakeSkinDic;
-        public Dictionary<AudioSkins, AudioSkinSO> AudioSkinDic => _audioSkinDic;
+        public Dictionary<MazeSkinEnum, MazeSkinSO> MazeSkinDic => _mazeSkinDic;
+        public Dictionary<SnakeSkinEnum, SnakeSkinSO> SnakeSkinDic => _snakeSkinDic;
+        public Dictionary<AudioSkinEnum, AudioSkinSO> AudioSkinDic => _audioSkinDic;
 
         public override void InitScriptable()
         {
             InitDics();
-            CurrentMazeSkin = _mazeSkinDic[MazeSkins.Default];
-            CurrentSnakeSkin = _snakeSkinDic[SnakeSkins.Default];
-            CurrentAudioSkin = _audioSkinDic[AudioSkins.Default];
+            CurrentMazeSkin = _mazeSkinDic[MazeSkinEnum.Default];
+            CurrentSnakeSkin = _snakeSkinDic[SnakeSkinEnum.Default];
+            CurrentAudioSkin = _audioSkinDic[AudioSkinEnum.Default];
             InitCurrentSkin();
         }
         
         private void InitDics()
         {
-            _mazeSkinDic = new Dictionary<MazeSkins, MazeSkinSO>()
+            _mazeSkinDic = new Dictionary<MazeSkinEnum, MazeSkinSO>()
             {
-                {MazeSkins.Default, defaultMazeSkin},
-                {MazeSkins.Mockup, mockupMazeSkin}
+                {MazeSkinEnum.Default, defaultMazeSkin},
+                {MazeSkinEnum.Space, spaceMazeSkin},
+                {MazeSkinEnum.Skin3, skin3MazeSkin}
             };
-            _snakeSkinDic = new Dictionary<SnakeSkins, SnakeSkinSO>()
+            _snakeSkinDic = new Dictionary<SnakeSkinEnum, SnakeSkinSO>()
             {
-                {SnakeSkins.Default, defaultSnakeSkin}
+                {SnakeSkinEnum.Default, defaultSnakeSkin},
+                {SnakeSkinEnum.Astronaut, astronautSnakeSkin},
+                {SnakeSkinEnum.Skin3, skin3SnakeSkin}
             };
-            _audioSkinDic = new Dictionary<AudioSkins, AudioSkinSO>()
+            _audioSkinDic = new Dictionary<AudioSkinEnum, AudioSkinSO>()
             {
-                {AudioSkins.Default, defaultAudioSkin}
+                {AudioSkinEnum.Default, defaultAudioSkin}
             };
         }
 
@@ -59,17 +65,17 @@ namespace SnakeMaze.SO
         }
         
         //TODO: Eventos
-        public void ChangeMazeSkin(MazeSkins newSkin)
+        public void ChangeMazeSkin(MazeSkinEnum newSkin)
         {
             CurrentMazeSkin = _mazeSkinDic[newSkin];
             CurrentMazeSkin.InitScriptable();
         }
-        public void ChangeSnakeSkin(SnakeSkins newSkin)
+        public void ChangeSnakeSkin(SnakeSkinEnum newSkin)
         {
             CurrentSnakeSkin = _snakeSkinDic[newSkin];
             CurrentSnakeSkin.InitScriptable();
         }
-        public void ChangeAudioSkin(AudioSkins newSkin)
+        public void ChangeAudioSkin(AudioSkinEnum newSkin)
         {
             CurrentAudioSkin = _audioSkinDic[newSkin];
             CurrentAudioSkin.InitScriptable();

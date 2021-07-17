@@ -4,6 +4,7 @@ using PlayFab.ClientModels;
 using SnakeMaze.PlayFab;
 using SnakeMaze.Utils;
 using UnityEngine;
+using Currency = SnakeMaze.Enums.Currency;
 
 namespace SnakeMaze.SO.PlayFabManager
 {
@@ -201,8 +202,13 @@ namespace SnakeMaze.SO.PlayFabManager
         #endregion
 
         #region PURCHASES
-
-        public void PurchaseItem(string item, int gold , string moneyType )
+[ContextMenu("TestPurchase")]
+        public void PurchaseDefaultSkins()
+        {
+            PurchaseItem(Constants.DefaultMazeSkin, 0, "SC", instances => { }, () => { });
+            PurchaseItem(Constants.DefaultSnakeSkin, 0, "SC", instances => { }, () => { });
+        }
+        public void PurchaseItem(string item, int gold , string moneyType, Action<ItemInstance[]> onSuccess, Action onFail )
         {
             var request = new ExecuteCloudScriptRequest()
             {
@@ -211,18 +217,18 @@ namespace SnakeMaze.SO.PlayFabManager
                 GeneratePlayStreamEvent = true
             };
 
-            PlayFabClientAPI.ExecuteCloudScript<BaseServerResult>(request,
+            PlayFabClientAPI.ExecuteCloudScript<SkinData>(request,
                 result =>
                 {
-                    BaseServerResult serverResponse = (BaseServerResult) result.FunctionResult;
-                    if (result.Logs[0].Level == Constants.ErrorMessage)
+                    SkinData serverResponse = (SkinData) result.FunctionResult;
+                    if(!serverResponse.isSuccess)
                     {
                         Debug.Log(result.Logs[0].Message);
-                        Debug.Log("Error updating score");
+                        onFail();
                     }
                     else
                     {
-                        
+                        onSuccess(serverResponse.data);
                     }
                 },
                 error =>

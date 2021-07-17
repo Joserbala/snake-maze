@@ -20,8 +20,7 @@ namespace SnakeMaze.PlayFab
     public class LoginDataStructure : BaseServerResult
     {
         public Dictionary<string, UserDataRecord> readOnlyData;
-
-        // public List<ItemInstance> inventory;
+        public List<ItemInstance> inventory;
         public CurrencyData currency;
     }
 
@@ -38,8 +37,7 @@ namespace SnakeMaze.PlayFab
 
     public class SkinData : BaseServerResult
     {
-        public string itemClass;
-        public string itemId;
+        public ItemInstance[] data;
     }
     public class ErrorData
     {
@@ -54,5 +52,10 @@ namespace SnakeMaze.PlayFab
     public class ErrorDataTest : ErrorData
     {
         public String nickname;
+    }
+
+    public class CustomData
+    {
+        public string SkinType;
     }
 }

@@ -6,7 +6,7 @@ using UnityEngine.Tilemaps;
 namespace SnakeMaze.SO
 {
     [CreateAssetMenu(fileName = "MazeSkin", menuName = "Scriptables/TileMaps/MazeSkinSO")]
-    public class MazeSkinSO : InitiableSO
+    public class MazeSkinSO : AbstractSkinSO
     {
         [Header("Maze")] [SerializeField] private TileBase topRightLeft;
 

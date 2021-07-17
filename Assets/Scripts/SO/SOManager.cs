@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace SnakeMaze.SO
 {
-    [CreateAssetMenu(fileName = "SOManager", menuName = "Scriptables/SOManagerSO")]
+    [CreateAssetMenu(fileName = "SOManager", menuName = "Scriptables/SOManager")]
     public class SOManager : ScriptableObject
     {
         public List<ResseteableSO> scriptableToReset;

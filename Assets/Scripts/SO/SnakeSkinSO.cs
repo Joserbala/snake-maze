@@ -4,7 +4,7 @@ using UnityEngine;
 namespace SnakeMaze.SO
 {
     [CreateAssetMenu(fileName = "SnakeSkin", menuName = "Scriptables/SnakeSkin")]
-    public class SnakeSkinSO : InitiableSO
+    public class SnakeSkinSO : AbstractSkinSO
     {
         [SerializeField] private Sprite bodyUp;
         [SerializeField] private Sprite bodyDown;

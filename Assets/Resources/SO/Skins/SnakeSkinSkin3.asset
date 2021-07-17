@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 93a01f2355fcb244db38dfe62fffcc5f, type: 3}
-  m_Name: DefaultSkin
+  m_Name: SnakeSkinSkin3
   m_EditorClassIdentifier: 
   bodyUp: {fileID: 2888427252096979072, guid: 05f110f433eff9d4aaaca0a28eac83df, type: 3}
   bodyDown: {fileID: -2830251380701082588, guid: 05f110f433eff9d4aaaca0a28eac83df, type: 3}

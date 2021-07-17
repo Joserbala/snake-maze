@@ -11,14 +11,14 @@ namespace SnakeMaze.Utils
         [ContextMenu("Change To Default Skin ")]
         public void ChangeToDefaultSkin()
         {
-            skinContainerSo.ChangeMazeSkin(MazeSkins.Default);
+            skinContainerSo.ChangeMazeSkin(MazeSkinEnum.Default);
         }
-        [ContextMenu("Change To Mockup Skin ")]
+        [ContextMenu("Change To Space Skin ")]
         public void ChangeToMockuptSkin()
         {
-            skinContainerSo.ChangeMazeSkin(MazeSkins.Mockup);
+            skinContainerSo.ChangeMazeSkin(MazeSkinEnum.Space);
         }
-        
-        
+
+
     }
 }
