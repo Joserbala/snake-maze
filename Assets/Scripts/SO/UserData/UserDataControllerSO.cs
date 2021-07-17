@@ -1,3 +1,4 @@
+using SnakeMaze.PlayFab;
 using SnakeMaze.User;
 using UnityEngine;
 
@@ -6,34 +7,36 @@ namespace SnakeMaze.SO.UserDataSO
     [CreateAssetMenu(fileName = "UserData", menuName = "Scriptables/User/UserDataControllerSO")]
     public class UserDataControllerSO : ScriptableObject
     {
-        [SerializeField] private int _highScore;
         [SerializeField] private EventSO playFabServerResponse;
-
+        
+        private ScoreData _scoreData = new ScoreData();
+        private EconomyData _economyData = new EconomyData();
 
         public int HighScore
         {
-            get => _highScore;
-            set => _highScore = value;
+            get => _scoreData.Score;
+            set => _scoreData.Score = value;
         }
 
-        public void LoadData(string jsonData)
+        public int SoftCoins
         {
-            var userData = new UserData();
-            JsonUtility.FromJsonOverwrite(jsonData, userData);
+            get => _economyData.SoftCoin;
+            set => _economyData.SoftCoin = value;
+        }
+        public int HardCoins
+        {
+            get => _economyData.HardCoin;
+            set => _economyData.HardCoin = value;
+        }
 
-            _highScore = userData.Score;
+        public void LoadData(LoginDataResult loginData)
+        {
+            JsonUtility.FromJsonOverwrite(loginData.LoginData.ReadOnlyData["HighScore"].Value, _scoreData);
+            _economyData.SetEconomyData(loginData.LoginData.Currency);
+            
+            Debug.Log("SoftCoins: " + SoftCoins);
+            Debug.Log("HardCoins: " + HardCoins);
             playFabServerResponse.CurrentAction.Invoke();
-        }
-
-        private void OnDisable()
-        {
-            Debug.Log("Disbling UserData with score: " + _highScore);
-        }
-
-        private void OnEnable()
-        {
-            hideFlags = HideFlags.DontUnloadUnusedAsset;
-            Debug.Log("Enabling UserData with score: " + _highScore);
         }
     }
 }

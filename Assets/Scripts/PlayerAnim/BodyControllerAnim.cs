@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using SnakeMaze.Enums;
+using SnakeMaze.Player;
 using SnakeMaze.SO;
 using UnityEngine;
 
-namespace SnakeMaze.Player
+namespace SnakeMaze.PlayerAnim
 {
     public class BodyControllerAnim : MonoBehaviour
     {
