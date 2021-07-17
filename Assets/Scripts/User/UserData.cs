@@ -14,8 +14,8 @@ namespace SnakeMaze.User
 
         public void SetEconomyData(CurrencyData data)
         {
-            SoftCoin = data.SoftCoins;
-            HardCoin = data.HardCoins;
+            SoftCoin = data.softCoins;
+            HardCoin = data.hardCoins;
         }
     }
 }

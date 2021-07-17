@@ -33,7 +33,7 @@ namespace SnakeMaze.Player
                 loginData =>
                 {
                     LoadUserData(loginData);
-                    Debug.Log("Server HighScore: " + loginData.LoginData.ReadOnlyData["HighScore"].Value);
+                    Debug.Log("Server HighScore: " + loginData.loginData.readOnlyData["HighScore"].Value);
                 },
                 () => { playFabServerResponse.CurrentAction?.Invoke(); });
         }
@@ -73,9 +73,18 @@ namespace SnakeMaze.Player
         {
             var coins = EconomyManager.SetCoinsFromPoint(hasWon, player.Points);
             userDataControllerSo.SoftCoins += coins;
-            playFabManager.AddSCCurrency( coins);
+            playFabManager.AddSCCurrency( coins, CheckCurrency );
             Debug.Log("Coins received: " + coins);
             Debug.Log("New coins: " + userDataControllerSo.SoftCoins);
+            
+        }
+
+        private void CheckCurrency(int gold)
+        {
+            if (userDataControllerSo.SoftCoins == gold) return;
+            
+            Debug.Log("Local gold not equal to server, updating local");
+            userDataControllerSo.SoftCoins = gold;
             
         }
 

@@ -5,41 +5,54 @@ using PlayFab.ClientModels;
 
 namespace SnakeMaze.PlayFab
 {
+    public class BaseServerResult
+    {
+        public bool isSuccess;
+        public string error;
+    }
 
     [Serializable]
-    public class LoginDataResult 
+    public class LoginDataResult : BaseServerResult
     {
-        public LoginDataStructure LoginData;
+        public LoginDataStructure loginData;
     }
 
-    public class LoginDataStructure
+    public class LoginDataStructure : BaseServerResult
     {
-        public Dictionary<string, UserDataRecord> ReadOnlyData;
-        // public List<ItemInstance> Inventory;
-        public CurrencyData Currency;
+        public Dictionary<string, UserDataRecord> readOnlyData;
+
+        // public List<ItemInstance> inventory;
+        public CurrencyData currency;
     }
 
-    public class IntTestPlayFab
+    public class IntTestPlayFab : BaseServerResult
     {
-        public int Balance;
+        public int balance;
     }
 
-    public class CurrencyData
+    public class CurrencyData : BaseServerResult
     {
-        public int SoftCoins;
-        public int HardCoins;
+        public int softCoins;
+        public int hardCoins;
     }
 
-    public class ErrorData 
+    public class SkinData : BaseServerResult
     {
-        public PlayFabErrorCode ErrorCode;
+        public string itemClass;
+        public string itemId;
     }
-    public class ErrorDataFull 
+    public class ErrorData
     {
-        public PlayFabError Error;
+        public PlayFabErrorCode errorCode;
     }
+
+    public class ErrorDataFull
+    {
+        public PlayFabError error;
+    }
+
     public class ErrorDataTest : ErrorData
     {
-        public String Nickname;
+        public String nickname;
     }
 }

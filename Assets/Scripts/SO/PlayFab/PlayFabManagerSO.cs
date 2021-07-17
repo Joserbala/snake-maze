@@ -147,7 +147,7 @@ namespace SnakeMaze.SO.PlayFabManager
                 GeneratePlayStreamEvent = true
             };
 
-            PlayFabClientAPI.ExecuteCloudScript<ErrorDataFull>(request,
+            PlayFabClientAPI.ExecuteCloudScript<BaseServerResult>(request,
                 result =>
                 {
                     if (result.Logs[0].Level == Constants.ErrorMessage)
@@ -165,9 +165,9 @@ namespace SnakeMaze.SO.PlayFabManager
         [ContextMenu("Test Gold")]
         public void UpdateUserGold()
         {
-            AddSCCurrency(50);
+            AddSCCurrency(50, (x) =>{} );
         }
-        public void AddSCCurrency(int newGold)
+        public void AddSCCurrency(int newGold, Action<int> onSuccsess)
         {
             var request = new ExecuteCloudScriptRequest()
             {
@@ -176,7 +176,7 @@ namespace SnakeMaze.SO.PlayFabManager
                 GeneratePlayStreamEvent = true
             };
 
-            PlayFabClientAPI.ExecuteCloudScript<ErrorDataFull>(request,
+            PlayFabClientAPI.ExecuteCloudScript<IntTestPlayFab>(request,
                 result =>
                 {
                     IntTestPlayFab serverResponse = (IntTestPlayFab) result.FunctionResult;
@@ -187,7 +187,42 @@ namespace SnakeMaze.SO.PlayFabManager
                     }
                     else
                     {
-                        Debug.Log("PlayFab Total Gold: " + serverResponse.Balance);
+                        onSuccsess(serverResponse.balance);
+                        Debug.Log("PlayFab Total Gold: " + serverResponse.balance);
+                    }
+                },
+                error =>
+                {
+                    Debug.LogError("CUIDADO FUNCTION FAILED: " + error.Error);
+                    Debug.LogError("CUIDADO FUNCTION FAILED: " + error.ErrorMessage);
+                });
+        }
+
+        #endregion
+
+        #region PURCHASES
+
+        public void PurchaseItem(string item, int gold , string moneyType )
+        {
+            var request = new ExecuteCloudScriptRequest()
+            {
+                FunctionName = nameof(PurchaseItem),
+                FunctionParameter = new { id = item, price = gold, currency = moneyType },
+                GeneratePlayStreamEvent = true
+            };
+
+            PlayFabClientAPI.ExecuteCloudScript<BaseServerResult>(request,
+                result =>
+                {
+                    BaseServerResult serverResponse = (BaseServerResult) result.FunctionResult;
+                    if (result.Logs[0].Level == Constants.ErrorMessage)
+                    {
+                        Debug.Log(result.Logs[0].Message);
+                        Debug.Log("Error updating score");
+                    }
+                    else
+                    {
+                        
                     }
                 },
                 error =>

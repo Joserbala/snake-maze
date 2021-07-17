@@ -108,7 +108,7 @@ namespace SnakeMaze.Utils
                     Debug.Log(error.Error);
                     Debug.Log(error.ErrorMessage);
                     Debug.Log(error.ErrorDetails);
-                    Debug.LogWarning("Nicname error");
+                    Debug.LogWarning("Nickname error");
                     CreateAccountFailed(error.Error == PlayFabErrorCode.DuplicateUsername);
                 }
             );

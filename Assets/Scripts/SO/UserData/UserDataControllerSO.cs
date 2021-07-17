@@ -31,8 +31,8 @@ namespace SnakeMaze.SO.UserDataSO
 
         public void LoadData(LoginDataResult loginData)
         {
-            JsonUtility.FromJsonOverwrite(loginData.LoginData.ReadOnlyData["HighScore"].Value, _scoreData);
-            _economyData.SetEconomyData(loginData.LoginData.Currency);
+            JsonUtility.FromJsonOverwrite(loginData.loginData.readOnlyData["HighScore"].Value, _scoreData);
+            _economyData.SetEconomyData(loginData.loginData.currency);
             
             Debug.Log("SoftCoins: " + SoftCoins);
             Debug.Log("HardCoins: " + HardCoins);
