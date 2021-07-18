@@ -15,7 +15,7 @@ handlers.CreateAccount = function () {
         });
         log.info(result);
 
-        return { isSuccess: SUCCESS, error: "" };
+        return { isSuccess: SUCCESS, error: null };
     } catch (error) {
         log.error(error);
 
@@ -36,7 +36,7 @@ handlers.UpdateScore = function (args) {
         });
         log.info(result);
 
-        return { isSuccess: SUCCESS, error: ""  };
+        return { isSuccess: SUCCESS, error: null };
     } catch (error) {
         log.error(error);
 
