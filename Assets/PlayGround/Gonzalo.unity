@@ -2525,6 +2525,8 @@ MonoBehaviour:
   logInEvent: {fileID: 11400000, guid: 2fc6491a2815eef4db6d81b318afcd74, type: 2}
   playFabServerResponse: {fileID: 11400000, guid: 34411d9139259124b8cc0385819d6f05, type: 2}
   userDataControllerSo: {fileID: 11400000, guid: 7b995dda3e709d84a99988d0ce522e91, type: 2}
+  userInventorySo: {fileID: 11400000, guid: 9283410e31dd0e148ae2a5781ff8eaf8, type: 2}
+  catalogSo: {fileID: 11400000, guid: c044377eafcada7489484d6d29d7b125, type: 2}
   playFabManager: {fileID: 11400000, guid: 139fc8d043f03dd4caf81ec6546c77d9, type: 2}
   busGameManagerSo: {fileID: 11400000, guid: 9f456d6bfae0f5f459d343256c8b7365, type: 2}
   player: {fileID: 11400000, guid: c13d86b70e228d546a539cf94c0d76bc, type: 2}

@@ -13,6 +13,4 @@ MonoBehaviour:
   m_Name: SpaceMazeSkinItem
   m_EditorClassIdentifier: 
   currentSkin: {fileID: 11400000, guid: e66aea517d60ac448ab0d84d7fade1fb, type: 2}
-  itemId: 
-  price: 0
-  currency: 0
+  itemId: Maze_Skin_Space

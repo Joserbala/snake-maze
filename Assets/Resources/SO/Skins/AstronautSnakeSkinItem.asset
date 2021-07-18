@@ -13,6 +13,4 @@ MonoBehaviour:
   m_Name: AstronautSnakeSkinItem
   m_EditorClassIdentifier: 
   currentSkin: {fileID: 11400000, guid: 46a5ef2ae2b20a34c89479124f282bac, type: 2}
-  itemId: 
-  price: 0
-  currency: 0
+  itemId: Snake_Skin_Astronaut

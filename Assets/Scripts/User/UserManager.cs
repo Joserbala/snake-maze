@@ -1,5 +1,6 @@
 using SnakeMaze.PlayFab;
 using SnakeMaze.SO;
+using SnakeMaze.SO.Items;
 using SnakeMaze.SO.PlayFabManager;
 using SnakeMaze.SO.UserDataSO;
 using SnakeMaze.User;
@@ -14,6 +15,7 @@ namespace SnakeMaze.Player
         [SerializeField] private EventSO playFabServerResponse;
         [SerializeField] private UserDataControllerSO userDataControllerSo;
         [SerializeField] private UserInventorySO userInventorySo;
+        [SerializeField] private CatalogSO catalogSo;
         [SerializeField] private PlayFabManagerSO playFabManager;
         [SerializeField] private BusGameManagerSO busGameManagerSo;
         [SerializeField] private PlayerVariableSO player;
@@ -36,9 +38,15 @@ namespace SnakeMaze.Player
                 {
                     LoadUserData(loginData);
                     LoadUserInventory(loginData);
+                    LoadCatalog(loginData);
                     Debug.Log("Server HighScore: " + loginData.loginData.readOnlyData["HighScore"].Value);
                 },
                 () => { playFabServerResponse.CurrentAction?.Invoke(); });
+        }
+
+        private void LoadCatalog(LoginDataResult loginData)
+        {
+            catalogSo.InitCatalog(loginData.loginData.catalog);
         }
 
         private void LoadUserInventory(LoginDataResult loginData)

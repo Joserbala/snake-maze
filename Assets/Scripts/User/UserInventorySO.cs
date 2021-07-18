@@ -26,7 +26,6 @@ namespace SnakeMaze.User
         {
             Debug.Log(item);
             Debug.Log(item.ItemId);
-            Debug.Log(item.CustomData);
 
             switch (item.ItemClass)
             {

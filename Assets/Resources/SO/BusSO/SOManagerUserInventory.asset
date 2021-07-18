@@ -9,8 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f77c8738a42343a4d87ef2f81693ae19, type: 3}
-  m_Name: DefaultMazeSkinItem
+  m_Script: {fileID: 11500000, guid: 95c391878a9256e4b81595e4b6ea071b, type: 3}
+  m_Name: SOManagerUserInventory
   m_EditorClassIdentifier: 
-  currentSkin: {fileID: 11400000, guid: 2a5338372c70fad45a378387a6efc126, type: 2}
-  itemId: Maze_Skin_Default
+  scriptableToReset: []
+  scriptableToInitiate:
+  - {fileID: 11400000, guid: 9283410e31dd0e148ae2a5781ff8eaf8, type: 2}

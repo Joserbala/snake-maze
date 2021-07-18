@@ -62,18 +62,11 @@ namespace SnakeMaze.SO.PlayFabManager
                 request,
                 result =>
                 {
-                    LoginDataResult serverResponse = (LoginDataResult)result.FunctionResult;
-
-                    if (result.Logs.Count > 0)
+                    LoginDataResult serverResponse = (LoginDataResult) result.FunctionResult;
+                    
+                    if(!serverResponse.isSuccess)
                     {
-                        if (result.Logs[0].Level == Constants.ErrorMessage)
-                        {
-                            onFail();
-                        }
-                        else
-                        {
-                            onSuccess(serverResponse);
-                        }
+                        onFail();
                     }
                     else
                     {
@@ -108,14 +101,9 @@ namespace SnakeMaze.SO.PlayFabManager
                 request,
                 result =>
                 {
-                    ErrorData serverResponse = (ErrorData)result.FunctionResult;
-
-                    for (int i = 0; i < result.Logs.Count; i++)
-                    {
-                        Debug.Log(result.Logs[i].Message);
-                    }
-
-                    if (result.Logs[0].Level == Constants.ErrorMessage)
+                    BaseServerResult serverResponse = (BaseServerResult) result.FunctionResult;
+                    
+                    if(!serverResponse.isSuccess)
                     {
                         onFail();
                     }
@@ -147,7 +135,7 @@ namespace SnakeMaze.SO.PlayFabManager
             var request = new ExecuteCloudScriptRequest()
             {
                 FunctionName = nameof(UpdateScore),
-                FunctionParameter = new { highScore = newHighScore },
+                FunctionParameter = new {highScore = newHighScore},
                 GeneratePlayStreamEvent = true
             };
 
@@ -155,11 +143,9 @@ namespace SnakeMaze.SO.PlayFabManager
                 request,
                 result =>
                 {
-                    if (result.Logs[0].Level == Constants.ErrorMessage)
-                    {
-                        Debug.Log(result.Logs[0].Message);
-                        Debug.Log("Error updating score");
-                    }
+                    BaseServerResult serverResponse = (BaseServerResult) result.FunctionResult;
+                    if(!serverResponse.isSuccess)
+                        Debug.Log("Error updating score: " + serverResponse.error);
                 },
                 error =>
                 {
@@ -179,7 +165,7 @@ namespace SnakeMaze.SO.PlayFabManager
             var request = new ExecuteCloudScriptRequest()
             {
                 FunctionName = nameof(AddSCCurrency),
-                FunctionParameter = new { amount = newGold },
+                FunctionParameter = new {amount = newGold},
                 GeneratePlayStreamEvent = true
             };
 
@@ -187,16 +173,44 @@ namespace SnakeMaze.SO.PlayFabManager
                 request,
                 result =>
                 {
-                    IntTestPlayFab serverResponse = (IntTestPlayFab)result.FunctionResult;
-                    if (result.Logs[0].Level == Constants.ErrorMessage)
+                    IntTestPlayFab serverResponse = (IntTestPlayFab) result.FunctionResult;
+                    if(!serverResponse.isSuccess)
                     {
-                        Debug.Log(result.Logs[0].Message);
-                        Debug.Log("Error updating gold");
+                        Debug.Log("Error updating gold: " + serverResponse.error);
                     }
                     else
                     {
                         onSuccsess(serverResponse.balance);
                         Debug.Log("PlayFab Total Gold: " + serverResponse.balance);
+                    }
+                },
+                error =>
+                {
+                    Debug.LogError("CUIDADO FUNCTION FAILED: " + error.Error);
+                    Debug.LogError("CUIDADO FUNCTION FAILED: " + error.ErrorMessage);
+                });
+        }
+
+        public void UpdateUserInventoryItemCustomData(ItemInstance item)
+        {
+            var request = new ExecuteCloudScriptRequest()
+            {
+                FunctionName = nameof(UpdateUserInventoryItemCustomData),
+                FunctionParameter = new {itemInstanceId = item.ItemInstanceId, itemId = item.ItemId},
+                GeneratePlayStreamEvent = true
+            };
+            PlayFabClientAPI.ExecuteCloudScript<BaseServerResult>(
+                request,
+                result =>
+                {
+                    BaseServerResult serverResponse = (BaseServerResult) result.FunctionResult;
+                    if (serverResponse.isSuccess)
+                        Debug.Log($"CustomData of {item.ItemId} updated successfully ");
+
+                    else
+                    {
+                        Debug.Log($"Error updating CustomData of {item.ItemId} ");
+                        Debug.Log("Error: " + serverResponse.error);
                     }
                 },
                 error =>
@@ -213,11 +227,17 @@ namespace SnakeMaze.SO.PlayFabManager
         [ContextMenu("TestPurchase")]
         public void PurchaseDefaultSkins()
         {
-            PurchaseItem(Constants.DefaultMazeSkin, 0, "SC", instances => { Debug.Log("Success!"); }, error => { Debug.LogError(error.GenerateErrorReport()); });
-            PurchaseItem(Constants.DefaultSnakeSkin, 0, "SC", instances => { Debug.Log("Success!"); }, error => { Debug.LogError(error.GenerateErrorReport()); });
+            PurchaseItem(Constants.DefaultMazeSkin, 0, "SC", instances =>
+                {
+                    Debug.Log("Success!");
+                    PurchaseItem(Constants.DefaultSnakeSkin, 0, "SC", instances => { Debug.Log("Success!"); },
+                        error => { Debug.LogError(error.GenerateErrorReport()); });
+                },
+                error => { Debug.LogError(error.GenerateErrorReport()); });
         }
 
-        public void PurchaseItem(string item, int gold, string moneyType, Action<List<ItemInstance>> onSuccess, Action<PlayFabError> onFail)
+        public void PurchaseItem(string item, int gold, string moneyType, Action<List<ItemInstance>> onSuccess,
+            Action<PlayFabError> onFail)
         {
             var request = new PurchaseItemRequest()
             {
@@ -228,7 +248,14 @@ namespace SnakeMaze.SO.PlayFabManager
 
             PlayFabClientAPI.PurchaseItem(
                 request,
-                result => onSuccess(result.Items),
+                result =>
+                {
+                    onSuccess(result.Items);
+                    foreach (var item in result.Items)
+                    {
+                        UpdateUserInventoryItemCustomData(item);
+                    }
+                },
                 error => onFail(error)
             );
         }

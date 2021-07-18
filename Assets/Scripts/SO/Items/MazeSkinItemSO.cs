@@ -1,4 +1,5 @@
-using PlayFab.ClientModels;
+using SnakeMaze.Enums;
+using SnakeMaze.Utils;
 using UnityEngine;
 
 namespace SnakeMaze.SO.Items
@@ -9,8 +10,6 @@ namespace SnakeMaze.SO.Items
     {
         [SerializeField] private MazeSkinSO currentSkin;
         [SerializeField] private string itemId;
-        [SerializeField] private int price;
-        [SerializeField] private Currency currency;
 
 
         public  MazeSkinSO Item => currentSkin;
@@ -18,10 +17,8 @@ namespace SnakeMaze.SO.Items
         private bool _available;
 
         public override string ItemId => itemId;
+        public override FullPriceData ItemPriceData { get; set; }
         
-        public override int Price => price;
-        
-        public override string Currency => currency.ToString();
 
         public override bool Available
         {

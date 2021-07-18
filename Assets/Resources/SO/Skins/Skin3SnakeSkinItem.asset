@@ -13,6 +13,4 @@ MonoBehaviour:
   m_Name: Skin3SnakeSkinItem
   m_EditorClassIdentifier: 
   currentSkin: {fileID: 11400000, guid: b6c7830433b9eb24b96edcd5f8060654, type: 2}
-  itemId: 
-  price: 0
-  currency: 0
+  itemId: Snake_Skin_Skin3

@@ -22,6 +22,7 @@ namespace SnakeMaze.PlayFab
         public Dictionary<string, UserDataRecord> readOnlyData;
         public List<ItemInstance> inventory;
         public CurrencyData currency;
+        public List<CatalogItem> catalog;
     }
 
     public class IntTestPlayFab : BaseServerResult
