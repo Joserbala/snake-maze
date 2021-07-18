@@ -8,6 +8,9 @@ namespace SnakeMaze.Utils
     {
         private PriceData _softCoinsPriceData = new PriceData(Currency.SC);
         private PriceData _hardCoinsPriceData= new PriceData(Currency.HC);
+        private bool _canBeBoughtWithHc;
+        private bool _canBeBoughtWithSc;
+
 
         public PriceData SoftCoinsPriceData
         {
@@ -19,6 +22,18 @@ namespace SnakeMaze.Utils
         {
             get => _hardCoinsPriceData;
             set => _hardCoinsPriceData = value;
+        }
+
+        public bool CanBeBoughtWithHc
+        {
+            get => _canBeBoughtWithHc;
+            set => _canBeBoughtWithHc = value;
+        }
+
+        public bool CanBeBoughtWithSc
+        {
+            get => _canBeBoughtWithSc;
+            set => _canBeBoughtWithSc = value;
         }
     }
     [Serializable]

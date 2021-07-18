@@ -1,3 +1,4 @@
+using System;
 using SnakeMaze.PlayFab;
 using SnakeMaze.SO;
 using SnakeMaze.SO.Items;
@@ -37,16 +38,15 @@ namespace SnakeMaze.Player
                 loginData =>
                 {
                     LoadUserData(loginData);
-                    LoadUserInventory(loginData);
-                    LoadCatalog(loginData);
+                    LoadCatalog(loginData, LoadUserInventory);
                     Debug.Log("Server HighScore: " + loginData.loginData.readOnlyData["HighScore"].Value);
                 },
                 () => { playFabServerResponse.CurrentAction?.Invoke(); });
         }
 
-        private void LoadCatalog(LoginDataResult loginData)
+        private void LoadCatalog(LoginDataResult loginData, Action<LoginDataResult> onSuccess)
         {
-            catalogSo.InitCatalog(loginData.loginData.catalog);
+            catalogSo.InitCatalog(loginData, onSuccess );
         }
 
         private void LoadUserInventory(LoginDataResult loginData)

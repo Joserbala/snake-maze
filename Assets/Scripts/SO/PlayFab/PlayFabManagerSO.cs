@@ -191,7 +191,7 @@ namespace SnakeMaze.SO.PlayFabManager
                 });
         }
 
-        public void UpdateUserInventoryItemCustomData(ItemInstance item)
+        public void UpdateUserInventoryItemCustomData(ItemInstance item, Action onSuccess)
         {
             var request = new ExecuteCloudScriptRequest()
             {
@@ -205,7 +205,10 @@ namespace SnakeMaze.SO.PlayFabManager
                 {
                     BaseServerResult serverResponse = (BaseServerResult) result.FunctionResult;
                     if (serverResponse.isSuccess)
+                    {
                         Debug.Log($"CustomData of {item.ItemId} updated successfully ");
+                        onSuccess();
+                    }
 
                     else
                     {
@@ -250,10 +253,9 @@ namespace SnakeMaze.SO.PlayFabManager
                 request,
                 result =>
                 {
-                    onSuccess(result.Items);
                     foreach (var item in result.Items)
                     {
-                        UpdateUserInventoryItemCustomData(item);
+                        UpdateUserInventoryItemCustomData(item, ()=>onSuccess(result.Items));
                     }
                 },
                 error => onFail(error)

@@ -3,6 +3,7 @@ using PlayFab.ClientModels;
 using SnakeMaze.Enums;
 using SnakeMaze.PlayFab;
 using SnakeMaze.SO;
+using SnakeMaze.SO.Items;
 using SnakeMaze.Utils;
 using UnityEngine;
 
@@ -11,6 +12,7 @@ namespace SnakeMaze.User
     [CreateAssetMenu(fileName = "UserInventory", menuName = "Scriptables/User/UserInventorySO")]
     public class UserInventorySO : InitiableSO
     {
+        [SerializeField] private CatalogSO catalogSo;
         private Dictionary<string, SnakeSkinEnum> _snakeDictionary;
         private Dictionary<string, MazeSkinEnum> _mazeDictionary;
         public Dictionary<string, SnakeSkinEnum> SnakeDictionary => _snakeDictionary;
@@ -24,9 +26,14 @@ namespace SnakeMaze.User
 
         public void AddSkinToDictionary(ItemInstance item)
         {
+            Debug.Log(catalogSo.CatalogList);
+            foreach (var itemCat in catalogSo.CatalogList)
+            {
+                Debug.Log(itemCat.ItemId);
+            }
+            catalogSo.CatalogList.Find(catalogItem => catalogItem.ItemId == item.ItemId).Available = true;
             Debug.Log(item);
             Debug.Log(item.ItemId);
-
             switch (item.ItemClass)
             {
                 case Constants.SnakeSkin:
@@ -38,6 +45,10 @@ namespace SnakeMaze.User
                             SkinEnumUtils.StringToSnakeEnum(item.CustomData[Constants.SkinType]));
 
                         Debug.Log($"{item.ItemId} successfully loaded");
+                    }
+                    else
+                    {
+                        Debug.Log($"Error loading to inventory {item.ItemId} with CustomData {item.CustomData}");
                     }
 
                     break;
@@ -51,6 +62,10 @@ namespace SnakeMaze.User
 
                         Debug.Log($"{item.ItemId} successfully loaded");
                     }
+                    else
+                    {
+                        Debug.Log($"Error loading to inventory {item.ItemId} with CustomData {item.CustomData}");
+                    }
 
                     break;
             }
@@ -58,8 +73,10 @@ namespace SnakeMaze.User
 
         public void AddSkinToDictionary(IEnumerable<ItemInstance> items)
         {
+            Debug.Log("Adding: " + items);
             foreach (var itemInstance in items)
             {
+                Debug.Log("Adding: " + itemInstance);
                 AddSkinToDictionary(itemInstance);
             }
         }

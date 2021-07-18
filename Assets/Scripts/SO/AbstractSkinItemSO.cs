@@ -12,6 +12,7 @@ namespace SnakeMaze.SO
         public abstract FullPriceData ItemPriceData{get;set;}
 
         public abstract bool Available { get; set; }
+        
 
         public void SetPriceAndCurrency(int price, Currency currency)
         {
@@ -28,5 +29,7 @@ namespace SnakeMaze.SO
             }
             
         }
+
+        public abstract void HasCurrencyType(Currency currency);
     }
 }

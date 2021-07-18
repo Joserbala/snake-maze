@@ -1,3 +1,4 @@
+using System;
 using SnakeMaze.Enums;
 using SnakeMaze.Utils;
 using UnityEngine;
@@ -24,6 +25,21 @@ namespace SnakeMaze.SO.Items
         {
             get => _available;
             set => _available = value;
+        }
+        
+        public override void HasCurrencyType(Currency currency)
+        {
+            switch (currency)
+            {
+                case Currency.HC:
+                    ItemPriceData.CanBeBoughtWithHc = true;
+                    break;
+                case Currency.SC:
+                    ItemPriceData.CanBeBoughtWithSc = true;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(currency), currency, null);
+            }
         }
     }
 }

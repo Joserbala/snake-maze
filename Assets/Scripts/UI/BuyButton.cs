@@ -29,6 +29,12 @@ namespace SnakeMaze.UI
                 Currency.SC => item.ItemPriceData.SoftCoinsPriceData,
                 _=> throw new NotEnumTypeSupportedException()
             };
+            if (!item.ItemPriceData.CanBeBoughtWithHc && currencyType == Currency.HC ||
+                !item.ItemPriceData.CanBeBoughtWithSc && currencyType == Currency.SC)
+            {
+                Debug.Log($"{item.ItemId} can not be bought with {currencyType}");
+                return;
+            }
             playFabManagerSo.PurchaseItem(
                 item.ItemId,
                 priceData.Price,
