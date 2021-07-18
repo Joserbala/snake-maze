@@ -4,7 +4,7 @@ const VirtualCurrency = 'VirtualCurrency';
 const HCCode = 'HC';
 const SCCode = 'SC';
 
-handlers.CreateAccount = () => {
+handlers.CreateAccount = function () {
     var HighScore = {
         Score: 0
     };
@@ -17,7 +17,7 @@ handlers.CreateAccount = () => {
     log.info(JSON.stringify(result));
 };
 
-handlers.UpdateScore = (args) => {
+handlers.UpdateScore = function (args) {
     var highScore = args.highScore;
 
     var HighScore = {
@@ -32,9 +32,9 @@ handlers.UpdateScore = (args) => {
     log.info(JSON.stringify(result));
 };
 
-handlers.GetLoginData = () => {
+handlers.GetLoginData = function () {
     var readOnlyData = GetUserReadOnlyData().Data;
-    var catalog = GetCatalogItems();
+    var catalog = GetCatalogItems().Catalog;
     var inventory = GetUserInventory();
     var currency = GetCurrency(inventory);
 
@@ -48,7 +48,7 @@ handlers.GetLoginData = () => {
     return { loginData: loginData };
 };
 
-handlers.GetCurrency = () => {
+handlers.GetCurrency = function () {
     var currency = {
         currency: GetCurrency(GetUserInventory())
     };
@@ -56,7 +56,7 @@ handlers.GetCurrency = () => {
     return currency;
 };
 
-handlers.AddSCCurrency = (args) => {
+handlers.AddSCCurrency = function (args) {
     var amount = args.amount;
 
     try {
@@ -66,6 +66,46 @@ handlers.AddSCCurrency = (args) => {
         return { isSuccess: SUCCESS, balance: result.Balance };
     } catch (error) {
         log.error(error);
+
+        return { isSuccess: FAILURE, error: error.apiErrorInfo.apiError.error };
+    }
+};
+
+/**
+ * 
+ * @param {object} args - The arguments from ExecuteCloudScriptRequest.
+ * @param {string} args.itemInstanceId - The unique identifier of the puchased item.
+ * @param {string} args.itemId - The item's id from the catalog.
+ * @returns Wether the function was executed succesfully or not; if fails, in error will be a vague description of the error.
+ */
+handlers.UpdateUserInventoryItemCustomData = function (args) {
+    var itemInstanceId = args.itemInstanceId;
+    var itemId = args.itemId;
+
+    try {
+        var catalog = GetCatalogItems().Catalog;
+        var itemCustomData;
+
+        for (let index = 0; index < catalog.length; index++) {
+            if (catalog[index].ItemId == itemId) {
+                itemCustomData = JSON.parse(catalog[index].CustomData);
+                break;
+            }
+        }
+
+        try {
+            var result = UpdateUserInventoryItemCustomData(itemInstanceId, itemCustomData);
+            log.info("Info: " + result);
+
+            return { isSuccess: SUCCESS };
+        } catch (error) {
+            log.error("Error:" + error);
+
+            return { isSuccess: FAILURE, error: error.apiErrorInfo.apiError.error };
+        }
+
+    } catch (error) {
+        log.error("Error:" + error);
 
         return { isSuccess: FAILURE, error: error.apiErrorInfo.apiError.error };
     }
@@ -124,7 +164,7 @@ function GetUserInventory() {
 /**
  * 
  * @param {string} [catalogVersion=null] - Which catalog is requested.
- * @returns {object[]} List of items belonging to catalogVersion.
+ * @returns {object[]} Access with .Catalog to obtain the List of items belonging to catalogVersion.
  * @throws Will throw an error if the API encounters an error.
  */
 function GetCatalogItems(catalogVersion = null) {
@@ -151,6 +191,22 @@ function AddUserUserVirtualCurrency(amount, virtualCurrency) {
     };
 
     return server.AddUserVirtualCurrency(request);
+};
+
+/**
+ *  
+ * @param {string} itemInstanceId - Unique identifier of the item to add to the user inventory.
+ * @param {object} data - Dictionary to be written to the custom data.
+ * @throws Will throw an error if the API encounters an error.
+ */
+function UpdateUserInventoryItemCustomData(itemInstanceId, data) {
+    var request = {
+        ItemInstanceId: itemInstanceId,
+        PlayFabId: currentPlayerId,
+        Data: data
+    };
+
+    server.UpdateUserInventoryItemCustomData(request);
 };
 
 /////////////////////////////////////////////////////////////////////////
