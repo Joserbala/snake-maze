@@ -3,7 +3,12 @@ guid: 6050894fee93b4e4493bbf626a580e6a
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - playFabManagerSo: {fileID: 11400000, guid: 139fc8d043f03dd4caf81ec6546c77d9, type: 2}
+  - busServerCallSo: {fileID: 11400000, guid: e68765df302ac0f418a38e5abb7e198e, type: 2}
+  - inventorySo: {fileID: 11400000, guid: 9283410e31dd0e148ae2a5781ff8eaf8, type: 2}
+  - buyButton: {instanceID: 0}
+  - item: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

@@ -11,6 +11,7 @@ namespace SnakeMaze.SO.Items
     {
         [SerializeField] private MazeSkinSO currentSkin;
         [SerializeField] private string itemId;
+        private FullPriceData _fullPriceData = new FullPriceData();
 
 
         public  MazeSkinSO Item => currentSkin;
@@ -18,7 +19,11 @@ namespace SnakeMaze.SO.Items
         private bool _available;
 
         public override string ItemId => itemId;
-        public override FullPriceData ItemPriceData { get; set; }
+        public override FullPriceData ItemPriceData
+        {
+            get=>_fullPriceData;
+            set=>_fullPriceData=value;
+        }
         
 
         public override bool Available

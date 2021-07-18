@@ -12,5 +12,7 @@ namespace SnakeMaze.Utils
         public const string SnakeSkin = "SnakeSkin";
         public const string MazeSkin = "MazeSkin";
         public const string SkinType = "SkinType";
+
+        public const string WaitServerScene = "MakingPlayFabCallAdditive";
     }
 }

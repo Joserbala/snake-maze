@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using PlayFab;
 using PlayFab.ClientModels;
 using SnakeMaze.PlayFab;
+using SnakeMaze.SO.PlayFab;
 using SnakeMaze.Utils;
 using UnityEngine;
 
@@ -12,6 +13,7 @@ namespace SnakeMaze.SO.PlayFabManager
     public class PlayFabManagerSO : InitiableSO
     {
         [SerializeField] private bool isTest = true;
+        [SerializeField] private BusServerCallSO busServerCallSo;
         private string displayName;
 
         public static string PLAYFAB_TITLE_ID_TEST = "E0CD8";
@@ -97,12 +99,12 @@ namespace SnakeMaze.SO.PlayFabManager
                 GeneratePlayStreamEvent = true
             };
 
-            PlayFabClientAPI.ExecuteCloudScript<ErrorData>(
+            PlayFabClientAPI.ExecuteCloudScript<BaseServerResult>(
                 request,
                 result =>
                 {
                     BaseServerResult serverResponse = (BaseServerResult) result.FunctionResult;
-                    
+                    Debug.Log(result.FunctionResult);
                     if(!serverResponse.isSuccess)
                     {
                         onFail();
@@ -144,8 +146,14 @@ namespace SnakeMaze.SO.PlayFabManager
                 result =>
                 {
                     BaseServerResult serverResponse = (BaseServerResult) result.FunctionResult;
+                    if (serverResponse.isSuccess)
+                    {
+                    }
+                    Debug.Log(result.Logs[0].Message);
                     if(!serverResponse.isSuccess)
                         Debug.Log("Error updating score: " + serverResponse.error);
+                    else
+                        Debug.Log("Updating score successful ");
                 },
                 error =>
                 {
@@ -214,12 +222,14 @@ namespace SnakeMaze.SO.PlayFabManager
                     {
                         Debug.Log($"Error updating CustomData of {item.ItemId} ");
                         Debug.Log("Error: " + serverResponse.error);
+                        busServerCallSo.OnServerResponse?.Invoke();
                     }
                 },
                 error =>
                 {
                     Debug.LogError("CUIDADO FUNCTION FAILED: " + error.Error);
                     Debug.LogError("CUIDADO FUNCTION FAILED: " + error.ErrorMessage);
+                    busServerCallSo.OnServerResponse?.Invoke();
                 });
         }
 
@@ -230,13 +240,25 @@ namespace SnakeMaze.SO.PlayFabManager
         [ContextMenu("TestPurchase")]
         public void PurchaseDefaultSkins()
         {
-            PurchaseItem(Constants.DefaultMazeSkin, 0, "SC", instances =>
+            PurchaseItem(Constants.SpaceMazeSkin, 5000, "SC", instances =>
                 {
                     Debug.Log("Success!");
-                    PurchaseItem(Constants.DefaultSnakeSkin, 0, "SC", instances => { Debug.Log("Success!"); },
-                        error => { Debug.LogError(error.GenerateErrorReport()); });
+                    PurchaseItem(Constants.AstronautSnakeSkin, 5000, "SC", instances =>
+                        {
+                            Debug.Log("Success!");
+                            busServerCallSo.OnServerResponse?.Invoke();
+                        },
+                        error =>
+                        {
+                            Debug.LogError(error.GenerateErrorReport());
+                            busServerCallSo.OnServerResponse?.Invoke();
+                        });
                 },
-                error => { Debug.LogError(error.GenerateErrorReport()); });
+                error =>
+                {
+                    Debug.LogError(error.GenerateErrorReport());
+                    busServerCallSo.OnServerResponse?.Invoke();
+                });
         }
 
         public void PurchaseItem(string item, int gold, string moneyType, Action<List<ItemInstance>> onSuccess,
@@ -248,7 +270,7 @@ namespace SnakeMaze.SO.PlayFabManager
                 Price = gold,
                 VirtualCurrency = moneyType
             };
-
+            busServerCallSo.OnServerCall?.Invoke();
             PlayFabClientAPI.PurchaseItem(
                 request,
                 result =>
@@ -258,8 +280,11 @@ namespace SnakeMaze.SO.PlayFabManager
                         UpdateUserInventoryItemCustomData(item, ()=>onSuccess(result.Items));
                     }
                 },
-                error => onFail(error)
-            );
+                error =>
+                {
+                    onFail(error);
+                    busServerCallSo.OnServerResponse?.Invoke();
+                });
         }
 
         #endregion

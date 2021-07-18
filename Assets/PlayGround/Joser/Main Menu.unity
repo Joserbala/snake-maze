@@ -959,6 +959,7 @@ GameObject:
   m_Component:
   - component: {fileID: 550828454}
   - component: {fileID: 550828455}
+  - component: {fileID: 550828456}
   m_Layer: 0
   m_Name: SceneManager
   m_TagString: Untagged
@@ -992,6 +993,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d2a2237ca6e15c449b98d2ac6b84b95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &550828456
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 550828453}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2cd9cc4b294020d499a5c3852f18d57f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serverCallSo: {fileID: 11400000, guid: e68765df302ac0f418a38e5abb7e198e, type: 2}
 --- !u!1 &600493599
 GameObject:
   m_ObjectHideFlags: 0
@@ -2774,7 +2788,8 @@ MonoBehaviour:
   duplicateErrorText: {fileID: 232122259}
   unknownErrorText: {fileID: 51341923}
   nickname: {fileID: 1527338507}
-  gameVersion: 0.0.1
+  gameVersion:
+    ClientVersion: 
 --- !u!4 &1993327768
 Transform:
   m_ObjectHideFlags: 0

@@ -4,6 +4,7 @@ using PlayFab.ClientModels;
 using SnakeMaze.Enums;
 using SnakeMaze.Exceptions;
 using SnakeMaze.SO;
+using SnakeMaze.SO.PlayFab;
 using SnakeMaze.SO.PlayFabManager;
 using SnakeMaze.User;
 using SnakeMaze.Utils;
@@ -16,6 +17,7 @@ namespace SnakeMaze.UI
     public class BuyButton : MonoBehaviour
     {
         [SerializeField] private PlayFabManagerSO playFabManagerSo;
+        [SerializeField] private BusServerCallSO busServerCallSo;
         [SerializeField] private UserInventorySO inventorySo;
         [SerializeField] private Button buyButton;
         [SerializeField] private Currency currencyType;
@@ -39,7 +41,11 @@ namespace SnakeMaze.UI
                 item.ItemId,
                 priceData.Price,
                 CurrencyUtils.CurrencyToString(priceData.CurrencyType),
-                data => OnPurchaseSuccess(data),
+                data =>
+                {
+                    OnPurchaseSuccess(data);
+                    
+                },
                 error => OnPurchaseFail(error));
         }
 
@@ -47,11 +53,13 @@ namespace SnakeMaze.UI
         {
             item.Available = true;
             inventorySo.AddSkinToDictionary(data);
+            busServerCallSo.OnServerResponse?.Invoke();
         }
 
         private void OnPurchaseFail(PlayFabError error)
         {
             Debug.LogError(error.GenerateErrorReport());
+            busServerCallSo.OnServerResponse?.Invoke();
         }
 
         private void OnEnable()

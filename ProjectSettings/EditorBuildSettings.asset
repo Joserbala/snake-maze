@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/PlayGround/Game.unity
     guid: 1e6dd40da1866a244bf4874797d4b7b2
+  - enabled: 1
+    path: Assets/PlayGround/Joser/MakingPlayFabCallAdditive.unity
+    guid: e7bea71049ceef24aa66bb458f71bfb3
   m_configObjects: {}
