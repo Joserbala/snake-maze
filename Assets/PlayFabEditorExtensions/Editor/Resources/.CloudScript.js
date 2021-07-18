@@ -9,12 +9,18 @@ handlers.CreateAccount = function () {
         Score: 0
     };
 
-    var result = UpdateUserReadOnlyData({
-        HighScore: JSON.stringify(HighScore)
-    });
+    try {
+        var result = UpdateUserReadOnlyData({
+            HighScore: JSON.stringify(HighScore)
+        });
+        log.info(result);
 
-    // Error control in client.
-    log.info(JSON.stringify(result));
+        return { isSuccess: SUCCESS };
+    } catch (error) {
+        log.error(error);
+
+        return { isSuccess: FAILURE, error: error.apiErrorInfo.apiError.error };
+    }
 };
 
 handlers.UpdateScore = function (args) {
@@ -24,12 +30,18 @@ handlers.UpdateScore = function (args) {
         Score: highScore
     };
 
-    var result = UpdateUserReadOnlyData({
-        HighScore: JSON.stringify(HighScore)
-    });
+    try {
+        var result = UpdateUserReadOnlyData({
+            HighScore: JSON.stringify(HighScore)
+        });
+        log.info(result);
 
-    // Error control in client.
-    log.info(JSON.stringify(result));
+        return { isSuccess: SUCCESS };
+    } catch (error) {
+        log.error(error);
+
+        return { isSuccess: FAILURE, error: error.apiErrorInfo.apiError.error };
+    }
 };
 
 handlers.GetLoginData = function () {
