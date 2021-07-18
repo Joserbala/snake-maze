@@ -5,7 +5,7 @@ using PlayFab;
 using PlayFab.ClientModels;
 using SnakeMaze.SO;
 using TMPro;
-using UnityEditor.PackageManager;
+using SnakeMaze.PlayFab;
 
 namespace SnakeMaze.Utils
 {
@@ -24,7 +24,7 @@ namespace SnakeMaze.Utils
 
         #region DATA
 
-        public string gameVersion;
+        public GameVersion gameVersion;
         // public EconomyModel serverEconomy;
 
         private void Start()
@@ -154,11 +154,11 @@ namespace SnakeMaze.Utils
 
         private void LoadGameSetup(Dictionary<string, string> data)
         {
-            // SetPlayFabVersion(data["ClientVersion"]);
+            SetPlayFabVersion(data["GameVersion"]);
             // SetPlayFabEconomyModel(data["EconomySetup"]);
         }
 
-        private void SetPlayFabVersion(string version) => gameVersion = version;
+        private void SetPlayFabVersion(string version) => JsonUtility.FromJsonOverwrite(version, gameVersion);
 
         private void SetPlayFabEconomyModel(string economyJson)
         {
