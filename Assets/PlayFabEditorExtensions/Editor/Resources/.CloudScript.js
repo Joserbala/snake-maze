@@ -33,27 +33,55 @@ handlers.UpdateScore = function (args) {
 };
 
 handlers.GetLoginData = function () {
-    var readOnlyData = GetUserReadOnlyData().Data;
-    var catalog = GetCatalogItems().Catalog;
-    var inventory = GetUserInventory();
-    var currency = GetCurrency(inventory);
+    try {
+        var readOnlyData = GetUserReadOnlyData().Data;
 
-    var loginData = {
-        readOnlyData: readOnlyData,
-        catalog: catalog,
-        inventory: inventory.Inventory,
-        currency: currency
-    };
+        try {
+            var catalog = GetCatalogItems().Catalog;
 
-    return { loginData: loginData };
+            try {
+                var inventory = GetUserInventory();
+                var currency = GetCurrency(inventory);
+
+                var loginData = {
+                    readOnlyData: readOnlyData,
+                    catalog: catalog,
+                    inventory: inventory.Inventory,
+                    currency: currency
+                };
+
+                log.info(loginData);
+
+                return { isSuccess: SUCCESS, loginData: loginData };
+
+            } catch (error) {
+                log.error("[ERROR GETTING THE USER INVENTORY] " + error);
+
+                return { isSuccess: FAILURE, error: error.apiErrorInfo.apiError.error };
+            }
+        } catch (error) {
+            log.error("[ERROR GETTING THE CATALOG] " + error);
+
+            return { isSuccess: FAILURE, error: error.apiErrorInfo.apiError.error };
+        }
+    } catch (error) {
+        log.error("[ERROR GETTING THE USER READ ONLY DATA] " + error);
+
+        return { isSuccess: FAILURE, error: error.apiErrorInfo.apiError.error };
+    }
 };
 
 handlers.GetCurrency = function () {
-    var currency = {
-        currency: GetCurrency(GetUserInventory())
-    };
+    try {
+        var currency = GetCurrency(GetUserInventory())
+        log.info(currency);
 
-    return currency;
+        return { isSuccess: SUCCESS, currency: currency };
+    } catch (error) {
+        log.error(error);
+
+        return { isSuccess: FAILURE, error: error.apiErrorInfo.apiError.error };
+    }
 };
 
 handlers.AddSCCurrency = function (args) {
@@ -76,7 +104,7 @@ handlers.AddSCCurrency = function (args) {
  * @param {object} args - The arguments from ExecuteCloudScriptRequest.
  * @param {string} args.itemInstanceId - The unique identifier of the puchased item.
  * @param {string} args.itemId - The item's id from the catalog.
- * @returns Wether the function was executed succesfully or not; if fails, in error will be a vague description of the error.
+ * @returns Wether the function was executed succesfully or not; if fails, in error there will be a vague description of the error.
  */
 handlers.UpdateUserInventoryItemCustomData = function (args) {
     var itemInstanceId = args.itemInstanceId;
@@ -95,17 +123,17 @@ handlers.UpdateUserInventoryItemCustomData = function (args) {
 
         try {
             var result = UpdateUserInventoryItemCustomData(itemInstanceId, itemCustomData);
-            log.info("Info: " + result);
+            log.info(result);
 
             return { isSuccess: SUCCESS };
         } catch (error) {
-            log.error("Error:" + error);
+            log.error("[ERROR UPDATING THE USER INVENTORY] " + error);
 
             return { isSuccess: FAILURE, error: error.apiErrorInfo.apiError.error };
         }
 
     } catch (error) {
-        log.error("Error:" + error);
+        log.error(["ERROR GETTING THE CATALOG ITEMS"] + error);
 
         return { isSuccess: FAILURE, error: error.apiErrorInfo.apiError.error };
     }
@@ -180,7 +208,7 @@ function GetCatalogItems(catalogVersion = null) {
  * 
  * @param {number} amount - The amount to be added to virtualCurrency
  * @param {string} virtualCurrency - The code for the virtual currency to change.
- * @returns {oject} Access with .Balance to check the balance of the user.
+ * @returns {object} Access with .Balance to check the balance of the user.
  * @throws Will throw an error if the API encounters an error.
  */
 function AddUserUserVirtualCurrency(amount, virtualCurrency) {
