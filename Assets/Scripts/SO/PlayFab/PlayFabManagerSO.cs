@@ -104,7 +104,6 @@ namespace SnakeMaze.SO.PlayFabManager
                 result =>
                 {
                     BaseServerResult serverResponse = (BaseServerResult) result.FunctionResult;
-                    Debug.Log(result.FunctionResult);
                     if(!serverResponse.isSuccess)
                     {
                         onFail();
