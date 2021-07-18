@@ -119,7 +119,7 @@ function GetUserInventory() {
     }
 
     return server.GetUserInventory(request);
-}; // TODO: revisar que en el user inventory cuando se añada algo esa clave no exista antes.
+};
 
 /**
  * 
