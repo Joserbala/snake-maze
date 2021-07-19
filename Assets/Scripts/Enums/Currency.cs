@@ -2,9 +2,9 @@ using UnityEngine;
 
 namespace SnakeMaze.Enums
 {
-    public enum Currency 
+    public enum Currency
     {
-       HC, SC
+        HC, SC
     }
 
     public static class CurrencyUtils
@@ -14,7 +14,7 @@ namespace SnakeMaze.Enums
             Currency result;
             switch (value)
             {
-                case "HC" :
+                case "HC":
                     result = Currency.HC;
                     break;
                 default:
@@ -29,7 +29,8 @@ namespace SnakeMaze.Enums
             var result = value switch
             {
                 Currency.HC => "HC",
-                Currency.SC => "SC"
+                Currency.SC => "SC",
+                _ => throw new Exceptions.NotEnumTypeSupportedException()
             };
 
             return result;

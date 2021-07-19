@@ -25,7 +25,7 @@ namespace SnakeMaze.Audio
         private void OnEnable()
         {
             busAudio.OnAudioPlay += PlayAudioClip;
-            
+
             busMusic.OnAudioPlay += PlayMusic;
             busMusic.OnMusicStop += StopMusic;
 
@@ -33,34 +33,33 @@ namespace SnakeMaze.Audio
         private void OnDestroy()
         {
             busAudio.OnAudioPlay -= PlayAudioClip;
-            
+
             busMusic.OnAudioPlay -= PlayMusic;
             busMusic.OnMusicStop -= StopMusic;
         }
 
         private void PlayMusic(AudioClipType clipType, AudioConfigSO settings)
         {
-            var startTime = 0f;
             AudioClipSO clip = skinContainer.CurrentAudioSkin.AudioDic[clipType];
             if (_musicEmitter != null && _musicEmitter.IsPlaying())
             {
-                if(_musicEmitter.GetClip()==clip.Clip)
+                if (_musicEmitter.GetClip() == clip.Clip)
                     return;
                 _musicEmitter.StopMusic();
             }
 
             _musicEmitter = pool.Request();
-            _musicEmitter.PlayAudioClip(clip.Clip,settings, true);
+            _musicEmitter.PlayAudioClip(clip.Clip, settings, true);
             _musicEmitter.OnFinishedPlaying += StopMusicEmitter;
         }
-        
+
         private void PlayAudioClip(AudioClipType clipType, AudioConfigSO settings)
         {
             AudioClipSO clip = skinContainer.CurrentAudioSkin.AudioDic[clipType];
             SoundEmitter soundEmitter = pool.Request();
             if (soundEmitter != null)
             {
-                soundEmitter.PlayAudioClip(clip.Clip,settings,clip.Loop);
+                soundEmitter.PlayAudioClip(clip.Clip, settings, clip.Loop);
                 soundEmitter.OnFinishedPlaying += OnSoundEmitterFinished;
             }
             else
