@@ -8,6 +8,7 @@ namespace SnakeMaze.SO
     public class BusGameManagerSO : ResseteableSO
     {
         public Action StartGame;
+        public Action PlayerDeath;
         public Action EndGame;
         public Action<bool> PauseGame;
         public Action WinGame;

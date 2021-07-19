@@ -22,14 +22,14 @@ namespace SnakeMaze.Audio
         private void OnEnable()
         {
             gameManagerSo.StartGame += PlayMusic;
-            gameManagerSo.EndGame += StopMusic;
+            gameManagerSo.PlayerDeath += StopMusic;
             gameManagerSo.WinGame += StopMusic;
         }
 
         private void OnDisable()
         {
             gameManagerSo.StartGame -= PlayMusic;
-            gameManagerSo.EndGame -= StopMusic;
+            gameManagerSo.PlayerDeath -= StopMusic;
             gameManagerSo.WinGame -= StopMusic;
         }
     }

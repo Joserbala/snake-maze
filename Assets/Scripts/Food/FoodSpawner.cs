@@ -38,14 +38,16 @@ namespace SnakeMaze.Food
         {
             busMazeManagerSo.FinishMaze += InitFood;
             busFood.OnEatFood += DespawnFood;
-            busGameManagerSo.EndGame += StopAllCoroutines;
+            busGameManagerSo.PlayerDeath += StopAllCoroutines;
+            busGameManagerSo.WinGame += StopAllCoroutines;
         }
 
         private void OnDisable()
         {
             busMazeManagerSo.FinishMaze -= InitFood;
             busFood.OnEatFood -= DespawnFood;
-            busGameManagerSo.EndGame -= StopAllCoroutines;
+            busGameManagerSo.PlayerDeath -= StopAllCoroutines;
+            busGameManagerSo.WinGame -= StopAllCoroutines;
             StopAllCoroutines();
         }
 

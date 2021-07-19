@@ -157,33 +157,33 @@ namespace SnakeMaze.Player
             playerVariable.IsAlive = false;
             gameManager.GameStarted = false;
             deathRequest.PlayAudio();
-            gameManager.EndGame?.Invoke();
+            gameManager.PlayerDeath?.Invoke();
         }
 
         private void OnEnable()
         {
             gameManager.StartGame += StartMoving;
-            gameManager.EndGame += StopMoving;
+            gameManager.PlayerDeath += StopMoving;
             gameManager.WinGame += StopMoving;
             gameManager.PauseGame += SetMoving;
             gameManager.StartGame += StartChangingSpeed;
-            gameManager.EndGame += StopChangingSpeed;
+            gameManager.PlayerDeath += StopChangingSpeed;
             gameManager.WinGame += StopChangingSpeed;
             gameManager.PauseGame += SetChangingSpeed;
-            gameManager.EndGame += StopAllCoroutines;
+            gameManager.PlayerDeath += StopAllCoroutines;
         }
 
         private void OnDisable()
         {
             gameManager.StartGame -= StartMoving;
-            gameManager.EndGame -= StopMoving;
+            gameManager.PlayerDeath -= StopMoving;
             gameManager.WinGame -= StopMoving;
             gameManager.PauseGame -= SetMoving;
             gameManager.StartGame -= StartChangingSpeed;
-            gameManager.EndGame -= StopChangingSpeed;
+            gameManager.PlayerDeath -= StopChangingSpeed;
             gameManager.WinGame -= StopChangingSpeed;
             gameManager.PauseGame -= SetChangingSpeed;
-            gameManager.EndGame -= StopAllCoroutines;
+            gameManager.PlayerDeath -= StopAllCoroutines;
         }
     }
 }

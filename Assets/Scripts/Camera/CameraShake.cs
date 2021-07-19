@@ -55,13 +55,13 @@ namespace SnakeMaze.CameraShake
         }
         private void OnEnable()
         {
-            gameManagerSo.EndGame += StartDieShacke;
+            gameManagerSo.PlayerDeath += StartDieShacke;
             busFoodSo.OnEatFoodNoArg += StartEatShake;
         }
 
         private void OnDisable()
         {
-            gameManagerSo.EndGame -= StartDieShacke;
+            gameManagerSo.PlayerDeath -= StartDieShacke;
             busFoodSo.OnEatFoodNoArg -= StartEatShake;
         }
     }

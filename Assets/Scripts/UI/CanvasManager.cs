@@ -88,6 +88,7 @@ namespace SnakeMaze.UI
         private void SwitchDeathPanel()
         {
             if (_isPausePanelActive) return;
+            
             deathPanel.SetActive(!_isDeathPanelActive);
             _isDeathPanelActive = !_isDeathPanelActive;
         }
@@ -118,7 +119,7 @@ namespace SnakeMaze.UI
 
         private void OnEnable()
         {
-            gameManager.EndGame += OnPlayerLose;
+            gameManager.PlayerDeath += OnPlayerLose;
             gameManager.WinGame += OnPlayerWin;
             gameManager.PauseGame += SwitchPausePanel;
             resumeButton.onClick.AddListener(PressResumeButton);
@@ -130,7 +131,7 @@ namespace SnakeMaze.UI
 
         private void OnDisable()
         {
-            gameManager.EndGame -= OnPlayerLose;
+            gameManager.PlayerDeath -= OnPlayerLose;
             gameManager.WinGame -= OnPlayerWin;
             gameManager.PauseGame -= SwitchPausePanel;
             resumeButton.onClick.RemoveListener(PressResumeButton);

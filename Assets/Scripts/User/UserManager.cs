@@ -107,13 +107,13 @@ namespace SnakeMaze.Player
 
         private void OnEnable()
         {
-            busGameManagerSo.EndGame += OnLooseUpdate;
+            busGameManagerSo.PlayerDeath += OnLooseUpdate;
             busGameManagerSo.WinGame += OnWinUpdate;
         }
 
         private void OnDisable()
         {
-            busGameManagerSo.EndGame -= OnLooseUpdate;
+            busGameManagerSo.PlayerDeath -= OnLooseUpdate;
             busGameManagerSo.WinGame -= OnWinUpdate;
         }
     }

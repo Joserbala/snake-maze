@@ -247,7 +247,7 @@ namespace SnakeMaze.Player
             if(infiniteGrow)
             {
                 gameManagerSo.StartGame += StartGrow;
-                gameManagerSo.EndGame += StopInfinteGrow;
+                gameManagerSo.PlayerDeath += StopInfinteGrow;
             }
             busFoodSo.OnEatFoodNoArg += GrowSnakeNextMove;
             playerSpawnEvent.CurrentAction += InitBody;
@@ -259,7 +259,7 @@ namespace SnakeMaze.Player
             if(infiniteGrow)
             {
                 gameManagerSo.StartGame -= StartGrow;
-                gameManagerSo.EndGame -= StopInfinteGrow;
+                gameManagerSo.PlayerDeath -= StopInfinteGrow;
             }
             busFoodSo.OnEatFoodNoArg -= GrowSnakeNextMove;
             playerSpawnEvent.CurrentAction -= InitBody;
