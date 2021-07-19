@@ -12,11 +12,13 @@ namespace SnakeMaze.Utils
         public void ChangeToDefaultSkin()
         {
             skinContainerSo.ChangeMazeSkin(MazeSkinEnum.Default);
+            skinContainerSo.ChangeSnakeSkin(SnakeSkinEnum.Default);
         }
         [ContextMenu("Change To Space Skin ")]
         public void ChangeToMockuptSkin()
         {
             skinContainerSo.ChangeMazeSkin(MazeSkinEnum.Space);
+            skinContainerSo.ChangeSnakeSkin(SnakeSkinEnum.Astronaut);
         }
 
 

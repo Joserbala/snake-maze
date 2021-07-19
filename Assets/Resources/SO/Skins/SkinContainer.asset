@@ -13,6 +13,9 @@ MonoBehaviour:
   m_Name: SkinContainer
   m_EditorClassIdentifier: 
   defaultMazeSkin: {fileID: 11400000, guid: 2a5338372c70fad45a378387a6efc126, type: 2}
-  mockupMazeSkin: {fileID: 11400000, guid: e66aea517d60ac448ab0d84d7fade1fb, type: 2}
+  spaceMazeSkin: {fileID: 11400000, guid: e66aea517d60ac448ab0d84d7fade1fb, type: 2}
+  skin3MazeSkin: {fileID: 11400000, guid: ee9833e5e44e5b148b116f7b366c7b3c, type: 2}
   defaultSnakeSkin: {fileID: 11400000, guid: c22e9787dde4c3e4da48e601deec3564, type: 2}
+  astronautSnakeSkin: {fileID: 11400000, guid: 46a5ef2ae2b20a34c89479124f282bac, type: 2}
+  skin3SnakeSkin: {fileID: 11400000, guid: b6c7830433b9eb24b96edcd5f8060654, type: 2}
   defaultAudioSkin: {fileID: 11400000, guid: f4cc48916a92991449c3f0c83329cfc9, type: 2}
