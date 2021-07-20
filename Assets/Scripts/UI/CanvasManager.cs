@@ -1,6 +1,7 @@
 using SnakeMaze.Audio;
 using SnakeMaze.SO;
 using SnakeMaze.SO.FoodSO;
+using SnakeMaze.Utils;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,8 +16,10 @@ namespace SnakeMaze.UI
         [SerializeField] private GameObject winPanel;
         [SerializeField] private PlayerVariableSO player;
         [SerializeField] private TextMeshProUGUI points;
-        [SerializeField] private TextMeshProUGUI finalScoreLose;
+        [SerializeField] private TextMeshProUGUI finalScoreLoose;
         [SerializeField] private TextMeshProUGUI finalScoreWin;
+        [SerializeField] private TextMeshProUGUI finalGoldLoose;
+        [SerializeField] private TextMeshProUGUI finalGoldWin;
         [SerializeField] private BusGameManagerSO gameManager;
         [SerializeField] private BusFoodSO busFoodSo;
         [SerializeField] private Button pauseButton;
@@ -79,10 +82,10 @@ namespace SnakeMaze.UI
             OnWinSetFinalScore();
         }
 
-        private void OnPlayerLose()
+        private void OnPlayerLoose()
         {
             SwitchDeathPanel();
-            OnLoseSetFinalScore();
+            OnLooseSetFinalScore();
         }
 
         private void SwitchDeathPanel()
@@ -106,20 +109,22 @@ namespace SnakeMaze.UI
         {
             inGameHUDGroup.SetActive(false);
             finalScoreWin.text = player.Points.ToString();
+            finalGoldWin.text = EconomyManager.SetCoinsFromPoint(true, player.Points).ToString();
         }
 
         /// <summary>
         /// Hides the ingame HUD and sets the final score when the player loses.
         /// </summary>
-        private void OnLoseSetFinalScore()
+        private void OnLooseSetFinalScore()
         {
             inGameHUDGroup.SetActive(false);
-            finalScoreLose.text = player.Points.ToString();
+            finalScoreLoose.text = player.Points.ToString();
+            finalGoldLoose.text = EconomyManager.SetCoinsFromPoint(false, player.Points).ToString();
         }
 
         private void OnEnable()
         {
-            gameManager.PlayerDeath += OnPlayerLose;
+            gameManager.PlayerDeath += OnPlayerLoose;
             gameManager.WinGame += OnPlayerWin;
             gameManager.PauseGame += SwitchPausePanel;
             resumeButton.onClick.AddListener(PressResumeButton);
@@ -131,7 +136,7 @@ namespace SnakeMaze.UI
 
         private void OnDisable()
         {
-            gameManager.PlayerDeath -= OnPlayerLose;
+            gameManager.PlayerDeath -= OnPlayerLoose;
             gameManager.WinGame -= OnPlayerWin;
             gameManager.PauseGame -= SwitchPausePanel;
             resumeButton.onClick.RemoveListener(PressResumeButton);
