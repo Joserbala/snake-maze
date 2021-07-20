@@ -42,7 +42,7 @@ namespace SnakeMaze.User
                     {
                         _snakeDictionary.Add(
                             item.ItemId,
-                            SkinEnumUtils.StringToSnakeEnum(item.CustomData[Constants.SkinType]));
+                            SkinEnumUtils.StringToSnakeEnumById(item.CustomData[Constants.SkinType]));
 
                         Debug.Log($"{item.ItemId} successfully loaded");
                     }
@@ -58,7 +58,7 @@ namespace SnakeMaze.User
                     {
                         _mazeDictionary.Add(
                             item.ItemId,
-                            SkinEnumUtils.StringToMazeEnum(item.CustomData[Constants.SkinType]));
+                            SkinEnumUtils.StringToMazeEnumById(item.CustomData[Constants.SkinType]));
 
                         Debug.Log($"{item.ItemId} successfully loaded");
                     }

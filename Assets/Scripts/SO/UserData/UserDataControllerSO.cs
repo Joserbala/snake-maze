@@ -10,6 +10,7 @@ namespace SnakeMaze.SO.UserDataSO
     {
         [SerializeField] private EventSO playFabServerResponse;
         [SerializeField] private BusSelectSkinSO busSelectSkinSo;
+        [SerializeField] private SkinContainerSO skinContainerSo;
         
         private ScoreData _scoreData = new ScoreData();
         private EconomyData _economyData = new EconomyData();
@@ -41,13 +42,13 @@ namespace SnakeMaze.SO.UserDataSO
 
         public SnakeSkinEnum CurrentSnakeSkin
         {
-            get => SkinEnumUtils.StringToSnakeEnum(_skinData.CurrentSnakeSkin);
-            set => _skinData.CurrentSnakeSkin = value.ToString();
+            get => SkinEnumUtils.StringToSnakeEnumById(_skinData.Snake);
+            set => _skinData.Snake = value.ToString();
         }
         public MazeSkinEnum CurrentMazeSkin
         {
-            get => SkinEnumUtils.StringToMazeEnum(_skinData.CurrentMazeSkin);
-            set => _skinData.CurrentMazeSkin = value.ToString();
+            get => SkinEnumUtils.StringToMazeEnumById(_skinData.Maze);
+            set => _skinData.Maze = value.ToString();
         }
 
         private void SetCurrentSnakeSkin(SnakeSkinEnum snakeSkin)
@@ -60,24 +61,27 @@ namespace SnakeMaze.SO.UserDataSO
         }
         private void SetCurrentSnakeSkin(string snakeSkin)
         {
-            _skinData.CurrentSnakeSkin = snakeSkin;
+            _skinData.Snake = snakeSkin;
         }
         private void SetCurrentMazeSkin(string mazeSkin)
         {
-            _skinData.CurrentMazeSkin = mazeSkin;
+            _skinData.Maze = mazeSkin;
         }
 
         public void LoadData(LoginDataResult loginData)
         {
             JsonUtility.FromJsonOverwrite(loginData.loginData.readOnlyData["HighScore"].Value, _scoreData);
+            Debug.Log(loginData.loginData.readOnlyData["Skins"].Value);
             JsonUtility.FromJsonOverwrite(loginData.loginData.readOnlyData["Skins"].Value, _skinData);
-
+            
             _economyData.SetEconomyData(loginData.loginData.currency);
             
             Debug.Log("SoftCoins: " + SoftCoins);
             Debug.Log("HardCoins: " + HardCoins);
-            Debug.Log("CurrentSnakeSkin: " + _skinData.CurrentSnakeSkin);
-            Debug.Log("CurrentMazeSkin: " + _skinData.CurrentMazeSkin);
+            Debug.Log("CurrentSnakeSkin: " + _skinData.Snake);
+            Debug.Log("CurrentMazeSkin: " + _skinData.Maze);
+            skinContainerSo.ChangeSnakeSkin(SkinEnumUtils.StringToSnakeEnum(_skinData.Snake));
+            skinContainerSo.ChangeMazeSkin(SkinEnumUtils.StringToMazeEnum(_skinData.Maze));
             playFabServerResponse.CurrentAction.Invoke();
         }
 
