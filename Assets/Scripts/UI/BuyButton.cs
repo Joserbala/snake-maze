@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using PlayFab;
 using PlayFab.ClientModels;
@@ -7,21 +8,34 @@ using SnakeMaze.SO;
 using SnakeMaze.SO.PlayFab;
 using SnakeMaze.SO.PlayFabManager;
 using SnakeMaze.User;
-using SnakeMaze.Utils;
 using UnityEngine;
 using UnityEngine.UI;
 using Currency = SnakeMaze.Enums.Currency;
 
 namespace SnakeMaze.UI
 {
+    [RequireComponent(typeof(Button))]
     public class BuyButton : MonoBehaviour
     {
         [SerializeField] private PlayFabManagerSO playFabManagerSo;
         [SerializeField] private BusServerCallSO busServerCallSo;
         [SerializeField] private UserInventorySO inventorySo;
-        [SerializeField] private Button buyButton;
         [SerializeField] private Currency currencyType;
         [SerializeField] private AbstractSkinItemSO item;
+        [SerializeField] private BusBuySkinSO buySkinSo;
+
+        private Button _buyButton;
+        
+        public AbstractSkinItemSO Item
+        {
+            get => item;
+            set => item = value;
+        }
+
+        private void Awake()
+        {
+            _buyButton = GetComponent<Button>();
+        }
 
         public void BuySkin()
         {
@@ -54,6 +68,8 @@ namespace SnakeMaze.UI
             item.Available = true;
             inventorySo.AddSkinToDictionary(data);
             busServerCallSo.OnServerResponse?.Invoke();
+            _buyButton.gameObject.SetActive(false);
+            buySkinSo.OnBuySkin?.Invoke(item.ItemId);
         }
 
         private void OnPurchaseFail(PlayFabError error)
@@ -64,12 +80,12 @@ namespace SnakeMaze.UI
 
         private void OnEnable()
         {
-            buyButton.onClick.AddListener(BuySkin);
+            _buyButton.onClick.AddListener(BuySkin);
         }
 
         private void OnDisable()
         {
-            buyButton.onClick.RemoveListener(BuySkin);
+            _buyButton.onClick.RemoveListener(BuySkin);
         }
     }
 }
