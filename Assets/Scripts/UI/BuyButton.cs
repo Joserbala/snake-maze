@@ -1,4 +1,4 @@
-using System;
+using System.Collections;
 using System.Collections.Generic;
 using PlayFab;
 using PlayFab.ClientModels;
@@ -25,9 +25,12 @@ namespace SnakeMaze.UI
         [SerializeField] private AbstractSkinItemSO item;
         [SerializeField] private BusBuySkinSO buySkinSo;
         [SerializeField] private TextMeshProUGUI price;
+        [Header("On buy error panel")]
+        [SerializeField] private GameObject panelError;
+        [SerializeField] private float timeToDissappearPanel = 1.0f;
 
         private Button _buyButton;
-        
+
         public AbstractSkinItemSO Item
         {
             get => item;
@@ -41,17 +44,15 @@ namespace SnakeMaze.UI
 
         private void Start()
         {
-
             SetPrice();
         }
 
         private void SetPrice()
         {
             price.text = currencyType switch
-
             {
                 Currency.SC => item.ItemPriceData.SoftCoinsPriceData.Price.ToString(),
-                Currency.HC=> item.ItemPriceData.HardCoinsPriceData.Price.ToString(),
+                Currency.HC => item.ItemPriceData.HardCoinsPriceData.Price.ToString(),
                 _ => throw new NotEnumTypeSupportedException()
             };
         }
@@ -62,14 +63,16 @@ namespace SnakeMaze.UI
             {
                 Currency.HC => item.ItemPriceData.HardCoinsPriceData,
                 Currency.SC => item.ItemPriceData.SoftCoinsPriceData,
-                _=> throw new NotEnumTypeSupportedException()
+                _ => throw new NotEnumTypeSupportedException()
             };
+
             if (!item.ItemPriceData.CanBeBoughtWithHc && currencyType == Currency.HC ||
                 !item.ItemPriceData.CanBeBoughtWithSc && currencyType == Currency.SC)
             {
                 Debug.Log($"{item.ItemId} can not be bought with {currencyType}");
                 return;
             }
+
             playFabManagerSo.PurchaseItem(
                 item.ItemId,
                 priceData.Price,
@@ -77,7 +80,6 @@ namespace SnakeMaze.UI
                 data =>
                 {
                     OnPurchaseSuccess(data);
-                    
                 },
                 error => OnPurchaseFail(error));
         }
@@ -92,14 +94,23 @@ namespace SnakeMaze.UI
 
         private void OnPurchaseFail(PlayFabError error)
         {
+            panelError.SetActive(true);
+            StartCoroutine(DeactivateErrorPanelYield());
             Debug.LogError(error.GenerateErrorReport());
             busServerCallSo.OnServerResponse?.Invoke();
+        }
+
+        private IEnumerator DeactivateErrorPanelYield() // TODO: Do tween.
+        {
+            yield return new WaitForSeconds(timeToDissappearPanel);
+            panelError.SetActive(false);
         }
 
         private void CheckButtonState(string itemId)
         {
             gameObject.SetActive(itemId != item.ItemId);
         }
+
         private void OnEnable()
         {
             _buyButton.onClick.AddListener(BuySkin);
