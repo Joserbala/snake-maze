@@ -155,14 +155,16 @@ namespace SnakeMaze.Utils
         private void LoadGameSetup(Dictionary<string, string> data)
         {
             SetPlayFabVersion(data["GameVersion"]);
-            // SetPlayFabEconomyModel(data["EconomySetup"]);
+            SetPlayFabEconomyModel(data["EconomySetup"]);
         }
 
         private void SetPlayFabVersion(string version) => JsonUtility.FromJsonOverwrite(version, gameVersion);
 
         private void SetPlayFabEconomyModel(string economyJson)
         {
-            // JsonUtility.FromJsonOverwrite(economyJson, serverEconomy);
+            var serverEconomy = new ServerEconomy();
+            JsonUtility.FromJsonOverwrite(economyJson, serverEconomy);
+            EconomyManager.SetRatios(serverEconomy);
         }
 
         #endregion

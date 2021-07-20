@@ -4718,8 +4718,10 @@ MonoBehaviour:
   winPanel: {fileID: 163927005}
   player: {fileID: 11400000, guid: c13d86b70e228d546a539cf94c0d76bc, type: 2}
   points: {fileID: 5433641}
-  finalScoreLose: {fileID: 2115083532}
+  finalScoreLoose: {fileID: 2115083532}
   finalScoreWin: {fileID: 1132546001}
+  finalGoldLoose: {fileID: 0}
+  finalGoldWin: {fileID: 0}
   gameManager: {fileID: 11400000, guid: 9f456d6bfae0f5f459d343256c8b7365, type: 2}
   busFoodSo: {fileID: 11400000, guid: 0bfa56e9da8fbb0499f5daa4940873f4, type: 2}
   pauseButton: {fileID: 1799297668}

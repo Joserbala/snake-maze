@@ -4,11 +4,10 @@ using SnakeMaze.SO;
 using SnakeMaze.SO.Items;
 using SnakeMaze.SO.PlayFabManager;
 using SnakeMaze.SO.UserDataSO;
-using SnakeMaze.User;
 using SnakeMaze.Utils;
 using UnityEngine;
 
-namespace SnakeMaze.Player
+namespace SnakeMaze.User
 {
     public class UserManager : MonoBehaviour
     {
