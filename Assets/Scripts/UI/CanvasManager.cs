@@ -10,16 +10,13 @@ namespace SnakeMaze.UI
 {
     public class CanvasManager : MonoBehaviour
     {
-        [SerializeField] private GameObject deathPanel;
         [SerializeField] private GameObject pausePanel;
         [SerializeField] private GameObject inGameHUDGroup;
-        [SerializeField] private GameObject winPanel;
+        [SerializeField] private GameObject finishPanel;
         [SerializeField] private PlayerVariableSO player;
         [SerializeField] private TextMeshProUGUI points;
-        [SerializeField] private TextMeshProUGUI finalScoreLoose;
-        [SerializeField] private TextMeshProUGUI finalScoreWin;
-        [SerializeField] private TextMeshProUGUI finalGoldLoose;
-        [SerializeField] private TextMeshProUGUI finalGoldWin;
+        [SerializeField] private TextMeshProUGUI finalScore;
+        [SerializeField] private TextMeshProUGUI finalGold;
         [SerializeField] private BusGameManagerSO gameManager;
         [SerializeField] private BusFoodSO busFoodSo;
         [SerializeField] private Button pauseButton;
@@ -27,15 +24,13 @@ namespace SnakeMaze.UI
         [SerializeField] private Button menuButton;
         [SerializeField] private Button deathMenuButton;
         [SerializeField] private AudioRequest tapRequest;
-        private bool _isDeathPanelActive;
+        private bool _isFinishPanelActive;
         private bool _isPausePanelActive;
-        private bool _isWinPanelActive;
 
         private void Start()
         {
-            _isDeathPanelActive = false;
+            _isFinishPanelActive = false;
             _isPausePanelActive = false;
-            _isWinPanelActive = false;
             ResetPoints();
         }
 
@@ -48,7 +43,7 @@ namespace SnakeMaze.UI
 
         private void PressPauseButton()
         {
-            if (!gameManager.GameStarted || _isDeathPanelActive || _isPausePanelActive) return;
+            if (!gameManager.GameStarted || _isFinishPanelActive || _isPausePanelActive) return;
             tapRequest.PlayAudio();
             gameManager.PauseGame?.Invoke(true);
         }
@@ -78,28 +73,22 @@ namespace SnakeMaze.UI
 
         private void OnPlayerWin()
         {
-            SwitchWinPanel();
+            SwitchFinishPanel();
             OnWinSetFinalScore();
         }
 
         private void OnPlayerLoose()
         {
-            SwitchDeathPanel();
+            SwitchFinishPanel();
             OnLooseSetFinalScore();
         }
 
-        private void SwitchDeathPanel()
+        private void SwitchFinishPanel()
         {
             if (_isPausePanelActive) return;
             
-            deathPanel.SetActive(!_isDeathPanelActive);
-            _isDeathPanelActive = !_isDeathPanelActive;
-        }
-
-        private void SwitchWinPanel()
-        {
-            winPanel.SetActive(!_isWinPanelActive);
-            _isWinPanelActive = !_isWinPanelActive;
+            finishPanel.SetActive(!_isFinishPanelActive);
+            _isFinishPanelActive = !_isFinishPanelActive;
         }
 
         /// <summary>
@@ -108,8 +97,9 @@ namespace SnakeMaze.UI
         private void OnWinSetFinalScore()
         {
             inGameHUDGroup.SetActive(false);
-            finalScoreWin.text = player.Points.ToString();
-            // finalGoldWin.text = EconomyManager.SetCoinsFromPoint(true, player.Points).ToString();
+            finalScore.text = player.Points.ToString();
+            // finalGold.text = EconomyManager.SetCoinsFromPoint(true, player.Points).ToString();
+            
         }
 
         /// <summary>
@@ -118,8 +108,8 @@ namespace SnakeMaze.UI
         private void OnLooseSetFinalScore()
         {
             inGameHUDGroup.SetActive(false);
-            finalScoreLoose.text = player.Points.ToString();
-            // finalGoldLoose.text = EconomyManager.SetCoinsFromPoint(false, player.Points).ToString();
+            finalScore.text = player.Points.ToString();
+            // finalGold.text = EconomyManager.SetCoinsFromPoint(false, player.Points).ToString();
         }
 
         private void OnEnable()
