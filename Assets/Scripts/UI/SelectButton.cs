@@ -12,8 +12,14 @@ namespace SnakeMaze.UI
         [SerializeField] private AbstractSkinItemSO item;
         [SerializeField] private UserInventorySO inventorySo;
         [SerializeField] private BusSelectSkinSO busSelectSkinSo;
-
+        
         private Button _selectButton;
+
+        public Button MyButton
+        {
+            get => _selectButton;
+            set => _selectButton = value;
+        }
 
         private void Awake()
         {
