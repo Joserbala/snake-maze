@@ -88,7 +88,7 @@ namespace SnakeMaze.UI
         private void SwitchFinishPanel()
         {
             if (_isPausePanelActive) return;
-            
+
             finishPanel.SetActive(!_isFinishPanelActive);
             _isFinishPanelActive = !_isFinishPanelActive;
         }
@@ -101,8 +101,7 @@ namespace SnakeMaze.UI
             inGameHUDGroup.SetActive(false);
             finalScore.text = player.Points.ToString();
             winText.SetActive(true);
-            // finalGold.text = EconomyManager.SetCoinsFromPoint(true, player.Points).ToString();
-
+            finalGold.text = EconomyManager.SetCoinsFromPoint(true, player.Points).ToString();
         }
 
         /// <summary>
@@ -113,7 +112,7 @@ namespace SnakeMaze.UI
             inGameHUDGroup.SetActive(false);
             finalScore.text = player.Points.ToString();
             looseText.SetActive(true);
-            // finalGold.text = EconomyManager.SetCoinsFromPoint(false, player.Points).ToString();
+            finalGold.text = EconomyManager.SetCoinsFromPoint(false, player.Points).ToString();
         }
 
         private void OnEnable()
