@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using PlayFab;
 using PlayFab.ClientModels;
@@ -7,21 +8,53 @@ using SnakeMaze.SO;
 using SnakeMaze.SO.PlayFab;
 using SnakeMaze.SO.PlayFabManager;
 using SnakeMaze.User;
-using SnakeMaze.Utils;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Currency = SnakeMaze.Enums.Currency;
 
 namespace SnakeMaze.UI
 {
+    [RequireComponent(typeof(Button))]
     public class BuyButton : MonoBehaviour
     {
         [SerializeField] private PlayFabManagerSO playFabManagerSo;
         [SerializeField] private BusServerCallSO busServerCallSo;
         [SerializeField] private UserInventorySO inventorySo;
-        [SerializeField] private Button buyButton;
         [SerializeField] private Currency currencyType;
         [SerializeField] private AbstractSkinItemSO item;
+        [SerializeField] private BusBuySkinSO buySkinSo;
+        [SerializeField] private TextMeshProUGUI price;
+
+        private Button _buyButton;
+        
+        public AbstractSkinItemSO Item
+        {
+            get => item;
+            set => item = value;
+        }
+
+        private void Awake()
+        {
+            _buyButton = GetComponent<Button>();
+        }
+
+        private void Start()
+        {
+
+            SetPrice();
+        }
+
+        private void SetPrice()
+        {
+            price.text = currencyType switch
+
+            {
+                Currency.SC => item.ItemPriceData.SoftCoinsPriceData.Price.ToString(),
+                Currency.HC=> item.ItemPriceData.HardCoinsPriceData.Price.ToString(),
+                _ => throw new NotEnumTypeSupportedException()
+            };
+        }
 
         public void BuySkin()
         {
@@ -54,6 +87,7 @@ namespace SnakeMaze.UI
             item.Available = true;
             inventorySo.AddSkinToDictionary(data);
             busServerCallSo.OnServerResponse?.Invoke();
+            buySkinSo.OnBuySkin?.Invoke(item.ItemId);
         }
 
         private void OnPurchaseFail(PlayFabError error)
@@ -62,14 +96,20 @@ namespace SnakeMaze.UI
             busServerCallSo.OnServerResponse?.Invoke();
         }
 
+        private void CheckButtonState(string itemId)
+        {
+            gameObject.SetActive(itemId != item.ItemId);
+        }
         private void OnEnable()
         {
-            buyButton.onClick.AddListener(BuySkin);
+            _buyButton.onClick.AddListener(BuySkin);
+            buySkinSo.OnBuySkin += CheckButtonState;
         }
 
         private void OnDisable()
         {
-            buyButton.onClick.RemoveListener(BuySkin);
+            _buyButton.onClick.RemoveListener(BuySkin);
+            buySkinSo.OnBuySkin -= CheckButtonState;
         }
     }
 }
