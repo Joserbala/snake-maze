@@ -4022,7 +4022,7 @@ MonoBehaviour:
   points: {fileID: 5433641}
   finalScore: {fileID: 2115083532}
   finalGold: {fileID: 393434955}
-  winText: {fileID: 0}
+  winText: {fileID: 416924275}
   looseText: {fileID: 1630231468}
   gameManager: {fileID: 11400000, guid: 9f456d6bfae0f5f459d343256c8b7365, type: 2}
   busFoodSo: {fileID: 11400000, guid: 0bfa56e9da8fbb0499f5daa4940873f4, type: 2}

@@ -11,6 +11,13 @@ namespace SnakeMaze.SO.UserDataSO
         
         private ScoreData _scoreData = new ScoreData();
         private EconomyData _economyData = new EconomyData();
+        private string _nickName;
+
+        public string NickName
+        {
+            get => _nickName;
+            set => _nickName = value;
+        }
 
         public int HighScore
         {

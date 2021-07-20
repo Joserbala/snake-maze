@@ -14,15 +14,15 @@ namespace SnakeMaze.SO.PlayFabManager
     {
         [SerializeField] private bool isTest = true;
         [SerializeField] private BusServerCallSO busServerCallSo;
-        private string displayName;
+        private string _displayName;
 
         public static string PLAYFAB_TITLE_ID_TEST = "E0CD8";
         public static string PLAYFAB_TITLE_RELEASE = "6F99B";
 
         public string DisplayName
         {
-            get => displayName;
-            set => displayName = value;
+            get => _displayName;
+            set => _displayName = value;
         }
 
         public override void InitScriptable()
