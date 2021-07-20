@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using PlayFab.ClientModels;
+using SnakeMaze.Enums;
 using SnakeMaze.SO;
+using SnakeMaze.SO.UserDataSO;
 using SnakeMaze.UI;
 using SnakeMaze.User;
 using UnityEngine;
@@ -12,6 +14,7 @@ namespace SnakeMaze.Utils
     {
         [SerializeField] private List<BuyButton> buyButtonList;
         [SerializeField] private List<SelectButton> selectButtonList;
+        [SerializeField] private UserDataControllerSO userDataControllerSo;
         [SerializeField] private BusBuySkinSO buySkinSo;
 
         private void Awake()
@@ -31,7 +34,7 @@ namespace SnakeMaze.Utils
                 if(selectButton.Item.Available)
                     selectButton.gameObject.SetActive(true);
             }
-            
+
         }
 
         private void SetSelectButtonActive(string itemId)
@@ -40,6 +43,12 @@ namespace SnakeMaze.Utils
             {
                 if (selectButton.Item.ItemId == itemId)
                     selectButton.gameObject.SetActive(true);
+                if (userDataControllerSo.CurrentSnakeSkin ==
+                    SkinEnumUtils.StringToSnakeEnumById(selectButton.Item.ItemId))
+                    selectButton.MyButton.interactable = false;
+                if(userDataControllerSo.CurrentMazeSkin ==
+                   SkinEnumUtils.StringToMazeEnumById(selectButton.Item.ItemId))
+                    selectButton.MyButton.interactable = false;
             }
         }
 
