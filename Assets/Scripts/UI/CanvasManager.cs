@@ -17,6 +17,8 @@ namespace SnakeMaze.UI
         [SerializeField] private TextMeshProUGUI points;
         [SerializeField] private TextMeshProUGUI finalScore;
         [SerializeField] private TextMeshProUGUI finalGold;
+        [SerializeField] private GameObject winText;
+        [SerializeField] private GameObject looseText;
         [SerializeField] private BusGameManagerSO gameManager;
         [SerializeField] private BusFoodSO busFoodSo;
         [SerializeField] private Button pauseButton;
@@ -98,8 +100,9 @@ namespace SnakeMaze.UI
         {
             inGameHUDGroup.SetActive(false);
             finalScore.text = player.Points.ToString();
+            winText.SetActive(true);
             // finalGold.text = EconomyManager.SetCoinsFromPoint(true, player.Points).ToString();
-            
+
         }
 
         /// <summary>
@@ -109,6 +112,7 @@ namespace SnakeMaze.UI
         {
             inGameHUDGroup.SetActive(false);
             finalScore.text = player.Points.ToString();
+            looseText.SetActive(true);
             // finalGold.text = EconomyManager.SetCoinsFromPoint(false, player.Points).ToString();
         }
 
