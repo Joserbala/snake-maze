@@ -10,12 +10,12 @@ namespace SnakeMaze.UI
         [SerializeField] private TextMeshProUGUI displayName;
         [SerializeField] private TextMeshProUGUI softCoins;
         [SerializeField] private TextMeshProUGUI hardCoins;
-        
+
         void Start()
         {
             displayName.text = userDataControllerSo.NickName;
-            softCoins.text = userDataControllerSo.SoftCoins.ToString();
-            hardCoins.text = userDataControllerSo.HardCoins.ToString();
+            softCoins.text = "x" + userDataControllerSo.SoftCoins.ToString();
+            hardCoins.text = "x" + userDataControllerSo.HardCoins.ToString();
         }
     }
 }
