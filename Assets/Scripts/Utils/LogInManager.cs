@@ -6,6 +6,7 @@ using PlayFab.ClientModels;
 using SnakeMaze.SO;
 using TMPro;
 using SnakeMaze.PlayFab;
+using SnakeMaze.SO.UserDataSO;
 
 namespace SnakeMaze.Utils
 {
@@ -19,6 +20,7 @@ namespace SnakeMaze.Utils
         [SerializeField] private GameObject duplicateErrorText;
         [SerializeField] private GameObject unknownErrorText;
         [SerializeField] private TextMeshProUGUI nickname;
+        [SerializeField] private UserDataControllerSO userDataControllerSo;
 
         private string _currentDisplayName;
 
@@ -66,6 +68,7 @@ namespace SnakeMaze.Utils
             {
                 logInEvent.CurrentAction?.Invoke();
                 playFabManagerSo.DisplayName = loginResult.InfoResultPayload.PlayerProfile.DisplayName;
+                userDataControllerSo.NickName = loginResult.InfoResultPayload.PlayerProfile.DisplayName;
                 Debug.Log("User Name: " + loginResult.InfoResultPayload.PlayerProfile.DisplayName);
             }
         }
@@ -102,6 +105,7 @@ namespace SnakeMaze.Utils
                     logInEvent.CurrentAction?.Invoke();
                     createAccountPanel.SetActive(false);
                     playFabManagerSo.DisplayName = value;
+                    userDataControllerSo.NickName = value;
                 },
                 errorCallback: (error) =>
                 {

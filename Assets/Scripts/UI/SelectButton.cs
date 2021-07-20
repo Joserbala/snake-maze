@@ -11,7 +11,6 @@ namespace SnakeMaze.UI
     {
         [SerializeField] private AbstractSkinItemSO item;
         [SerializeField] private UserInventorySO inventorySo;
-        [SerializeField] private SkinContainerSO skinContainerSo;
         [SerializeField] private BusSelectSkinSO busSelectSkinSo;
 
         private Button _selectButton;
@@ -31,14 +30,14 @@ namespace SnakeMaze.UI
         {
             if (inventorySo.SnakeDictionary.TryGetValue(item.ItemId, out var snakeSkin))
             {
-                skinContainerSo.ChangeSnakeSkin(snakeSkin);
+                busSelectSkinSo.OnSnakeSkinSelect?.Invoke(snakeSkin);
                 busSelectSkinSo.OnButtonSelect?.Invoke(item.ItemId);
             }
             else
             {
                 if(inventorySo.MazeDictionary.TryGetValue(item.ItemId, out var mazeSkin))
                 {
-                    skinContainerSo.ChangeMazeSkin(mazeSkin);
+                    busSelectSkinSo.OnMazeSkinSelect?.Invoke(mazeSkin);
                     busSelectSkinSo.OnButtonSelect?.Invoke(item.ItemId);
                 }
             }

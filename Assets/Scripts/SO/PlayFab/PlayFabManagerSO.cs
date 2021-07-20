@@ -14,15 +14,15 @@ namespace SnakeMaze.SO.PlayFabManager
     {
         [SerializeField] private bool isTest = true;
         [SerializeField] private BusServerCallSO busServerCallSo;
-        private string displayName;
+        private string _displayName;
 
         public static string PLAYFAB_TITLE_ID_TEST = "E0CD8";
         public static string PLAYFAB_TITLE_RELEASE = "6F99B";
 
         public string DisplayName
         {
-            get => displayName;
-            set => displayName = value;
+            get => _displayName;
+            set => _displayName = value;
         }
 
         public override void InitScriptable()
@@ -145,10 +145,6 @@ namespace SnakeMaze.SO.PlayFabManager
                 result =>
                 {
                     BaseServerResult serverResponse = (BaseServerResult) result.FunctionResult;
-                    if (serverResponse.isSuccess)
-                    {
-                    }
-                    Debug.Log(result.Logs[0].Message);
                     if(!serverResponse.isSuccess)
                         Debug.Log("Error updating score: " + serverResponse.error);
                     else
@@ -160,6 +156,37 @@ namespace SnakeMaze.SO.PlayFabManager
                     Debug.LogError("CUIDADO FUNCTION FAILED: " + error.ErrorMessage);
                 });
         }
+        [ContextMenu("Test UpdateSkins")]
+        public void UpdateSpaceSkins()
+        {
+            UpdateCurrentSkins("Astronaut","Space");
+        }
+        public void UpdateCurrentSkins(string snakeSkin, string mazeSkin)
+        {
+            var request = new ExecuteCloudScriptRequest()
+            {
+                FunctionName = nameof(UpdateCurrentSkins),
+                FunctionParameter = new {snakeSkin = snakeSkin, mazeSkin = mazeSkin},
+                GeneratePlayStreamEvent = true
+            };
+
+            PlayFabClientAPI.ExecuteCloudScript<BaseServerResult>(
+                request,
+                result =>
+                {
+                    BaseServerResult serverResponse = (BaseServerResult) result.FunctionResult;
+                    if(!serverResponse.isSuccess)
+                        Debug.Log("Error updating skins: " + serverResponse.error);
+                    else
+                        Debug.Log("Updating score skins ");
+                },
+                error =>
+                {
+                    Debug.LogError("CUIDADO FUNCTION FAILED: " + error.Error);
+                    Debug.LogError("CUIDADO FUNCTION FAILED: " + error.ErrorMessage);
+                });
+        }
+
 
         [ContextMenu("Test Gold")]
         public void UpdateUserGold()

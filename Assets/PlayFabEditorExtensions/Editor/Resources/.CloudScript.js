@@ -8,10 +8,15 @@ handlers.CreateAccount = function () {
     var HighScore = {
         Score: 0
     };
+    var Skins = {
+        Snake: 'Default',
+        Maze: 'Default'
+    };
 
     try {
         var result = UpdateUserReadOnlyData({
-            HighScore: JSON.stringify(HighScore)
+            HighScore: JSON.stringify(HighScore),
+            Skins: JSON.stringify(Skins)
         });
         log.info(result);
 
@@ -33,6 +38,28 @@ handlers.UpdateScore = function (args) {
     try {
         var result = UpdateUserReadOnlyData({
             HighScore: JSON.stringify(HighScore)
+        });
+        log.info(result);
+
+        return { isSuccess: SUCCESS, error: null };
+    } catch (error) {
+        log.error(error);
+
+        return { isSuccess: FAILURE, error: error.apiErrorInfo.apiError.error };
+    }
+};
+handlers.UpdateCurrentSkins = function (args) {
+    var snakeSkin = args.snakeSkin;
+    var mazeSkin = args.mazeSkin;
+
+    var Skins = {
+        Snake: snakeSkin,
+        Maze: mazeSkin
+    };
+
+    try {
+        var result = UpdateUserReadOnlyData({
+            Skins: JSON.stringify(Skins)
         });
         log.info(result);
 
