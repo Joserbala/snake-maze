@@ -1,3 +1,4 @@
+using SnakeMaze.Enums;
 using SnakeMaze.PlayFab;
 
 namespace SnakeMaze.User
@@ -17,5 +18,13 @@ namespace SnakeMaze.User
             SoftCoin = data.softCoins;
             HardCoin = data.hardCoins;
         }
+    }
+
+    public class CurrentSkinData
+    {
+        public string CurrentSnakeSkin{get;set;}
+        public string CurrentMazeSkin{get;set;}
+
+        
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using SnakeMaze.Enums;
 using SnakeMaze.SO.Audio;
@@ -15,6 +16,7 @@ namespace SnakeMaze.SO
         [SerializeField] private SnakeSkinSO astronautSnakeSkin;
         [SerializeField] private SnakeSkinSO skin3SnakeSkin;
         [SerializeField] private AudioSkinSO defaultAudioSkin;
+        [SerializeField] private BusSelectSkinSO busSelectSkinSo;
 
         private Dictionary<MazeSkinEnum, MazeSkinSO> _mazeSkinDic;
         private Dictionary<SnakeSkinEnum, SnakeSkinSO> _snakeSkinDic;
@@ -81,5 +83,15 @@ namespace SnakeMaze.SO
             CurrentAudioSkin.InitScriptable();
         }
 
+        private void OnEnable()
+        {
+            busSelectSkinSo.OnSnakeSkinSelect += ChangeSnakeSkin;
+            busSelectSkinSo.OnMazeSkinSelect += ChangeMazeSkin;
+        }
+        private void OnDisable()
+        {
+            busSelectSkinSo.OnSnakeSkinSelect -= ChangeSnakeSkin;
+            busSelectSkinSo.OnMazeSkinSelect -= ChangeMazeSkin;
+        }
     }
 }

@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58104c38700acbd4280fb4014b58bfde, type: 3}
   m_Name: UserData
   m_EditorClassIdentifier: 
-  _highScore: 200
   playFabServerResponse: {fileID: 11400000, guid: 34411d9139259124b8cc0385819d6f05, type: 2}
+  busSelectSkinSo: {fileID: 11400000, guid: 3a3c35e8e693511419b1708520cf45c9, type: 2}
