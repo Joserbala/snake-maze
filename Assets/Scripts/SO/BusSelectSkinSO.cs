@@ -7,6 +7,6 @@ namespace SnakeMaze.SO
     [CreateAssetMenu(fileName = "BusSelectSkin", menuName = "Scriptables/BusSO/BusSelectSkinSO")]
     public class BusSelectSkinSO : ScriptableObject
     {
-        public Action<SelectButton> OnButtonSelect;
+        public Action<string> OnButtonSelect;
     }
 }

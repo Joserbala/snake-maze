@@ -32,21 +32,21 @@ namespace SnakeMaze.UI
             if (inventorySo.SnakeDictionary.TryGetValue(item.ItemId, out var snakeSkin))
             {
                 skinContainerSo.ChangeSnakeSkin(snakeSkin);
-                busSelectSkinSo.OnButtonSelect?.Invoke(this);
+                busSelectSkinSo.OnButtonSelect?.Invoke(item.ItemId);
             }
             else
             {
                 if(inventorySo.MazeDictionary.TryGetValue(item.ItemId, out var mazeSkin))
                 {
                     skinContainerSo.ChangeMazeSkin(mazeSkin);
-                    busSelectSkinSo.OnButtonSelect?.Invoke(this);
+                    busSelectSkinSo.OnButtonSelect?.Invoke(item.ItemId);
                 }
             }
         }
 
-        private void CheckButtonState(SelectButton selectButton)
+        private void CheckButtonState(string itemID)
         {
-            _selectButton.interactable = selectButton != this;
+            _selectButton.interactable = itemID != item.ItemId;
         }
 
         private void OnEnable()
