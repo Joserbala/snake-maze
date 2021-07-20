@@ -109,7 +109,7 @@ namespace SnakeMaze.UI
         {
             inGameHUDGroup.SetActive(false);
             finalScoreWin.text = player.Points.ToString();
-            finalGoldWin.text = EconomyManager.SetCoinsFromPoint(true, player.Points).ToString();
+            // finalGoldWin.text = EconomyManager.SetCoinsFromPoint(true, player.Points).ToString();
         }
 
         /// <summary>
@@ -119,7 +119,7 @@ namespace SnakeMaze.UI
         {
             inGameHUDGroup.SetActive(false);
             finalScoreLoose.text = player.Points.ToString();
-            finalGoldLoose.text = EconomyManager.SetCoinsFromPoint(false, player.Points).ToString();
+            // finalGoldLoose.text = EconomyManager.SetCoinsFromPoint(false, player.Points).ToString();
         }
 
         private void OnEnable()
