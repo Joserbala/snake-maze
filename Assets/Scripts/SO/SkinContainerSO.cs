@@ -69,11 +69,13 @@ namespace SnakeMaze.SO
         //TODO: Eventos
         public void ChangeMazeSkin(MazeSkinEnum newSkin)
         {
+            Debug.Log("Changing to : " + newSkin);
             CurrentMazeSkin = _mazeSkinDic[newSkin];
             CurrentMazeSkin.InitScriptable();
         }
         public void ChangeSnakeSkin(SnakeSkinEnum newSkin)
         {
+            Debug.Log("Changing to : " + newSkin);
             CurrentSnakeSkin = _snakeSkinDic[newSkin];
             CurrentSnakeSkin.InitScriptable();
         }

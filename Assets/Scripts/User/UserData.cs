@@ -1,3 +1,4 @@
+using System;
 using SnakeMaze.Enums;
 using SnakeMaze.PlayFab;
 
@@ -19,12 +20,12 @@ namespace SnakeMaze.User
             HardCoin = data.hardCoins;
         }
     }
-
+[Serializable]
     public class CurrentSkinData
     {
-        public string CurrentSnakeSkin{get;set;}
-        public string CurrentMazeSkin{get;set;}
+        public string Snake;
+        public string Maze;
 
-        
+
     }
 }

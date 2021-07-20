@@ -178,7 +178,7 @@ namespace SnakeMaze.SO.PlayFabManager
                     if(!serverResponse.isSuccess)
                         Debug.Log("Error updating skins: " + serverResponse.error);
                     else
-                        Debug.Log("Updating score skins ");
+                        Debug.Log("Updating skins successfully");
                 },
                 error =>
                 {
