@@ -3,7 +3,11 @@ guid: ee766570f9b31e045a13717deaed52e9
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - userDataControllerSo: {fileID: 11400000, guid: 7b995dda3e709d84a99988d0ce522e91, type: 2}
+  - buySkinSo: {fileID: 11400000, guid: 7f73a09e339e9264b98ae9e20089ebac, type: 2}
+  - busSnakeSelect: {fileID: 11400000, guid: 3a3c35e8e693511419b1708520cf45c9, type: 2}
+  - busMazeSelect: {fileID: 11400000, guid: f00f22afaa80c604981076dc480b93f5, type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

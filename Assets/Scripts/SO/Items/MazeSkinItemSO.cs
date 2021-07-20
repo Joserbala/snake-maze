@@ -46,5 +46,10 @@ namespace SnakeMaze.SO.Items
                     throw new ArgumentOutOfRangeException(nameof(currency), currency, null);
             }
         }
+
+        public override void InitScriptable()
+        {
+            Available = false;
+        }
     }
 }

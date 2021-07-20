@@ -26,14 +26,7 @@ namespace SnakeMaze.User
 
         public void AddSkinToDictionary(ItemInstance item)
         {
-            Debug.Log(catalogSo.CatalogList);
-            foreach (var itemCat in catalogSo.CatalogList)
-            {
-                Debug.Log(itemCat.ItemId);
-            }
             catalogSo.CatalogList.Find(catalogItem => catalogItem.ItemId == item.ItemId).Available = true;
-            Debug.Log(item);
-            Debug.Log(item.ItemId);
             switch (item.ItemClass)
             {
                 case Constants.SnakeSkin:
@@ -42,7 +35,7 @@ namespace SnakeMaze.User
                     {
                         _snakeDictionary.Add(
                             item.ItemId,
-                            SkinEnumUtils.StringToSnakeEnumById(item.CustomData[Constants.SkinType]));
+                            SkinEnumUtils.StringToSnakeEnum(item.CustomData[Constants.SkinType]));
 
                         Debug.Log($"{item.ItemId} successfully loaded");
                     }
@@ -58,7 +51,7 @@ namespace SnakeMaze.User
                     {
                         _mazeDictionary.Add(
                             item.ItemId,
-                            SkinEnumUtils.StringToMazeEnumById(item.CustomData[Constants.SkinType]));
+                            SkinEnumUtils.StringToMazeEnum(item.CustomData[Constants.SkinType]));
 
                         Debug.Log($"{item.ItemId} successfully loaded");
                     }

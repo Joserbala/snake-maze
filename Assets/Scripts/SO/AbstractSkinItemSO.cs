@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace SnakeMaze.SO
 {
-    public abstract class AbstractSkinItemSO : ScriptableObject
+    public abstract class AbstractSkinItemSO : InitiableSO
     {
         public abstract string ItemId { get; }
         

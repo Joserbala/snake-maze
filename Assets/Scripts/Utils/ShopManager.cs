@@ -14,10 +14,9 @@ namespace SnakeMaze.Utils
     {
         [SerializeField] private List<BuyButton> buyButtonList;
         [SerializeField] private List<SelectButton> selectButtonList;
-        [SerializeField] private UserDataControllerSO userDataControllerSo;
         [SerializeField] private BusBuySkinSO buySkinSo;
 
-        private void Awake()
+        private void Start()
         {
             InitButtons();
         }
@@ -26,29 +25,23 @@ namespace SnakeMaze.Utils
         {
             foreach (var buyButton in buyButtonList)
             {
-                if(!buyButton.Item.Available)
-                    buyButton.gameObject.SetActive(true);
+                buyButton.gameObject.SetActive(!buyButton.Item.Available);
             }
             foreach (var selectButton in selectButtonList)
             {
-                if(selectButton.Item.Available)
-                    selectButton.gameObject.SetActive(true);
+                selectButton.gameObject.SetActive(selectButton.Item.Available);
             }
-
         }
 
         private void SetSelectButtonActive(string itemId)
         {
             foreach (var selectButton in selectButtonList)
             {
+                Debug.Log("Button :" + selectButton.MyButton);
                 if (selectButton.Item.ItemId == itemId)
+                {
                     selectButton.gameObject.SetActive(true);
-                if (userDataControllerSo.CurrentSnakeSkin ==
-                    SkinEnumUtils.StringToSnakeEnumById(selectButton.Item.ItemId))
-                    selectButton.MyButton.interactable = false;
-                if(userDataControllerSo.CurrentMazeSkin ==
-                   SkinEnumUtils.StringToMazeEnumById(selectButton.Item.ItemId))
-                    selectButton.MyButton.interactable = false;
+                }
             }
         }
 

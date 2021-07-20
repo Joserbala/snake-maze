@@ -20,11 +20,11 @@ handlers.CreateAccount = function () {
         });
         log.info(result);
 
-        return { isSuccess: SUCCESS, error: null };
+        return {isSuccess: SUCCESS, error: null};
     } catch (error) {
         log.error(error);
 
-        return { isSuccess: FAILURE, error: error.apiErrorInfo.apiError.error };
+        return {isSuccess: FAILURE, error: error.apiErrorInfo.apiError.error};
     }
 };
 
@@ -41,11 +41,11 @@ handlers.UpdateScore = function (args) {
         });
         log.info(result);
 
-        return { isSuccess: SUCCESS, error: null };
+        return {isSuccess: SUCCESS, error: null};
     } catch (error) {
         log.error(error);
 
-        return { isSuccess: FAILURE, error: error.apiErrorInfo.apiError.error };
+        return {isSuccess: FAILURE, error: error.apiErrorInfo.apiError.error};
     }
 };
 handlers.UpdateCurrentSkins = function (args) {
@@ -63,14 +63,13 @@ handlers.UpdateCurrentSkins = function (args) {
         });
         log.info(result);
 
-        return { isSuccess: SUCCESS, error: null };
+        return {isSuccess: SUCCESS, error: null};
     } catch (error) {
         log.error(error);
 
-        return { isSuccess: FAILURE, error: error.apiErrorInfo.apiError.error };
+        return {isSuccess: FAILURE, error: error.apiErrorInfo.apiError.error};
     }
 };
-
 handlers.GetLoginData = function () {
     try {
         var readOnlyData = GetUserReadOnlyData().Data;
@@ -91,22 +90,22 @@ handlers.GetLoginData = function () {
 
                 log.info(loginData);
 
-                return { isSuccess: SUCCESS, loginData: loginData };
+                return {isSuccess: SUCCESS, loginData: loginData};
 
             } catch (error) {
                 log.error("[ERROR GETTING THE USER INVENTORY] " + error);
 
-                return { isSuccess: FAILURE, error: error.apiErrorInfo.apiError.error };
+                return {isSuccess: FAILURE, error: error.apiErrorInfo.apiError.error};
             }
         } catch (error) {
             log.error("[ERROR GETTING THE CATALOG] " + error);
 
-            return { isSuccess: FAILURE, error: error.apiErrorInfo.apiError.error };
+            return {isSuccess: FAILURE, error: error.apiErrorInfo.apiError.error};
         }
     } catch (error) {
         log.error("[ERROR GETTING THE USER READ ONLY DATA] " + error);
 
-        return { isSuccess: FAILURE, error: error.apiErrorInfo.apiError.error };
+        return {isSuccess: FAILURE, error: error.apiErrorInfo.apiError.error};
     }
 };
 
@@ -115,11 +114,11 @@ handlers.GetCurrency = function () {
         var currency = GetCurrency(GetUserInventory())
         log.info(currency);
 
-        return { isSuccess: SUCCESS, currency: currency };
+        return {isSuccess: SUCCESS, currency: currency};
     } catch (error) {
         log.error(error);
 
-        return { isSuccess: FAILURE, error: error.apiErrorInfo.apiError.error };
+        return {isSuccess: FAILURE, error: error.apiErrorInfo.apiError.error};
     }
 };
 
@@ -130,16 +129,16 @@ handlers.AddSCCurrency = function (args) {
         var result = AddUserUserVirtualCurrency(amount, SCCode);
         log.info(result);
 
-        return { isSuccess: SUCCESS, balance: result.Balance };
+        return {isSuccess: SUCCESS, balance: result.Balance};
     } catch (error) {
         log.error(error);
 
-        return { isSuccess: FAILURE, error: error.apiErrorInfo.apiError.error };
+        return {isSuccess: FAILURE, error: error.apiErrorInfo.apiError.error};
     }
 };
 
 /**
- * 
+ *
  * @param {object} args - The arguments from ExecuteCloudScriptRequest.
  * @param {string} args.itemInstanceId - The unique identifier of the puchased item.
  * @param {string} args.itemId - The item's id from the catalog.
@@ -164,17 +163,17 @@ handlers.UpdateUserInventoryItemCustomData = function (args) {
             var result = UpdateUserInventoryItemCustomData(itemInstanceId, itemCustomData);
             log.info(result);
 
-            return { isSuccess: SUCCESS };
+            return {isSuccess: SUCCESS};
         } catch (error) {
             log.error("[ERROR UPDATING THE USER INVENTORY] " + error);
 
-            return { isSuccess: FAILURE, error: error.apiErrorInfo.apiError.error };
+            return {isSuccess: FAILURE, error: error.apiErrorInfo.apiError.error};
         }
 
     } catch (error) {
         log.error(["ERROR GETTING THE CATALOG ITEMS"] + error);
 
-        return { isSuccess: FAILURE, error: error.apiErrorInfo.apiError.error };
+        return {isSuccess: FAILURE, error: error.apiErrorInfo.apiError.error};
     }
 };
 
@@ -185,7 +184,7 @@ handlers.UpdateUserInventoryItemCustomData = function (args) {
 /////////////////////////////////////////////////////////////////////////
 
 /**
- * 
+ *
  * @param {object} data - The object with all the data we want to update.
  * @returns {object} .DataVersion has the version that has been set after the update.
  * @throws Will throw an error if the API encounters an error.
@@ -201,7 +200,7 @@ function UpdateUserReadOnlyData(data) {
 
 /**
  * Gets the ReadOnlyData from the user with PlayFabId = currentPlayerId.
- * 
+ *
  * @param {undefined} data - Do not set any value in this parameter.
  * @returns {object} All the ReadOnlyData, access it with .Data
  * @throws Will throw an error if the API encounters an error.
@@ -216,7 +215,7 @@ function GetUserReadOnlyData(data) {
 };
 
 /**
- * 
+ *
  * @returns {object} The inventory of the user with currentPlayerId.
  * @throws Will throw an error if the API encounters an error.
  */
@@ -229,7 +228,7 @@ function GetUserInventory() {
 };
 
 /**
- * 
+ *
  * @param {string} [catalogVersion=null] - Which catalog is requested.
  * @returns {object[]} Access with .Catalog to obtain the List of items belonging to catalogVersion.
  * @throws Will throw an error if the API encounters an error.
@@ -244,7 +243,7 @@ function GetCatalogItems(catalogVersion = null) {
 
 /**
  * Adds a certain amount of currency to virtualCurrency.
- * 
+ *
  * @param {number} amount - The amount to be added to virtualCurrency
  * @param {string} virtualCurrency - The code for the virtual currency to change.
  * @returns {object} Access with .Balance to check the balance of the user.
@@ -261,7 +260,7 @@ function AddUserUserVirtualCurrency(amount, virtualCurrency) {
 };
 
 /**
- *  
+ *
  * @param {string} itemInstanceId - Unique identifier of the item to add to the user inventory.
  * @param {object} data - Dictionary to be written to the custom data.
  * @throws Will throw an error if the API encounters an error.

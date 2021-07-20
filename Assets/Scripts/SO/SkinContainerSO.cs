@@ -16,7 +16,8 @@ namespace SnakeMaze.SO
         [SerializeField] private SnakeSkinSO astronautSnakeSkin;
         [SerializeField] private SnakeSkinSO skin3SnakeSkin;
         [SerializeField] private AudioSkinSO defaultAudioSkin;
-        [SerializeField] private BusSelectSkinSO busSelectSkinSo;
+        [SerializeField] private BusSelectSkinSO busSnakeSelectSkinSo;
+        [SerializeField] private BusSelectSkinSO busMazeSelectSkinSo;
 
         private Dictionary<MazeSkinEnum, MazeSkinSO> _mazeSkinDic;
         private Dictionary<SnakeSkinEnum, SnakeSkinSO> _snakeSkinDic;
@@ -69,13 +70,13 @@ namespace SnakeMaze.SO
         //TODO: Eventos
         public void ChangeMazeSkin(MazeSkinEnum newSkin)
         {
-            Debug.Log("Changing to : " + newSkin);
+            Debug.Log("Changing Maze to : " + newSkin);
             CurrentMazeSkin = _mazeSkinDic[newSkin];
             CurrentMazeSkin.InitScriptable();
         }
         public void ChangeSnakeSkin(SnakeSkinEnum newSkin)
         {
-            Debug.Log("Changing to : " + newSkin);
+            Debug.Log("Changing Snake to : " + newSkin);
             CurrentSnakeSkin = _snakeSkinDic[newSkin];
             CurrentSnakeSkin.InitScriptable();
         }
@@ -87,13 +88,13 @@ namespace SnakeMaze.SO
 
         private void OnEnable()
         {
-            busSelectSkinSo.OnSnakeSkinSelect += ChangeSnakeSkin;
-            busSelectSkinSo.OnMazeSkinSelect += ChangeMazeSkin;
+            busSnakeSelectSkinSo.OnSnakeSkinSelect += ChangeSnakeSkin;
+            busMazeSelectSkinSo.OnMazeSkinSelect += ChangeMazeSkin;
         }
         private void OnDisable()
         {
-            busSelectSkinSo.OnSnakeSkinSelect -= ChangeSnakeSkin;
-            busSelectSkinSo.OnMazeSkinSelect -= ChangeMazeSkin;
+            busSnakeSelectSkinSo.OnSnakeSkinSelect -= ChangeSnakeSkin;
+            busMazeSelectSkinSo.OnMazeSkinSelect -= ChangeMazeSkin;
         }
     }
 }

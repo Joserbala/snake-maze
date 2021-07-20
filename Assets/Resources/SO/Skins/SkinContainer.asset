@@ -19,4 +19,5 @@ MonoBehaviour:
   astronautSnakeSkin: {fileID: 11400000, guid: 46a5ef2ae2b20a34c89479124f282bac, type: 2}
   skin3SnakeSkin: {fileID: 11400000, guid: b6c7830433b9eb24b96edcd5f8060654, type: 2}
   defaultAudioSkin: {fileID: 11400000, guid: f4cc48916a92991449c3f0c83329cfc9, type: 2}
-  busSelectSkinSo: {fileID: 11400000, guid: 3a3c35e8e693511419b1708520cf45c9, type: 2}
+  busSnakeSelectSkinSo: {fileID: 11400000, guid: 3a3c35e8e693511419b1708520cf45c9, type: 2}
+  busMazeSelectSkinSo: {fileID: 11400000, guid: f00f22afaa80c604981076dc480b93f5, type: 2}

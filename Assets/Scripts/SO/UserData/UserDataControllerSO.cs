@@ -1,5 +1,6 @@
 using SnakeMaze.Enums;
 using SnakeMaze.PlayFab;
+using SnakeMaze.SO.PlayFabManager;
 using SnakeMaze.User;
 using UnityEngine;
 
@@ -9,9 +10,11 @@ namespace SnakeMaze.SO.UserDataSO
     public class UserDataControllerSO : ScriptableObject
     {
         [SerializeField] private EventSO playFabServerResponse;
-        [SerializeField] private BusSelectSkinSO busSelectSkinSo;
+        [SerializeField] private BusSelectSkinSO busSnakeSelectSkinSo;
+        [SerializeField] private BusSelectSkinSO busMazeSelectSkinSo;
         [SerializeField] private SkinContainerSO skinContainerSo;
-        
+        [SerializeField] private PlayFabManagerSO playFabManagerSo;
+
         private ScoreData _scoreData = new ScoreData();
         private EconomyData _economyData = new EconomyData();
         private CurrentSkinData _skinData = new CurrentSkinData();
@@ -34,6 +37,7 @@ namespace SnakeMaze.SO.UserDataSO
             get => _economyData.SoftCoin;
             set => _economyData.SoftCoin = value;
         }
+
         public int HardCoins
         {
             get => _economyData.HardCoin;
@@ -42,27 +46,33 @@ namespace SnakeMaze.SO.UserDataSO
 
         public SnakeSkinEnum CurrentSnakeSkin
         {
-            get => SkinEnumUtils.StringToSnakeEnumById(_skinData.Snake);
+            get => SkinEnumUtils.StringToSnakeEnum(_skinData.Snake);
             set => _skinData.Snake = value.ToString();
         }
+
         public MazeSkinEnum CurrentMazeSkin
         {
-            get => SkinEnumUtils.StringToMazeEnumById(_skinData.Maze);
+            get => SkinEnumUtils.StringToMazeEnum(_skinData.Maze);
             set => _skinData.Maze = value.ToString();
         }
 
         private void SetCurrentSnakeSkin(SnakeSkinEnum snakeSkin)
         {
             CurrentSnakeSkin = snakeSkin;
+            playFabManagerSo.UpdateCurrentSkins(_skinData.Snake, _skinData.Maze);
         }
+
         private void SetCurrentMazeSkin(MazeSkinEnum mazeSkin)
         {
-           CurrentMazeSkin = mazeSkin;
+            CurrentMazeSkin = mazeSkin;
+            playFabManagerSo.UpdateCurrentSkins(_skinData.Snake, _skinData.Maze);
         }
+
         private void SetCurrentSnakeSkin(string snakeSkin)
         {
             _skinData.Snake = snakeSkin;
         }
+
         private void SetCurrentMazeSkin(string mazeSkin)
         {
             _skinData.Maze = mazeSkin;
@@ -73,9 +83,9 @@ namespace SnakeMaze.SO.UserDataSO
             JsonUtility.FromJsonOverwrite(loginData.loginData.readOnlyData["HighScore"].Value, _scoreData);
             Debug.Log(loginData.loginData.readOnlyData["Skins"].Value);
             JsonUtility.FromJsonOverwrite(loginData.loginData.readOnlyData["Skins"].Value, _skinData);
-            
+
             _economyData.SetEconomyData(loginData.loginData.currency);
-            
+
             Debug.Log("SoftCoins: " + SoftCoins);
             Debug.Log("HardCoins: " + HardCoins);
             Debug.Log("CurrentSnakeSkin: " + _skinData.Snake);
@@ -87,13 +97,14 @@ namespace SnakeMaze.SO.UserDataSO
 
         private void OnEnable()
         {
-            busSelectSkinSo.OnSnakeSkinSelect += SetCurrentSnakeSkin;
-            busSelectSkinSo.OnMazeSkinSelect += SetCurrentMazeSkin;
+            busSnakeSelectSkinSo.OnSnakeSkinSelect += SetCurrentSnakeSkin;
+            busMazeSelectSkinSo.OnMazeSkinSelect += SetCurrentMazeSkin;
         }
+
         private void OnDisable()
         {
-            busSelectSkinSo.OnSnakeSkinSelect -= SetCurrentSnakeSkin;
-            busSelectSkinSo.OnMazeSkinSelect -= SetCurrentMazeSkin;
+            busSnakeSelectSkinSo.OnSnakeSkinSelect -= SetCurrentSnakeSkin;
+            busMazeSelectSkinSo.OnMazeSkinSelect -= SetCurrentMazeSkin;
         }
     }
 }

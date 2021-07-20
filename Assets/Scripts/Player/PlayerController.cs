@@ -34,6 +34,7 @@ namespace SnakeMaze.Player
             playerVariable.CurrentDirection = Directions.Right;
             playerVariable.IsAlive = true;
             playerVariable.IsMoving = false;
+            SetHeadSprite(Directions.Right);
         }
 
         private void StartMoving()

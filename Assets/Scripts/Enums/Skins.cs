@@ -1,16 +1,19 @@
+using System;
 using System.Collections.Generic;
+using SnakeMaze.Exceptions;
 using SnakeMaze.Utils;
+using UnityEngine;
 
 namespace SnakeMaze.Enums
 {
     public enum MazeSkinEnum 
     {
-        Default, Space, Skin3
+        Default, Space, Skin3, Error
     }
 
     public enum SnakeSkinEnum
     {
-        Default, Astronaut,  Skin3
+        Default, Astronaut,  Skin3, Error
     }
 
     public enum AudioSkinEnum
@@ -31,7 +34,12 @@ namespace SnakeMaze.Enums
                 case Constants.Skin3SnakeSkin:
                     skin = SnakeSkinEnum.Skin3;
                     break;
-                default: skin = SnakeSkinEnum.Default;
+                case Constants.DefaultSnakeSkin:
+                    skin = SnakeSkinEnum.Default;
+                    break;
+                default:
+                    Debug.Log("Id does not correspond to a snake skin");
+                    skin = SnakeSkinEnum.Error;
                     break;
             }
 
@@ -48,7 +56,12 @@ namespace SnakeMaze.Enums
                 case "Skin3":
                     skin = SnakeSkinEnum.Skin3;
                     break;
-                default: skin = SnakeSkinEnum.Default;
+                case "Default":
+                    skin = SnakeSkinEnum.Default;
+                    break;
+                default:
+                    Debug.Log("Id does not correspond to a snake skin");
+                    skin = SnakeSkinEnum.Error;
                     break;
             }
 
@@ -65,7 +78,12 @@ namespace SnakeMaze.Enums
                 case Constants.Skin3MazeSkin:
                     skin = MazeSkinEnum.Skin3;
                     break;
-                default: skin = MazeSkinEnum.Default;
+                case Constants.DefaultSnakeSkin:
+                    skin = MazeSkinEnum.Default;
+                    break;
+                default:
+                    Debug.Log("Id does not correspond to a snake skin");
+                    skin = MazeSkinEnum.Error;
                     break;
             }
 
@@ -82,11 +100,61 @@ namespace SnakeMaze.Enums
                 case "Skin3":
                     skin = MazeSkinEnum.Skin3;
                     break;
-                default: skin = MazeSkinEnum.Default;
+                case "Default":
+                    skin = MazeSkinEnum.Default;
+                    break;
+                default:
+                    Debug.Log("Id does not correspond to a snake skin");
+                    skin = MazeSkinEnum.Error;
                     break;
             }
 
             return skin;
+        }
+
+        public static string SnakeEnumToId(SnakeSkinEnum value)
+        {
+            string id = String.Empty;
+            switch (value)
+            {
+                case SnakeSkinEnum.Default:
+                    id = Constants.DefaultSnakeSkin;
+                    break;
+                case SnakeSkinEnum.Astronaut:
+                    id = Constants.AstronautSnakeSkin;
+                    break;
+                case SnakeSkinEnum.Skin3:
+                    id = Constants.Skin3SnakeSkin;
+                    break;
+                case SnakeSkinEnum.Error:
+                    break;
+                default:
+                    throw new NotEnumTypeSupportedException();
+            }
+            
+            return id;
+        }
+        public static string MazeEnumToId(MazeSkinEnum value)
+        {
+            string id = String.Empty;
+            switch (value)
+            {
+                case MazeSkinEnum.Default:
+                    id = Constants.DefaultMazeSkin;
+                    break;
+                case MazeSkinEnum.Space:
+                    id = Constants.SpaceMazeSkin;
+                    break;
+                case MazeSkinEnum.Skin3:
+                    id = Constants.Skin3MazeSkin;
+                    break;
+                case MazeSkinEnum.Error:
+                    break;
+                default:
+                    throw new NotEnumTypeSupportedException();
+            }
+
+            return id;
         }
     }
 }
