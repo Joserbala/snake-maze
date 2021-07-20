@@ -160,7 +160,9 @@ MonoBehaviour:
   duplicateErrorText: {fileID: 667646072}
   unknownErrorText: {fileID: 954818226}
   nickname: {fileID: 660069944}
-  gameVersion: 1987834897
+  userDataControllerSo: {fileID: 11400000, guid: 7b995dda3e709d84a99988d0ce522e91, type: 2}
+  gameVersion:
+    ClientVersion: 
 --- !u!4 &46345932
 Transform:
   m_ObjectHideFlags: 0
