@@ -565,6 +565,7 @@ MonoBehaviour:
   - {fileID: 977718710}
   - {fileID: 2064000198}
   - {fileID: 229346198}
+  userDataControllerSo: {fileID: 11400000, guid: 7b995dda3e709d84a99988d0ce522e91, type: 2}
   buySkinSo: {fileID: 11400000, guid: 7f73a09e339e9264b98ae9e20089ebac, type: 2}
 --- !u!114 &1197514919 stripped
 MonoBehaviour:
