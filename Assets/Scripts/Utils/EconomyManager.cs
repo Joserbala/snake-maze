@@ -1,3 +1,4 @@
+using SnakeMaze.PlayFab;
 using UnityEngine;
 
 namespace SnakeMaze.Utils
@@ -9,15 +10,18 @@ namespace SnakeMaze.Utils
 
         public static int SetCoinsFromPoint(bool hasWon, int points)
         {
-            var ratio = hasWon ? _coinLooseRatioOnDeath * _pointToCoinRatio :  _pointToCoinRatio;
+            var ratio = hasWon ?  _pointToCoinRatio : _coinLooseRatioOnDeath * _pointToCoinRatio;
             var coins = (int) Mathf.Floor(points/ratio);
             return coins;
         }
 
-        public static void SetRatios(int pointToCoinRatio, int coinLooseRatioOnDeath)
+        public static void SetRatios(ServerEconomy serverEconomy)
         {
-            _pointToCoinRatio = pointToCoinRatio;
-            _coinLooseRatioOnDeath = coinLooseRatioOnDeath;
+            _pointToCoinRatio = serverEconomy.PointToCoinRatio;
+            _coinLooseRatioOnDeath = serverEconomy.CoinLooseRatioOnDeath;
+            Debug.Log("Ratios succesfully updated");
+            Debug.Log("PointToCoinRatio: " + _pointToCoinRatio);
+            Debug.Log("CoinLooseRatioOnDeath: " + _coinLooseRatioOnDeath);
         }
     }
 }

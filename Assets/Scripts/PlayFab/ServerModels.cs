@@ -60,4 +60,10 @@ namespace SnakeMaze.PlayFab
     {
         public string SkinType;
     }
+
+    public class ServerEconomy
+    {
+        public int PointToCoinRatio;
+        public int CoinLooseRatioOnDeath;
+    }
 }
