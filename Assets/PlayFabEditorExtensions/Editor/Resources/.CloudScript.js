@@ -1,8 +1,8 @@
 const SUCCESS = true;
 const FAILURE = false;
+const HC_CODE = 'HC';
+const SC_CODE = 'SC';
 const VirtualCurrency = 'VirtualCurrency';
-const HCCode = 'HC';
-const SCCode = 'SC';
 
 handlers.CreateAccount = function () {
     var HighScore = {
@@ -20,11 +20,11 @@ handlers.CreateAccount = function () {
         });
         log.info(result);
 
-        return {isSuccess: SUCCESS, error: null};
+        return { isSuccess: SUCCESS, error: null };
     } catch (error) {
         log.error(error);
 
-        return {isSuccess: FAILURE, error: error.apiErrorInfo.apiError.error};
+        return { isSuccess: FAILURE, error: error.apiErrorInfo.apiError.error };
     }
 };
 
@@ -41,13 +41,14 @@ handlers.UpdateScore = function (args) {
         });
         log.info(result);
 
-        return {isSuccess: SUCCESS, error: null};
+        return { isSuccess: SUCCESS, error: null };
     } catch (error) {
         log.error(error);
 
-        return {isSuccess: FAILURE, error: error.apiErrorInfo.apiError.error};
+        return { isSuccess: FAILURE, error: error.apiErrorInfo.apiError.error };
     }
 };
+
 handlers.UpdateCurrentSkins = function (args) {
     var snakeSkin = args.snakeSkin;
     var mazeSkin = args.mazeSkin;
@@ -63,13 +64,14 @@ handlers.UpdateCurrentSkins = function (args) {
         });
         log.info(result);
 
-        return {isSuccess: SUCCESS, error: null};
+        return { isSuccess: SUCCESS, error: null };
     } catch (error) {
         log.error(error);
 
-        return {isSuccess: FAILURE, error: error.apiErrorInfo.apiError.error};
+        return { isSuccess: FAILURE, error: error.apiErrorInfo.apiError.error };
     }
 };
+
 handlers.GetLoginData = function () {
     try {
         var readOnlyData = GetUserReadOnlyData().Data;
@@ -90,22 +92,22 @@ handlers.GetLoginData = function () {
 
                 log.info(loginData);
 
-                return {isSuccess: SUCCESS, loginData: loginData};
+                return { isSuccess: SUCCESS, loginData: loginData };
 
             } catch (error) {
                 log.error("[ERROR GETTING THE USER INVENTORY] " + error);
 
-                return {isSuccess: FAILURE, error: error.apiErrorInfo.apiError.error};
+                return { isSuccess: FAILURE, error: error.apiErrorInfo.apiError.error };
             }
         } catch (error) {
             log.error("[ERROR GETTING THE CATALOG] " + error);
 
-            return {isSuccess: FAILURE, error: error.apiErrorInfo.apiError.error};
+            return { isSuccess: FAILURE, error: error.apiErrorInfo.apiError.error };
         }
     } catch (error) {
         log.error("[ERROR GETTING THE USER READ ONLY DATA] " + error);
 
-        return {isSuccess: FAILURE, error: error.apiErrorInfo.apiError.error};
+        return { isSuccess: FAILURE, error: error.apiErrorInfo.apiError.error };
     }
 };
 
@@ -114,11 +116,48 @@ handlers.GetCurrency = function () {
         var currency = GetCurrency(GetUserInventory())
         log.info(currency);
 
-        return {isSuccess: SUCCESS, currency: currency};
+        return { isSuccess: SUCCESS, currency: currency };
     } catch (error) {
         log.error(error);
 
-        return {isSuccess: FAILURE, error: error.apiErrorInfo.apiError.error};
+        return { isSuccess: FAILURE, error: error.apiErrorInfo.apiError.error };
+    }
+};
+
+/**
+ * 
+ * @param {object} args - The arguments from ExecuteCloudScript.
+ * @param {string} args.itemId - The id of the item to search for.
+ * @returns If there is no error in the API and exists an item with ItemId = itemId, returns the ItemInstance with itemId.
+ */
+handlers.GetItemFromInventory = function (args) {
+    try {
+        var inventory = GetUserInventory().Inventory;
+        log.info(inventory);
+
+        var itemId = args.itemId;
+        var itemInstance;
+
+        for (var index = 0; index < inventory.length; index++) {
+            if (inventory[index].ItemId == itemId) {
+                itemInstance = inventory[index];
+                break;
+            }
+        }
+
+        if (itemInstance == null) {
+            log.error("No item found.");
+
+            return { isSuccess: FAILURE, error: "No item found." };
+        }
+
+        log.info(itemInstance);
+
+        return { isSuccess: SUCCESS, itemInstance: itemInstance };
+    } catch (error) {
+        log.error(error);
+
+        return { isSuccess: FAILURE, error: error.apiErrorInfo.apiError.error };
     }
 };
 
@@ -126,14 +165,14 @@ handlers.AddSCCurrency = function (args) {
     var amount = args.amount;
 
     try {
-        var result = AddUserUserVirtualCurrency(amount, SCCode);
+        var result = AddUserUserVirtualCurrency(amount, SC_CODE);
         log.info(result);
 
-        return {isSuccess: SUCCESS, balance: result.Balance};
+        return { isSuccess: SUCCESS, balance: result.Balance };
     } catch (error) {
         log.error(error);
 
-        return {isSuccess: FAILURE, error: error.apiErrorInfo.apiError.error};
+        return { isSuccess: FAILURE, error: error.apiErrorInfo.apiError.error };
     }
 };
 
@@ -163,17 +202,17 @@ handlers.UpdateUserInventoryItemCustomData = function (args) {
             var result = UpdateUserInventoryItemCustomData(itemInstanceId, itemCustomData);
             log.info(result);
 
-            return {isSuccess: SUCCESS};
+            return { isSuccess: SUCCESS };
         } catch (error) {
             log.error("[ERROR UPDATING THE USER INVENTORY] " + error);
 
-            return {isSuccess: FAILURE, error: error.apiErrorInfo.apiError.error};
+            return { isSuccess: FAILURE, error: error.apiErrorInfo.apiError.error };
         }
 
     } catch (error) {
         log.error(["ERROR GETTING THE CATALOG ITEMS"] + error);
 
-        return {isSuccess: FAILURE, error: error.apiErrorInfo.apiError.error};
+        return { isSuccess: FAILURE, error: error.apiErrorInfo.apiError.error };
     }
 };
 
@@ -216,7 +255,7 @@ function GetUserReadOnlyData(data) {
 
 /**
  *
- * @returns {object} The inventory of the user with currentPlayerId.
+ * @returns {object} The inventory of the user with currentPlayerId. To access the inventory, use .Inventory.
  * @throws Will throw an error if the API encounters an error.
  */
 function GetUserInventory() {
@@ -283,8 +322,8 @@ function UpdateUserInventoryItemCustomData(itemInstanceId, data) {
 
 function GetCurrency(inventory) {
     var currency = {
-        softCoins: inventory[VirtualCurrency][SCCode],
-        hardCoins: inventory[VirtualCurrency][HCCode]
+        softCoins: inventory[VirtualCurrency][SC_CODE],
+        hardCoins: inventory[VirtualCurrency][HC_CODE]
     };
 
     return currency;
