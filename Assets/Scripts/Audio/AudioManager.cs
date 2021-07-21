@@ -3,15 +3,19 @@ using SnakeMaze.Enums;
 using SnakeMaze.SO;
 using SnakeMaze.SO.Audio;
 using UnityEngine;
+using UnityEngine.Audio;
 
 namespace SnakeMaze.Audio
 {
     public class AudioManager : MonoBehaviour
     {
         [SerializeField] private SkinContainerSO skinContainer;
-        [SerializeField] private BusAudioSO busAudio;
+        [SerializeField] private BusAudioSO busSfx;
         [SerializeField] private BusAudioSO busMusic;
         [SerializeField] private SoundEmitterPoolSO pool;
+        [SerializeField] private AudioMixerGroup musicGorup;
+        [SerializeField] private AudioMixerGroup sfxGroup;
+        [SerializeField] private AudioMixer audioMixer;
         [SerializeField] private int initSize = 4;
 
         private SoundEmitter _musicEmitter;
@@ -20,22 +24,62 @@ namespace SnakeMaze.Audio
         {
             pool.Prewarm(initSize);
             pool.SetParent(transform);
+            InitMixerGroups();
         }
 
         private void OnEnable()
         {
-            busAudio.OnAudioPlay += PlayAudioClip;
+            busSfx.OnAudioPlay += PlayAudioClip;
 
             busMusic.OnAudioPlay += PlayMusic;
             busMusic.OnMusicStop += StopMusic;
 
+            busMusic.MuteAudio += MuteMusic;
+            busSfx.MuteAudio += MuteSfx;
+
         }
         private void OnDestroy()
         {
-            busAudio.OnAudioPlay -= PlayAudioClip;
+            busSfx.OnAudioPlay -= PlayAudioClip;
 
             busMusic.OnAudioPlay -= PlayMusic;
             busMusic.OnMusicStop -= StopMusic;
+            
+            busMusic.MuteAudio -= MuteMusic;
+            busSfx.MuteAudio -= MuteSfx;
+        }
+
+        private void InitMixerGroups()
+        {
+            var musicVolume = PlayerPrefs.GetInt("MuteMusic") == 1 ? -80 : 0;
+            var sfxVolume = PlayerPrefs.GetInt("MuteSfx")== 1 ? -80 : 0;
+            audioMixer.SetFloat("VolumeMusicGroup", musicVolume);
+            audioMixer.SetFloat("VolumeSFXGroup", sfxVolume);
+        }
+
+        public void MuteMusic(bool value)
+        {
+            var muteMusic = 0;
+            var musicVolume = 0;
+            if (value)
+            {
+                muteMusic = 1;
+                musicVolume = -80;
+            }
+            PlayerPrefs.SetInt("MuteMusic", muteMusic );
+            audioMixer.SetFloat("VolumeMusicGroup", musicVolume);
+        }
+        public void MuteSfx(bool value)
+        {
+            var muteSfx = 0;
+            var sfxVolume = 0;
+            if (value)
+            {
+                muteSfx = 1;
+                sfxVolume = -80;
+            }
+            PlayerPrefs.SetInt("MuteSfx", muteSfx );
+            audioMixer.SetFloat("VolumeSFXGroup", sfxVolume);
         }
 
         private void PlayMusic(AudioClipType clipType, AudioConfigSO settings)
@@ -49,6 +93,7 @@ namespace SnakeMaze.Audio
             }
 
             _musicEmitter = pool.Request();
+            _musicEmitter.CurrentAudioSource.outputAudioMixerGroup = musicGorup;
             _musicEmitter.PlayAudioClip(clip.Clip, settings, true);
             _musicEmitter.OnFinishedPlaying += StopMusicEmitter;
         }
@@ -57,6 +102,7 @@ namespace SnakeMaze.Audio
         {
             AudioClipSO clip = skinContainer.CurrentAudioSkin.AudioDic[clipType];
             SoundEmitter soundEmitter = pool.Request();
+            soundEmitter.CurrentAudioSource.outputAudioMixerGroup = sfxGroup;
             if (soundEmitter != null)
             {
                 soundEmitter.PlayAudioClip(clip.Clip, settings, clip.Loop);
@@ -93,6 +139,11 @@ namespace SnakeMaze.Audio
         {
             soundEmitter.OnFinishedPlaying -= StopMusicEmitter;
             pool.Return(soundEmitter);
+        }
+
+        private void OnApplicationQuit()
+        {
+            PlayerPrefs.Save();
         }
     }
 }

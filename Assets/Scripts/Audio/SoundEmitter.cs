@@ -11,6 +11,7 @@ namespace SnakeMaze.Audio
         private AudioSource _audioSource;
         public Action<SoundEmitter> OnFinishedPlaying;
 
+        public AudioSource CurrentAudioSource=>_audioSource;
         private void Awake()
         {
             _audioSource = GetComponent<AudioSource>();

@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 1709ee1f094afa9489f7d29dd548aa80
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - sfxBusAudioSo: {fileID: 11400000, guid: 66864f3b335e1604a8601c4582d2e3bc, type: 2}
+  - muteSprite: {instanceID: 0}
+  - unMuteSprite: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
