@@ -24,6 +24,10 @@ namespace SnakeMaze.Audio
         {
             pool.Prewarm(initSize);
             pool.SetParent(transform);
+        }
+
+        private void Start()
+        {
             InitMixerGroups();
         }
 
@@ -68,6 +72,7 @@ namespace SnakeMaze.Audio
             }
             PlayerPrefs.SetInt("MuteMusic", muteMusic );
             audioMixer.SetFloat("VolumeMusicGroup", musicVolume);
+            PlayerPrefs.Save();
         }
         public void MuteSfx(bool value)
         {
@@ -80,6 +85,7 @@ namespace SnakeMaze.Audio
             }
             PlayerPrefs.SetInt("MuteSfx", muteSfx );
             audioMixer.SetFloat("VolumeSFXGroup", sfxVolume);
+            PlayerPrefs.Save();
         }
 
         private void PlayMusic(AudioClipType clipType, AudioConfigSO settings)
@@ -139,11 +145,6 @@ namespace SnakeMaze.Audio
         {
             soundEmitter.OnFinishedPlaying -= StopMusicEmitter;
             pool.Return(soundEmitter);
-        }
-
-        private void OnApplicationQuit()
-        {
-            PlayerPrefs.Save();
         }
     }
 }

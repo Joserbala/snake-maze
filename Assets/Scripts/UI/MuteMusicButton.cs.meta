@@ -7,7 +7,7 @@ MonoImporter:
   - musicBusAudioSo: {fileID: 11400000, guid: 29ab42adc445bca4eacbb22218415bfe, type: 2}
   - muteSprite: {instanceID: 0}
   - unMuteSprite: {instanceID: 0}
-  executionOrder: 0
+  executionOrder: 500
   icon: {instanceID: 0}
   userData: 
   assetBundleName: 
