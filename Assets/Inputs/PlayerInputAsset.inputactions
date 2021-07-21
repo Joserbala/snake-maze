@@ -30,14 +30,6 @@
                     "interactions": ""
                 },
                 {
-                    "name": "Accelerometer",
-                    "type": "Value",
-                    "id": "4829b735-dcab-4df7-abb1-76cffc3ece88",
-                    "expectedControlType": "Quaternion",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
                     "name": "ResetVel",
                     "type": "Button",
                     "id": "27c3c7b9-f6ad-443d-89f9-5c9e17e1bc06",
@@ -97,39 +89,6 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "",
-                    "id": "a920feff-1c7b-4e63-9fae-8f81d1dd2802",
-                    "path": "<Gyroscope>/angularVelocity/x",
-                    "interactions": "",
-                    "processors": "Clamp(min=-1,max=1),Invert,AxisDeadzone(min=0.8)",
-                    "groups": "Mobile",
-                    "action": "Horizontal",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "b850c983-694b-4aa9-a0f6-d36494371013",
-                    "path": "<Touchscreen>/position/x",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Mobile",
-                    "action": "Horizontal",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "81e5dd58-51c7-4467-a8b2-8e9a1958c3d3",
-                    "path": "<Touchscreen>/touch1/position/x",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Mobile",
-                    "action": "Horizontal",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
                     "name": "W/S",
                     "id": "dcf6d010-4f0b-40aa-95bf-1df2a98d3a08",
                     "path": "1DAxis",
@@ -164,39 +123,6 @@
                 },
                 {
                     "name": "",
-                    "id": "f2b9245e-81bc-4642-9b3e-ba31cfb3011d",
-                    "path": "<Gyroscope>/angularVelocity/y",
-                    "interactions": "",
-                    "processors": "Clamp(min=-1,max=1),Invert,AxisDeadzone(min=0.8)",
-                    "groups": "Mobile",
-                    "action": "Vertical",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "a62bec52-557b-4572-b225-74a8284d9c40",
-                    "path": "<Touchscreen>/position/y",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Mobile",
-                    "action": "Vertical",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "606b582a-e720-44a1-9ca3-28dd670cdeb2",
-                    "path": "<Touchscreen>/touch1/delta/y",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Mobile",
-                    "action": "Vertical",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "1b91f292-831b-436f-a8c6-df6fe74f09f8",
                     "path": "<Touchscreen>/press",
                     "interactions": "Hold",
@@ -214,17 +140,6 @@
                     "processors": "",
                     "groups": "Mouse and Keyboard",
                     "action": "Boost",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "b4acc5cf-721e-460b-8077-2c785bc03f49",
-                    "path": "<AttitudeSensor>/attitude",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Mobile",
-                    "action": "Accelerometer",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

@@ -43,14 +43,6 @@ public class @PlayerInputAsset : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""Accelerometer"",
-                    ""type"": ""Value"",
-                    ""id"": ""4829b735-dcab-4df7-abb1-76cffc3ece88"",
-                    ""expectedControlType"": ""Quaternion"",
-                    ""processors"": """",
-                    ""interactions"": """"
-                },
-                {
                     ""name"": ""ResetVel"",
                     ""type"": ""Button"",
                     ""id"": ""27c3c7b9-f6ad-443d-89f9-5c9e17e1bc06"",
@@ -110,39 +102,6 @@ public class @PlayerInputAsset : IInputActionCollection, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": """",
-                    ""id"": ""a920feff-1c7b-4e63-9fae-8f81d1dd2802"",
-                    ""path"": ""<Gyroscope>/angularVelocity/x"",
-                    ""interactions"": """",
-                    ""processors"": ""Clamp(min=-1,max=1),Invert,AxisDeadzone(min=0.8)"",
-                    ""groups"": ""Mobile"",
-                    ""action"": ""Horizontal"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""b850c983-694b-4aa9-a0f6-d36494371013"",
-                    ""path"": ""<Touchscreen>/position/x"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Mobile"",
-                    ""action"": ""Horizontal"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""81e5dd58-51c7-4467-a8b2-8e9a1958c3d3"",
-                    ""path"": ""<Touchscreen>/touch1/position/x"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Mobile"",
-                    ""action"": ""Horizontal"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
                     ""name"": ""W/S"",
                     ""id"": ""dcf6d010-4f0b-40aa-95bf-1df2a98d3a08"",
                     ""path"": ""1DAxis"",
@@ -177,39 +136,6 @@ public class @PlayerInputAsset : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""f2b9245e-81bc-4642-9b3e-ba31cfb3011d"",
-                    ""path"": ""<Gyroscope>/angularVelocity/y"",
-                    ""interactions"": """",
-                    ""processors"": ""Clamp(min=-1,max=1),Invert,AxisDeadzone(min=0.8)"",
-                    ""groups"": ""Mobile"",
-                    ""action"": ""Vertical"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""a62bec52-557b-4572-b225-74a8284d9c40"",
-                    ""path"": ""<Touchscreen>/position/y"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Mobile"",
-                    ""action"": ""Vertical"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""606b582a-e720-44a1-9ca3-28dd670cdeb2"",
-                    ""path"": ""<Touchscreen>/touch1/delta/y"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Mobile"",
-                    ""action"": ""Vertical"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""1b91f292-831b-436f-a8c6-df6fe74f09f8"",
                     ""path"": ""<Touchscreen>/press"",
                     ""interactions"": ""Hold"",
@@ -227,17 +153,6 @@ public class @PlayerInputAsset : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": ""Mouse and Keyboard"",
                     ""action"": ""Boost"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""b4acc5cf-721e-460b-8077-2c785bc03f49"",
-                    ""path"": ""<AttitudeSensor>/attitude"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Mobile"",
-                    ""action"": ""Accelerometer"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -434,7 +349,6 @@ public class @PlayerInputAsset : IInputActionCollection, IDisposable
         m_PlayerControlls_Horizontal = m_PlayerControlls.FindAction("Horizontal", throwIfNotFound: true);
         m_PlayerControlls_Vertical = m_PlayerControlls.FindAction("Vertical", throwIfNotFound: true);
         m_PlayerControlls_Boost = m_PlayerControlls.FindAction("Boost", throwIfNotFound: true);
-        m_PlayerControlls_Accelerometer = m_PlayerControlls.FindAction("Accelerometer", throwIfNotFound: true);
         m_PlayerControlls_ResetVel = m_PlayerControlls.FindAction("ResetVel", throwIfNotFound: true);
         m_PlayerControlls_Delta = m_PlayerControlls.FindAction("Delta", throwIfNotFound: true);
         m_PlayerControlls_Deltasectouch = m_PlayerControlls.FindAction("Delta sec touch", throwIfNotFound: true);
@@ -496,7 +410,6 @@ public class @PlayerInputAsset : IInputActionCollection, IDisposable
     private readonly InputAction m_PlayerControlls_Horizontal;
     private readonly InputAction m_PlayerControlls_Vertical;
     private readonly InputAction m_PlayerControlls_Boost;
-    private readonly InputAction m_PlayerControlls_Accelerometer;
     private readonly InputAction m_PlayerControlls_ResetVel;
     private readonly InputAction m_PlayerControlls_Delta;
     private readonly InputAction m_PlayerControlls_Deltasectouch;
@@ -507,7 +420,6 @@ public class @PlayerInputAsset : IInputActionCollection, IDisposable
         public InputAction @Horizontal => m_Wrapper.m_PlayerControlls_Horizontal;
         public InputAction @Vertical => m_Wrapper.m_PlayerControlls_Vertical;
         public InputAction @Boost => m_Wrapper.m_PlayerControlls_Boost;
-        public InputAction @Accelerometer => m_Wrapper.m_PlayerControlls_Accelerometer;
         public InputAction @ResetVel => m_Wrapper.m_PlayerControlls_ResetVel;
         public InputAction @Delta => m_Wrapper.m_PlayerControlls_Delta;
         public InputAction @Deltasectouch => m_Wrapper.m_PlayerControlls_Deltasectouch;
@@ -529,9 +441,6 @@ public class @PlayerInputAsset : IInputActionCollection, IDisposable
                 @Boost.started -= m_Wrapper.m_PlayerControllsActionsCallbackInterface.OnBoost;
                 @Boost.performed -= m_Wrapper.m_PlayerControllsActionsCallbackInterface.OnBoost;
                 @Boost.canceled -= m_Wrapper.m_PlayerControllsActionsCallbackInterface.OnBoost;
-                @Accelerometer.started -= m_Wrapper.m_PlayerControllsActionsCallbackInterface.OnAccelerometer;
-                @Accelerometer.performed -= m_Wrapper.m_PlayerControllsActionsCallbackInterface.OnAccelerometer;
-                @Accelerometer.canceled -= m_Wrapper.m_PlayerControllsActionsCallbackInterface.OnAccelerometer;
                 @ResetVel.started -= m_Wrapper.m_PlayerControllsActionsCallbackInterface.OnResetVel;
                 @ResetVel.performed -= m_Wrapper.m_PlayerControllsActionsCallbackInterface.OnResetVel;
                 @ResetVel.canceled -= m_Wrapper.m_PlayerControllsActionsCallbackInterface.OnResetVel;
@@ -554,9 +463,6 @@ public class @PlayerInputAsset : IInputActionCollection, IDisposable
                 @Boost.started += instance.OnBoost;
                 @Boost.performed += instance.OnBoost;
                 @Boost.canceled += instance.OnBoost;
-                @Accelerometer.started += instance.OnAccelerometer;
-                @Accelerometer.performed += instance.OnAccelerometer;
-                @Accelerometer.canceled += instance.OnAccelerometer;
                 @ResetVel.started += instance.OnResetVel;
                 @ResetVel.performed += instance.OnResetVel;
                 @ResetVel.canceled += instance.OnResetVel;
@@ -650,7 +556,6 @@ public class @PlayerInputAsset : IInputActionCollection, IDisposable
         void OnHorizontal(InputAction.CallbackContext context);
         void OnVertical(InputAction.CallbackContext context);
         void OnBoost(InputAction.CallbackContext context);
-        void OnAccelerometer(InputAction.CallbackContext context);
         void OnResetVel(InputAction.CallbackContext context);
         void OnDelta(InputAction.CallbackContext context);
         void OnDeltasectouch(InputAction.CallbackContext context);
