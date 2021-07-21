@@ -4,21 +4,19 @@ using UnityEngine.UI;
 
 namespace SnakeMaze.UI
 {
+    [RequireComponent( typeof(Button))]
     public class MuteSfxButton : MonoBehaviour
     {
         [SerializeField] private BusAudioSO sfxBusAudioSo;
-        [SerializeField] private Sprite muteSprite;
-        [SerializeField] private Sprite unMuteSprite;
+        [SerializeField] private GameObject muteBar;
 
         private bool _isMutted;
 
-
-        private Image _image;
+        
         private Button _button;
 
         private void Awake()
         {
-            _image = GetComponent<Image>();
             _button = GetComponent<Button>();
         }
 
@@ -35,8 +33,7 @@ namespace SnakeMaze.UI
 
         private void SetSprite(bool value)
         {
-            var sprite = value ? muteSprite : unMuteSprite;
-            _image.sprite = sprite;
+            muteBar.SetActive(value);
         }
 
         public void SwitchMute()
