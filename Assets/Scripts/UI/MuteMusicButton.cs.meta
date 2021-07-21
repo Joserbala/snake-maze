@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: e5f7d3759e4488f48b0ff5ff61697e9e
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - musicBusAudioSo: {fileID: 11400000, guid: 29ab42adc445bca4eacbb22218415bfe, type: 2}
+  - muteSprite: {instanceID: 0}
+  - unMuteSprite: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

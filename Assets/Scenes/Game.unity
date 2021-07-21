@@ -3098,6 +3098,9 @@ MonoBehaviour:
   busAudio: {fileID: 11400000, guid: 66864f3b335e1604a8601c4582d2e3bc, type: 2}
   busMusic: {fileID: 11400000, guid: 29ab42adc445bca4eacbb22218415bfe, type: 2}
   pool: {fileID: 11400000, guid: 5be60cb14928fea4cb97f70489964bc2, type: 2}
+  musicGorup: {fileID: 6235484409301853990, guid: 74c549d6440b1144199b3fc0d2127e5f, type: 2}
+  sfxGroup: {fileID: 407439699120133270, guid: 74c549d6440b1144199b3fc0d2127e5f, type: 2}
+  audioMixer: {fileID: 24100000, guid: 74c549d6440b1144199b3fc0d2127e5f, type: 2}
   initSize: 4
 --- !u!114 &1527179391
 MonoBehaviour:

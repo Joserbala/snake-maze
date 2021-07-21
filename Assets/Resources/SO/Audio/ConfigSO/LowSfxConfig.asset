@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25f10c1ab4f37d84ca8f2500dd9d976d, type: 3}
   m_Name: LowSfxConfig
   m_EditorClassIdentifier: 
-  audioMixerGroup: {fileID: 0}
+  audioMixerGroup: {fileID: 407439699120133270, guid: 74c549d6440b1144199b3fc0d2127e5f, type: 2}
   volume: 0.3
   pitch: 0
   panStereo: 0
@@ -21,3 +21,5 @@ MonoBehaviour:
   minPitch: 0.8
   maxPitch: 1.2
   ignorePause: 0
+  fadeOutTime: 2
+  fadeInTime: 1

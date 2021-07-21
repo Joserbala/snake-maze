@@ -11,5 +11,6 @@ namespace SnakeMaze.SO.Audio
         public Action OnAudioFinish;
         public Action OnAudioStop;
         public Action<AudioConfigSO> OnMusicStop;
+        public Action<bool> MuteAudio;
     }
 }
