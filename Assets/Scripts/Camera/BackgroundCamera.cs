@@ -1,16 +1,24 @@
+using System;
 using SnakeMaze.SO;
 using UnityEngine;
 
 namespace SnakeMaze.CameraUtil
 {
+    [RequireComponent(typeof(Camera))]
     public class BackgroundCamera : MonoBehaviour
     {
         [SerializeField] private SkinContainerSO skinContainerSo;
 
+        private Camera _camera;
+
+        private void Awake()
+        {
+            _camera = GetComponent<Camera>();
+        }
+
         private void Start()
         {
-            if(Camera.main!=null)
-             Camera.main.backgroundColor = skinContainerSo.CurrentMazeSkin.BackgroundColor;
+            _camera.backgroundColor = skinContainerSo.CurrentMazeSkin.BackgroundColor;
         }
     }
 }
