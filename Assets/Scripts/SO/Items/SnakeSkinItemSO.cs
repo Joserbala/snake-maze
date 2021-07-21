@@ -49,7 +49,7 @@ namespace SnakeMaze.SO.Items
 
         public override void InitScriptable()
         {
-            Available = false;
+            Available = itemId==Constants.DefaultSnakeSkin;
         }
     }
 }
