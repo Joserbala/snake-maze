@@ -8,15 +8,16 @@ const DEFAULT_SKIN_NAME = 'Default';
 const SUCCESS = true;
 const FAILURE = false;
 const ERROR_ITEM_NOT_FOUND_DESC = 'Item not found.';
-const ERROR_GETTING_CATALOG_ITEMS = '[ERROR GETTING THE CATALOG ITEMS]\n';
-const ERROR_RETRIEVING_INVENTORY = '[ERROR GETTING THE USER INVENTORY]\n';
-const ERROR_RETRIEVING_READ_ONLY_DATA = '[ERROR GETTING THE USER READ ONLY DATA]\n';
-const ERROR_UPDATING_INVENTORY = '[ERROR UPDATING THE USER INVENTORY]\n';
+const ERROR_GETTING_CATALOG_ITEMS = '[ERROR GETTING THE CATALOG ITEMS] ';
+const ERROR_RETRIEVING_INVENTORY = '[ERROR GETTING THE USER INVENTORY] ';
+const ERROR_RETRIEVING_READ_ONLY_DATA = '[ERROR GETTING THE USER READ ONLY DATA] ';
+const ERROR_UPDATING_INVENTORY = '[ERROR UPDATING THE USER INVENTORY] ';
 
 handlers.CreateAccount = function () {
     var HighScore = {
         Score: 0
     };
+
     var Skins = {
         Snake: DEFAULT_SKIN_NAME,
         Maze: DEFAULT_SKIN_NAME
@@ -58,6 +59,13 @@ handlers.UpdateScore = function (args) {
     }
 };
 
+/**
+ * 
+ * @param {object} args - Arguments from ExecuteCloudScriptRequest.
+ * @param {string} args.snakeSkin - Snake skin equipped at the moment.
+ * @param {string} args.mazeSkin - Maze skin equipped at the moment.
+ * @returns If there is no error in the API returns isSuccess = true, isSuccess = false and a vague error description otherwise.
+ */
 handlers.UpdateCurrentSkins = function (args) {
     var snakeSkin = args.snakeSkin;
     var mazeSkin = args.mazeSkin;
@@ -101,7 +109,7 @@ handlers.GetLoginData = function () {
 
                 log.info(loginData);
 
-                return { isSuccess: SUCCESS, loginData: loginData };
+                return { isSuccess: SUCCESS, error: null, loginData: loginData };
 
             } catch (error) {
                 log.error(ERROR_RETRIEVING_INVENTORY + error);
@@ -122,10 +130,10 @@ handlers.GetLoginData = function () {
 
 handlers.GetCurrency = function () {
     try {
-        var currency = GetCurrency(GetUserInventory())
+        var currency = GetCurrency(GetUserInventory());
         log.info(currency);
 
-        return { isSuccess: SUCCESS, currency: currency };
+        return { isSuccess: SUCCESS, error: null, currency: currency };
     } catch (error) {
         log.error(error);
 
@@ -135,7 +143,7 @@ handlers.GetCurrency = function () {
 
 /**
  * 
- * @param {object} args - The arguments from ExecuteCloudScript.
+ * @param {object} args - The arguments from ExecuteCloudScriptRequest.
  * @param {string} args.itemId - The id of the item to search for.
  * @returns If there is no error in the API and exists an item with ItemId = itemId, returns the ItemInstance with itemId.
  */
@@ -146,15 +154,16 @@ handlers.GetItemFromInventory = function (args) {
 
         var itemId = args.itemId;
         var itemInstance;
+        var itemFound = false;
 
-        for (var index = 0; index < inventory.length; index++) {
+        for (var index = 0; !itemFound && index < inventory.length; index++) {
             if (inventory[index].ItemId == itemId) {
                 itemInstance = inventory[index];
-                break;
+                itemFound = true;
             }
         }
 
-        if (itemInstance == null) {
+        if (!itemFound) {
             log.error(ERROR_ITEM_NOT_FOUND_DESC);
 
             return { isSuccess: FAILURE, error: ERROR_ITEM_NOT_FOUND_DESC };
@@ -162,7 +171,7 @@ handlers.GetItemFromInventory = function (args) {
 
         log.info(itemInstance);
 
-        return { isSuccess: SUCCESS, itemInstance: itemInstance };
+        return { isSuccess: SUCCESS, error: null, itemInstance: itemInstance };
     } catch (error) {
         log.error(error);
 
@@ -174,10 +183,10 @@ handlers.AddSCCurrency = function (args) {
     var amount = args.amount;
 
     try {
-        var result = AddUserUserVirtualCurrency(amount, SC_CODE);
+        var result = AddUserVirtualCurrency(amount, SC_CODE);
         log.info(result);
 
-        return { isSuccess: SUCCESS, balance: result.Balance };
+        return { isSuccess: SUCCESS, error: null, balance: result.Balance };
     } catch (error) {
         log.error(error);
 
@@ -199,19 +208,26 @@ handlers.UpdateUserInventoryItemCustomData = function (args) {
     try {
         var catalog = GetCatalogItems().Catalog;
         var itemCustomData;
+        var itemFound = false;
 
-        for (let index = 0; index < catalog.length; index++) {
+        for (let index = 0; !itemFound && index < catalog.length; index++) {
             if (catalog[index].ItemId == itemId) {
                 itemCustomData = JSON.parse(catalog[index].CustomData);
-                break;
+                itemFound = true;
             }
+        }
+
+        if (!itemFound) {
+            log.error(ERROR_ITEM_NOT_FOUND_DESC);
+
+            return { isSuccess: FAILURE, error: ERROR_ITEM_NOT_FOUND_DESC };
         }
 
         try {
             var result = UpdateUserInventoryItemCustomData(itemInstanceId, itemCustomData);
             log.info(result);
 
-            return { isSuccess: SUCCESS };
+            return { isSuccess: SUCCESS, error: null };
         } catch (error) {
             log.error(ERROR_UPDATING_INVENTORY + error);
 
@@ -297,7 +313,7 @@ function GetCatalogItems(catalogVersion = null) {
  * @returns {object} Access with .Balance to check the balance of the user.
  * @throws Will throw an error if the API encounters an error.
  */
-function AddUserUserVirtualCurrency(amount, virtualCurrency) {
+function AddUserVirtualCurrency(amount, virtualCurrency) {
     var request = {
         Amount: amount,
         PlayFabId: currentPlayerId,
