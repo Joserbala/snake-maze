@@ -1,16 +1,25 @@
-const SUCCESS = true;
-const FAILURE = false;
 const HC_CODE = 'HC';
 const SC_CODE = 'SC';
-const VirtualCurrency = 'VirtualCurrency';
+const VIRTUAL_CURRENCY = 'VirtualCurrency';
+const DEFAULT_SKIN_NAME = 'Default';
+/////////////////////////////////////////////////////////////////////////
+//                        ERROR CONSTANTS
+/////////////////////////////////////////////////////////////////////////
+const SUCCESS = true;
+const FAILURE = false;
+const ERROR_ITEM_NOT_FOUND_DESC = 'Item not found.';
+const ERROR_GETTING_CATALOG_ITEMS = '[ERROR GETTING THE CATALOG ITEMS]\n';
+const ERROR_RETRIEVING_INVENTORY = '[ERROR GETTING THE USER INVENTORY]\n';
+const ERROR_RETRIEVING_READ_ONLY_DATA = '[ERROR GETTING THE USER READ ONLY DATA]\n';
+const ERROR_UPDATING_INVENTORY = '[ERROR UPDATING THE USER INVENTORY]\n';
 
 handlers.CreateAccount = function () {
     var HighScore = {
         Score: 0
     };
     var Skins = {
-        Snake: 'Default',
-        Maze: 'Default'
+        Snake: DEFAULT_SKIN_NAME,
+        Maze: DEFAULT_SKIN_NAME
     };
 
     try {
@@ -95,17 +104,17 @@ handlers.GetLoginData = function () {
                 return { isSuccess: SUCCESS, loginData: loginData };
 
             } catch (error) {
-                log.error("[ERROR GETTING THE USER INVENTORY] " + error);
+                log.error(ERROR_RETRIEVING_INVENTORY + error);
 
                 return { isSuccess: FAILURE, error: error.apiErrorInfo.apiError.error };
             }
         } catch (error) {
-            log.error("[ERROR GETTING THE CATALOG] " + error);
+            log.error(ERROR_GETTING_CATALOG_ITEMS + error);
 
             return { isSuccess: FAILURE, error: error.apiErrorInfo.apiError.error };
         }
     } catch (error) {
-        log.error("[ERROR GETTING THE USER READ ONLY DATA] " + error);
+        log.error(ERROR_RETRIEVING_READ_ONLY_DATA + error);
 
         return { isSuccess: FAILURE, error: error.apiErrorInfo.apiError.error };
     }
@@ -146,9 +155,9 @@ handlers.GetItemFromInventory = function (args) {
         }
 
         if (itemInstance == null) {
-            log.error("No item found.");
+            log.error(ERROR_ITEM_NOT_FOUND_DESC);
 
-            return { isSuccess: FAILURE, error: "No item found." };
+            return { isSuccess: FAILURE, error: ERROR_ITEM_NOT_FOUND_DESC };
         }
 
         log.info(itemInstance);
@@ -204,13 +213,13 @@ handlers.UpdateUserInventoryItemCustomData = function (args) {
 
             return { isSuccess: SUCCESS };
         } catch (error) {
-            log.error("[ERROR UPDATING THE USER INVENTORY] " + error);
+            log.error(ERROR_UPDATING_INVENTORY + error);
 
             return { isSuccess: FAILURE, error: error.apiErrorInfo.apiError.error };
         }
 
     } catch (error) {
-        log.error(["ERROR GETTING THE CATALOG ITEMS"] + error);
+        log.error(ERROR_GETTING_CATALOG_ITEMS + error);
 
         return { isSuccess: FAILURE, error: error.apiErrorInfo.apiError.error };
     }
@@ -322,8 +331,8 @@ function UpdateUserInventoryItemCustomData(itemInstanceId, data) {
 
 function GetCurrency(inventory) {
     var currency = {
-        softCoins: inventory[VirtualCurrency][SC_CODE],
-        hardCoins: inventory[VirtualCurrency][HC_CODE]
+        softCoins: inventory[VIRTUAL_CURRENCY][SC_CODE],
+        hardCoins: inventory[VIRTUAL_CURRENCY][HC_CODE]
     };
 
     return currency;
