@@ -116,7 +116,7 @@ namespace SnakeMaze.Player
                 Move(_currentDirection);
                 _bodyController.MoveSnakeBody();
                 var time = playerVariable.CurrentCoroutineSeconds / playerVariable.CurrentSpeed;
-                yield return new WaitForSeconds(time);
+                yield return new WaitForSecondsRealtime(time);
             }
         }
 
