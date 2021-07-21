@@ -326,7 +326,7 @@ MonoBehaviour:
   musicGorup: {fileID: 6235484409301853990, guid: 74c549d6440b1144199b3fc0d2127e5f, type: 2}
   sfxGroup: {fileID: 407439699120133270, guid: 74c549d6440b1144199b3fc0d2127e5f, type: 2}
   audioMixer: {fileID: 24100000, guid: 74c549d6440b1144199b3fc0d2127e5f, type: 2}
-  initSize: 1
+  initSize: 4
 --- !u!1 &613952291
 GameObject:
   m_ObjectHideFlags: 0
