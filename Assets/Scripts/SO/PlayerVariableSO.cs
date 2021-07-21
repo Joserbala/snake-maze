@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using SnakeMaze.Enums;
 using SnakeMaze.Interfaces;
+using SnakeMaze.PlayFab;
 using UnityEngine;
 
 namespace SnakeMaze.SO
@@ -10,10 +12,10 @@ namespace SnakeMaze.SO
     {
         [SerializeField] private float normalSpeed = 1;
         [SerializeField] private float boostSpeed = 2;
-        [SerializeField] private float coroutineSeconds = 0.02f;
+        [SerializeField] private float coroutineSeconds = 0.08f;
         [SerializeField] private float minimunCoroutineSec = 0.001f;
-        [SerializeField] private float speedChangeAmount = 0.01f;
-        [SerializeField] private float changeSpeedRate = 5f;
+        [SerializeField] private float speedChangeAmount = 0.001f;
+        [SerializeField] private float changeSpeedRate = 4f;
         [SerializeField] private int pixelsPerTile = 32;
         [SerializeField] private int playerPixels = 4;
 
@@ -113,6 +115,17 @@ namespace SnakeMaze.SO
             _isAlive = false;
             _currentCoroutineSeconds = coroutineSeconds;
             _poitns = 0;
+        }
+
+        public void InitVariables(PlayerVariables data)
+        {
+            if (data == null) return;
+            normalSpeed = data.NormalSpeed;
+            boostSpeed = data.BoostSpeed;
+            coroutineSeconds = data.TimeBetweenTicks;
+            minimunCoroutineSec = data.MinTimeBetweenTicks;
+            speedChangeAmount = data.SpeedChangeAmount;
+            changeSpeedRate = data.ChangeSpeedRate;
         }
     }
     

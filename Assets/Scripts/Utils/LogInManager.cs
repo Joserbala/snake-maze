@@ -21,6 +21,7 @@ namespace SnakeMaze.Utils
         [SerializeField] private GameObject unknownErrorText;
         [SerializeField] private TextMeshProUGUI nickname;
         [SerializeField] private UserDataControllerSO userDataControllerSo;
+        [SerializeField] private PlayerVariableSO playerVariableSo;
 
         private string _currentDisplayName;
 
@@ -160,6 +161,8 @@ namespace SnakeMaze.Utils
         {
             SetPlayFabVersion(data["GameVersion"]);
             SetPlayFabEconomyModel(data["EconomySetup"]);
+            SetPlayerVariables(data["PlayerConfigData"]);
+
         }
 
         private void SetPlayFabVersion(string version) => JsonUtility.FromJsonOverwrite(version, gameVersion);
@@ -171,10 +174,18 @@ namespace SnakeMaze.Utils
             EconomyManager.SetRatios(serverEconomy);
         }
 
-        #endregion
-    }
+        private void SetPlayerVariables(string playerJason)
+        {
+            if (string.IsNullOrEmpty(playerJason)) return;
+            
+            Debug.LogWarning(playerJason);
+            
+            var playerVariables = new PlayerVariables();
+            JsonUtility.FromJsonOverwrite(playerJason, playerVariables);
+            Debug.LogWarning(playerVariables.NormalSpeed);
+            playerVariableSo.InitVariables(playerVariables);
+        }
 
-    internal class PlayFabManager
-    {
+        #endregion
     }
 }

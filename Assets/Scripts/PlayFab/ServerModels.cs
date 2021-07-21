@@ -67,6 +67,17 @@ namespace SnakeMaze.PlayFab
         public int CoinLooseRatioOnDeath;
     }
 
+    public class PlayerVariables
+    {
+        public float NormalSpeed;
+        public float BoostSpeed;
+        public float TimeBetweenTicks;
+        public float MinTimeBetweenTicks;
+        public float SpeedChangeAmount;
+        public float ChangeSpeedRate;
+        
+    }
+
     public class ItemInstanceData : BaseServerResult
     {
         public ItemInstance itemInstance;
