@@ -29,7 +29,7 @@ namespace SnakeMaze.UI
 
         private void SetInitialSprite()
         {
-            _isMutted = PlayerPrefs.GetInt("VolumeSFXGroup") == 1;
+            _isMutted = PlayerPrefs.GetInt("MuteSfx") == 1;
             SetSprite(_isMutted);
         }
 
