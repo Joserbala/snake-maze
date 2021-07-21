@@ -7,6 +7,7 @@ using SnakeMaze.Exceptions;
 using SnakeMaze.SO;
 using SnakeMaze.SO.PlayFab;
 using SnakeMaze.SO.PlayFabManager;
+using SnakeMaze.SO.UserDataSO;
 using SnakeMaze.User;
 using TMPro;
 using UnityEngine;
@@ -21,6 +22,7 @@ namespace SnakeMaze.UI
         [SerializeField] private PlayFabManagerSO playFabManagerSo;
         [SerializeField] private BusServerCallSO busServerCallSo;
         [SerializeField] private UserInventorySO inventorySo;
+        [SerializeField] private UserDataControllerSO userDataControllerSo;
         [SerializeField] private Currency currencyType;
         [SerializeField] private AbstractSkinItemSO item;
         [SerializeField] private BusBuySkinSO buySkinSo;
@@ -87,6 +89,11 @@ namespace SnakeMaze.UI
         private void OnPurchaseSuccess(List<ItemInstance> data)
         {
             item.Available = true;
+            if (currencyType == Currency.SC)
+                userDataControllerSo.SoftCoins -= item.ItemPriceData.SoftCoinsPriceData.Price;
+            else
+                userDataControllerSo.HardCoins -= item.ItemPriceData.HardCoinsPriceData.Price;
+            
             playFabManagerSo.GetItemFromInventory(data[0].ItemId,OnGetItemSuccess,OnGetItemFail);
         }
 

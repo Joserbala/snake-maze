@@ -1,4 +1,5 @@
 using System;
+using SnakeMaze.Enums;
 using SnakeMaze.UI;
 using UnityEngine;
 
@@ -8,5 +9,6 @@ namespace SnakeMaze.SO
     public class BusBuySkinSO : ScriptableObject
     {
         public Action<string> OnBuySkin;
+        public Action<int, Currency> OnBuySkinPrice;
     }
 }

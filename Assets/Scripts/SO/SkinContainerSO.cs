@@ -67,16 +67,13 @@ namespace SnakeMaze.SO
             CurrentSnakeSkin.InitScriptable();
         }
         
-        //TODO: Eventos
         public void ChangeMazeSkin(MazeSkinEnum newSkin)
         {
-            Debug.Log("Changing Maze to : " + newSkin);
             CurrentMazeSkin = _mazeSkinDic[newSkin];
             CurrentMazeSkin.InitScriptable();
         }
         public void ChangeSnakeSkin(SnakeSkinEnum newSkin)
         {
-            Debug.Log("Changing Snake to : " + newSkin);
             CurrentSnakeSkin = _snakeSkinDic[newSkin];
             CurrentSnakeSkin.InitScriptable();
         }

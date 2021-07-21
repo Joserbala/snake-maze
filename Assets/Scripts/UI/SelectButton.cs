@@ -50,7 +50,6 @@ namespace SnakeMaze.UI
 
         public void SelectItem()
         {
-            Debug.LogWarning("Clicked on select");
             if (inventorySo.SnakeDictionary.TryGetValue(item.ItemId, out var snakeSkin))
             {
                 busSelectSkinSo.OnSnakeSkinSelect?.Invoke(snakeSkin);
@@ -65,7 +64,6 @@ namespace SnakeMaze.UI
                 }
             }
             
-            Debug.LogWarning($"Error selecting skin {item.ItemId}");
         }
 
         public void CheckButtonState(string itemID)

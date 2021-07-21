@@ -66,6 +66,7 @@ namespace SnakeMaze.User
 
         private void OnLooseUpdate()
         {
+            Debug.LogWarning("UPDATING SCORE");
             UpdateScoreData();
             UpdateCurrencyData(false);
         }

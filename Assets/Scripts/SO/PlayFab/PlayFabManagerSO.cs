@@ -15,6 +15,7 @@ namespace SnakeMaze.SO.PlayFabManager
         [SerializeField] private bool isTest = true;
         [SerializeField] private BusServerCallSO busServerCallSo;
         private string _displayName;
+        private bool _isLogged;
 
         public static string PLAYFAB_TITLE_ID_TEST = "E0CD8";
         public static string PLAYFAB_TITLE_RELEASE = "6F99B";
@@ -32,6 +33,7 @@ namespace SnakeMaze.SO.PlayFabManager
 
         #region LOGIN
 
+        public void LoginSuccess() => _isLogged = true;
         private void SetupPlayFabServer()
         {
             PlayFabSettings.TitleId = isTest ? PLAYFAB_TITLE_ID_TEST : PLAYFAB_TITLE_RELEASE;
@@ -69,13 +71,18 @@ namespace SnakeMaze.SO.PlayFabManager
                     if(!serverResponse.isSuccess)
                     {
                         onFail();
+                        _isLogged = false;
                     }
                     else
                     {
                         onSuccess(serverResponse);
                     }
                 },
-                error => { });
+                error =>
+                {
+                    _isLogged = false;
+                    
+                });
         }
 
         #endregion
@@ -84,6 +91,7 @@ namespace SnakeMaze.SO.PlayFabManager
 
         public void GetTitleData(Action<GetTitleDataResult> onSuccess, Action<PlayFabError> onError)
         {
+            if (!_isLogged) return;
             PlayFabClientAPI.GetTitleData(new GetTitleDataRequest(), onSuccess, onError);
         }
 
@@ -127,6 +135,7 @@ namespace SnakeMaze.SO.PlayFabManager
 
         public void GetItemFromInventory(string itemId, Action<ItemInstance> onSuccess, Action onFail)
         {
+            if (!_isLogged) return;
             var request = new ExecuteCloudScriptRequest()
             {
                 FunctionName = nameof(GetItemFromInventory),
@@ -165,6 +174,7 @@ namespace SnakeMaze.SO.PlayFabManager
 
         public void UpdateScore(int newHighScore)
         {
+            if (!_isLogged) return;
             var request = new ExecuteCloudScriptRequest()
             {
                 FunctionName = nameof(UpdateScore),
@@ -196,6 +206,7 @@ namespace SnakeMaze.SO.PlayFabManager
         }
         public void UpdateCurrentSkins(string snakeSkin, string mazeSkin)
         {
+            if (!_isLogged) return;
             var request = new ExecuteCloudScriptRequest()
             {
                 FunctionName = nameof(UpdateCurrentSkins),
@@ -229,6 +240,7 @@ namespace SnakeMaze.SO.PlayFabManager
 
         public void AddSCCurrency(int newGold, Action<int> onSuccsess)
         {
+            if (!_isLogged) return;
             var request = new ExecuteCloudScriptRequest()
             {
                 FunctionName = nameof(AddSCCurrency),
@@ -260,6 +272,7 @@ namespace SnakeMaze.SO.PlayFabManager
 
         public void UpdateUserInventoryItemCustomData(ItemInstance item, Action onSuccess)
         {
+            if (!_isLogged) return;
             var request = new ExecuteCloudScriptRequest()
             {
                 FunctionName = nameof(UpdateUserInventoryItemCustomData),
@@ -299,6 +312,7 @@ namespace SnakeMaze.SO.PlayFabManager
         [ContextMenu("TestPurchase")]
         public void PurchaseDefaultSkins()
         {
+            if (!_isLogged) return;
             PurchaseItem(Constants.SpaceMazeSkin, 5000, "SC", instances =>
                 {
                     Debug.Log("Success!");
@@ -323,6 +337,7 @@ namespace SnakeMaze.SO.PlayFabManager
         public void PurchaseItem(string item, int gold, string moneyType, Action<List<ItemInstance>> onSuccess,
             Action<PlayFabError> onFail)
         {
+            if (!_isLogged) return;
             var request = new PurchaseItemRequest()
             {
                 ItemId = item,

@@ -56,6 +56,7 @@ namespace SnakeMaze.Utils
 
         private void OnLogginSuccess(LoginResult loginResult)
         {
+            playFabManagerSo.LoginSuccess();
             Debug.Log("User login: " + loginResult.PlayFabId);
             Debug.Log("User newly created: " + loginResult.NewlyCreated);
             // Debug.Log("User Name: " + loginResult.InfoResultPayload.PlayerProfile.DisplayName);

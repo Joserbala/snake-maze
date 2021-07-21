@@ -106,7 +106,6 @@ namespace SnakeMaze.Audio
 
         private void PlayAudioClip(AudioClipType clipType, AudioConfigSO settings)
         {
-            Debug.LogWarning("PLAYING AUDIO");
             AudioClipSO clip = skinContainer.CurrentAudioSkin.AudioDic[clipType];
             SoundEmitter soundEmitter = pool.Request();
             soundEmitter.CurrentAudioSource.outputAudioMixerGroup = sfxGroup;

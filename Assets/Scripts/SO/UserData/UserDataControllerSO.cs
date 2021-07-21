@@ -2,6 +2,7 @@ using SnakeMaze.Enums;
 using SnakeMaze.PlayFab;
 using SnakeMaze.SO.PlayFabManager;
 using SnakeMaze.User;
+using SnakeMaze.Utils;
 using UnityEngine;
 
 namespace SnakeMaze.SO.UserDataSO
@@ -10,6 +11,7 @@ namespace SnakeMaze.SO.UserDataSO
     public class UserDataControllerSO : ScriptableObject
     {
         [SerializeField] private EventSO playFabServerResponse;
+        [SerializeField] private EventSO updateCoins;
         [SerializeField] private BusSelectSkinSO busSnakeSelectSkinSo;
         [SerializeField] private BusSelectSkinSO busMazeSelectSkinSo;
         [SerializeField] private SkinContainerSO skinContainerSo;
@@ -35,13 +37,21 @@ namespace SnakeMaze.SO.UserDataSO
         public int SoftCoins
         {
             get => _economyData.SoftCoin;
-            set => _economyData.SoftCoin = value;
+            set
+            {
+                _economyData.SoftCoin = value;
+                updateCoins.CurrentAction?.Invoke();
+            }
         }
 
         public int HardCoins
         {
             get => _economyData.HardCoin;
-            set => _economyData.HardCoin = value;
+            set
+            {
+                _economyData.HardCoin = value;
+                updateCoins.CurrentAction?.Invoke();
+            }
         }
 
         public SnakeSkinEnum CurrentSnakeSkin
