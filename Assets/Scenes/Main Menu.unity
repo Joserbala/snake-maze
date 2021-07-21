@@ -315,7 +315,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skinContainer: {fileID: 11400000, guid: 095b6959987a18d4490b0e8b63c243f2, type: 2}
-  busAudio: {fileID: 11400000, guid: 66864f3b335e1604a8601c4582d2e3bc, type: 2}
+  busSfx: {fileID: 11400000, guid: 66864f3b335e1604a8601c4582d2e3bc, type: 2}
   busMusic: {fileID: 11400000, guid: 29ab42adc445bca4eacbb22218415bfe, type: 2}
   pool: {fileID: 11400000, guid: 5be60cb14928fea4cb97f70489964bc2, type: 2}
   musicGorup: {fileID: 6235484409301853990, guid: 74c549d6440b1144199b3fc0d2127e5f, type: 2}
@@ -699,6 +699,70 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 159139926, guid: 002321a2e17e98647ac7fc47160e72b0, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 159139926, guid: 002321a2e17e98647ac7fc47160e72b0, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 159139926, guid: 002321a2e17e98647ac7fc47160e72b0, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 159139926, guid: 002321a2e17e98647ac7fc47160e72b0, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 749492473, guid: 002321a2e17e98647ac7fc47160e72b0, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 749492473, guid: 002321a2e17e98647ac7fc47160e72b0, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 749492473, guid: 002321a2e17e98647ac7fc47160e72b0, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 749492473, guid: 002321a2e17e98647ac7fc47160e72b0, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 789844503, guid: 002321a2e17e98647ac7fc47160e72b0, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 789844503, guid: 002321a2e17e98647ac7fc47160e72b0, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 789844503, guid: 002321a2e17e98647ac7fc47160e72b0, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 789844503, guid: 002321a2e17e98647ac7fc47160e72b0, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1559413810, guid: 002321a2e17e98647ac7fc47160e72b0, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1559413810, guid: 002321a2e17e98647ac7fc47160e72b0, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1559413810, guid: 002321a2e17e98647ac7fc47160e72b0, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1559413810, guid: 002321a2e17e98647ac7fc47160e72b0, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3051285885844863600, guid: 002321a2e17e98647ac7fc47160e72b0, type: 3}
       propertyPath: m_Name
       value: === MENU CANVAS ===
