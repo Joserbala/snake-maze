@@ -161,6 +161,7 @@ MonoBehaviour:
   unknownErrorText: {fileID: 954818226}
   nickname: {fileID: 660069944}
   userDataControllerSo: {fileID: 11400000, guid: 7b995dda3e709d84a99988d0ce522e91, type: 2}
+  playerVariableSo: {fileID: 11400000, guid: c13d86b70e228d546a539cf94c0d76bc, type: 2}
   gameVersion:
     ClientVersion: 
 --- !u!4 &46345932
