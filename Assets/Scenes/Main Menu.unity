@@ -1339,7 +1339,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-<<<<<<< HEAD
     - target: {fileID: 5055281, guid: 002321a2e17e98647ac7fc47160e72b0, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -1912,8 +1911,6 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-=======
->>>>>>> f779af22dfde843ebebc462d0f3b5cd51dfc1faf
     - target: {fileID: 3051285885844863600, guid: 002321a2e17e98647ac7fc47160e72b0, type: 3}
       propertyPath: m_Name
       value: === MENU CANVAS ===
