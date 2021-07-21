@@ -36,6 +36,8 @@ namespace SnakeMaze.SO
 
         [Header("Exit")] [SerializeField] private TileBase exit;
         [Header("Food")] [SerializeField] private List<TileBase> food;
+        [Header("Background Color")] [SerializeField] private Color backgroundColor;
+        
 
         public TileBase Exit
         {
@@ -52,6 +54,8 @@ namespace SnakeMaze.SO
             get => _tileDic;
             set => _tileDic = value;
         }
+
+        public Color BackgroundColor => backgroundColor;
 
         public void InitMazeSkin()
         {
