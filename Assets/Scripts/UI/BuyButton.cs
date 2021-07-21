@@ -87,9 +87,19 @@ namespace SnakeMaze.UI
         private void OnPurchaseSuccess(List<ItemInstance> data)
         {
             item.Available = true;
-            inventorySo.AddSkinToDictionary(data);
+            playFabManagerSo.GetItemFromInventory(data[0].ItemId,OnGetItemSuccess,OnGetItemFail);
+        }
+
+        private void OnGetItemSuccess(ItemInstance itemInstance)
+        {
+            inventorySo.AddSkinToDictionary(itemInstance);
             busServerCallSo.OnServerResponse?.Invoke();
             buySkinSo.OnBuySkin?.Invoke(item.ItemId);
+        }
+
+        private void OnGetItemFail()
+        {
+            busServerCallSo.OnServerResponse?.Invoke();
         }
 
         private void OnPurchaseFail(PlayFabError error)

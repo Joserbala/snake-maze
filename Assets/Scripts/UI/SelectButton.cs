@@ -1,9 +1,11 @@
 using System;
 using SnakeMaze.Enums;
+using SnakeMaze.Exceptions;
 using SnakeMaze.SO;
 using SnakeMaze.SO.PlayFabManager;
 using SnakeMaze.SO.UserDataSO;
 using SnakeMaze.User;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -20,6 +22,7 @@ namespace SnakeMaze.UI
         /// </summary>
         [Tooltip("If the item is a snake skin, put the snake bus, otherwise put the maze bus.")]
         [SerializeField] private BusSelectSkinSO busSelectSkinSo;
+        [SerializeField] private TextMeshProUGUI price;
         
         private Button _selectButton;
 
@@ -29,16 +32,20 @@ namespace SnakeMaze.UI
             set => _selectButton = value;
         }
 
+        public AbstractSkinItemSO Item
+        {
+            get => item;
+            set => item = value;
+        }
+
         private void Awake()
         {
             _selectButton = GetComponent<Button>();
             
         }
-
-        public AbstractSkinItemSO Item
+        private void HidePrice()
         {
-            get => item;
-            set => item = value;
+            price.gameObject.SetActive(false);
         }
 
         public void SelectItem()
@@ -75,6 +82,7 @@ namespace SnakeMaze.UI
             _selectButton.onClick.AddListener(SelectItem);
             busSelectSkinSo.OnButtonSelect += CheckButtonState;
             CheckButtonState(SkinEnumUtils.SnakeEnumToId(userDataControllerSo.CurrentSnakeSkin),SkinEnumUtils.MazeEnumToId(userDataControllerSo.CurrentMazeSkin));
+            HidePrice();
         }
 
         private void OnDisable()

@@ -67,13 +67,9 @@ namespace SnakeMaze.PlayFab
         public int CoinLooseRatioOnDeath;
     }
 
-    public class ReadOnlyDataResult : BaseServerResult
+    public class ItemInstanceData : BaseServerResult
     {
-        public ReadOnlyDataStruct readOnlyData;
+        public ItemInstance itemInstance;
     }
 
-    public class ReadOnlyDataStruct : BaseServerResult
-    {
-        public Dictionary<string, UserDataRecord> readOnlyData;
-    }
 }

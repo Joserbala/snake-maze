@@ -125,6 +125,38 @@ namespace SnakeMaze.SO.PlayFabManager
 
         #region USER_DATA
 
+        public void GetItemFromInventory(string itemId, Action<ItemInstance> onSuccess, Action onFail)
+        {
+            var request = new ExecuteCloudScriptRequest()
+            {
+                FunctionName = nameof(GetItemFromInventory),
+                FunctionParameter = new {itemId = itemId},
+            };
+            PlayFabClientAPI.ExecuteCloudScript<ItemInstanceData>(
+                request,
+                result =>
+                {
+                    Debug.Log(result.FunctionResult);
+                    ItemInstanceData serverResponse = (ItemInstanceData) result.FunctionResult;
+                    if (!serverResponse.isSuccess)
+                    {
+                        Debug.LogWarning("Error getting item from inventory: " + serverResponse.error);
+                        onFail();
+                    }
+                    else
+                    {
+                        Debug.Log("Getting item from inventory successful ");
+                        onSuccess(serverResponse.itemInstance);
+                        
+                    }
+                },
+                error =>
+                {
+                    Debug.LogError("CUIDADO FUNCTION FAILED: " + error.Error);
+                    Debug.LogError("CUIDADO FUNCTION FAILED: " + error.ErrorMessage);
+                });
+            
+        }
         [ContextMenu("Test Score")]
         public void UpdateUserScore()
         {
@@ -154,6 +186,7 @@ namespace SnakeMaze.SO.PlayFabManager
                 {
                     Debug.LogError("CUIDADO FUNCTION FAILED: " + error.Error);
                     Debug.LogError("CUIDADO FUNCTION FAILED: " + error.ErrorMessage);
+                    busServerCallSo.OnServerResponse?.Invoke();
                 });
         }
         [ContextMenu("Test UpdateSkins")]
