@@ -1419,6 +1419,18 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 212692276, guid: 002321a2e17e98647ac7fc47160e72b0, type: 3}
+      propertyPath: userDataControllerSo
+      value: 
+      objectReference: {fileID: 11400000, guid: 7b995dda3e709d84a99988d0ce522e91, type: 2}
+    - target: {fileID: 229346198, guid: 002321a2e17e98647ac7fc47160e72b0, type: 3}
+      propertyPath: busSelectSkinSo
+      value: 
+      objectReference: {fileID: 11400000, guid: f00f22afaa80c604981076dc480b93f5, type: 2}
+    - target: {fileID: 229346198, guid: 002321a2e17e98647ac7fc47160e72b0, type: 3}
+      propertyPath: userDataControllerSo
+      value: 
+      objectReference: {fileID: 11400000, guid: 7b995dda3e709d84a99988d0ce522e91, type: 2}
     - target: {fileID: 230142241, guid: 002321a2e17e98647ac7fc47160e72b0, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -1531,6 +1543,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 977718710, guid: 002321a2e17e98647ac7fc47160e72b0, type: 3}
+      propertyPath: userDataControllerSo
+      value: 
+      objectReference: {fileID: 11400000, guid: 7b995dda3e709d84a99988d0ce522e91, type: 2}
     - target: {fileID: 1172320932, guid: 002321a2e17e98647ac7fc47160e72b0, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -1723,6 +1739,18 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2064000198, guid: 002321a2e17e98647ac7fc47160e72b0, type: 3}
+      propertyPath: userDataControllerSo
+      value: 
+      objectReference: {fileID: 11400000, guid: 7b995dda3e709d84a99988d0ce522e91, type: 2}
+    - target: {fileID: 2088886035, guid: 002321a2e17e98647ac7fc47160e72b0, type: 3}
+      propertyPath: busSelectSkinSo
+      value: 
+      objectReference: {fileID: 11400000, guid: f00f22afaa80c604981076dc480b93f5, type: 2}
+    - target: {fileID: 2088886035, guid: 002321a2e17e98647ac7fc47160e72b0, type: 3}
+      propertyPath: userDataControllerSo
+      value: 
+      objectReference: {fileID: 11400000, guid: 7b995dda3e709d84a99988d0ce522e91, type: 2}
     - target: {fileID: 3051285884781205264, guid: 002321a2e17e98647ac7fc47160e72b0, type: 3}
       propertyPath: m_IsActive
       value: 0
