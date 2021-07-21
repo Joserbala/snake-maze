@@ -52,6 +52,16 @@ namespace SnakeMaze.Player
         public void GetDelta(InputAction.CallbackContext ctx)
         {
 #if UNITY_ANDROID
+            if(!_isOnBoost)
+            {
+                playerVariable.Horizontal = ctx.ReadValue<Vector2>().x;
+                playerVariable.Vertical = ctx.ReadValue<Vector2>().y;
+            }
+#endif
+        }
+        public void GetDeltaSecondTouch(InputAction.CallbackContext ctx)
+        {
+#if UNITY_ANDROID
             playerVariable.Horizontal = ctx.ReadValue<Vector2>().x;
             playerVariable.Vertical = ctx.ReadValue<Vector2>().y;
 #endif

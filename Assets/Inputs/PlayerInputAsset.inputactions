@@ -52,6 +52,14 @@
                     "expectedControlType": "Vector2",
                     "processors": "StickDeadzone(min=0.5,max=0.925)",
                     "interactions": ""
+                },
+                {
+                    "name": "Delta sec touch",
+                    "type": "PassThrough",
+                    "id": "3b7ce22e-af96-4bcd-9ab6-fe67d3ac6892",
+                    "expectedControlType": "Vector2",
+                    "processors": "StickDeadzone(min=0.5,max=0.925)",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -245,7 +253,7 @@
                 {
                     "name": "",
                     "id": "e2474135-6fd6-4184-8614-1ad97fa10505",
-                    "path": "<Touchscreen>/delta",
+                    "path": "<Touchscreen>/touch0/delta",
                     "interactions": "",
                     "processors": "",
                     "groups": "Mobile",
@@ -255,12 +263,12 @@
                 },
                 {
                     "name": "",
-                    "id": "2a6738ee-fd7f-4c5b-9f94-c9a555d213bb",
+                    "id": "a0f38ba3-3249-4eea-a5a7-c92f836f25c3",
                     "path": "<Touchscreen>/touch1/delta",
                     "interactions": "",
                     "processors": "",
                     "groups": "Mobile",
-                    "action": "Delta",
+                    "action": "Delta sec touch",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
