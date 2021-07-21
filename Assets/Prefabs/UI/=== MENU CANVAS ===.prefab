@@ -230,9 +230,9 @@ RectTransform:
   m_Father: {fileID: 230142241}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 600, y: -675.30927}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 509.909, y: 127.4772}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &46153377
@@ -366,9 +366,9 @@ RectTransform:
   m_Father: {fileID: 1698510834}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 600, y: -1112.9128}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 1000, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &46581901
@@ -430,9 +430,9 @@ RectTransform:
   m_Father: {fileID: 1698510834}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 600, y: -412.08713}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 750, y: 750}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &63412829
@@ -955,9 +955,9 @@ RectTransform:
   m_Father: {fileID: 1393970511}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 600, y: -245.62666}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 1002.5, y: 250.6186}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &127087956
@@ -1101,6 +1101,7 @@ GameObject:
   - component: {fileID: 212692274}
   - component: {fileID: 212692273}
   - component: {fileID: 212692276}
+  - component: {fileID: 2063165507}
   m_Layer: 5
   m_Name: EquipDefault_Button
   m_TagString: Untagged
@@ -1209,7 +1210,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 212692274}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2063165507}
+        m_TargetAssemblyTypeName: SnakeMaze.Audio.AudioRequest, Assembly-CSharp
+        m_MethodName: PlayAudio
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &212692276
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1227,6 +1240,22 @@ MonoBehaviour:
   userDataControllerSo: {fileID: 11400000, guid: 7b995dda3e709d84a99988d0ce522e91, type: 2}
   busSelectSkinSo: {fileID: 11400000, guid: 3a3c35e8e693511419b1708520cf45c9, type: 2}
   price: {fileID: 1997659823}
+--- !u!114 &2063165507
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 212692271}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35e9123ba1ecc0d459245aa482d3f7cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clipType: 6
+  playOnStart: 0
+  audioBus: {fileID: 11400000, guid: 66864f3b335e1604a8601c4582d2e3bc, type: 2}
+  audioConfig: {fileID: 11400000, guid: 825a1a64b81903541bf9e3c1b1453db7, type: 2}
 --- !u!1 &229346196
 GameObject:
   m_ObjectHideFlags: 0
@@ -1240,6 +1269,7 @@ GameObject:
   - component: {fileID: 229346200}
   - component: {fileID: 229346199}
   - component: {fileID: 229346198}
+  - component: {fileID: 2063165499}
   m_Layer: 5
   m_Name: EquipSpaceshipMaze_Button
   m_TagString: Untagged
@@ -1348,7 +1378,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 229346200}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2063165499}
+        m_TargetAssemblyTypeName: SnakeMaze.Audio.AudioRequest, Assembly-CSharp
+        m_MethodName: PlayAudio
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &229346198
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1366,6 +1408,22 @@ MonoBehaviour:
   userDataControllerSo: {fileID: 11400000, guid: 7b995dda3e709d84a99988d0ce522e91, type: 2}
   busSelectSkinSo: {fileID: 11400000, guid: f00f22afaa80c604981076dc480b93f5, type: 2}
   price: {fileID: 1415749371}
+--- !u!114 &2063165499
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 229346196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35e9123ba1ecc0d459245aa482d3f7cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clipType: 6
+  playOnStart: 0
+  audioBus: {fileID: 11400000, guid: 66864f3b335e1604a8601c4582d2e3bc, type: 2}
+  audioConfig: {fileID: 11400000, guid: 825a1a64b81903541bf9e3c1b1453db7, type: 2}
 --- !u!1 &230142240
 GameObject:
   m_ObjectHideFlags: 0
@@ -1403,9 +1461,9 @@ RectTransform:
   m_Father: {fileID: 349940519}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 4729.633, y: -654.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 1200, y: 1200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &230142244
@@ -1500,6 +1558,7 @@ GameObject:
   - component: {fileID: 249684244}
   - component: {fileID: 249684243}
   - component: {fileID: 249684242}
+  - component: {fileID: 2063165500}
   m_Layer: 5
   m_Name: BuySpaceshipMaze_Button
   m_TagString: Untagged
@@ -1608,7 +1667,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 249684244}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2063165500}
+        m_TargetAssemblyTypeName: SnakeMaze.Audio.AudioRequest, Assembly-CSharp
+        m_MethodName: PlayAudio
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &249684242
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1624,12 +1695,29 @@ MonoBehaviour:
   playFabManagerSo: {fileID: 11400000, guid: 139fc8d043f03dd4caf81ec6546c77d9, type: 2}
   busServerCallSo: {fileID: 11400000, guid: e68765df302ac0f418a38e5abb7e198e, type: 2}
   inventorySo: {fileID: 11400000, guid: 9283410e31dd0e148ae2a5781ff8eaf8, type: 2}
+  userDataControllerSo: {fileID: 11400000, guid: 7b995dda3e709d84a99988d0ce522e91, type: 2}
   currencyType: 1
   item: {fileID: 11400000, guid: d077a504e86d0534c982d13096dd55fb, type: 2}
   buySkinSo: {fileID: 11400000, guid: 7f73a09e339e9264b98ae9e20089ebac, type: 2}
   price: {fileID: 1415749371}
   panelError: {fileID: 90420587}
-  timeToDissappearPanel: 1
+  timeToDissappearPanel: 2
+--- !u!114 &2063165500
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 249684240}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35e9123ba1ecc0d459245aa482d3f7cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clipType: 6
+  playOnStart: 0
+  audioBus: {fileID: 11400000, guid: 66864f3b335e1604a8601c4582d2e3bc, type: 2}
+  audioConfig: {fileID: 11400000, guid: 825a1a64b81903541bf9e3c1b1453db7, type: 2}
 --- !u!1 &285885157
 GameObject:
   m_ObjectHideFlags: 0
@@ -1643,6 +1731,7 @@ GameObject:
   - component: {fileID: 285885161}
   - component: {fileID: 285885160}
   - component: {fileID: 285885159}
+  - component: {fileID: 2063165502}
   m_Layer: 5
   m_Name: BuyAstronaut_Button
   m_TagString: Untagged
@@ -1751,7 +1840,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 285885161}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2063165502}
+        m_TargetAssemblyTypeName: SnakeMaze.Audio.AudioRequest, Assembly-CSharp
+        m_MethodName: PlayAudio
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &285885159
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1767,12 +1868,29 @@ MonoBehaviour:
   playFabManagerSo: {fileID: 11400000, guid: 139fc8d043f03dd4caf81ec6546c77d9, type: 2}
   busServerCallSo: {fileID: 11400000, guid: e68765df302ac0f418a38e5abb7e198e, type: 2}
   inventorySo: {fileID: 11400000, guid: 9283410e31dd0e148ae2a5781ff8eaf8, type: 2}
+  userDataControllerSo: {fileID: 11400000, guid: 7b995dda3e709d84a99988d0ce522e91, type: 2}
   currencyType: 1
   item: {fileID: 11400000, guid: cd14587c974beca47b6e5148921c0227, type: 2}
   buySkinSo: {fileID: 11400000, guid: 7f73a09e339e9264b98ae9e20089ebac, type: 2}
   price: {fileID: 46153376}
   panelError: {fileID: 90420587}
-  timeToDissappearPanel: 1
+  timeToDissappearPanel: 2
+--- !u!114 &2063165502
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 285885157}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35e9123ba1ecc0d459245aa482d3f7cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clipType: 6
+  playOnStart: 0
+  audioBus: {fileID: 11400000, guid: 66864f3b335e1604a8601c4582d2e3bc, type: 2}
+  audioConfig: {fileID: 11400000, guid: 825a1a64b81903541bf9e3c1b1453db7, type: 2}
 --- !u!1 &349940518
 GameObject:
   m_ObjectHideFlags: 0
@@ -1874,9 +1992,9 @@ RectTransform:
   m_Father: {fileID: 230142241}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 600, y: -1029.6826}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 1000, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &381411915
@@ -2210,9 +2328,9 @@ RectTransform:
   m_Father: {fileID: 349940519}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 654.2333, y: -654.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 1200, y: 1200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &489321618
@@ -2728,9 +2846,9 @@ RectTransform:
   m_Father: {fileID: 1172320932}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 600, y: -925}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 509.909, y: 127.4772}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &665466031
@@ -3384,6 +3502,7 @@ GameObject:
   - component: {fileID: 838648271}
   - component: {fileID: 838648270}
   - component: {fileID: 838648269}
+  - component: {fileID: 2063165504}
   m_Layer: 5
   m_Name: BuyYellow_Button
   m_TagString: Untagged
@@ -3492,7 +3611,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 838648271}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2063165504}
+        m_TargetAssemblyTypeName: SnakeMaze.Audio.AudioRequest, Assembly-CSharp
+        m_MethodName: PlayAudio
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &838648269
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3508,12 +3639,29 @@ MonoBehaviour:
   playFabManagerSo: {fileID: 11400000, guid: 139fc8d043f03dd4caf81ec6546c77d9, type: 2}
   busServerCallSo: {fileID: 11400000, guid: e68765df302ac0f418a38e5abb7e198e, type: 2}
   inventorySo: {fileID: 11400000, guid: 9283410e31dd0e148ae2a5781ff8eaf8, type: 2}
+  userDataControllerSo: {fileID: 11400000, guid: 7b995dda3e709d84a99988d0ce522e91, type: 2}
   currencyType: 1
   item: {fileID: 11400000, guid: 076a3b9afa69c1948b51809726ff5715, type: 2}
   buySkinSo: {fileID: 11400000, guid: 7f73a09e339e9264b98ae9e20089ebac, type: 2}
   price: {fileID: 923793265}
   panelError: {fileID: 90420587}
-  timeToDissappearPanel: 1
+  timeToDissappearPanel: 2
+--- !u!114 &2063165504
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 838648267}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35e9123ba1ecc0d459245aa482d3f7cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clipType: 6
+  playOnStart: 0
+  audioBus: {fileID: 11400000, guid: 66864f3b335e1604a8601c4582d2e3bc, type: 2}
+  audioConfig: {fileID: 11400000, guid: 825a1a64b81903541bf9e3c1b1453db7, type: 2}
 --- !u!1 &923793263
 GameObject:
   m_ObjectHideFlags: 0
@@ -3546,9 +3694,9 @@ RectTransform:
   m_Father: {fileID: 1393970511}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 600, y: -675.30927}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 509.909, y: 127.4772}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &923793266
@@ -3661,6 +3809,7 @@ GameObject:
   - component: {fileID: 977718712}
   - component: {fileID: 977718711}
   - component: {fileID: 977718710}
+  - component: {fileID: 2063165503}
   m_Layer: 5
   m_Name: EquipYellow_Button
   m_TagString: Untagged
@@ -3769,7 +3918,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 977718712}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2063165503}
+        m_TargetAssemblyTypeName: SnakeMaze.Audio.AudioRequest, Assembly-CSharp
+        m_MethodName: PlayAudio
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &977718710
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3787,6 +3948,22 @@ MonoBehaviour:
   userDataControllerSo: {fileID: 11400000, guid: 7b995dda3e709d84a99988d0ce522e91, type: 2}
   busSelectSkinSo: {fileID: 11400000, guid: 3a3c35e8e693511419b1708520cf45c9, type: 2}
   price: {fileID: 923793265}
+--- !u!114 &2063165503
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 977718708}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35e9123ba1ecc0d459245aa482d3f7cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clipType: 6
+  playOnStart: 0
+  audioBus: {fileID: 11400000, guid: 66864f3b335e1604a8601c4582d2e3bc, type: 2}
+  audioConfig: {fileID: 11400000, guid: 825a1a64b81903541bf9e3c1b1453db7, type: 2}
 --- !u!1 &1172320931
 GameObject:
   m_ObjectHideFlags: 0
@@ -3824,9 +4001,9 @@ RectTransform:
   m_Father: {fileID: 349940519}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 2012.6998, y: -654.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 1200, y: 1200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1172320935
@@ -3941,9 +4118,9 @@ RectTransform:
   m_Father: {fileID: 230142241}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 600, y: -245.62666}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 1002.5, y: 250.6186}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1196045468
@@ -4012,6 +4189,7 @@ GameObject:
   - component: {fileID: 1197514921}
   - component: {fileID: 1197514920}
   - component: {fileID: 1197514919}
+  - component: {fileID: 2063165506}
   m_Layer: 5
   m_Name: BuyDefaultMaze_Button
   m_TagString: Untagged
@@ -4120,7 +4298,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1197514921}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2063165506}
+        m_TargetAssemblyTypeName: SnakeMaze.Audio.AudioRequest, Assembly-CSharp
+        m_MethodName: PlayAudio
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1197514919
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4136,12 +4326,29 @@ MonoBehaviour:
   playFabManagerSo: {fileID: 11400000, guid: 139fc8d043f03dd4caf81ec6546c77d9, type: 2}
   busServerCallSo: {fileID: 11400000, guid: e68765df302ac0f418a38e5abb7e198e, type: 2}
   inventorySo: {fileID: 11400000, guid: 9283410e31dd0e148ae2a5781ff8eaf8, type: 2}
+  userDataControllerSo: {fileID: 11400000, guid: 7b995dda3e709d84a99988d0ce522e91, type: 2}
   currencyType: 1
   item: {fileID: 11400000, guid: b806da95e15e7294d9e3078a19f216bf, type: 2}
   buySkinSo: {fileID: 11400000, guid: 7f73a09e339e9264b98ae9e20089ebac, type: 2}
   price: {fileID: 665466030}
   panelError: {fileID: 90420587}
-  timeToDissappearPanel: 1
+  timeToDissappearPanel: 2
+--- !u!114 &2063165506
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1197514917}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35e9123ba1ecc0d459245aa482d3f7cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clipType: 6
+  playOnStart: 0
+  audioBus: {fileID: 11400000, guid: 66864f3b335e1604a8601c4582d2e3bc, type: 2}
+  audioConfig: {fileID: 11400000, guid: 825a1a64b81903541bf9e3c1b1453db7, type: 2}
 --- !u!1 &1238197224
 GameObject:
   m_ObjectHideFlags: 0
@@ -4389,9 +4596,9 @@ RectTransform:
   m_Father: {fileID: 349940519}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 3371.1665, y: -654.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 1200, y: 1200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1393970514
@@ -4505,9 +4712,9 @@ RectTransform:
   m_Father: {fileID: 1698510834}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 600, y: -925}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 509.909, y: 127.4772}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1415749372
@@ -4838,9 +5045,9 @@ RectTransform:
   m_Father: {fileID: 1172320932}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 600, y: -412.08713}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 750, y: 750}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1538070291
@@ -5197,9 +5404,9 @@ RectTransform:
   m_Father: {fileID: 489321617}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 600, y: -245.62666}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 1002.5, y: 250.6186}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1670469079
@@ -5289,9 +5496,9 @@ RectTransform:
   m_Father: {fileID: 1393970511}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 600, y: -1029.6826}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 1000, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1695296604
@@ -5357,9 +5564,9 @@ RectTransform:
   m_Father: {fileID: 349940519}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 6088.0996, y: -654.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 1200, y: 1200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1698510837
@@ -5673,9 +5880,9 @@ RectTransform:
   m_Father: {fileID: 1172320932}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 600, y: -1112.9128}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 1000, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1854341906
@@ -5738,9 +5945,9 @@ RectTransform:
   m_Father: {fileID: 489321617}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 600, y: -1029.6826}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 1000, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1882115636
@@ -5935,9 +6142,9 @@ RectTransform:
   m_Father: {fileID: 489321617}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 600, y: -675.30927}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 509.909, y: 127.4772}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1997659824
@@ -6184,6 +6391,7 @@ GameObject:
   - component: {fileID: 2064000200}
   - component: {fileID: 2064000199}
   - component: {fileID: 2064000198}
+  - component: {fileID: 2063165501}
   m_Layer: 5
   m_Name: EquipAstronaut_Button
   m_TagString: Untagged
@@ -6292,7 +6500,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2064000200}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2063165501}
+        m_TargetAssemblyTypeName: SnakeMaze.Audio.AudioRequest, Assembly-CSharp
+        m_MethodName: PlayAudio
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2064000198
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6310,6 +6530,22 @@ MonoBehaviour:
   userDataControllerSo: {fileID: 11400000, guid: 7b995dda3e709d84a99988d0ce522e91, type: 2}
   busSelectSkinSo: {fileID: 11400000, guid: 3a3c35e8e693511419b1708520cf45c9, type: 2}
   price: {fileID: 46153376}
+--- !u!114 &2063165501
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2064000196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35e9123ba1ecc0d459245aa482d3f7cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clipType: 6
+  playOnStart: 0
+  audioBus: {fileID: 11400000, guid: 66864f3b335e1604a8601c4582d2e3bc, type: 2}
+  audioConfig: {fileID: 11400000, guid: 825a1a64b81903541bf9e3c1b1453db7, type: 2}
 --- !u!1 &2070968227
 GameObject:
   m_ObjectHideFlags: 0
@@ -6457,6 +6693,7 @@ GameObject:
   - component: {fileID: 2088886037}
   - component: {fileID: 2088886036}
   - component: {fileID: 2088886035}
+  - component: {fileID: 2063165505}
   m_Layer: 5
   m_Name: EquipDefaultMaze_Button
   m_TagString: Untagged
@@ -6565,7 +6802,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2088886037}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2063165505}
+        m_TargetAssemblyTypeName: SnakeMaze.Audio.AudioRequest, Assembly-CSharp
+        m_MethodName: PlayAudio
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2088886035
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6583,6 +6832,22 @@ MonoBehaviour:
   userDataControllerSo: {fileID: 11400000, guid: 7b995dda3e709d84a99988d0ce522e91, type: 2}
   busSelectSkinSo: {fileID: 11400000, guid: f00f22afaa80c604981076dc480b93f5, type: 2}
   price: {fileID: 665466030}
+--- !u!114 &2063165505
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2088886033}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35e9123ba1ecc0d459245aa482d3f7cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clipType: 6
+  playOnStart: 0
+  audioBus: {fileID: 11400000, guid: 66864f3b335e1604a8601c4582d2e3bc, type: 2}
+  audioConfig: {fileID: 11400000, guid: 825a1a64b81903541bf9e3c1b1453db7, type: 2}
 --- !u!1 &2094898124
 GameObject:
   m_ObjectHideFlags: 0
@@ -6596,6 +6861,7 @@ GameObject:
   - component: {fileID: 2094898127}
   - component: {fileID: 2094898126}
   - component: {fileID: 2094898129}
+  - component: {fileID: 2063165508}
   m_Layer: 5
   m_Name: BuyDefault_Button
   m_TagString: Untagged
@@ -6704,7 +6970,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2094898127}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2063165508}
+        m_TargetAssemblyTypeName: SnakeMaze.Audio.AudioRequest, Assembly-CSharp
+        m_MethodName: PlayAudio
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2094898129
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6720,12 +6998,29 @@ MonoBehaviour:
   playFabManagerSo: {fileID: 11400000, guid: 139fc8d043f03dd4caf81ec6546c77d9, type: 2}
   busServerCallSo: {fileID: 11400000, guid: e68765df302ac0f418a38e5abb7e198e, type: 2}
   inventorySo: {fileID: 11400000, guid: 9283410e31dd0e148ae2a5781ff8eaf8, type: 2}
+  userDataControllerSo: {fileID: 11400000, guid: 7b995dda3e709d84a99988d0ce522e91, type: 2}
   currencyType: 1
   item: {fileID: 11400000, guid: c8ad7f84202d95b4a800f12fdbd3287c, type: 2}
   buySkinSo: {fileID: 11400000, guid: 7f73a09e339e9264b98ae9e20089ebac, type: 2}
   price: {fileID: 1997659823}
   panelError: {fileID: 90420587}
-  timeToDissappearPanel: 1
+  timeToDissappearPanel: 2
+--- !u!114 &2063165508
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2094898124}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35e9123ba1ecc0d459245aa482d3f7cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clipType: 6
+  playOnStart: 0
+  audioBus: {fileID: 11400000, guid: 66864f3b335e1604a8601c4582d2e3bc, type: 2}
+  audioConfig: {fileID: 11400000, guid: 825a1a64b81903541bf9e3c1b1453db7, type: 2}
 --- !u!1 &2120319250
 GameObject:
   m_ObjectHideFlags: 0
@@ -7108,6 +7403,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   userDataControllerSo: {fileID: 11400000, guid: 7b995dda3e709d84a99988d0ce522e91, type: 2}
+  updateCoins: {fileID: 11400000, guid: 1bf26b46e6b90eb40aaa947898883db4, type: 2}
   displayName: {fileID: 18385263}
   softCoins: {fileID: 1559413811}
   hardCoins: {fileID: 789844504}
@@ -7793,9 +8089,9 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: -27}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &3051285885892319212
 CanvasRenderer:
@@ -8207,7 +8503,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0.4386216, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
