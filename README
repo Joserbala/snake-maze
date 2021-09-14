@@ -1,0 +1,2 @@
+This is a game developed for a several master tasks, a game with some procedural content and another developed for mobile and has to use Playfab.
+In relation to the procedural, we have coded a BSP algorithm to create some rooms and a Primm's algorithm for a maze.
