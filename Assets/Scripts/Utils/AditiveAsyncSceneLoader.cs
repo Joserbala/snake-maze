@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Security.Policy;
 using SnakeMaze.SO.PlayFab;
 using UnityEngine;
 using UnityEngine.SceneManagement;
