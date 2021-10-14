@@ -52,6 +52,14 @@
                     "expectedControlType": "Vector2",
                     "processors": "StickDeadzone(min=0.5,max=0.925)",
                     "interactions": ""
+                },
+                {
+                    "name": "Pause",
+                    "type": "Button",
+                    "id": "74565a28-5f68-452e-8a96-73f3d79ea731",
+                    "expectedControlType": "Button",
+                    "processors": "StickDeadzone(min=0.5,max=0.925)",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -184,6 +192,17 @@
                     "processors": "",
                     "groups": "Mobile",
                     "action": "Delta sec touch",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "fc2966f2-4262-43ed-974b-bb6c2a891e18",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Mouse and Keyboard",
+                    "action": "Pause",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

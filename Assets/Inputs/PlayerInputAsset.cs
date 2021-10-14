@@ -65,6 +65,14 @@ public class @PlayerInputAsset : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Vector2"",
                     ""processors"": ""StickDeadzone(min=0.5,max=0.925)"",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""74565a28-5f68-452e-8a96-73f3d79ea731"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": ""StickDeadzone(min=0.5,max=0.925)"",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -197,6 +205,17 @@ public class @PlayerInputAsset : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": ""Mobile"",
                     ""action"": ""Delta sec touch"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fc2966f2-4262-43ed-974b-bb6c2a891e18"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Mouse and Keyboard"",
+                    ""action"": ""Pause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -352,6 +371,7 @@ public class @PlayerInputAsset : IInputActionCollection, IDisposable
         m_PlayerControlls_ResetVel = m_PlayerControlls.FindAction("ResetVel", throwIfNotFound: true);
         m_PlayerControlls_Delta = m_PlayerControlls.FindAction("Delta", throwIfNotFound: true);
         m_PlayerControlls_Deltasectouch = m_PlayerControlls.FindAction("Delta sec touch", throwIfNotFound: true);
+        m_PlayerControlls_Pause = m_PlayerControlls.FindAction("Pause", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_LeftClick = m_UI.FindAction("Left Click", throwIfNotFound: true);
@@ -413,6 +433,7 @@ public class @PlayerInputAsset : IInputActionCollection, IDisposable
     private readonly InputAction m_PlayerControlls_ResetVel;
     private readonly InputAction m_PlayerControlls_Delta;
     private readonly InputAction m_PlayerControlls_Deltasectouch;
+    private readonly InputAction m_PlayerControlls_Pause;
     public struct PlayerControllsActions
     {
         private @PlayerInputAsset m_Wrapper;
@@ -423,6 +444,7 @@ public class @PlayerInputAsset : IInputActionCollection, IDisposable
         public InputAction @ResetVel => m_Wrapper.m_PlayerControlls_ResetVel;
         public InputAction @Delta => m_Wrapper.m_PlayerControlls_Delta;
         public InputAction @Deltasectouch => m_Wrapper.m_PlayerControlls_Deltasectouch;
+        public InputAction @Pause => m_Wrapper.m_PlayerControlls_Pause;
         public InputActionMap Get() { return m_Wrapper.m_PlayerControlls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -450,6 +472,9 @@ public class @PlayerInputAsset : IInputActionCollection, IDisposable
                 @Deltasectouch.started -= m_Wrapper.m_PlayerControllsActionsCallbackInterface.OnDeltasectouch;
                 @Deltasectouch.performed -= m_Wrapper.m_PlayerControllsActionsCallbackInterface.OnDeltasectouch;
                 @Deltasectouch.canceled -= m_Wrapper.m_PlayerControllsActionsCallbackInterface.OnDeltasectouch;
+                @Pause.started -= m_Wrapper.m_PlayerControllsActionsCallbackInterface.OnPause;
+                @Pause.performed -= m_Wrapper.m_PlayerControllsActionsCallbackInterface.OnPause;
+                @Pause.canceled -= m_Wrapper.m_PlayerControllsActionsCallbackInterface.OnPause;
             }
             m_Wrapper.m_PlayerControllsActionsCallbackInterface = instance;
             if (instance != null)
@@ -472,6 +497,9 @@ public class @PlayerInputAsset : IInputActionCollection, IDisposable
                 @Deltasectouch.started += instance.OnDeltasectouch;
                 @Deltasectouch.performed += instance.OnDeltasectouch;
                 @Deltasectouch.canceled += instance.OnDeltasectouch;
+                @Pause.started += instance.OnPause;
+                @Pause.performed += instance.OnPause;
+                @Pause.canceled += instance.OnPause;
             }
         }
     }
@@ -559,6 +587,7 @@ public class @PlayerInputAsset : IInputActionCollection, IDisposable
         void OnResetVel(InputAction.CallbackContext context);
         void OnDelta(InputAction.CallbackContext context);
         void OnDeltasectouch(InputAction.CallbackContext context);
+        void OnPause(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

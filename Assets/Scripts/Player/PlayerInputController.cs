@@ -19,7 +19,7 @@ namespace SnakeMaze.Player
         }
         public void GetHorizontalValue(InputAction.CallbackContext ctx)
         {
-#if UNITY_EDITOR
+#if UNITY_EDITOR || UNITY_STANDALONE_WIN || UNITY_STANDALONE_OSX
              float value = 0;
             value = ctx.ReadValue<float>();
              playerVariable.Horizontal = value;
@@ -28,7 +28,7 @@ namespace SnakeMaze.Player
 
         public void GetVerticalValue(InputAction.CallbackContext ctx)
         {
-#if UNITY_EDITOR
+#if UNITY_EDITOR || UNITY_STANDALONE_WIN || UNITY_STANDALONE_OSX
             float value = 0;
             value = ctx.ReadValue<float>();
              playerVariable.Vertical = value;
@@ -80,6 +80,18 @@ namespace SnakeMaze.Player
                 playerVariable.CurrentSpeed = playerVariable.NormalSpeed;
                 boostOut.PlayAudio();
             }
+        }
+
+        public void PauseGame(InputAction.CallbackContext ctx)
+        {
+            if (!gameManager.GameStarted) return;
+
+            if (ctx.performed)
+            {
+                gameManager.PauseGame?.Invoke(!gameManager.GamePaused);
+            }
+            
+            
         }
     }
 }

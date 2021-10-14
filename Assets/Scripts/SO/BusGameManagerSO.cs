@@ -13,6 +13,15 @@ namespace SnakeMaze.SO
         public Action<bool> PauseGame;
         public Action WinGame;
         private bool _gameStarted;
+        private bool _gamePaused;
+
+        public bool GamePaused
+        {
+            get => _gamePaused;
+            set => _gamePaused = value;
+        }
+
+
 
         public bool GameStarted
         {
@@ -45,6 +54,7 @@ namespace SnakeMaze.SO
         private void SetTimeScale(bool paused)
         {
             Time.timeScale = paused ? 0 : 1;
+            _gamePaused = paused;
         }
         private void SetGameStartedTrue() => _gameStarted = true;
         private void SetGameStartedFalase() => _gameStarted = false;
